@@ -102,7 +102,7 @@
   }
 
   body {
-    @apply bg-background text-foreground font-sans antialiased;
+    @apply bg-background text-foreground antialiased;
     font-family: 'Poppins', sans-serif;
   }
 
@@ -184,8 +184,12 @@
   .btn-primary {
     @apply bg-primary text-primary-foreground font-medium px-6 py-3 rounded-full
            transition-all duration-300 ease-out
-           hover:bg-primary-light hover:shadow-lg hover:shadow-primary/30
+           hover:shadow-lg hover:shadow-primary/30
            active:scale-95;
+  }
+
+  .btn-primary:hover {
+    background-color: hsl(var(--primary-light));
   }
 
   .btn-outline {
@@ -218,8 +222,9 @@
 
   /* Achievement Card */
   .achievement-card {
-    @apply relative overflow-hidden rounded-2xl bg-gradient-to-br from-primary to-primary-dark
+    @apply relative overflow-hidden rounded-2xl
            text-white p-8 min-h-[300px] flex flex-col justify-end;
+    background: linear-gradient(to bottom right, hsl(var(--primary)), hsl(var(--primary-dark)));
   }
 
   /* Admission Step */
@@ -263,7 +268,10 @@
 @layer utilities {
   /* Gradient Text */
   .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary-light;
+    background: linear-gradient(to right, hsl(var(--primary)), hsl(var(--primary-light)));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 
   /* Section Padding */
@@ -293,5 +301,31 @@
 
   .bg-section {
     background-color: hsl(var(--section-bg));
+  }
+  
+  /* Custom primary-light utilities */
+  .bg-primary-light {
+    background-color: hsl(var(--primary-light));
+  }
+  
+  .text-primary-light {
+    color: hsl(var(--primary-light));
+  }
+  
+  .border-primary-light {
+    border-color: hsl(var(--primary-light));
+  }
+  
+  /* Custom primary-dark utilities */
+  .bg-primary-dark {
+    background-color: hsl(var(--primary-dark));
+  }
+  
+  .text-primary-dark {
+    color: hsl(var(--primary-dark));
+  }
+  
+  .border-primary-dark {
+    border-color: hsl(var(--primary-dark));
   }
 }
