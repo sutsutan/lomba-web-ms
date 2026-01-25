@@ -17,7 +17,7 @@ const achievements: Achievement[] = [
   {
     id: 1,
     title: 'Gold Medal - National Robotics Competition',
-    student: 'Ghattan Firstian Elhaq',
+    student: 'Ghattan Firstian Ilhaq',
     description: 'First place in the National Robotics Competition 2024, showcasing innovative automation solutions.',
     category: 'Technology',
     image: achievementImg,
@@ -25,7 +25,7 @@ const achievements: Achievement[] = [
   {
     id: 2,
     title: 'Best Culinary Innovation Award',
-    student: 'Sutan Bagas Pratama',
+    student: 'Sutan Bariq Rajabbani Pasai',
     description: 'Winner of the Jakarta Culinary Festival for creative fusion cuisine.',
     category: 'Culinary',
     image: achievementImg,
@@ -33,7 +33,7 @@ const achievements: Achievement[] = [
   {
     id: 3,
     title: 'National Debate Championship',
-    student: 'Anisa Putri Rahmawati',
+    student: 'Hanna Maria',
     description: 'Champion in the National English Debate Competition representing West Java.',
     category: 'Academic',
     image: achievementImg,

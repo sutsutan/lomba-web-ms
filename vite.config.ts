@@ -2,15 +2,13 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import laravel from 'laravel-vite-plugin';
 import { wayfinder } from '@laravel/vite-plugin-wayfinder';
-
+import path from 'path';
 
 export default defineConfig({
   plugins: [
     laravel({
       input: [
-        'resources/js/main.tsx',
-        'resources/js/index.css',
-        'resources/js/app.css',
+        'resources/js/main.tsx', // ← CUMA INI DOANG!
       ],
       refresh: true,
     }),
@@ -19,4 +17,9 @@ export default defineConfig({
       formVariants: true,
     }),
   ],
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './resources/js'),
+    },
+  },
 })
