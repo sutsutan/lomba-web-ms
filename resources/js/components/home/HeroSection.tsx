@@ -18,7 +18,7 @@ const HeroSection = () => {
 
       {/* Content */}
       <div className="hero-content relative z-10">
-        <div className="w-full max-w-7xl mx-auto relative z-20">
+        <div className="w-full max-w-7xl mx-auto px-4 md:px-8 relative z-20">
           <div className="max-w-2xl mb-12 lg:mb-16">
             <motion.span
               initial={{ opacity: 0, y: 20 }}
@@ -46,7 +46,7 @@ const HeroSection = () => {
               transition={{ duration: 0.7, delay: 0.4 }}
               className="text-base md:text-lg lg:text-xl text-white/90 mb-8 max-w-lg leading-relaxed"
             >
-              We prepare students with industry-ready skills, character development, 
+              We prepare students with industry-ready skills, character development,
               and real-world experience for successful careers.
             </motion.p>
 
@@ -59,7 +59,7 @@ const HeroSection = () => {
               <Link to="/about" className="btn-hero inline-flex items-center justify-center gap-2">
                 Learn More
                 <ArrowRight className="w-5 h-5" />
-              </Link>              
+              </Link>
             </motion.div>
           </div>
 

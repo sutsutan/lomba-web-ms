@@ -104,6 +104,7 @@
   body {
     @apply bg-background text-foreground antialiased;
     font-family: 'Poppins', sans-serif;
+    overflow-x: hidden;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -117,6 +118,15 @@
 }
 
 @layer components {
+  /* Hero Section */
+  .hero-section {
+    @apply relative min-h-screen flex items-center justify-center overflow-hidden;
+  }
+
+  .hero-content {
+    @apply w-full py-20 md:py-32 px-4 md:px-8;
+  }
+
   /* Floating Pill Navbar */
   .navbar-pill {
     @apply rounded-full bg-primary/95 backdrop-blur-md px-8 py-2 shadow-lg;
@@ -262,6 +272,23 @@
 
   .dropdown-enter-active {
     @apply opacity-100 translate-y-0 scale-100 transition-all duration-200;
+  }
+
+  /* Stats Grid */
+  .stats-grid {
+    @apply flex flex-wrap gap-12 md:gap-16 mt-16;
+  }
+
+  .stat-item {
+    @apply text-left;
+  }
+
+  .stat-number {
+    @apply text-4xl md:text-5xl font-bold text-white mb-1 font-sans;
+  }
+
+  .stat-label {
+    @apply text-sm md:text-base text-white/90 font-medium;
   }
 }
 
