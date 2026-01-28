@@ -1,66 +1,85 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import ScrollReveal from '@/components/ScrollReveal';
+import logo from '@/assets/logo-metland.png';
 import extracurricularImg from '@/assets/extracurricular.jpg';
 import programItImg from '@/assets/program-it.jpg';
 import programCulinaryImg from '@/assets/program-culinary.jpg';
+import achievementImg from '@/assets/achievement-1.jpg';
 
 interface TabContent {
   title: string;
   description: string;
-  image: string;
-  items: string[];
+  images: string[];
 }
 
 const tabData: Record<string, TabContent> = {
   extracurricular: {
-    title: 'Extracurricular Activities',
-    description: 'Explore your passions beyond the classroom with our diverse range of extracurricular activities.',
-    image: extracurricularImg,
-    items: ['Sports & Athletics', 'Arts & Music', 'Science Club', 'Language Club'],
+    title: 'Extracurricular',
+    description: 'Our extracurricular programs allow students to discover their passions while developing confidence, responsibility, and collaboration in a supportive school environment.',
+    images: [extracurricularImg, programItImg, programCulinaryImg, achievementImg],
   },
   organization: {
-    title: 'Student Organizations',
+    title: 'Organization',
     description: 'Develop leadership skills and make a difference through our student-led organizations.',
-    image: programItImg,
-    items: ['OSIS Student Council', 'MPK Representatives', 'Pramuka Scouts', 'Paskibra'],
+    images: [programItImg, extracurricularImg, achievementImg, programCulinaryImg],
   },
   major: {
-    title: 'Academic Majors',
+    title: 'Major',
     description: 'Choose from our industry-focused majors designed to prepare you for professional success.',
-    image: programCulinaryImg,
-    items: ['IT & Software', 'Business & Accounting', 'Culinary Arts', 'Hospitality'],
+    images: [programCulinaryImg, achievementImg, programItImg, extracurricularImg],
   },
 };
 
 const ProgramTabs = () => {
   const [activeTab, setActiveTab] = useState<keyof typeof tabData>('extracurricular');
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+  const scrollRight = () => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollBy({ left: 300, behavior: 'smooth' });
+    }
+  };
+
+  const scrollLeft = () => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollBy({ left: -300, behavior: 'smooth' });
+    }
+  };
 
   return (
-    <section className="section-padding bg-section">
-      <div className="container mx-auto px-4">
+    <section className="section-padding bg-background">
+      <div className="container mx-auto px-8 md:px-16 lg:px-24 xl:px-32">
         <ScrollReveal>
           <div className="text-center mb-12">
-            <h2 className="section-title mx-auto">
+            <h2 className="text-3xl md:text-4xl font-bold text-primary mb-8">
               Learning That Makes a Difference
             </h2>
           </div>
         </ScrollReveal>
 
-        {/* Tabs */}
+        {/* Tabs with Underline */}
         <ScrollReveal delay={0.1}>
-          <div className="flex flex-wrap justify-center gap-2 mb-12">
+          <div className="flex justify-center gap-8 md:gap-16 mb-12 border-b border-border">
             {Object.keys(tabData).map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab as keyof typeof tabData)}
-                className={`px-6 py-3 rounded-full font-medium text-sm transition-all duration-300 ${
-                  activeTab === tab
-                    ? 'bg-primary text-primary-foreground shadow-lg shadow-primary/30'
-                    : 'bg-white text-foreground hover:bg-primary-lighter'
-                }`}
+                className={`pb-3 text-base md:text-lg font-medium transition-all duration-300 relative ${activeTab === tab
+                  ? 'text-primary'
+                  : 'text-muted-foreground hover:text-foreground'
+                  }`}
               >
-                {tab.charAt(0).toUpperCase() + tab.slice(1)}
+                {tabData[tab as keyof typeof tabData].title}
+                {/* Underline */}
+                {activeTab === tab && (
+                  <motion.div
+                    layoutId="activeTab"
+                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary"
+                    transition={{ duration: 0.3 }}
+                  />
+                )}
               </button>
             ))}
           </div>
@@ -74,49 +93,60 @@ const ProgramTabs = () => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3 }}
-            className="grid lg:grid-cols-2 gap-12 items-center"
+            className="space-y-8"
           >
-            {/* Content */}
-            <div className="order-2 lg:order-1 space-y-6">
-              <h3 className="text-2xl md:text-3xl font-bold text-foreground">
-                {tabData[activeTab].title}
-              </h3>
-              <p className="text-muted-foreground leading-relaxed">
+            {/* Description with Logo */}
+            <div className="flex items-start gap-4 max-w-3xl">
+              <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-md flex-shrink-0">
+                <img src={logo} alt="logo" className="w-12 h-12" />
+              </div>
+              <p className="text-muted-foreground leading-relaxed text-base md:text-lg pt-2">
                 {tabData[activeTab].description}
               </p>
-              <ul className="grid grid-cols-2 gap-3">
-                {tabData[activeTab].items.map((item, index) => (
-                  <motion.li
-                    key={item}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.3, delay: index * 0.1 }}
-                    className="flex items-center gap-2"
-                  >
-                    <div className="w-2 h-2 bg-primary rounded-full" />
-                    <span className="text-sm text-foreground">{item}</span>
-                  </motion.li>
-                ))}
-              </ul>
             </div>
 
-            {/* Image */}
-            <div className="order-1 lg:order-2 relative">
-              <motion.div
-                initial={{ scale: 0.95 }}
-                animate={{ scale: 1 }}
-                transition={{ duration: 0.4 }}
-                className="relative rounded-2xl overflow-hidden shadow-xl"
+            {/* Image Gallery with Navigation */}
+            <div className="relative">
+              <div
+                ref={scrollContainerRef}
+                className="flex gap-4 overflow-x-auto scrollbar-hide scroll-smooth pb-4"
+                style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
               >
-                <img
-                  src={tabData[activeTab].image}
-                  alt={tabData[activeTab].title}
-                  className="w-full h-[350px] object-cover"
-                />
-                {/* Diamond Decorations */}
-                <div className="absolute top-4 right-4 w-8 h-8 border-2 border-white/50 rotate-45" />
-                <div className="absolute bottom-4 left-4 w-6 h-6 border-2 border-white/50 rotate-45" />
-              </motion.div>
+                {tabData[activeTab].images.map((image, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.3, delay: index * 0.1 }}
+                    className="flex-shrink-0 w-64 md:w-80 h-64 md:h-80 rounded-2xl overflow-hidden shadow-lg"
+                  >
+                    <img
+                      src={image}
+                      alt={`${tabData[activeTab].title} ${index + 1}`}
+                      className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                    />
+                  </motion.div>
+                ))}
+              </div>
+
+              {/* Navigation Buttons */}
+              {/* Left Button */}
+              <button
+                onClick={scrollLeft}
+                className="absolute -left-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white rounded-lg shadow-lg flex items-center justify-center hover:bg-primary hover:text-white transition-all duration-300 -rotate-45"
+                aria-label="Scroll left"
+              >
+                <ChevronLeft className="w-6 h-6 rotate-45" />
+              </button>
+
+              {/* Right Button */}
+              <button
+                onClick={scrollRight}
+                className="absolute -right-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white rounded-lg shadow-lg flex items-center justify-center hover:bg-primary hover:text-white transition-all duration-300 rotate-45"
+                aria-label="Scroll right"
+              >
+                <ChevronRight className="w-6 h-6 -rotate-45" />
+              </button>
             </div>
           </motion.div>
         </AnimatePresence>

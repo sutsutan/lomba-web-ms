@@ -12,7 +12,7 @@ const partners = [
 const PartnersSection = () => {
   return (
     <section className="section-padding bg-background">
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-8 md:px-16 lg:px-24 xl:px-32">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Content */}
           <ScrollReveal>
@@ -23,9 +23,9 @@ const PartnersSection = () => {
                 <span className="text-primary">the Future</span>
               </h2>
               <p className="text-muted-foreground leading-relaxed">
-                Through strong partnerships with leading companies and 
-                institutions, we provide our students with real-world 
-                experiences, internship opportunities, and direct pathways 
+                Through strong partnerships with leading companies and
+                institutions, we provide our students with real-world
+                experiences, internship opportunities, and direct pathways
                 to employment.
               </p>
             </div>

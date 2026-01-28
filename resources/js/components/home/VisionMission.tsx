@@ -1,10 +1,11 @@
-import { Eye, Target } from 'lucide-react';
+import ourVisionImg from '@/assets/our-vision.jpg';
+import ourMissionImg from '@/assets/our-mission.jpg';
 import ScrollReveal from '@/components/ScrollReveal';
 
 const VisionMission = () => {
   return (
     <section className="section-padding bg-background">
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-8 md:px-16 lg:px-24 xl:px-32">
         <ScrollReveal>
           <div className="text-center mb-12">
             <h2 className="section-title mx-auto">Our Direction</h2>
@@ -16,19 +17,22 @@ const VisionMission = () => {
           <ScrollReveal delay={0.1}>
             <div className="vision-card h-full">
               <div className="flex items-center gap-4 mb-6">
-                <div className="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center">
-                  <Eye className="w-7 h-7 text-primary" />
+                <div className="w-14 h-14 flex items-center justify-center">
+                  <img src={ourVisionImg} alt="our-vision" className="rounded-full" />
                 </div>
                 <h3 className="text-2xl font-bold text-foreground">Our Vision</h3>
               </div>
               <p className="text-muted-foreground leading-relaxed mb-4">
-                To become a leading vocational school that produces competent, 
-                character-driven graduates ready to excel in their chosen industries 
-                and contribute positively to society.
+                     To become a leading vocational school that consistently produces 
+                     graduates with strong character, excellent performance, and 
+                     internationally recognized competencies, through an education system 
+                     that integrates academic excellence, industry relevance, and global standards.
               </p>
-              <p className="text-muted-foreground leading-relaxed">
-                We envision a learning environment where every student discovers 
-                their potential and develops the skills necessary for a successful career.
+              <p className="text-muted-foreground leading-relaxed mb-4">
+                     We strive to shape learners into confident, adaptable, and skilled 
+                     individuals who are prepared to compete in the international workforce, 
+                     embrace technological advancements, and contribute positively to society 
+                     in an ever-changing global environment.
               </p>
             </div>
           </ScrollReveal>
@@ -37,27 +41,20 @@ const VisionMission = () => {
           <ScrollReveal delay={0.2}>
             <div className="vision-card h-full">
               <div className="flex items-center gap-4 mb-6">
-                <div className="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center">
-                  <Target className="w-7 h-7 text-primary" />
+                <div className="w-14 h-14  flex items-center justify-center">
+                  <img src={ourMissionImg} alt="our-mission" className="rounded-full" />
                 </div>
                 <h3 className="text-2xl font-bold text-foreground">Our Mission</h3>
               </div>
-              <ul className="space-y-3">
-                {[
-                  'Provide industry-relevant curriculum with hands-on practice',
-                  'Develop character, discipline, and professional ethics',
-                  'Foster partnerships with industry leaders',
-                  'Create supportive learning environment for all students',
-                  'Prepare graduates for employment and entrepreneurship',
-                ].map((item, index) => (
-                  <li key={index} className="flex items-start gap-3">
-                    <div className="w-1.5 h-1.5 bg-primary rounded-full mt-2 flex-shrink-0" />
-                    <span className="text-muted-foreground text-sm leading-relaxed">
-                      {item}
-                    </span>
-                  </li>
-                ))}
-              </ul>
+              <p className="text-muted-foreground leading-relaxed mb-4">
+                To deliver education that focuses on the development of knowledge, skills, and attitude, aligned with Industry 4.0 and strengthened by the values of Generasi Cinta Prestasi, in accordance with industry demands.
+              </p>
+              <p className="text-muted-foreground leading-relaxed">
+                To enhance teacher professionalism based on Metland School Teacher’s Values, while continuously adapting to the needs of Industry 4.0.
+              </p>
+              <p className="text-muted-foreground leading-relaxed">
+                To build strong partnerships with industries (DUDI) and vocational higher education institutions, both nationally and internationally, to support academic program development.
+              </p>
             </div>
           </ScrollReveal>
         </div>

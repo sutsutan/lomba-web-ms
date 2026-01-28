@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown, Menu, X } from 'lucide-react';
+import logo from '@/assets/logo-metland.png';
 
 interface NavItem {
   label: string;
@@ -69,20 +70,18 @@ const Navbar = () => {
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, ease: 'easeOut' }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? 'py-2' : 'py-4'
-      }`}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'py-2' : 'py-4'
+        }`}
     >
       <div className="container mx-auto px-4">
         <nav
-          className={`navbar-pill flex items-center justify-between transition-all duration-300 ${
-            isScrolled ? 'shadow-xl' : ''
-          }`}
+          className={`navbar-pill flex items-center justify-between transition-all duration-300 ${isScrolled ? 'shadow-xl' : ''
+            }`}
         >
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 text-primary-foreground">
-            <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center">
-              <span className="text-primary font-bold text-lg">M</span>
+            <div className="w-9 h-9 flex items-center justify-center">
+              <img src={logo} alt="logo" />
             </div>
             <div className="hidden sm:block">
               <span className="font-bold text-lg">Metland</span>
@@ -101,18 +100,16 @@ const Navbar = () => {
               >
                 <Link
                   to={item.href}
-                  className={`flex items-center gap-1 px-4 py-2 text-sm font-medium text-primary-foreground/90 hover:text-primary-foreground transition-colors relative group ${
-                    isActive(item.href) ? 'text-primary-foreground' : ''
-                  }`}
+                  className={`flex items-center gap-1 px-4 py-2 text-sm font-medium text-primary-foreground/90 hover:text-primary-foreground transition-colors relative group ${isActive(item.href) ? 'text-primary-foreground' : ''
+                    }`}
                 >
                   {item.label}
                   {item.children && <ChevronDown className="w-4 h-4" />}
-                  
+
                   {/* Active/Hover Underline */}
                   <span
-                    className={`absolute bottom-0 left-4 right-4 h-0.5 bg-white rounded-full transition-transform duration-300 origin-left ${
-                      isActive(item.href) ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
-                    }`}
+                    className={`absolute bottom-0 left-4 right-4 h-0.5 bg-white rounded-full transition-transform duration-300 origin-left ${isActive(item.href) ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
+                      }`}
                   />
                 </Link>
 
@@ -166,9 +163,8 @@ const Navbar = () => {
                 <div key={item.label}>
                   <Link
                     to={item.href}
-                    className={`block px-6 py-4 text-foreground font-medium border-b border-border/30 ${
-                      isActive(item.href) ? 'text-primary bg-primary-lighter' : 'hover:bg-muted'
-                    }`}
+                    className={`block px-6 py-4 text-foreground font-medium border-b border-border/30 ${isActive(item.href) ? 'text-primary bg-primary-lighter' : 'hover:bg-muted'
+                      }`}
                   >
                     {item.label}
                   </Link>

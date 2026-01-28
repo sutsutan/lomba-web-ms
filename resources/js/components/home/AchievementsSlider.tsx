@@ -53,7 +53,7 @@ const AchievementsSlider = () => {
 
   return (
     <section className="section-padding bg-section">
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-8 md:px-16 lg:px-24 xl:px-32">
         <ScrollReveal>
           <div className="text-center mb-12">
             <h2 className="section-title mx-auto">Moments of Achievement</h2>
@@ -125,9 +125,8 @@ const AchievementsSlider = () => {
                 <button
                   key={index}
                   onClick={() => setCurrentIndex(index)}
-                  className={`w-3 h-3 rounded-full transition-colors ${
-                    index === currentIndex ? 'bg-primary' : 'bg-border hover:bg-primary/50'
-                  }`}
+                  className={`w-3 h-3 rounded-full transition-colors ${index === currentIndex ? 'bg-primary' : 'bg-border hover:bg-primary/50'
+                    }`}
                   aria-label={`Go to slide ${index + 1}`}
                 />
               ))}
