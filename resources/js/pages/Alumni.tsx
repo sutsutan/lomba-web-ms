@@ -1,8 +1,8 @@
 import { motion } from 'framer-motion';
 import MainLayout from '@/layouts/MainLayout';
 import ScrollReveal from '@/components/ScrollReveal';
+import HeroCarousel from '@/components/HeroCarousel';
 import { Briefcase, MapPin, GraduationCap } from 'lucide-react';
-import heroBg from '@/assets/hero-bg.jpg';
 import achievement from '@/assets/achievement-1.jpg';
 
 const alumniData = [
@@ -51,31 +51,13 @@ const alumniData = [
 const Alumni = () => {
   return (
     <MainLayout>
-      {/* Hero Banner */}
-      <section className="relative h-[50vh] min-h-[350px] flex items-center">
-        <div className="absolute inset-0">
-          <img
-            src={heroBg}
-            alt="Alumni Network"
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-primary/90 to-primary/70" />
-        </div>
-        <div className="relative container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7 }}
-          >
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4">
-              Alumni Network
-            </h1>
-            <p className="text-xl text-white/90 max-w-2xl">
-              Connect with our successful graduates who are making an impact in various industries.
-            </p>
-          </motion.div>
-        </div>
-      </section>
+      {/* Hero Carousel */}
+      <HeroCarousel
+        title="Alumni Network"
+        subtitle="SMK Metland School"
+        description="Connect with our successful graduates who are making an impact in various industries."
+        height="min-h-[50vh]"
+      />
 
       {/* Stats Section */}
       <section className="py-12 bg-background">

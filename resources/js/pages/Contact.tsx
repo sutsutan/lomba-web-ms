@@ -1,29 +1,19 @@
 import { motion } from 'framer-motion';
 import MainLayout from '@/layouts/MainLayout';
 import ScrollReveal from '@/components/ScrollReveal';
+import HeroCarousel from '@/components/HeroCarousel';
 import { MapPin, Phone, Mail, Clock, Send } from 'lucide-react';
 
 const Contact = () => {
   return (
     <MainLayout>
-      {/* Hero Banner */}
-      <section className="relative h-[40vh] min-h-[300px] flex items-center bg-primary">
-        <div className="container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7 }}
-            className="text-center"
-          >
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4">
-              Contact Us
-            </h1>
-            <p className="text-xl text-white/90 max-w-2xl mx-auto">
-              Get in touch with us for inquiries about admissions, programs, or general information.
-            </p>
-          </motion.div>
-        </div>
-      </section>
+      {/* Hero Carousel */}
+      <HeroCarousel
+        title="Contact Us"
+        subtitle="SMK Metland School"
+        description="Get in touch with us for inquiries about admissions, programs, or general information."
+        height="min-h-[40vh]"
+      />
 
       {/* Contact Content */}
       <section className="section-padding bg-background">

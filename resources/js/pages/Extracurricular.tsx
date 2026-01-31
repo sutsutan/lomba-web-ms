@@ -4,7 +4,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useState } from 'react';
 import MainLayout from '@/layouts/MainLayout';
 import ScrollReveal from '@/components/ScrollReveal';
-import heroBg from '@/assets/hero-bg.jpg';
+import HeroCarousel from '@/components/HeroCarousel';
 import extracurricular from '@/assets/extracurricular.jpg';
 import programIt from '@/assets/program-it.jpg';
 import programCulinary from '@/assets/program-culinary.jpg';
@@ -19,41 +19,12 @@ const Extracurricular = () => {
 
   return (
     <MainLayout>
-      {/* Hero Banner */}
-      <section className="relative h-[60vh] min-h-[400px] flex items-end">
-        <div className="absolute inset-0">
-          <img
-            src={heroBg}
-            alt="Learning Beyond Class"
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-primary via-primary/60 to-transparent" />
-        </div>
-        <div className="relative container mx-auto px-4 pb-16">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7 }}
-          >
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4">
-              Learning Beyond Class
-            </h1>
-            <div className="flex gap-4 text-white/80">
-              <Link to="/extracurricular" className="hover:text-white transition-colors">
-                Extracurricular
-              </Link>
-              <span>/</span>
-              <Link to="/organization" className="hover:text-white transition-colors">
-                Organization
-              </Link>
-              <span>/</span>
-              <Link to="/news" className="hover:text-white transition-colors">
-                News
-              </Link>
-            </div>
-          </motion.div>
-        </div>
-      </section>
+      {/* Hero Carousel */}
+      <HeroCarousel
+        title="Learning Beyond Class"
+        subtitle="Extracurricular Activities"
+        description="Exploring talents beyond the classroom through diverse activities and programs."
+      />
 
       {/* Extracurricular Activities */}
       <section className="section-padding bg-background">

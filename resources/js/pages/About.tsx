@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import MainLayout from '@/layouts/MainLayout';
 import ScrollReveal from '@/components/ScrollReveal';
+import HeroCarousel from '@/components/HeroCarousel';
 import { 
   GraduationCap, 
   Users, 
@@ -8,7 +9,6 @@ import {
   Building,
   Calendar 
 } from 'lucide-react';
-import heroBg from '@/assets/hero-bg.jpg';
 import aboutImage from '@/assets/about-preview.jpg';
 
 const timelineData = [
@@ -22,32 +22,12 @@ const timelineData = [
 const About = () => {
   return (
     <MainLayout>
-      {/* Hero Banner */}
-      <section className="relative h-[60vh] min-h-[400px] flex items-center">
-        <div className="absolute inset-0">
-          <img
-            src={heroBg}
-            alt="About Metland School"
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-primary/90 to-primary/70" />
-        </div>
-        <div className="relative container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7 }}
-          >
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4">
-              About MS
-            </h1>
-            <p className="text-xl text-white/90 max-w-2xl">
-              Discover our story, our mission, and our commitment to excellence
-              in vocational education.
-            </p>
-          </motion.div>
-        </div>
-      </section>
+      {/* Hero Carousel */}
+      <HeroCarousel
+        title="About MS"
+        subtitle="SMK Metland School"
+        description="Discover our story, our mission, and our commitment to excellence in vocational education."
+      />
 
       {/* Get to Know Us */}
       <section className="section-padding bg-background">

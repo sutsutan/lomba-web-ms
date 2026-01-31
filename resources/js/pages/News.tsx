@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import MainLayout from '@/layouts/MainLayout';
 import ScrollReveal from '@/components/ScrollReveal';
+import HeroCarousel from '@/components/HeroCarousel';
 import { Calendar, ArrowRight } from 'lucide-react';
 import heroBg from '@/assets/hero-bg.jpg';
 import programIt from '@/assets/program-it.jpg';
@@ -45,31 +46,13 @@ const newsItems = [
 const News = () => {
   return (
     <MainLayout>
-      {/* Hero Banner */}
-      <section className="relative h-[50vh] min-h-[350px] flex items-center">
-        <div className="absolute inset-0">
-          <img
-            src={heroBg}
-            alt="News and Updates"
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-primary/90 to-primary/70" />
-        </div>
-        <div className="relative container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7 }}
-          >
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4">
-              News & Updates
-            </h1>
-            <p className="text-xl text-white/90 max-w-2xl">
-              Stay updated with the latest news, events, and achievements from Metland School.
-            </p>
-          </motion.div>
-        </div>
-      </section>
+      {/* Hero Carousel */}
+      <HeroCarousel
+        title="News & Updates"
+        subtitle="SMK Metland School"
+        description="Stay updated with the latest news, events, and achievements from Metland School."
+        height="min-h-[50vh]"
+      />
 
       {/* Featured News */}
       <section className="section-padding bg-background">

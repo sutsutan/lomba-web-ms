@@ -1,8 +1,8 @@
 import { motion } from 'framer-motion';
 import MainLayout from '@/layouts/MainLayout';
 import ScrollReveal from '@/components/ScrollReveal';
+import HeroCarousel from '@/components/HeroCarousel';
 import { ArrowRight } from 'lucide-react';
-import heroBg from '@/assets/hero-bg.jpg';
 import programIt from '@/assets/program-it.jpg';
 import programCulinary from '@/assets/program-culinary.jpg';
 import achievement from '@/assets/achievement-1.jpg';
@@ -41,41 +41,12 @@ const studentWorks = [
 const Academics = () => {
   return (
     <MainLayout>
-      {/* Hero Banner */}
-      <section className="relative h-[60vh] min-h-[400px] flex items-end">
-        <div className="absolute inset-0">
-          <img
-            src={heroBg}
-            alt="Academics at Metland School"
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-primary via-primary/70 to-transparent" />
-        </div>
-        <div className="relative container mx-auto px-4 pb-16">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7 }}
-            className="grid lg:grid-cols-2 gap-8 items-end"
-          >
-            <div>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4">
-                Academics
-              </h1>
-            </div>
-            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6">
-              <h2 className="text-xl font-semibold text-white mb-2">
-                Empowering Vocational Excellence
-              </h2>
-              <p className="text-white/80 text-sm">
-                SMK Metland School is a vocational secondary school that focuses on 
-                preparing students for their future careers. Learning activities are 
-                designed to help students gain practical skills for real-life situations.
-              </p>
-            </div>
-          </motion.div>
-        </div>
-      </section>
+      {/* Hero Carousel */}
+      <HeroCarousel
+        title="Academics"
+        subtitle="Empowering Vocational Excellence"
+        description="SMK Metland School is a vocational secondary school that focuses on preparing students for their future careers. Learning activities are designed to help students gain practical skills for real-life situations."
+      />
 
       {/* Academics Overview */}
       <section className="section-padding bg-background">

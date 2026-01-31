@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import MainLayout from '@/layouts/MainLayout';
 import ScrollReveal from '@/components/ScrollReveal';
-import heroBg from '@/assets/hero-bg.jpg';
+import HeroCarousel from '@/components/HeroCarousel';
 import programIt from '@/assets/program-it.jpg';
 import programCulinary from '@/assets/program-culinary.jpg';
 
@@ -81,41 +81,12 @@ const organizations: Record<string, Organization[]> = {
 const Organization = () => {
   return (
     <MainLayout>
-      {/* Hero Banner */}
-      <section className="relative h-[60vh] min-h-[400px] flex items-end">
-        <div className="absolute inset-0">
-          <img
-            src={heroBg}
-            alt="Learning Beyond Class"
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-primary via-primary/60 to-transparent" />
-        </div>
-        <div className="relative container mx-auto px-4 pb-16">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7 }}
-          >
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4">
-              Learning Beyond Class
-            </h1>
-            <div className="flex gap-4 text-white/80">
-              <Link to="/extracurricular" className="hover:text-white transition-colors">
-                Extracurricular
-              </Link>
-              <span>/</span>
-              <Link to="/organization" className="text-white font-medium">
-                Organization
-              </Link>
-              <span>/</span>
-              <Link to="/news" className="hover:text-white transition-colors">
-                News
-              </Link>
-            </div>
-          </motion.div>
-        </div>
-      </section>
+      {/* Hero Carousel */}
+      <HeroCarousel
+        title="Learning Beyond Class"
+        subtitle="Student Organizations"
+        description="Building leadership through collaboration and responsibility in various student organizations."
+      />
 
       {/* Student Organizations */}
       <section className="section-padding bg-background">

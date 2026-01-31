@@ -149,7 +149,7 @@
 
   .section-title::after {
     content: '';
-    @apply absolute -bottom-2 left-0 w-16 h-1 bg-primary rounded-full;
+    @apply absolute -bottom-2 left-0 w-24 h-1 bg-primary rounded-full;
   }
 
   /* Card with Hover Effect */
