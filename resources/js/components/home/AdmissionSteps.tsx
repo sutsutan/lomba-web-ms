@@ -80,24 +80,39 @@ const AdmissionSteps = () => {
         </div>
 
         {/* Timeline Slider */}
-        <div className="relative pb-20">
+        <div className="relative">
            {/* Main Horizontal Timeline Line */}
            <div className="absolute bottom-6 left-0 right-0 h-0.5 bg-[#0F5F58]/30 w-[200vw] -ml-[50vw]" />
 
            <div 
              ref={scrollContainerRef}
-             className="flex gap-8 overflow-x-auto scrollbar-hide pb-12 pt-4 px-4 -mx-4"
-             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+             className="flex gap-8 overflow-x-auto overflow-y-hidden py-12 px-4 -mx-4 no-scrollbar"
+             style={{
+               scrollbarWidth: 'none',
+               msOverflowStyle: 'none', 
+             }}
            >
+             <style>{`
+               .no-scrollbar::-webkit-scrollbar {
+                 display: none !important;
+                 width: 0 !important;
+                 height: 0 !important;
+                 background: transparent;
+               }
+               .no-scrollbar {
+                 -ms-overflow-style: none;
+                 scrollbar-width: none;
+               }
+             `}</style>
              {steps.map((step, index) => (
-               <div key={index} className="flex-shrink-0 w-[300px] md:w-[350px] group">
+               <div key={index} className="flex-shrink-0 w-[300px] md:w-[350px] group flex flex-col">
                  {/* Card */}
                  <motion.div 
                    initial={{ opacity: 0, y: 20 }}
                    whileInView={{ opacity: 1, y: 0 }}
                    viewport={{ once: true }}
                    transition={{ delay: index * 0.1 }}
-                   className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 mb-8 h-full flex flex-col"
+                   className="bg-white rounded-lg shadow-sm hover:shadow-lg transition-all duration-300 mb-8 flex-1 flex flex-col"
                  >
                    {step.type === 'image' && step.image && (
                      <div className="h-48 overflow-hidden rounded-t-lg">
@@ -116,7 +131,7 @@ const AdmissionSteps = () => {
                  </motion.div>
 
                  {/* Connector to Timeline */}
-                 <div className="relative h-16 flex justify-center items-end">
+                 <div className="relative h-16 flex justify-center items-end flex-shrink-0">
                     {/* Vertical Dashed Line */}
                     <div className="absolute top-[-2rem] bottom-0 w-px border-l-2 border-dashed border-[#0F5F58]/40 h-[calc(100%+2rem)]" />
                     
@@ -125,7 +140,7 @@ const AdmissionSteps = () => {
                       <div className="w-full h-full bg-[#0F5F58] rounded-full" />
                     </div>
                     {/* Outer Ring for Node */}
-                    <div className="absolute bottom-[-6px] w-8 h-8 rounded-full border border-[#0F5F58]/30" />
+                    <div className="absolute bottom-[-6px] w-8 h-8 rounded-full border border-[#0F5F58]/30 scale-0 group-hover:scale-100 transition-transform duration-300" />
                  </div>
                </div>
              ))}
