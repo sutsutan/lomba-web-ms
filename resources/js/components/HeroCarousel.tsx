@@ -19,7 +19,7 @@ interface HeroCarouselProps {
   height?: string;
 }
 
-const HeroCarousel = ({ title, subtitle, description, height = 'min-h-[60vh]' }: HeroCarouselProps) => {
+const HeroCarousel = ({ title, subtitle, description, height = 'min-h-screen' }: HeroCarouselProps) => {
   const [currentSlide, setCurrentSlide] = useState(0);
 
   // Auto-play carousel
