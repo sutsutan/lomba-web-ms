@@ -3,12 +3,15 @@ import { motion } from 'framer-motion';
 import MainLayout from '@/layouts/MainLayout';
 import ScrollReveal from '@/components/ScrollReveal';
 import HeroCarousel from '@/components/HeroCarousel';
-import { ArrowRight, ChevronRight, ChevronLeft } from 'lucide-react';
+import { ArrowRight, ChevronRight, ChevronLeft, GraduationCap } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import aboutImage from '@/assets/about-preview.jpg';
 import programIt from '@/assets/program-it.jpg';
 import programCulinary from '@/assets/program-culinary.jpg';
 import timelineImage from '@/assets/our-timeline.jpg';
+import galadinner from '@/assets/gala-dinner.jpg';
+import leadership from '@/assets/leadership-training.jpg';
+import osis from '@/assets/osis.jpg';
 
 // Data for Sections
 const valuesData = [
@@ -44,10 +47,11 @@ const timelineContent = {
 };
 
 const studyPrograms = [
-  { title: 'Software Engineering', desc: 'Mastering code and development', image: programIt },
-  { title: 'Culinary Arts', desc: 'Professional culinary skills', image: programCulinary },
+  { title: 'PPLG', desc: 'Mastering code and development', image: programIt },
+  { title: 'Culinary', desc: 'Professional culinary skills', image: programCulinary },
   { title: 'Hospitality', desc: 'service excellence and management', image: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=2070&auto=format&fit=crop' },
   { title: 'Accounting', desc: 'Financial management experts', image: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?q=80&w=2072&auto=format&fit=crop' },
+  { title: 'DKV', desc: 'Design, creativity, and visual communication', image: 'https://smkmetland.net/ppdb/wp-content/uploads/2024/01/MSF04850-1024x576.jpg' },
 ];
 
 const About = () => {
@@ -98,10 +102,10 @@ const About = () => {
             </ScrollReveal>
             <ScrollReveal delay={0.2}>
               <div className="flex gap-4 h-[400px]">
-                <div className="w-2/3 h-full rounded-lg overflow-hidden">
+                <div className="w-2/3 h-full overflow-hidden">
                   <img src={aboutImage} alt="Students" className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
                 </div>
-                <div className="w-1/3 h-full rounded-lg overflow-hidden">
+                <div className="w-1/3 h-full overflow-hidden">
                   <img src={programIt} alt="School" className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
                 </div>
               </div>
@@ -269,6 +273,83 @@ const About = () => {
               </div>
             </div>
 
+          </ScrollReveal>
+        </div>
+      </section>
+
+      {/* Student Life Section */}
+      <section className="section-padding bg-background pb-32">
+        <div className="container mx-auto px-8 md:px-16 lg:px-24 xl:px-32">
+          <ScrollReveal>
+             <div className="flex items-center gap-3 mb-16">
+                <GraduationCap className="w-10 h-10 text-[#0F5F58]" />
+                <h2 className="text-3xl md:text-4xl font-bold text-[#0F5F58]">Student Life</h2>
+             </div>
+
+             <div className="space-y-24">
+                {/* Item 1: Debate / Council */}
+                <div className="grid lg:grid-cols-2 gap-8 items-center">
+                   <div className="w-full h-[300px] lg:h-[400px] rounded-lg overflow-hidden shadow-lg">
+                      <img 
+                        src={osis} 
+                        alt="Student Council Debate" 
+                        className="w-full h-full object-cover"
+                      />
+                   </div>
+                   <div className="flex h-full">
+                      {/* Vertical Separator */}
+                      <div className="hidden lg:block w-[2px] flex-shrink-0 bg-[#0F5F58] mr-8 h-full self-stretch" />
+                      
+                      <p className="text-[#0F5F58] leading-relaxed text-justify self-center">
+                        The student council president election debate is an important part of the democratic learning process at SMK Metland. Through this activity, students are trained to present ideas, opinions, and visions in a structured and confident manner. The debate encourages critical thinking and teaches students to respect different perspectives while maintaining sportsmanship. This activity also helps develop leadership qualities, self-confidence, and effective communication skills that are essential for both school life and the wider community.
+                      </p>
+                   </div>
+                </div>
+
+                {/* Item 2: Gala Dinner */}
+                <div className="grid lg:grid-cols-2 gap-8 items-center">
+                   {/* Col 1: Text */}
+                   <div className="flex h-full order-2 lg:order-1 items-center">
+                      <p className="text-[#0F5F58] leading-relaxed text-justify lg:[text-align-last:right] self-center">
+                        SMK Metland actively provides students with opportunities to gain real professional experience through collaboration with industry partners. One of these opportunities is student participation in the Bank Indonesia <em>Gala Dinner event</em>. During this activity, students are directly involved in event services and operations, allowing them to apply skills learned in school. Through this experience, students enhance their technical abilities, communication skills, and understanding of professional ethics and workplace standards.
+                      </p>
+                   </div>
+                   
+                   {/* Col 2: Image + Line */}
+                   <div className="flex h-full order-1 lg:order-2">
+                       {/* Vertical Separator */}
+                       <div className="hidden lg:block w-[2px] flex-shrink-0 bg-[#0F5F58] mr-8 h-full self-stretch" />
+                       
+                       <div className="w-full h-[300px] lg:h-[400px] rounded-lg overflow-hidden shadow-lg flex-grow">
+                          <img 
+                            src={galadinner} 
+                            alt="Gala Dinner Event" 
+                            className="w-full h-full object-cover"
+                          />
+                       </div>
+                   </div>
+                </div>
+
+                {/* Item 3: Leadership Training */}
+                <div className="grid lg:grid-cols-2 gap-8 items-center">
+                   <div className="w-full h-[300px] lg:h-[400px] rounded-lg overflow-hidden shadow-lg">
+                      <img 
+                        src={leadership} 
+                        alt="Leadership Training" 
+                        className="w-full h-full object-cover"
+                      />
+                   </div>
+                   <div className="flex h-full">
+                      {/* Vertical Separator */}
+                      <div className="hidden lg:block w-[2px] flex-shrink-0 bg-[#0F5F58] mr-8 h-full self-stretch" />
+                      
+                      <p className="text-[#0F5F58] leading-relaxed text-justify self-center">
+                        Discipline and leadership training activities are an integral part of student character development at SMK Metland. Through marching drills and field training, students are trained to improve teamwork, discipline, and leadership abilities. These activities also aim to build mental resilience and a strong sense of responsibility. As a result, students are better prepared to become confident, independent individuals who are ready to face future challenges.
+                      </p>
+                   </div>
+                </div>
+
+             </div>
           </ScrollReveal>
         </div>
       </section>
