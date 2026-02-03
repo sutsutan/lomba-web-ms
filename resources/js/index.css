@@ -360,4 +360,23 @@ html {
     .border-primary-dark {
         border-color: hsl(var(--primary-dark));
     }
+
+    /* Styling for Swiper Coverflow */
+.extracurricular-swiper {
+  padding: 40px 0 !important;
+}
+
+.extracurricular-swiper .swiper-slide {
+  transition: transform 0.3s ease;
+}
+
+.extracurricular-swiper .swiper-button-next,
+.extracurricular-swiper .swiper-button-prev {
+  color: #0d9488;
+  transform: scale(0.7);
+}
+
+.extracurricular-swiper .swiper-slide-active {
+  z-index: 10;
+}
 }

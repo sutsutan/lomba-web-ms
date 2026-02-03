@@ -2,9 +2,16 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import MainLayout from '@/layouts/MainLayout';
 import ScrollReveal from '@/components/ScrollReveal';
-import heroBg from '@/assets/hero-bg.jpg';
+import HeroCarousel from '@/components/HeroCarousel';
 import programIt from '@/assets/program-it.jpg';
 import programCulinary from '@/assets/program-culinary.jpg';
+import cims from '@/assets/cims.jpeg';
+import osis from '@/assets/logo-osis.png';
+import mpk from '@/assets/mpk-logo.png';
+import itec from '@/assets/Logo_ITEC.png';
+import msp from '@/assets/msp.jpeg';
+import kkr from '@/assets/kkr.jpeg';
+import mahes from '@/assets/mahes.png';
 
 interface Organization {
   name: string;
@@ -19,13 +26,13 @@ const organizations: Record<string, Organization[]> = {
       name: 'Osis Student Council',
       description: 'OSIS is the main student organization that organizes school events, programs, and represents student voice.',
       category: 'Leadership & Governance',
-      image: programIt,
+      image: osis,
     },
     {
       name: 'MPK Representatives',
       description: 'MPK acts as a bridge between students and the school by representing ideas and concerns responsibly.',
       category: 'Leadership & Governance',
-      image: programCulinary,
+      image: mpk,
     },
   ],
   creative: [
@@ -33,13 +40,13 @@ const organizations: Record<string, Organization[]> = {
       name: 'CIMS Cinematography',
       description: 'CIMS is a creative community where students develop media and broadcasting skills through real projects and events.',
       category: 'Media & Production',
-      image: programIt,
+      image: cims,
     },
     {
       name: 'Maheswara - Maheswari',
       description: 'Maheswara-Maheswari fosters creativity, cultural appreciation, and stage confidence through arts and performances.',
       category: 'Performing Arts',
-      image: programCulinary,
+      image: mahes,
     },
   ],
   discipline: [
@@ -67,13 +74,13 @@ const organizations: Record<string, Organization[]> = {
       name: 'KKR (Kader Kesehatan Remaja)',
       description: 'KKR promotes health awareness, first aid skills, and healthy lifestyles among students.',
       category: 'Health & Safety',
-      image: programCulinary,
+      image: kkr,
     },
     {
       name: 'MSP (Metland School Projects)',
       description: 'MSP develops creativity, collaboration, and critical thinking through project-based learning.',
       category: 'Production & Technology',
-      image: programIt,
+      image: msp,
     },
   ],
 };
@@ -81,41 +88,12 @@ const organizations: Record<string, Organization[]> = {
 const Organization = () => {
   return (
     <MainLayout>
-      {/* Hero Banner */}
-      <section className="relative h-[60vh] min-h-[400px] flex items-end">
-        <div className="absolute inset-0">
-          <img
-            src={heroBg}
-            alt="Learning Beyond Class"
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-primary via-primary/60 to-transparent" />
-        </div>
-        <div className="relative container mx-auto px-4 pb-16">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7 }}
-          >
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4">
-              Learning Beyond Class
-            </h1>
-            <div className="flex gap-4 text-white/80">
-              <Link to="/extracurricular" className="hover:text-white transition-colors">
-                Extracurricular
-              </Link>
-              <span>/</span>
-              <Link to="/organization" className="text-white font-medium">
-                Organization
-              </Link>
-              <span>/</span>
-              <Link to="/news" className="hover:text-white transition-colors">
-                News
-              </Link>
-            </div>
-          </motion.div>
-        </div>
-      </section>
+      {/* Hero Carousel */}
+      <HeroCarousel
+        title="Learning Beyond Class"
+        subtitle="Student Organizations"
+        description="Building leadership through collaboration and responsibility in various student organizations."
+      />
 
       {/* Student Organizations */}
       <section className="section-padding bg-background">

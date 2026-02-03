@@ -6,6 +6,7 @@ import VisionMission from '@/components/home/VisionMission';
 import AchievementsSlider from '@/components/home/AchievementsSlider';
 import PartnersSection from '@/components/home/PartnersSection';
 import AdmissionSteps from '@/components/home/AdmissionSteps';
+import BGM from '@/components/home/bgm';
 
 const Home = () => {
   return (
@@ -17,6 +18,7 @@ const Home = () => {
       <AchievementsSlider />
       <PartnersSection />
       <AdmissionSteps />
+      <BGM />
     </MainLayout>
   );
 };

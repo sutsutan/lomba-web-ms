@@ -1,16 +1,26 @@
 import { Link } from 'react-router-dom';
 import { MapPin, Phone, Mail, Facebook, Instagram, Youtube, Twitter } from 'lucide-react';
+import footerBg from '@/assets/footer.jpg';
+import logo from '@/assets/logo-metland.png';
 
 const Footer = () => {
   return (
-    <footer className="footer-bg">
+    <footer 
+      className="text-white relative"
+      style={{
+        backgroundImage: `url(${footerBg})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat'
+      }}
+    >
       <div className="container mx-auto px-4 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           {/* Logo & Description */}
           <div className="space-y-4">
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center">
-                <span className="text-primary font-bold text-xl">M</span>
+              <div className="w-12 h-12 flex items-center justify-center">
+                <img src={logo} alt="logo" className="w-12 h-12" />
               </div>
               <div>
                 <h3 className="font-bold text-xl">Metland</h3>

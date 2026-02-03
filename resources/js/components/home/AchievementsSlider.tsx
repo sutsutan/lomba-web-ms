@@ -17,7 +17,7 @@ const achievements: Achievement[] = [
   {
     id: 1,
     title: 'Gold Medal - National Robotics Competition',
-    student: 'Ghattan Firstian Elhaq',
+    student: 'Ghattan Firstian Ilhaq',
     description: 'First place in the National Robotics Competition 2024, showcasing innovative automation solutions.',
     category: 'Technology',
     image: achievementImg,
@@ -25,7 +25,7 @@ const achievements: Achievement[] = [
   {
     id: 2,
     title: 'Best Culinary Innovation Award',
-    student: 'Sutan Bagas Pratama',
+    student: 'Sutan Bariq Rajabbani Pasai',
     description: 'Winner of the Jakarta Culinary Festival for creative fusion cuisine.',
     category: 'Culinary',
     image: achievementImg,
@@ -33,7 +33,7 @@ const achievements: Achievement[] = [
   {
     id: 3,
     title: 'National Debate Championship',
-    student: 'Anisa Putri Rahmawati',
+    student: 'Hanna Maria',
     description: 'Champion in the National English Debate Competition representing West Java.',
     category: 'Academic',
     image: achievementImg,
@@ -53,7 +53,7 @@ const AchievementsSlider = () => {
 
   return (
     <section className="section-padding bg-section">
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-8 md:px-16 lg:px-24 xl:px-32">
         <ScrollReveal>
           <div className="text-center mb-12">
             <h2 className="section-title mx-auto">Moments of Achievement</h2>
@@ -125,9 +125,8 @@ const AchievementsSlider = () => {
                 <button
                   key={index}
                   onClick={() => setCurrentIndex(index)}
-                  className={`w-3 h-3 rounded-full transition-colors ${
-                    index === currentIndex ? 'bg-primary' : 'bg-border hover:bg-primary/50'
-                  }`}
+                  className={`w-3 h-3 rounded-full transition-colors ${index === currentIndex ? 'bg-primary' : 'bg-border hover:bg-primary/50'
+                    }`}
                   aria-label={`Go to slide ${index + 1}`}
                 />
               ))}

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown, Menu, X } from 'lucide-react';
+import logo from '@/assets/logo-metland.png';
 
 interface NavItem {
   label: string;
@@ -69,128 +70,149 @@ const Navbar = () => {
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, ease: 'easeOut' }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? 'py-2' : 'py-4'
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        isScrolled ? 'pt-2' : 'pt-6'
       }`}
     >
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-6 flex items-center justify-between">
+        
+        {/*SECTION LOGO*/}
+        <Link to="/" className="flex items-center gap-3 group z-10">
+          {/* Logo Pill Wrapper scroll*/}
+          <div className={`flex items-center gap-3 px-4 py-2 rounded-full transition-all duration-500 ${
+            isScrolled 
+              ? 'bg-white/80 backdrop-blur-md shadow-lg border border-white/20' 
+              : 'bg-transparent border-transparent'
+          }`}>
+            <div className="transition-transform duration-300 group-hover:scale-110">
+              <img 
+                src={logo} 
+                alt="Metland Logo" 
+                className="w-9 h-9 object-contain" 
+              />
+            </div>
+            
+            <div className="flex flex-col leading-tight">
+              <span className={`font-bold text-lg tracking-tight transition-colors duration-500 ${
+                isScrolled ? 'text-slate-900' : 'text-white'
+              }`}>
+                Metland
+              </span>
+              <span className={`text-[9px] uppercase tracking-widest font-light transition-colors duration-500 ${
+                isScrolled ? 'text-slate-600' : 'text-white/80'
+              }`}>
+                School
+              </span>
+            </div>
+          </div>
+        </Link>
+
+        {/*NAV PILL SECTION*/}
         <nav
-          className={`navbar-pill flex items-center justify-between transition-all duration-300 ${
-            isScrolled ? 'shadow-xl' : ''
+          className={`hidden lg:flex items-center gap-1 p-1.5 rounded-full border border-white/20 transition-all duration-500 ${
+            isScrolled 
+              ? 'bg-black/20 backdrop-blur-xl shadow-2xl' 
+              : 'bg-white/10 backdrop-blur-md shadow-lg'
           }`}
         >
-          {/* Logo */}
-          <Link to="/" className="flex items-center gap-2 text-primary-foreground">
-            <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center">
-              <span className="text-primary font-bold text-lg">M</span>
-            </div>
-            <div className="hidden sm:block">
-              <span className="font-bold text-lg">Metland</span>
-              <span className="block text-xs opacity-90">School</span>
-            </div>
-          </Link>
-
-          {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center gap-1">
-            {navItems.map((item) => (
-              <div
-                key={item.label}
-                className="relative"
-                onMouseEnter={() => item.children && setOpenDropdown(item.label)}
-                onMouseLeave={() => setOpenDropdown(null)}
+          {navItems.map((item) => (
+            <div
+              key={item.label}
+              className="relative"
+              onMouseEnter={() => item.children && setOpenDropdown(item.label)}
+              onMouseLeave={() => setOpenDropdown(null)}
+            >
+              <Link
+                to={item.href}
+                className={`flex items-center gap-1 px-5 py-2.5 text-sm font-semibold rounded-full transition-all duration-300 ${
+                  isActive(item.href)
+                    ? 'bg-white text-teal-700 shadow-md' 
+                    : 'text-white hover:bg-white/20'
+                }`}
               >
-                <Link
-                  to={item.href}
-                  className={`flex items-center gap-1 px-4 py-2 text-sm font-medium text-primary-foreground/90 hover:text-primary-foreground transition-colors relative group ${
-                    isActive(item.href) ? 'text-primary-foreground' : ''
-                  }`}
-                >
-                  {item.label}
-                  {item.children && <ChevronDown className="w-4 h-4" />}
-                  
-                  {/* Active/Hover Underline */}
-                  <span
-                    className={`absolute bottom-0 left-4 right-4 h-0.5 bg-white rounded-full transition-transform duration-300 origin-left ${
-                      isActive(item.href) ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
-                    }`}
-                  />
-                </Link>
+                {item.label}
+                {item.children && (
+                  <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${
+                    openDropdown === item.label ? 'rotate-180' : ''
+                  }`} />
+                )}
+              </Link>
 
-                {/* Dropdown */}
-                <AnimatePresence>
-                  {item.children && openDropdown === item.label && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                      animate={{ opacity: 1, y: 0, scale: 1 }}
-                      exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                      transition={{ duration: 0.2 }}
-                      className="absolute top-full left-0 mt-2 min-w-[200px] bg-white rounded-xl shadow-xl overflow-hidden"
-                    >
-                      {item.children.map((child) => (
-                        <Link
-                          key={child.href}
-                          to={child.href}
-                          className="block px-4 py-3 text-sm text-foreground hover:bg-primary-lighter hover:text-primary transition-colors"
-                        >
-                          {child.label}
-                        </Link>
-                      ))}
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            ))}
-          </div>
-
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="lg:hidden text-primary-foreground p-2"
-            aria-label="Toggle menu"
-          >
-            {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
+              <AnimatePresence>
+                {item.children && openDropdown === item.label && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 15, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 15, scale: 0.95 }}
+                    className="absolute top-[120%] left-0 min-w-[200px] bg-white/95 backdrop-blur-lg rounded-2xl shadow-2xl py-2 border border-white/20 overflow-hidden"
+                  >
+                    {item.children.map((child) => (
+                      <Link
+                        key={child.href}
+                        to={child.href}
+                        className="block px-5 py-3 text-sm text-slate-700 hover:bg-teal-500 hover:text-white transition-colors font-medium"
+                      >
+                        {child.label}
+                      </Link>
+                    ))}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          ))}
         </nav>
 
-        {/* Mobile Menu */}
-        <AnimatePresence>
-          {isMobileMenuOpen && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.3 }}
-              className="lg:hidden mt-2 bg-white rounded-2xl shadow-xl overflow-hidden"
-            >
-              {navItems.map((item) => (
-                <div key={item.label}>
-                  <Link
-                    to={item.href}
-                    className={`block px-6 py-4 text-foreground font-medium border-b border-border/30 ${
-                      isActive(item.href) ? 'text-primary bg-primary-lighter' : 'hover:bg-muted'
-                    }`}
-                  >
-                    {item.label}
-                  </Link>
-                  {item.children && (
-                    <div className="bg-muted/50">
-                      {item.children.map((child) => (
-                        <Link
-                          key={child.href}
-                          to={child.href}
-                          className="block px-8 py-3 text-sm text-muted-foreground hover:text-primary transition-colors"
-                        >
-                          {child.label}
-                        </Link>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              ))}
-            </motion.div>
-          )}
-        </AnimatePresence>
+        {/*MOBILE BUTTON*/}
+        <button
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          className={`lg:hidden w-11 h-11 flex items-center justify-center rounded-full transition-all duration-500 ${
+            isScrolled 
+              ? 'bg-white/80 backdrop-blur-md text-slate-900 shadow-md' 
+              : 'bg-white/10 backdrop-blur-md text-white border border-white/20 shadow-lg'
+          }`}
+        >
+          {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
+
       </div>
+
+      {/*MOBILE MENU OVERLAY*/}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <div className="container mx-auto px-6 mt-4">
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="lg:hidden bg-white/95 backdrop-blur-2xl rounded-3xl shadow-2xl border border-white/20 overflow-hidden"
+            >
+              <div className="p-4 flex flex-col gap-1">
+                {navItems.map((item) => (
+                  <div key={item.label}>
+                    <Link
+                      to={item.href}
+                      className={`px-5 py-4 rounded-2xl font-bold transition-colors ${
+                        isActive(item.href) ? 'bg-teal-600 text-white' : 'text-slate-800'
+                      }`}
+                    >
+                      {item.label}
+                    </Link>
+                    {item.children && (
+                      <div className="pl-6 py-2 border-l-2 border-slate-100 ml-5 my-1">
+                        {item.children.map((child) => (
+                          <Link key={child.href} to={child.href} className="block px-4 py-2 text-sm text-slate-500 font-medium">
+                            {child.label}
+                          </Link>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </motion.header>
   );
 };
