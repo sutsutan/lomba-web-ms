@@ -122,7 +122,7 @@ const HeroSection = () => {
                 initial={{ y: '100%' }}
                 animate={!isAnimatingIntro ? { y: 0 } : {}}
                 transition={{ duration: 0.8, delay: 0.4, ease: [0.33, 1, 0.68, 1] }}
-                className="text-5xl md:text-7xl lg:text-8xl font-black text-white leading-[0.9]"
+                className="text-4xl md:text-5xl lg:text-6xl font-black text-white leading-[0.9]"
               >
                 From School <br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-emerald-400">
@@ -136,7 +136,7 @@ const HeroSection = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={!isAnimatingIntro ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.8, delay: 0.6 }}
-              className="text-lg md:text-xl text-slate-300 mb-10 max-w-xl leading-relaxed"
+              className="text-lg md:text-lg text-slate-300 mb-10 max-w-xl leading-relaxed"
             >
               We prepare students with industry-ready skills, character development,
               and real-world experience for successful careers.
@@ -150,10 +150,10 @@ const HeroSection = () => {
             >
               <Link 
                 to="/about" 
-                className="group relative inline-flex items-center gap-3 px-8 py-4 bg-teal-500 text-white font-bold rounded-full hover:bg-teal-400 transition-all shadow-lg shadow-teal-500/25"
+                className="group relative inline-flex items-center gap-3 px-6 py-3 bg-teal-500 text-white font-bold rounded-full hover:bg-teal-400 transition-all shadow-lg shadow-teal-500/25"
               >
                 Learn More
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
               </Link>
             </motion.div>
           </div>
