@@ -125,8 +125,6 @@ const PartnersSection = () => {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             {/* Left: Image with Decoration */}
             <div className="relative">
-              {/* Decorative Background Box */}
-              <div className="absolute -top-8 -left-8 w-full h-full bg-[#0F5F58] rounded-tl-[3rem] -z-10" />
               
               {/* Main Image */}
               <img 

@@ -16,12 +16,12 @@ import osis from '@/assets/osis.jpg';
 // Data for Sections
 const valuesData = [
   {
-    image: 'https://smkmetland.net/ppdb/wp-content/uploads/2025/09/WhatsApp-Image-2025-09-01-at-11.54.59.jpeg',
+    image: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=2070&auto=format&fit=crop',
     title: 'Industry Ready Skills',
     description: 'Skills aligned with real industries'
   },
   {
-    image: 'https://smkmetland.net/ppdb/wp-content/uploads/2025/09/WhatsApp-Image-2025-09-01-at-11.46.22.jpeg',
+    image: 'https://images.unsplash.com/photo-1577896851231-70ef18881754?q=80&w=2070&auto=format&fit=crop',
     title: 'Strong Character',
     description: 'Discipline, teamwork, responsibility'
   },
@@ -37,7 +37,7 @@ const timelineContent = {
   '1945': {
     heads: [ 'Tatang sunarja : 1945 - 2026', 'Veria Raja Tunggal : 1945 - 202' ],
     beginning: "Metland School was established with a strong commitment to providing quality vocational education that balances academic learning, practical skills, and character development. From the very beginning, the school was designed to prepare students for real-world challenges and professional environments.",
-    growing: "As the demand for skilled and industry-ready graduates increased, Metland School continued to develop its academic programs, facilities, and learning approach. With a focus on tourism, hospitality, and vocational excellence, the school strengthened its curriculum to align with industry standards."
+    growing: "As the demand for skilled and industry-ready graduates continued to increase, Metland School consistently developed and refined its academic programs, facilities, and learning approach. With a strong focus on tourism, hospitality, and vocational excellence, the school enhanced its curriculum to align with current industry standards, technological advancements, and real-world professional needs. This commitment ensures that students are not only academically prepared, but also equipped with practical skills, strong character, and adaptability to succeed in a rapidly evolving global workforce."
   },
   // Placeholder content for other years as specific text wasn't provided for them
   '1980': { heads: ['Next Generation : 1980 - 2000'], beginning: 'Expansion era...', growing: 'New facilities added...' },
@@ -101,16 +101,12 @@ const About = () => {
               </div>
             </ScrollReveal>
             <ScrollReveal delay={0.2}>
-              <div className="flex gap-2 h-[400px]">
+              <div className="flex gap-4 h-[400px]">
                 <div className="w-2/3 h-full overflow-hidden">
-                  <img src='https://smkmetland.net/ppdb/wp-content/uploads/2025/09/WhatsApp-Image-2025-09-01-at-11.50.55.jpeg'
-                  alt="Students" 
-                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
+                  <img src={aboutImage} alt="Students" className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
                 </div>
                 <div className="w-1/3 h-full overflow-hidden">
-                  <img src='https://smkmetland.net/ppdb/wp-content/uploads/2026/01/MSF06057-scaled.jpg' 
-                  alt="School" 
-                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
+                  <img src={programIt} alt="School" className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
                 </div>
               </div>
             </ScrollReveal>
@@ -149,7 +145,7 @@ const About = () => {
             <h2 className="text-3xl md:text-4xl font-bold text-[#0F5F58] mb-8">Our Timeline</h2>
             
             {/* Year Tabs */}
-            <div className="flex gap-8 border-b-2 border-[#0F5F58] mb-12 overflow-x-auto hide-scrollbar">
+            <div className="flex gap-8 border-b-2 border-[#2D8FDB] mb-12 overflow-x-auto hide-scrollbar">
               {timelineYears.map((year) => (
                 <button
                   key={year}
@@ -189,13 +185,26 @@ const About = () => {
                </div>
 
                {/* Right Image */}
-               <div className="relative h-full min-h-[500px] rounded-t-full overflow-hidden bg-gray-100 border-[10px] border-white shadow-2xl">
-                  <img 
-                    src='https://smkmetland.net/ppdb/wp-content/uploads/2025/10/WhatsApp-Image-2025-10-14-at-11.05.13-AM-1.jpeg' 
-                    alt="Timeline Celebration" 
-                    className="w-full h-full object-cover"
-                  />
-               </div>
+               {/* Right Image - 2 foto bersebelahan */}
+<div className="flex gap-2 h-full min-h-[600px]">
+  {/* Foto 1 */}
+  <div className="relative w-80 rounded-t-full overflow-hidden bg-gray-100">
+    <img 
+      src={'https://smkmetland.net/ppdb/wp-content/uploads/2026/01/WhatsApp-Image-2026-01-05-at-3.31.26-PM.jpeg'} 
+      alt="Timeline 1" 
+      className="w-full h-full object-cover"
+    />
+  </div>
+
+  {/* Foto 2 */}
+  <div className="relative w-80 rounded-t-full overflow-hidden bg-gray-100">
+    <img 
+      src={'https://smkmetland.net/ppdb/wp-content/uploads/2025/09/WhatsApp-Image-2025-09-01-at-12.02.15-1.jpeg'} 
+      alt="Timeline 2" 
+      className="w-full h-full object-cover"
+    />
+  </div>
+</div>
             </div>
           </ScrollReveal>
         </div>
