@@ -13,6 +13,7 @@ import Msp from '@/assets/msp.jpeg';
 import Mahes from '@/assets/mahes.png';
 import Kkr from '@/assets/kkr.jpeg';
 import LogoOsis from '@/assets/logo-osis.png';
+import Cims from '@/assets/cims.jpeg';
 
 
 interface TabContent {
