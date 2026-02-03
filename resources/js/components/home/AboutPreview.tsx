@@ -3,15 +3,15 @@ import { Link } from 'react-router-dom';
 import ScrollReveal from '@/components/ScrollReveal';
 
 // Import 3 gambar berbeda (sesuaikan path-nya)
-import aboutImage1 from '@/assets/osis.jpg'; // Gambar atas
-import aboutImage2 from '@/assets/cims.jpeg';      // Gambar kiri bawah
-import aboutImage3 from '@/assets/kkr.jpeg';    // Gambar kanan bawah
+import aboutImage1 from '@/assets/about-preview.jpg'; // Gambar atas
+import aboutImage2 from '@/assets/about-previewkiribawah.jpg';      // Gambar kiri bawah
+import aboutImage3 from '@/assets/about-previewkananbawah.webp';    // Gambar kanan bawah
 
 const AboutPreview = () => {
   return (
     <section className="section-padding bg-background">
       <div className="container mx-auto px-8 md:px-16 lg:px-24 xl:px-32">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+        <div className="grid lg:grid-cols-2 gap-20 items-center">
           {/* Content */}
           <ScrollReveal direction="left">
             <div className="space-y-6">
@@ -21,13 +21,13 @@ const AboutPreview = () => {
               <h2 className="section-title text-3xl md:text-4xl">
                 Where Learning Begins
               </h2>
-              <p className="text-muted-foreground leading-relaxed mt-8">
+              <p className="text-muted-foreground leading-relaxed mt-8 text-justify indent-8">
                 Metland School is a vocational secondary school focused on
                 developing practical skills, character, and confidence in every
                 student. We believe that education should prepare students not
                 only academically but also professionally for their future careers.
               </p>
-              <p className="text-muted-foreground leading-relaxed">
+              <p className="text-muted-foreground leading-relaxed text-justify indent-8">
                 Through project-based learning, industry partnerships, and hands-on
                 experiences, we empower students to become skilled professionals
                 ready to make an impact in their chosen fields.

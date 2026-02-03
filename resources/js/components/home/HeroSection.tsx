@@ -132,17 +132,10 @@ const HeroSection = () => {
             {/* Title */}
             <div className="overflow-hidden mb-6">
               <motion.h1
-<<<<<<< HEAD
                 initial={isAnimatingIntro ? { y: '100%' } : { y: 0 }}
                 animate={{ y: 0 }}
                 transition={{ duration: 0.8, delay: isAnimatingIntro ? 0.4 : 0, ease: [0.33, 1, 0.68, 1] }}
-                className="text-5xl md:text-7xl lg:text-8xl font-black text-white leading-[0.9]"
-=======
-                initial={{ y: '100%' }}
-                animate={!isAnimatingIntro ? { y: 0 } : {}}
-                transition={{ duration: 0.8, delay: 0.4, ease: [0.33, 1, 0.68, 1] }}
-                className="text-4xl md:text-5xl lg:text-6xl font-black text-white leading-[0.9]"
->>>>>>> d1b6e124cbd5e6440e456b6e6a0566e67a9ea5a4
+                className="text-5xl md:text-7xl lg:text-6xl font-black text-white leading-[0.9]"
               >
                 From School <br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-emerald-400">
@@ -153,17 +146,10 @@ const HeroSection = () => {
 
             {/* Description */}
             <motion.p
-<<<<<<< HEAD
               initial={isAnimatingIntro ? { opacity: 0, y: 20 } : { opacity: 1, y: 0 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: isAnimatingIntro ? 0.6 : 0 }}
               className="text-lg md:text-xl text-slate-300 mb-10 max-w-xl leading-relaxed"
-=======
-              initial={{ opacity: 0, y: 20 }}
-              animate={!isAnimatingIntro ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.6 }}
-              className="text-lg md:text-lg text-slate-300 mb-10 max-w-xl leading-relaxed"
->>>>>>> d1b6e124cbd5e6440e456b6e6a0566e67a9ea5a4
             >
               We prepare students with industry-ready skills, character development,
               and real-world experience for successful careers.
