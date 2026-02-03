@@ -1,7 +1,11 @@
 import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import ScrollReveal from '@/components/ScrollReveal';
-import aboutImage from '@/assets/about-preview.jpg';
+
+// Import 3 gambar berbeda (sesuaikan path-nya)
+import aboutImage1 from '@/assets/osis.jpg'; // Gambar atas
+import aboutImage2 from '@/assets/cims.jpeg';      // Gambar kiri bawah
+import aboutImage3 from '@/assets/kkr.jpeg';    // Gambar kanan bawah
 
 const AboutPreview = () => {
   return (
@@ -38,19 +42,39 @@ const AboutPreview = () => {
             </div>
           </ScrollReveal>
 
-          {/* Image */}
+          {/* Image Grid Style */}
           <ScrollReveal direction="right" delay={0.2}>
-            <div className="relative">
-              <div className="relative rounded-2xl overflow-hidden shadow-2xl">
+            <div className="relative flex flex-col gap-4">
+              {/* Gambar Atas (Besar/Wide) */}
+              <div className="rounded-2xl overflow-hidden shadow-xl">
                 <img
-                  src={aboutImage}
-                  alt="Students at Metland School"
-                  className="w-full h-[400px] object-cover"
+                  src={aboutImage1}
+                  alt="Band Performance"
+                  className="w-full h-[250px] md:h-[300px] object-cover hover:scale-105 transition-transform duration-500"
                 />
               </div>
-              {/* Decorative Element */}
-              <div className="absolute -bottom-6 -right-6 w-48 h-48 bg-primary/10 rounded-2xl -z-10" />
-              <div className="absolute -top-6 -left-6 w-24 h-24 bg-gold/20 rounded-full -z-10" />
+
+              {/* Baris Bawah (Dua Kolom) */}
+              <div className="grid grid-cols-2 gap-4">
+                <div className="rounded-2xl overflow-hidden shadow-xl">
+                  <img
+                    src={aboutImage2}
+                    alt="Barongsai Performance"
+                    className="w-full h-[180px] md:h-[220px] object-cover hover:scale-105 transition-transform duration-500"
+                  />
+                </div>
+                <div className="rounded-2xl overflow-hidden shadow-xl">
+                  <img
+                    src={aboutImage3}
+                    alt="Fine Dining Practice"
+                    className="w-full h-[180px] md:h-[220px] object-cover hover:scale-105 transition-transform duration-500"
+                  />
+                </div>
+              </div>
+
+              {/* Decorative Elements (Tetap dipertahankan dengan penyesuaian posisi) */}
+              <div className="absolute -bottom-4 -right-4 w-32 h-32 bg-primary/10 rounded-2xl -z-10" />
+              <div className="absolute -top-4 -left-4 w-20 h-20 bg-gold/20 rounded-full -z-10" />
             </div>
           </ScrollReveal>
         </div>
