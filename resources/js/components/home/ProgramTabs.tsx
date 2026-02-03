@@ -7,6 +7,13 @@ import extracurricularImg from '@/assets/extracurricular.jpg';
 import programItImg from '@/assets/program-it.jpg';
 import programCulinaryImg from '@/assets/program-culinary.jpg';
 import achievementImg from '@/assets/achievement-1.jpg';
+import Itec from '@/assets/Logo_ITEC.png';
+import Mpk from '@/assets/mpk-logo.png';
+import Msp from '@/assets/msp.jpeg';
+import Mahes from '@/assets/mahes.png';
+import Kkr from '@/assets/kkr.jpeg';
+import LogoOsis from '@/assets/logo-osis.png';
+
 
 interface TabContent {
   title: string;
@@ -23,7 +30,7 @@ const tabData: Record<string, TabContent> = {
   organization: {
     title: 'Organization',
     description: 'Develop leadership skills and make a difference through our student-led organizations.',
-    images: [programItImg, extracurricularImg, achievementImg, programCulinaryImg],
+    images: [Itec, LogoOsis, Kkr, Mahes, Msp, Mpk],
   },
   major: {
     title: 'Major',
