@@ -16,12 +16,12 @@ import osis from '@/assets/osis.jpg';
 // Data for Sections
 const valuesData = [
   {
-    image: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=2070&auto=format&fit=crop',
+    image: 'https://smkmetland.net/ppdb/wp-content/uploads/2025/09/WhatsApp-Image-2025-09-01-at-11.54.59.jpeg',
     title: 'Industry Ready Skills',
     description: 'Skills aligned with real industries'
   },
   {
-    image: 'https://images.unsplash.com/photo-1577896851231-70ef18881754?q=80&w=2070&auto=format&fit=crop',
+    image: 'https://smkmetland.net/ppdb/wp-content/uploads/2025/09/WhatsApp-Image-2025-09-01-at-11.46.22.jpeg',
     title: 'Strong Character',
     description: 'Discipline, teamwork, responsibility'
   },
@@ -101,12 +101,16 @@ const About = () => {
               </div>
             </ScrollReveal>
             <ScrollReveal delay={0.2}>
-              <div className="flex gap-4 h-[400px]">
+              <div className="flex gap-2 h-[400px]">
                 <div className="w-2/3 h-full overflow-hidden">
-                  <img src={aboutImage} alt="Students" className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
+                  <img src='https://smkmetland.net/ppdb/wp-content/uploads/2025/09/WhatsApp-Image-2025-09-01-at-11.50.55.jpeg'
+                  alt="Students" 
+                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
                 </div>
                 <div className="w-1/3 h-full overflow-hidden">
-                  <img src={programIt} alt="School" className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
+                  <img src='https://smkmetland.net/ppdb/wp-content/uploads/2026/01/MSF06057-scaled.jpg' 
+                  alt="School" 
+                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
                 </div>
               </div>
             </ScrollReveal>
@@ -145,7 +149,7 @@ const About = () => {
             <h2 className="text-3xl md:text-4xl font-bold text-[#0F5F58] mb-8">Our Timeline</h2>
             
             {/* Year Tabs */}
-            <div className="flex gap-8 border-b-2 border-[#2D8FDB] mb-12 overflow-x-auto hide-scrollbar">
+            <div className="flex gap-8 border-b-2 border-[#0F5F58] mb-12 overflow-x-auto hide-scrollbar">
               {timelineYears.map((year) => (
                 <button
                   key={year}
@@ -185,9 +189,9 @@ const About = () => {
                </div>
 
                {/* Right Image */}
-               <div className="relative h-full min-h-[600px] rounded-t-full overflow-hidden bg-gray-100 border-[10px] border-white shadow-2xl">
+               <div className="relative h-full min-h-[500px] rounded-t-full overflow-hidden bg-gray-100 border-[10px] border-white shadow-2xl">
                   <img 
-                    src={timelineImage} 
+                    src='https://smkmetland.net/ppdb/wp-content/uploads/2025/10/WhatsApp-Image-2025-10-14-at-11.05.13-AM-1.jpeg' 
                     alt="Timeline Celebration" 
                     className="w-full h-full object-cover"
                   />
