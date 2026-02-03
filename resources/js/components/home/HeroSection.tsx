@@ -19,7 +19,11 @@ const heroImages = [
 
 const HeroSection = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [isAnimatingIntro, setIsAnimatingIntro] = useState(true);
+  
+  // Cek apakah user sudah melihat intro di sesi ini
+  const [isAnimatingIntro, setIsAnimatingIntro] = useState(() => {
+    return !sessionStorage.getItem('introShown');
+  });
 
   // Autoplay carousel
   useEffect(() => {
@@ -32,26 +36,36 @@ const HeroSection = () => {
   }, [isAnimatingIntro]);
 
   useEffect(() => {
-    document.body.style.overflow = 'hidden';
-    
-    const timeout = setTimeout(() => {
-      setIsAnimatingIntro(false);
-      document.body.style.overflow = 'auto';
-    }, 2500);
+    if (isAnimatingIntro) {
+      document.body.style.overflow = 'hidden';
+      
+      const timeout = setTimeout(() => {
+        setIsAnimatingIntro(false);
+        document.body.style.overflow = 'auto';
+        
+        // Simpan status biar ga muncul lagi di navigasi selanjutnya
+        sessionStorage.setItem('introShown', 'true');
+      }, 2500);
 
-    return () => {
+      return () => {
+        document.body.style.overflow = 'auto';
+        clearTimeout(timeout);
+      };
+    } else {
+    //  scroll aktif
       document.body.style.overflow = 'auto';
-    };
-  }, []);
+    }
+  }, [isAnimatingIntro]);
 
   const goToSlide = (index: number) => setCurrentSlide(index);
 
   return (
     <section className="relative h-screen w-full overflow-hidden bg-black">
-      {/* 1. INTRO OVERLAY ANIMATION */}
+      {/*INTRO OVERLAY - render sekali doang */}
       <AnimatePresence>
         {isAnimatingIntro && (
           <motion.div
+            key="intro-overlay"
             initial={{ y: 0 }}
             exit={{ y: '-100%' }}
             transition={{ duration: 1, ease: [0.76, 0, 0.24, 1], delay: 1.5 }}
@@ -78,12 +92,12 @@ const HeroSection = () => {
         )}
       </AnimatePresence>
 
-      {/* 2. BACKGROUND CAROUSEL */}
+      {/* BACKGROUND CAROUSEL */}
       <div className="absolute inset-0 z-0">
         <AnimatePresence mode="wait">
           <motion.div
             key={currentSlide}
-            initial={{ opacity: 0, scale: 1.1 }}
+            initial={{ opacity: 0, scale: isAnimatingIntro ? 1.1 : 1 }} // Hindari zoom berlebih jika bukan intro pertama
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 1.5, ease: 'easeOut' }}
@@ -94,34 +108,33 @@ const HeroSection = () => {
               alt={heroImages[currentSlide].alt}
               className="w-full h-full object-cover"
             />
-            {/* Gradient Overlay untuk teks agar terbaca */}
             <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent z-10" />
             <div className="absolute inset-0 bg-black/20 z-10" />
           </motion.div>
         </AnimatePresence>
       </div>
 
-      {/* 3. MAIN CONTENT */}
+      {/* MAIN CONTENT */}
       <div className="relative z-20 h-full flex items-center">
         <div className="container mx-auto px-6 md:px-12">
           <div className="max-w-3xl">
             {/* Label */}
             <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={!isAnimatingIntro ? { opacity: 1, x: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.2 }}
+              initial={isAnimatingIntro ? { opacity: 0, x: -20 } : { opacity: 1, x: 0 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: isAnimatingIntro ? 0.2 : 0 }}
             >
               <span className="inline-block px-4 py-1.5 bg-teal-500/20 backdrop-blur-md rounded-full text-teal-300 text-xs md:text-sm font-bold mb-6 border border-teal-500/30 tracking-wider uppercase">
                 SMK Metland School — Vocational Excellence
               </span>
             </motion.div>
 
-            {/* Title with Mask Animation */}
+            {/* Title */}
             <div className="overflow-hidden mb-6">
               <motion.h1
-                initial={{ y: '100%' }}
-                animate={!isAnimatingIntro ? { y: 0 } : {}}
-                transition={{ duration: 0.8, delay: 0.4, ease: [0.33, 1, 0.68, 1] }}
+                initial={isAnimatingIntro ? { y: '100%' } : { y: 0 }}
+                animate={{ y: 0 }}
+                transition={{ duration: 0.8, delay: isAnimatingIntro ? 0.4 : 0, ease: [0.33, 1, 0.68, 1] }}
                 className="text-5xl md:text-7xl lg:text-8xl font-black text-white leading-[0.9]"
               >
                 From School <br />
@@ -133,9 +146,9 @@ const HeroSection = () => {
 
             {/* Description */}
             <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={!isAnimatingIntro ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.6 }}
+              initial={isAnimatingIntro ? { opacity: 0, y: 20 } : { opacity: 1, y: 0 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: isAnimatingIntro ? 0.6 : 0 }}
               className="text-lg md:text-xl text-slate-300 mb-10 max-w-xl leading-relaxed"
             >
               We prepare students with industry-ready skills, character development,
@@ -144,9 +157,9 @@ const HeroSection = () => {
 
             {/* Button */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={!isAnimatingIntro ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.8 }}
+              initial={isAnimatingIntro ? { opacity: 0, y: 20 } : { opacity: 1, y: 0 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: isAnimatingIntro ? 0.8 : 0 }}
             >
               <Link 
                 to="/about" 
@@ -160,7 +173,7 @@ const HeroSection = () => {
         </div>
       </div>
 
-      {/* 4. CAROUSEL DOTS & PROGRESS */}
+      {/* CAROUSEL DOTS */}
       <div className="absolute bottom-10 left-12 z-30 hidden md:block">
         <div className="flex items-center gap-4">
           {heroImages.map((_, index) => (
@@ -181,19 +194,21 @@ const HeroSection = () => {
       </div>
 
       {/* Scroll Indicator */}
-      {!isAnimatingIntro && (
-        <motion.div 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 2 }}
-          className="absolute bottom-10 right-12 z-30 flex flex-col items-center gap-4"
-        >
-          <span className="text-[10px] text-white/40 uppercase tracking-[0.2em] [writing-mode:vertical-lr]">
-            Scroll to explore
-          </span>
-          <div className="w-[1px] h-12 bg-gradient-to-b from-teal-500 to-transparent" />
-        </motion.div>
-      )}
+      <AnimatePresence>
+        {!isAnimatingIntro && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1 }}
+            className="absolute bottom-10 right-12 z-30 flex flex-col items-center gap-4"
+          >
+            <span className="text-[10px] text-white/40 uppercase tracking-[0.2em] [writing-mode:vertical-lr]">
+              Scroll to explore
+            </span>
+            <div className="w-[1px] h-12 bg-gradient-to-b from-teal-500 to-transparent" />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 };
