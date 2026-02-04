@@ -87,11 +87,15 @@ const VisionMission = () => {
               </div>
               <h3 className="text-2xl font-bold text-foreground">Our Vision</h3>
             </div>
-            <p className="text-muted-foreground leading-relaxed mb-4">
-              To become a leading vocational school that consistently produces graduates with strong character, excellent performance, and internationally recognized competencies.
+            <p className="text-muted-foreground leading-relaxed mb-4 indent-8 text-justify">
+              To become a leading vocational school that consistently produces graduates with strong character, 
+              excellent performance, and internationally recognized competencies, 
+              through an education system that integrates academic excellence, industry relevance, and global standards.
             </p>
-            <p className="text-muted-foreground leading-relaxed">
-              We strive to shape learners into confident, adaptable, and skilled individuals prepared for the global workforce.
+            <p className="text-muted-foreground leading-relaxed indent-8 text-justify">
+              We strive to shape learners into confident, adaptable, 
+              and skilled individuals who are prepared to compete in the international workforce, 
+              embrace technological advancements, and contribute positively to society in an ever-changing global environment.
             </p>
           </InteractiveCard>
 
@@ -104,14 +108,16 @@ const VisionMission = () => {
               <h3 className="text-2xl font-bold text-foreground">Our Mission</h3>
             </div>
             <div className="space-y-4">
-              <p className="text-muted-foreground leading-relaxed">
-                • Deliver education focused on Industry 4.0 and values of Generasi Cinta Prestasi.
+              <p className="text-muted-foreground leading-relaxed indent-8 text-justify">
+                To deliver education that focuses on the development of knowledge, skills, and attitude, 
+                aligned with Industry 4.0 and strengthened 
+                by the values of Generasi Cinta Prestasi, in accordance with industry demands.
               </p>
-              <p className="text-muted-foreground leading-relaxed">
-                • Enhance teacher professionalism based on Metland School Teacher’s Values.
-              </p>
-              <p className="text-muted-foreground leading-relaxed">
-                • Build strong partnerships with industries (DUDI) and higher education.
+              <p className="text-muted-foreground leading-relaxed indent-8 text-justify">
+                To enhance teacher professionalism based on Metland School Teacher’s Values, while 
+                continuously adapting to the needs of Industry 4.0.
+                To build strong 
+                partnerships with industries (DUDI) and vocational higher education institutions, both nationally and internationally, to support academic program development.
               </p>
             </div>
           </InteractiveCard>

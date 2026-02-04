@@ -6,18 +6,23 @@ import Culinarypartner from '@/assets/culinary-scene.jpg';
 // Placeholder logos - in a real app these would be imported images
 // Using Metland logo multple times to simulate the slider effect + text logos
 const partners = [
-  { name: 'Metland', type: 'image', src: logoMetland },
-  { name: 'Mall Ciputra', type: 'text' },
-  { name: 'Dermawan anjay', type: 'text' },
-  { name: 'Metland nih bos', type: 'text' },
-  { name: 'Metropolitan Mall', type: 'text' },
-  { name: 'Diara Hotel', type: 'text' },
-  { name: 'Metland', type: 'image', src: logoMetland }, // Repeat for seamless loop
-  { name: 'TangTingTung', type: 'text' },
-  { name: 'Titing', type: 'text' },
-  { name: 'Tutung', type: 'text' },
-  { name: 'Tatang', type: 'text' },
-  { name: 'TATANG', type: 'text' },
+  { name: 'Grand Metropolitan', type: 'image', src: 'https://smkmetland.net/ppdb/wp-content/uploads/2023/01/Grand_Metropolitan-removebg-preview-150x150.png' },
+  { name: 'Kaliana Apartment', type: 'image', src: 'https://smkmetland.net/ppdb/wp-content/uploads/2023/01/Kaliana_Apartment-removebg-preview-150x150.png' },
+  { name: 'Indesso', type: 'image', src: 'https://smkmetland.net/ppdb/wp-content/uploads/2023/01/Indesso-removebg-preview-150x150.png' },
+  { name: 'Metropolitan Mall', type: 'image', src: 'https://smkmetland.net/ppdb/wp-content/uploads/2023/01/Metropolitan_Mall_Cibubur-removebg-preview-150x150.png' },
+  { name: 'Metland Hotels Group', type: 'image', src: 'https://smkmetland.net/ppdb/wp-content/uploads/2022/12/Metland-Hotels-Group-150x150.png' },
+  { name: 'PT Metland', type: 'image', src: 'https://smkmetland.net/ppdb/wp-content/uploads/2023/01/PT_Metland-removebg-preview-e1704943421395-150x150.png' },
+  { name: 'Pullman', type: 'image', src: 'https://smkmetland.net/ppdb/wp-content/uploads/2023/01/Pullman-removebg-preview-150x150.png' },
+  { name: 'Hotel Ciputra Cibubur', type: 'image', src: 'https://smkmetland.net/ppdb/wp-content/uploads/2023/01/Hotel_Ciputra_Cibubur-removebg-preview-150x150.png' },
+  { name: 'Ra Suites', type: 'image', src: 'https://smkmetland.net/ppdb/wp-content/uploads/2023/01/Ra_Suites-removebg-preview-150x150.png' },
+  { name: 'Horison Hotels Group', type: 'image', src: 'https://smkmetland.net/ppdb/wp-content/uploads/2023/01/Horison_Hotels_Group__1_-removebg-preview-150x150.png' },
+  { name: 'Kempinski', type: 'image', src: 'https://smkmetland.net/ppdb/wp-content/uploads/2023/01/Kempinski-removebg-preview-150x150.png' },
+  { name: 'Shangri-La', type: 'image', src: 'https://smkmetland.net/ppdb/wp-content/uploads/2023/11/shangri-150x150.png' },
+  { name: 'Accor', type: 'image', src: 'https://smkmetland.net/ppdb/wp-content/uploads/2023/11/accor-e1705022947913-150x150.png' },
+  { name: 'Grand Hyatt', type: 'image', src: 'https://smkmetland.net/ppdb/wp-content/uploads/2023/11/dt_153037286-150x90.png' },
+  { name: 'Unesco', type: 'image', src: 'https://smkmetland.net/ppdb/wp-content/uploads/2023/11/unesco-150x150.png' },
+  { name: 'Ritz Carlton', type: 'image', src: 'https://smkmetland.net/ppdb/wp-content/uploads/2023/11/ritz-calton-150x150.png' },
+  { name: 'Virtalus', type: 'image', src: 'https://smkmetland.net/ppdb/wp-content/uploads/2023/11/virtalus-150x150.png' },
 ];
 
 const PartnersSection = () => {
@@ -35,6 +40,7 @@ const PartnersSection = () => {
         .hover-pause:hover .animate-scroll {
           animation-play-state: paused;
         }
+          
       `}</style>
 
       <div className="container mx-auto px-8 md:px-16 lg:px-24 xl:px-32 mb-16">
@@ -59,7 +65,7 @@ const PartnersSection = () => {
                 </h2>
               </div>
               {/* Vertical Line Decoration */}
-              <div className="hidden lg:block w-1.5 h-32 bg-primary/20 rounded-full" />
+              <div className="hidden lg:block w-1.5 h-32 bg-[#38857e] rounded-full" />
             </div>
           </div>
         </ScrollReveal>
@@ -84,7 +90,7 @@ const PartnersSection = () => {
                     <img 
                       src={partner.src} 
                       alt={partner.name} 
-                      className="h-16 w-auto object-contain"
+                      className="h-25 w-auto object-contain"
                     />
                   ) : (
                     <span className="text-2xl md:text-3xl font-bold text-muted-foreground/80 font-serif">
@@ -106,7 +112,7 @@ const PartnersSection = () => {
                     <img 
                       src={partner.src} 
                       alt={partner.name} 
-                      className="h-16 w-auto object-contain"
+                      className="h-25 w-auto object-contain"
                     />
                   ) : (
                     <span className="text-2xl md:text-3xl font-bold text-muted-foreground/80 font-serif">

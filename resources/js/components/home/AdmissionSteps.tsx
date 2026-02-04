@@ -11,7 +11,7 @@ const steps = [
   },
   {
     type: 'image',
-    image: 'https://images.unsplash.com/photo-1562774053-701939374585?q=80&w=1986&auto=format&fit=crop',
+    image: 'https://smkmetland.pages.dev/_astro/hero-image.GuN_GPl8_199FtU.webp',
     title: 'Visit Our School',
     description: "We'd love to show you around our campus. You'll see how we adapt learning to different strengths and needs, meet our friendly team, and explore our specialist facilities.",
   },
@@ -22,7 +22,7 @@ const steps = [
   },
   {
     type: 'image',
-    image: 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=2070&auto=format&fit=crop',
+    image: 'https://smkmetland.pages.dev/_astro/hero-image.GuN_GPl8_199FtU.webp',
     title: 'Final Enrollment',
     description: 'Once accepted, complete the administrative requirements and prepare for your exciting journey at Metland School.',
   },
@@ -68,7 +68,7 @@ const AdmissionSteps = () => {
 
                 {/* Button Prev */}
                 <button
-                  onClick={scrollRight}
+                  onClick={scrollLeft}
                   className="absolute left-2 -top-1 w-12 h-12 border-2 border-primary/40 flex items-center justify-center rotate-45 hover:bg-primary hover:text-white transition-all group"
                 >
                   <ChevronLeft className="-rotate-45 w-6 h-6 group-active:-translate-x-1 transition-transform" />
@@ -76,7 +76,7 @@ const AdmissionSteps = () => {
 
                 {/* Button Next */}
                 <button
-                  onClick={scrollLeft}
+                  onClick={scrollRight}
                   className="absolute right-2 -bottom-1 w-12 h-12 border-2 border-primary/40 flex items-center justify-center rotate-45 hover:bg-primary hover:text-white transition-all group"
                 >
                   <ChevronRight className="-rotate-45 w-6 h-6 group-active:translate-x-1 transition-transform" />
