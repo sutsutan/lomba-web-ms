@@ -39,7 +39,7 @@ const navItems: NavItem[] = [
     ],
   },
   { label: 'Alumni', href: '/alumni' },
-  { label: 'PPDB', href: '/alumni' },
+  { label: 'PPDB', href: '/ppdb' },
 ];
 
 const Navbar = () => {
