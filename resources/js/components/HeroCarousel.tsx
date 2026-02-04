@@ -90,20 +90,22 @@ const HeroCarousel = ({ title, subtitle, description, height = 'min-h-screen' }:
         </div>
       </div>
 
-      {/* Carousel Controls - Dots Only */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20">
-        <div className="flex gap-2">
+     {/* CAROUSEL DOTS */}
+      <div className="absolute bottom-10 left-12 z-30 hidden md:block">
+        <div className="flex items-center gap-4">
           {heroImages.map((_, index) => (
             <button
               key={index}
               onClick={() => goToSlide(index)}
-              className={`transition-all duration-300 ${
-                index === currentSlide
-                  ? 'w-8 h-2 bg-white rounded-full'
-                  : 'w-2 h-2 bg-white/50 rounded-full hover:bg-white/70'
-              }`}
-              aria-label={`Go to slide ${index + 1}`}
-            />
+              className="relative group"
+            >
+              <div className="text-[10px] text-white/40 mb-2 font-bold group-hover:text-white transition-colors">
+                0{index + 1}
+              </div>
+              <div className={`h-[3px] transition-all duration-500 rounded-full ${
+                index === currentSlide ? 'w-12 bg-teal-400' : 'w-6 bg-white/20 group-hover:bg-white/40'
+              }`} />
+            </button>
           ))}
         </div>
       </div>
