@@ -154,6 +154,7 @@ const OrganizationPage = () => {
         title="Learning Beyond Class"
         subtitle="Student Organizations"
         description="Empowering the next generation of leaders through passion, collaboration, and real-world experience."
+        height="min-h-[50vh]"
       />
 
       <div className="bg-slate-50/30">
