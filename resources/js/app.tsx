@@ -14,6 +14,8 @@ import News from "./pages/News";
 import Alumni from "./pages/Alumni";
 import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
+import major from "./pages/Major";
+import Major from './pages/Major';
 
 const queryClient = new QueryClient();
 
@@ -33,6 +35,7 @@ const App = () => (
             <Route path="/news" element={<News />} />
             <Route path="/alumni" element={<Alumni />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/major" element={<Major />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </AnimatePresence>
