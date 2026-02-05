@@ -6,8 +6,8 @@ import HeroCarousel from '@/components/HeroCarousel';
 import { ArrowRight, ChevronRight, ChevronLeft, GraduationCap } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import aboutImage from '@/assets/about-preview.jpg';
-import programIt from '@/assets/program-it.jpg';
-import programCulinary from '@/assets/program-culinary.jpg';
+import programIt from '@/assets/program-it.webp';
+import programCulinary from '@/assets/program-culinary.webp';
 import timelineImage from '@/assets/our-timeline.jpg';
 import galadinner from '@/assets/gala-dinner.jpg';
 import leadership from '@/assets/leadership-training.jpg';
@@ -76,7 +76,7 @@ const About = () => {
         title="About MS"
         subtitle="SMK Metland School"
         description="Discover our story, our mission, and our commitment to excellence in vocational education."
-        height="min-h-[50vh]"
+        height="min-h-[60vh]"
       />
 
       {/* Get to Know Us */}

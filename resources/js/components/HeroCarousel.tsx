@@ -51,7 +51,7 @@ const HeroCarousel = ({ title, subtitle, description, height = 'min-h-screen' }:
             className="w-full h-full object-cover"
           />
         </AnimatePresence>
-        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent z-[1]" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/20 to-transparent z-[1]" />
         <div className="absolute inset-0 bg-black/20 z-[1]" />
       </div>
 

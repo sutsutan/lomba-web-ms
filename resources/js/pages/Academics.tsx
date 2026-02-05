@@ -3,31 +3,31 @@ import MainLayout from '@/layouts/MainLayout';
 import ScrollReveal from '@/components/ScrollReveal';
 import HeroCarousel from '@/components/HeroCarousel';
 import { ArrowRight } from 'lucide-react';
-import programIt from '@/assets/program-it.jpg';
-import programCulinary from '@/assets/program-culinary.jpg';
+import programIt from '@/assets/program-it.webp';
+import programCulinary from '@/assets/program-culinary.webp';
 import achievement from '@/assets/achievement-1.jpg';
-
+import programDkv from '@/assets/program-dkv.jpg';
 
 const majors = [
   {
     name: 'PPLG',
-    description: 'dasar IT termasuk software development dan digital problem solving.',
+    description: 'The IT program covers software development and digital problem-solving skills, equipping students with practical abilities to design, build, and maintain modern digital solutions.',
   },
   {
     name: 'Akuntansi Bisnis',
-    description: 'fokus pada keterampilan dasar akuntansi dan keuangan untuk dunia usaha.',
+    description: 'The Accounting program covers financial management and business reporting skills, equipping students with practical abilities to manage records, analyze data, and support business decisions.',
   },
   {
     name: 'Kuliner',
-    description: 'pembelajaran teknik masak dan manajemen makanan.',
+    description: 'The Culinary program covers professional cooking and kitchen management skills, equipping students with practical abilities to prepare quality dishes and maintain food safety standards.',
   },
   {
     name: 'Perhotelan',
-    description: 'pelatihan layanan hotel, customer service, dan operasi perhotelan.',
+    description: 'The Hospitality program covers service excellence and hospitality management skills, equipping students with practical abilities to deliver professional guest experiences in service industries.',
   },
   {
     name: 'Desain Komunikasi Visual (DKV)',
-    description: 'kreativitas visual, desain grafis, branding & multimedia.',
+    description: 'The Visual Communication Design program covers creative design and visual communication skills, equipping students with practical abilities to create impactful visual content for digital and print media.',
   },
 ];
 
@@ -74,7 +74,7 @@ const Academics = () => {
         title="Academics"
         subtitle="Empowering Vocational Excellence"
         description="SMK Metland School is a vocational secondary school that focuses on preparing students for their future careers. Learning activities are designed to help students gain practical skills for real-life situations."
-        height="min-h-[50vh]"
+        height="min-h-[60vh]"
       />
 
       {/* Main Content: Two Columns */}
@@ -120,8 +120,8 @@ const Academics = () => {
                     {majors.map((major, index) => (
                       <li key={index} className="flex gap-3">
                         <div className="w-1.5 h-1.5 rounded-full bg-primary mt-2.5 flex-shrink-0" />
-                        <p className="text-muted-foreground text-[#12606A] font-medium">
-                          <strong className="text-foreground text-[#12606A]">{major.name}</strong> – {major.description}
+                        <p className="text-primary font-medium">
+                          <strong className="text-primary">{major.name}</strong> – {major.description}
                         </p>  
                       </li>
                     ))}
@@ -207,7 +207,7 @@ const Academics = () => {
                 
                 {/* Left Large Card */}
                 <div className="relative rounded-lg overflow-hidden group h-[350px] lg:h-full shadow-lg">
-                   <img src="https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?q=80&w=1549&auto=format&fit=crop" alt="Student Work 1" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                   <img src={programDkv} alt="Student Work 1" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                    <div className="absolute bottom-8 left-8 right-8 text-white">
                       <span className="bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-xs font-medium mb-3 inline-block">Web Developer</span>
@@ -217,41 +217,42 @@ const Academics = () => {
                 </div>
 
                 {/* Right Column Grid */}
-                <div className="grid grid-rows-2 gap-6 h-full">
+                {/* Right Column Grid */}
+                <div className="grid grid-rows-2 h-full">
                    
                    {/* Top Row: 2 Cards */}
-                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6 h-full">
+                   <div className="grid grid-cols-2 md:grid-cols-2 gap-6">
                       {/* Top Left */}
-                      <div className="relative rounded-lg overflow-hidden group h-[250px] lg:h-full shadow-lg">
+                      <div className="relative rounded-lg overflow-hidden group h-[280px] shadow-lg">
                          <img src={programIt} alt="Student Work 2" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                          <div className="absolute bottom-6 left-6 right-6 text-white">
-                            <span className="bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-medium mb-2 inline-block">Web Developer</span>
+                            <span className="bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-medium mb-2 inline-block">App Design</span>
                             <h3 className="font-bold text-lg mb-1">SMK METLAND</h3>
-                            <p className="text-white/80 text-xs opacity-90">Empowering Vocational Excellence SMK Metland School</p>
+                            <p className="text-white/80 text-xs opacity-90">Mobile UI/UX Project Showcase</p>
                          </div>
                       </div>
                       
                       {/* Top Right */}
-                      <div className="relative rounded-lg overflow-hidden group h-[250px] lg:h-full shadow-lg">
+                      <div className="relative rounded-lg overflow-hidden group h-[280px] shadow-lg">
                          <img src={programCulinary} alt="Student Work 3" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                          <div className="absolute bottom-6 left-6 right-6 text-white">
-                            <span className="bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-medium mb-2 inline-block">Web Developer</span>
+                            <span className="bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-medium mb-2 inline-block">Culinary</span>
                             <h3 className="font-bold text-lg mb-1">SMK METLAND</h3>
-                            <p className="text-white/80 text-xs opacity-90">Empowering Vocational Excellence SMK Metland School</p>
+                            <p className="text-white/80 text-xs opacity-90">Fine Dining Presentation</p>
                          </div>
                       </div>
                    </div>
 
                    {/* Bottom Row: Wide Card */}
-                   <div className="relative rounded-lg overflow-hidden group h-[250px] lg:h-full shadow-lg">
-                      <img src="https://images.unsplash.com/photo-1493612276216-9c592b08f820?q=80&w=2070&auto=format&fit=crop" alt="Student Work 4" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0" />
+                   <div className="relative rounded-lg overflow-hidden group h-[300px] shadow-lg">
+                      <img src={programDkv} alt="Student Work 4" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                       <div className="absolute bottom-8 left-8 right-8 text-white">
-                         <span className="bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-xs font-medium mb-3 inline-block">Web Developer</span>
+                         <span className="bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-xs font-medium mb-3 inline-block">Achievement</span>
                          <h3 className="font-bold text-xl mb-1">SMK METLAND</h3>
-                         <p className="text-white/80 text-sm opacity-90">Empowering Vocational Excellence SMK Metland School</p>
+                         <p className="text-white/80 text-sm opacity-90">National Competitions Winner</p>
                       </div>
                    </div>
 
