@@ -76,7 +76,7 @@ const About = () => {
         title="About MS"
         subtitle="SMK Metland School"
         description="Discover our story, our mission, and our commitment to excellence in vocational education."
-        height="min-h-screen"
+        height="height=h-[70vh]"
       />
 
       {/* Get to Know Us */}

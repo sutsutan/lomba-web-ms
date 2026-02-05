@@ -74,7 +74,7 @@ const VisionMission = () => {
       <div className="container mx-auto px-8 md:px-16 lg:px-24 xl:px-32">
         <ScrollReveal>
           <div className="text-center mb-12">
-            <h2 className="section-title mx-auto">Our Direction</h2>
+            <h2 className="text-primary section-title mx-auto">Our Direction</h2>
           </div>
         </ScrollReveal>
 
@@ -85,7 +85,7 @@ const VisionMission = () => {
               <div className="w-14 h-14 flex items-center justify-center">
                 <img src={ourVisionImg} alt="our-vision" className="rounded-full shadow-lg" />
               </div>
-              <h3 className="text-2xl font-bold text-foreground">Our Vision</h3>
+              <h3 className="text-2xl font-bold text-foreground text-primary">Our Vision</h3>
             </div>
             <p className="text-muted-foreground leading-relaxed mb-4 indent-8 text-justify">
               To become a leading vocational school that consistently produces graduates with strong character, 
@@ -105,7 +105,7 @@ const VisionMission = () => {
               <div className="w-14 h-14 flex items-center justify-center">
                 <img src={ourMissionImg} alt="our-mission" className="rounded-full shadow-lg" />
               </div>
-              <h3 className="text-2xl font-bold text-foreground">Our Mission</h3>
+              <h3 className="text-2xl font-bold text-foreground text-primary">Our Mission</h3>
             </div>
             <div className="space-y-4">
               <p className="text-muted-foreground leading-relaxed indent-8 text-justify">

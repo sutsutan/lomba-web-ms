@@ -22,7 +22,7 @@ import itec from '@/assets/Logo_ITEC.png';
 import msp from '@/assets/msp.jpeg';
 import kkr from '@/assets/kkr.jpeg';
 import mahes from '@/assets/mahes.png';
-import mse from '@/assets/mse.png';
+
 
 interface Organization {
   name: string;
@@ -63,7 +63,7 @@ const organizations: Record<string, Organization[]> = {
       name: 'MSE (Metland School of Entertainment)',
       description: 'Preserving tradition and modern art through breathtaking dance and stage performances.',
       category: 'Performing Arts',
-      image: mse,
+      image: mahes,
     },
     {
       name: 'CILVOK (Cileungsi Vocal)',
@@ -152,6 +152,7 @@ const OrganizationPage = () => {
         title="Learning Beyond Class"
         subtitle="Student Organizations"
         description="Empowering the next generation of leaders through passion, collaboration, and real-world experience."
+        height="height=h-[70vh]"
       />
 
       <div className="bg-slate-50/30">

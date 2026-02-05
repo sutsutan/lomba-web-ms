@@ -46,6 +46,7 @@ const Academics = () => {
         title="Academics"
         subtitle="Empowering Vocational Excellence"
         description="SMK Metland School is a vocational secondary school that focuses on preparing students for their future careers. Learning activities are designed to help students gain practical skills for real-life situations."
+        height="height=h-[70vh]"
       />
 
       {/* Academics Overview */}

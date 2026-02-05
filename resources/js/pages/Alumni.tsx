@@ -56,7 +56,7 @@ const Alumni = () => {
         title="Alumni Network"
         subtitle="SMK Metland School"
         description="Connect with our successful graduates who are making an impact in various industries."
-        height="min-h-[50vh]"
+        height="height=h-[70vh]"
       />
 
       {/* Stats Section */}
