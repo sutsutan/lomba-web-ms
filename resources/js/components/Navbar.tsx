@@ -18,6 +18,7 @@ const navItems: NavItem[] = [
     children: [
       { label: 'Profile', href: '/about' },
       { label: 'Vision & Mission', href: '/about#vision' },
+      { label: 'Our Values', href: '/about#values' },
       { label: 'Contact', href: '/contact' },
     ],
   },
@@ -27,6 +28,7 @@ const navItems: NavItem[] = [
     children: [
       { label: 'Majors', href: '/major' },
       { label: 'Student Works', href: '/academics#works' },
+      { label: 'Teacher', href: '/academics#teacher' },
     ],
   },
   {
