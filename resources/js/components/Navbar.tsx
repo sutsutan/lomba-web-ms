@@ -25,7 +25,7 @@ const navItems: NavItem[] = [
     label: 'Academics',
     href: '/academics',
     children: [
-      { label: 'Majors', href: '/academics' },
+      { label: 'Majors', href: '/major' },
       { label: 'Student Works', href: '/academics#works' },
     ],
   },

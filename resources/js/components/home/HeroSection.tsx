@@ -94,7 +94,7 @@ const HeroSection = () => {
         <AnimatePresence mode="wait">
           <motion.div
             key={currentSlide}
-            initial={{ opacity: 0, scale: isAnimatingIntro ? 1.1 : 1 }} // Hindari zoom berlebih jika bukan intro pertama
+            initial={{ opacity: 0, scale: isAnimatingIntro ? 1.1 : 1 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 1.5, ease: 'easeOut' }}

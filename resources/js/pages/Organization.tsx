@@ -65,7 +65,7 @@ const organizations: Record<string, Organization[]> = {
       name: 'MSE (Metland School of Entertainment)',
       description: 'Preserving tradition and modern art through breathtaking dance and stage performances.',
       category: 'Performing Arts',
-      image: mahes,
+      image: mse,
     },
     {
       name: 'CILVOK (Cileungsi Vocal)',
