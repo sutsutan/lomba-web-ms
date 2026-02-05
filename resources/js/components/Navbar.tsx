@@ -178,42 +178,47 @@ const Navbar = () => {
       </div>
 
       {/*MOBILE MENU OVERLAY*/}
-      <AnimatePresence>
-        {isMobileMenuOpen && (
-          <div className="container mx-auto px-6 mt-4">
-            <motion.div
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              className="lg:hidden bg-white/95 backdrop-blur-2xl rounded-3xl shadow-2xl border border-white/20 overflow-hidden"
-            >
-              <div className="p-4 flex flex-col gap-1">
-                {navItems.map((item) => (
-                  <div key={item.label}>
-                    <Link
-                      to={item.href}
-                      className={`px-5 py-4 rounded-2xl font-bold transition-colors ${
-                        isActive(item.href) ? 'bg-teal-600 text-white' : 'text-slate-800'
-                      }`}
+      {/*MOBILE MENU OVERLAY*/}
+<AnimatePresence>
+  {isMobileMenuOpen && (
+    <div className="container mx-auto px-6 mt-4">
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -20 }}
+        className="lg:hidden bg-white/95 backdrop-blur-2xl rounded-3xl shadow-2xl border border-white/20 overflow-hidden max-h-[70vh] overflow-y-auto"
+      >
+        <div className="p-4 flex flex-col gap-2">
+          {navItems.map((item) => (
+            <div key={item.label} className="w-full">
+              <Link
+                to={item.href}
+                className={`block w-full px-5 py-3 rounded-2xl font-bold transition-colors ${
+                  isActive(item.href) ? 'bg-teal-600 text-white' : 'text-slate-800 hover:bg-slate-100'
+                }`}
+              >
+                {item.label}
+              </Link>
+              {item.children && (
+                <div className="mt-2 ml-4 pl-4 border-l-2 border-slate-200 space-y-1">
+                  {item.children.map((child) => (
+                    <Link 
+                      key={child.href} 
+                      to={child.href} 
+                      className="block px-4 py-2.5 text-sm text-slate-600 hover:text-teal-600 hover:bg-slate-50 rounded-lg font-medium transition-colors"
                     >
-                      {item.label}
+                      {child.label}
                     </Link>
-                    {item.children && (
-                      <div className="pl-6 py-2 border-l-2 border-slate-100 ml-5 my-1">
-                        {item.children.map((child) => (
-                          <Link key={child.href} to={child.href} className="block px-4 py-2 text-sm text-slate-500 font-medium">
-                            {child.label}
-                          </Link>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      </motion.div>
+    </div>
+  )}
+</AnimatePresence>
     </motion.header>
   );
 };

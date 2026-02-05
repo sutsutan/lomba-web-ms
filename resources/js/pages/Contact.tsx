@@ -12,7 +12,7 @@ const Contact = () => {
         title="Contact Us"
         subtitle="SMK Metland School"
         description="Get in touch with us for inquiries about admissions, programs, or general information."
-        height="min-h-[50vh]"
+        height="height=h-[70vh]"
       />
 
       {/* Contact Content */}

@@ -51,7 +51,7 @@ const News = () => {
         title="News & Updates"
         subtitle="SMK Metland School"
         description="Stay updated with the latest news, events, and achievements from Metland School."
-        height="min-h-[50vh]"
+        height="height=h-[70vh]"
       />
 
       {/* Featured News */}
