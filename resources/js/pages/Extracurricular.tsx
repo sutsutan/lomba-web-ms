@@ -1,22 +1,13 @@
-import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { useState } from 'react';
 import MainLayout from '@/layouts/MainLayout';
 import ScrollReveal from '@/components/ScrollReveal';
 import HeroCarousel from '@/components/HeroCarousel';
 import extracurricular from '@/assets/extracurricular.jpg';
-import programIt from '@/assets/program-it.jpg';
-import programCulinary from '@/assets/program-culinary.jpg';
-
-const carouselImages = [extracurricular, programIt, programCulinary];
+import programIt from '@/assets/program-it.webp';
+import programCulinary from '@/assets/program-culinary.webp';
+import StackedCarousel from '@/components/StackedCarousel';
 
 const Extracurricular = () => {
-  const [currentSlide, setCurrentSlide] = useState(0);
-
-  const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % carouselImages.length);
-  const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + carouselImages.length) % carouselImages.length);
-
   return (
     <MainLayout>
       {/* Hero Carousel */}
@@ -31,74 +22,48 @@ const Extracurricular = () => {
       <section className="section-padding bg-background">
         <div className="container mx-auto px-4">
           <ScrollReveal>
-            <div className="flex items-center gap-2 mb-2">
-              <div className="w-1 h-8 bg-primary rounded-full" />
-              <h2 className="text-3xl md:text-4xl font-bold text-foreground">
+            <div className="flex items-center gap-4 mb-2 ml-14">
+              <div className="w-[3px] h-10 bg-[#12606A]" />
+              <h2 className="text-3xl md:text-5xl font-bold text-[#12606A] tracking-tight">
                 Extracurricular Activities
               </h2>
             </div>
-            <p className="text-muted-foreground ml-4">
+            <p className="text-[#12606A]/80 ml-20 text-lg font-medium">
               Exploring talents beyond the classroom
             </p>
           </ScrollReveal>
 
-          <div className="grid lg:grid-cols-2 gap-12 mt-12">
+          <div className="grid lg:grid-cols-2 gap-16 mt-20 items-center">
             {/* Content */}
             <ScrollReveal delay={0.1}>
-              <div className="space-y-6">
-                <h3 className="text-2xl font-semibold text-foreground">
+              <div className="space-y-8 pr-8 ml-14">
+                <h3 className="text-3xl font-bold text-[#12606A]">
                   Co-Curricular Programs
                 </h3>
-                <p className="text-muted-foreground leading-relaxed">
-                  Extracurricular activities at Metland School are designed to 
-                  support students' personal growth, creativity, and teamwork 
-                  outside academic learning. Through a wide range of clubs and 
-                  activities, students are encouraged to explore their interests, 
-                  develop new skills, and build confidence in a supportive environment.
-                </p>
-                <p className="text-muted-foreground leading-relaxed">
-                  These activities help students balance academic excellence with 
-                  character development, leadership, and social engagement.
-                </p>
-                <button className="btn-outline">Learn More</button>
+                <div className="space-y-6">
+                  <p className="text-[#12606A] font-medium leading-relaxed text-justify text-base pr-20">
+                    Extracurricular activities at Metland School are designed to 
+                    support students' personal growth, creativity, and teamwork 
+                    outside academic learning. Through a wide range of clubs and 
+                    activities, students are encouraged to explore their interests, 
+                    develop new skills, and build confidence in a supportive environment.
+                  </p>
+                  <p className="text-[#12606A] font-medium leading-relaxed text-justify text-base pr-20">
+                    These activities help students balance academic excellence with 
+                    character development, leadership, and social engagement.
+                  </p>
+                </div>
+                <button className="px-8 py-3 rounded-full bg-slate-300 text-[#12606A] font-bold text-sm hover:bg-slate-400 transition-colors shadow-sm">
+                  Learn More
+                </button>
               </div>
             </ScrollReveal>
 
             {/* Carousel */}
             <ScrollReveal delay={0.2}>
-              <div className="relative">
-                <div className="rounded-2xl overflow-hidden shadow-xl">
-                  <motion.img
-                    key={currentSlide}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.5 }}
-                    src={carouselImages[currentSlide]}
-                    alt="Extracurricular activities"
-                    className="w-full h-80 object-cover"
-                  />
-                </div>
-                
-                {/* Navigation */}
-                <div className="flex justify-center gap-4 mt-4">
-                  <button 
-                    onClick={prevSlide}
-                    className="w-10 h-10 bg-white rounded-full shadow-md flex items-center justify-center hover:bg-primary hover:text-white transition-colors"
-                  >
-                    <ChevronLeft className="w-5 h-5" />
-                  </button>
-                  <button 
-                    onClick={nextSlide}
-                    className="w-10 h-10 bg-white rounded-full shadow-md flex items-center justify-center hover:bg-primary hover:text-white transition-colors"
-                  >
-                    <ChevronRight className="w-5 h-5" />
-                  </button>
-                </div>
-
-                {/* Diamond decorations */}
-                <div className="absolute -top-4 -left-4 w-8 h-8 border-2 border-primary/30 rotate-45" />
-                <div className="absolute -bottom-4 -right-4 w-8 h-8 border-2 border-primary/30 rotate-45" />
-              </div>
+               <div className="pl-4">
+                 <StackedCarousel />
+               </div>
             </ScrollReveal>
           </div>
         </div>

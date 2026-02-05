@@ -6,8 +6,8 @@ import HeroCarousel from '@/components/HeroCarousel';
 import { ArrowRight, ChevronRight, ChevronLeft, GraduationCap } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import aboutImage from '@/assets/about-preview.jpg';
-import programIt from '@/assets/program-it.jpg';
-import programCulinary from '@/assets/program-culinary.jpg';
+import programIt from '@/assets/program-it.webp';
+import programCulinary from '@/assets/program-culinary.webp';
 import timelineImage from '@/assets/our-timeline.jpg';
 import galadinner from '@/assets/gala-dinner.jpg';
 import leadership from '@/assets/leadership-training.jpg';
@@ -81,7 +81,7 @@ const About = () => {
 
       {/* Get to Know Us */}
       <section className="section-padding bg-background overflow-hidden pb-12">
-        <div className="container mx-auto px-8 md:px-16 lg:px-24 xl:px-32">
+        <div className="container mx-auto px-8 md:px-24 lg:px-24 xl:px-32">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <ScrollReveal>
               <div className="space-y-6 max-w-xl">

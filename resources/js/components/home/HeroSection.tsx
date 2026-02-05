@@ -105,8 +105,8 @@ const HeroSection = () => {
               alt={heroImages[currentSlide].alt}
               className="w-full h-full object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent z-10" />
-            <div className="absolute inset-0 bg-black/20 z-10" />
+            <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-black/20 to-transparent z-10" />
+            <div className="absolute inset-0 bg-black/10 z-10" />
           </motion.div>
         </AnimatePresence>
       </div>

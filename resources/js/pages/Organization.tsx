@@ -13,8 +13,8 @@ import {
 } from 'lucide-react';
 
 // Import assets (Pastikan path sesuai dengan project Anda)
-import programIt from '@/assets/program-it.jpg';
-import programCulinary from '@/assets/program-culinary.jpg';
+import programIt from '@/assets/program-it.webp';
+import programCulinary from '@/assets/program-culinary.webp';
 import cims from '@/assets/cims.jpeg';
 import osis from '@/assets/logo-osis.png';
 import mpk from '@/assets/mpk-logo.png';

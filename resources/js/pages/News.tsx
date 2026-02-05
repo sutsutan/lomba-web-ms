@@ -4,8 +4,8 @@ import ScrollReveal from '@/components/ScrollReveal';
 import HeroCarousel from '@/components/HeroCarousel';
 import { Calendar, ArrowRight } from 'lucide-react';
 import heroBg from '@/assets/hero-bg.jpg';
-import programIt from '@/assets/program-it.jpg';
-import programCulinary from '@/assets/program-culinary.jpg';
+import programIt from '@/assets/program-it.webp';
+import programCulinary from '@/assets/program-culinary.webp';
 import achievement from '@/assets/achievement-1.jpg';
 
 const newsItems = [
