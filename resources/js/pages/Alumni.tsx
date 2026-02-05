@@ -56,32 +56,10 @@ const Alumni = () => {
         title="Alumni Network"
         subtitle="SMK Metland School"
         description="Connect with our successful graduates who are making an impact in various industries."
-        height="min-h-[50vh]"
+        height="height=h-[70vh]"
       />
 
-      {/* Stats Section */}
-      <section className="py-12 bg-background">
-        <div className="container mx-auto px-4">
-          <ScrollReveal>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-              {[
-                { value: '5,000+', label: 'Total Alumni' },
-                { value: '95%', label: 'Employment Rate' },
-                { value: '200+', label: 'Partner Companies' },
-                { value: '50+', label: 'Countries' },
-              ].map((stat, index) => (
-                <div key={index} className="p-6">
-                  <div className="text-3xl md:text-4xl font-bold text-primary mb-2">
-                    {stat.value}
-                  </div>
-                  <div className="text-muted-foreground">{stat.label}</div>
-                </div>
-              ))}
-            </div>
-          </ScrollReveal>
-        </div>
-      </section>
-
+      
       {/* Featured Alumni */}
       <section className="section-padding bg-section">
         <div className="container mx-auto px-4">
@@ -123,6 +101,30 @@ const Alumni = () => {
           </div>
         </div>
       </section>
+
+      {/* Stats Section */}
+      <section className="py-12 bg-background">
+        <div className="container mx-auto px-4">
+          <ScrollReveal>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+              {[
+                { value: '5,000+', label: 'Total Alumni' },
+                { value: '95%', label: 'Employment Rate' },
+                { value: '200+', label: 'Partner Companies' },
+                { value: '50+', label: 'Countries' },
+              ].map((stat, index) => (
+                <div key={index} className="p-6">
+                  <div className="text-3xl md:text-4xl font-bold text-primary mb-2">
+                    {stat.value}
+                  </div>
+                  <div className="text-muted-foreground">{stat.label}</div>
+                </div>
+              ))}
+            </div>
+          </ScrollReveal>
+        </div>
+      </section>
+
 
       {/* CTA Section */}
       <section className="section-padding bg-primary text-primary-foreground">

@@ -15,7 +15,7 @@ const Extracurricular = () => {
         title="Learning Beyond Class"
         subtitle="Extracurricular Activities"
         description="Exploring talents beyond the classroom through diverse activities and programs."
-        height="min-h-[60vh]"
+        height="height=h-[70vh]"
       />
 
       {/* Extracurricular Activities */}

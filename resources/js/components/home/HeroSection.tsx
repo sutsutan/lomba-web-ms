@@ -57,7 +57,7 @@ const HeroSection = () => {
   const goToSlide = (index: number) => setCurrentSlide(index);
 
   return (
-    <section className="relative h-screen w-full overflow-hidden bg-black">
+    <section className="relative h-[85vh] md:h-screen w-full overflow-hidden bg-black">
       {/*INTRO OVERLAY - render sekali doang */}
       <AnimatePresence>
         {isAnimatingIntro && (
@@ -94,7 +94,7 @@ const HeroSection = () => {
         <AnimatePresence mode="wait">
           <motion.div
             key={currentSlide}
-            initial={{ opacity: 0, scale: isAnimatingIntro ? 1.1 : 1 }} // Hindari zoom berlebih jika bukan intro pertama
+            initial={{ opacity: 0, scale: isAnimatingIntro ? 1.1 : 1 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 1.5, ease: 'easeOut' }}
@@ -105,8 +105,8 @@ const HeroSection = () => {
               alt={heroImages[currentSlide].alt}
               className="w-full h-full object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent z-10" />
-            <div className="absolute inset-0 bg-black/20 z-10" />
+            <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-black/20 to-transparent z-10" />
+            <div className="absolute inset-0 bg-black/10 z-10" />
           </motion.div>
         </AnimatePresence>
       </div>
@@ -121,7 +121,7 @@ const HeroSection = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: isAnimatingIntro ? 0.2 : 0 }}
             >
-              <span className="inline-block px-4 py-1.5 bg-teal-500/20 backdrop-blur-md rounded-full text-teal-300 text-xs md:text-sm font-bold mb-6 border border-teal-500/30 tracking-wider uppercase ml-10">
+              <span className="inline-block px-3 py-1 md:px-4 md:py-1.5 bg-teal-500/20 backdrop-blur-md rounded-full text-teal-300 text-[10px] md:text-xs lg:text-sm font-bold mb-4 md:mb-6 border border-teal-500/30 tracking-wider uppercase">
                 SMK Metland School — Vocational Excellence
               </span>
             </motion.div>
@@ -132,7 +132,7 @@ const HeroSection = () => {
                 initial={isAnimatingIntro ? { y: '100%' } : { y: 0 }}
                 animate={{ y: 0 }}
                 transition={{ duration: 0.8, delay: isAnimatingIntro ? 0.4 : 0, ease: [0.33, 1, 0.68, 1] }}
-                className="text-5xl md:text-7xl lg:text-6xl font-black text-white leading-[0.9] ml-10"
+                className="text-4xl md:text-5xl lg:text-5xl xl:text-6xl font-black text-white leading-[0.9]"
               >
                 From School <br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-emerald-400">
@@ -146,7 +146,7 @@ const HeroSection = () => {
               initial={isAnimatingIntro ? { opacity: 0, y: 20 } : { opacity: 1, y: 0 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: isAnimatingIntro ? 0.6 : 0 }}
-              className="text-lg md:text-xl text-slate-300 mb-10 max-w-xl leading-relaxed ml-10"
+              className="text-sm md:text-lg lg:text-1xl text-slate-300 mb-10 max-w-xl leading-relaxed"
             >
               We prepare students with industry-ready skills, character development,
               and real-world experience for successful careers.
@@ -160,10 +160,10 @@ const HeroSection = () => {
             >
               <Link 
                 to="/about" 
-                className="group relative inline-flex items-center gap-3 px-6 py-3 bg-teal-500 text-white font-bold rounded-full hover:bg-teal-400 transition-all shadow-lg shadow-teal-500/25 ml-10"
+                className="text-sm md:text-base group relative inline-flex items-center gap-2 md:gap-3 px-5 py-2.5 md:px-6 md:py-3 bg-teal-500 text-white font-bold rounded-full hover:bg-teal-400 transition-all shadow-lg shadow-teal-500/25"
               >
                 Learn More
-                <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
+                <ArrowRight className="w-4 h-4 md:w-5 md:h-5 group-hover:translate-x-1 transition-transform" />
               </Link>
             </motion.div>
           </div>

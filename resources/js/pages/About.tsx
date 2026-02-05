@@ -76,12 +76,12 @@ const About = () => {
         title="About MS"
         subtitle="SMK Metland School"
         description="Discover our story, our mission, and our commitment to excellence in vocational education."
-        height="min-h-[60vh]"
+        height="height=h-[70vh]"
       />
 
       {/* Get to Know Us */}
       <section className="section-padding bg-background overflow-hidden pb-12">
-        <div className="container mx-auto px-8 md:px-16 lg:px-24 xl:px-32">
+        <div className="container mx-auto px-8 md:px-24 lg:px-24 xl:px-32">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <ScrollReveal>
               <div className="space-y-6 max-w-xl">

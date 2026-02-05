@@ -12,12 +12,12 @@ const Contact = () => {
         title="Contact Us"
         subtitle="SMK Metland School"
         description="Get in touch with us for inquiries about admissions, programs, or general information."
-        height="min-h-[50vh]"
+        height="height=h-[70vh]"
       />
 
       {/* Contact Content */}
       <section className="section-padding bg-background">
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-4 md:px-8 lg:px-16 xl:px-24">
           <div className="grid lg:grid-cols-2 gap-12">
             {/* Contact Info */}
             <ScrollReveal>

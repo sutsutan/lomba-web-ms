@@ -18,7 +18,7 @@ const AboutPreview = () => {
               <div className="flex items-center gap-2">
                 <span className="text-primary font-medium text-2xl">About Us</span>
               </div>
-              <h2 className="section-title text-3xl md:text-4xl">
+              <h2 className="text-primary section-title text-3xl md:text-4xl">
                 Where Learning Begins
               </h2>
               <p className="text-muted-foreground leading-relaxed mt-8 text-justify indent-8">
