@@ -17,7 +17,7 @@ const Contact = () => {
 
       {/* Contact Content */}
       <section className="section-padding bg-background">
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-4 md:px-8 lg:px-16 xl:px-24">
           <div className="grid lg:grid-cols-2 gap-12">
             {/* Contact Info */}
             <ScrollReveal>

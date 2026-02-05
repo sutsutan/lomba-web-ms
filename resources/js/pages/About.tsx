@@ -81,7 +81,7 @@ const About = () => {
 
       {/* Get to Know Us */}
       <section className="section-padding bg-background overflow-hidden pb-12">
-        <div className="container mx-auto px-8 md:px-16 lg:px-24 xl:px-32">
+        <div className="container mx-auto px-8 md:px-24 lg:px-24 xl:px-32">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <ScrollReveal>
               <div className="space-y-6 max-w-xl">

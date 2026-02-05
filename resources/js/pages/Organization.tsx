@@ -22,13 +22,9 @@ import itec from '@/assets/Logo_ITEC.png';
 import msp from '@/assets/msp.jpeg';
 import kkr from '@/assets/kkr.jpeg';
 import mahes from '@/assets/mahes.png';
-<<<<<<< HEAD
-
-=======
 import mse from '@/assets/mse.png';
 import mcs from '@/assets/MCSLogo.png';
 import rohkris from '@/assets/rohkris.png';
->>>>>>> 384888a25f350f88caa3a5b3ecb28b095b655f8b
 
 interface Organization {
   name: string;
