@@ -164,13 +164,13 @@ const Major = () => {
             {/* Right: Career & Stats */}
             <div className="lg:col-span-5 space-y-12">
               <ScrollReveal>
-                <div className="p-8 rounded-3xl bg-gradient-to-br from-teal-500 to-emerald-600">
+                <div className="p-8 rounded-3xl bg-gradient-to-br from-teal-500 to-emerald-600 text-white">
                   <h3 className="text-2xl font-bold mb-6 flex items-center gap-3">
                     <Briefcase /> Prospek Karier
                   </h3>
                   <div className="space-y-4">
                     {current.careers.map(job => (
-                      <div key={job} className="bg-white/20 backdrop-blur-sm p-4 rounded-xl font-bold">
+                      <div key={job} className="bg-white/30 backdrop-blur-sm p-4 rounded-xl font-bold text-white">
                         {job}
                       </div>
                     ))}
@@ -181,11 +181,11 @@ const Major = () => {
               <ScrollReveal delay={0.2}>
                 <div className="grid grid-cols-3 gap-4">
                   <div className="text-center">
-                    <p className="text-3xl font-black text-neutral-50">{current.stats.students.split(' ')[0]}</p>
+                    <p className="text-3xl font-black text-neutral-950">{current.stats.students.split(' ')[0]}</p>
                     <p className="text-[10px] uppercase text-slate-500 font-bold">Siswa Aktif</p>
                   </div>
                   <div className="text-center border-x border-white/10">
-                    <p className="text-3xl font-black text-neutral-50">{current.stats.partners.split(' ')[0]}</p>
+                    <p className="text-3xl font-black text-neutral-950">{current.stats.partners.split(' ')[0]}</p>
                     <p className="text-[10px] uppercase text-slate-500 font-bold">Mitra Industri</p>
                   </div>
                   <div className="text-center">
