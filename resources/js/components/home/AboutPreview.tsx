@@ -46,7 +46,7 @@ const AboutPreview = () => {
           <ScrollReveal direction="right" delay={0.2}>
             <div className="relative flex flex-col gap-4">
               {/* Gambar Atas (Besar/Wide) */}
-              <div className="rounded-2xl overflow-hidden shadow-xl">
+              <div className="rounded-lg overflow-hidden shadow-xl">
                 <img
                   src={aboutImage1}
                   alt="Band Performance"
@@ -56,14 +56,14 @@ const AboutPreview = () => {
 
               {/* Baris Bawah (Dua Kolom) */}
               <div className="grid grid-cols-2 gap-4">
-                <div className="rounded-2xl overflow-hidden shadow-xl">
+                <div className="rounded-lg overflow-hidden shadow-xl">
                   <img
                     src={'https://smkmetland.net/ppdb/wp-content/uploads/2026/01/WhatsApp-Image-2026-01-05-at-5.02.53-PM-6-1.jpeg'}
                     alt="Barongsai Performance"
                     className="w-full h-[180px] md:h-[220px] object-cover hover:scale-105 transition-transform duration-500"
                   />
                 </div>
-                <div className="rounded-2xl overflow-hidden shadow-xl">
+                <div className="rounded-lg overflow-hidden shadow-xl">
                   <img
                     src={'https://smkmetland.net/ppdb/wp-content/uploads/2026/02/WhatsApp-Image-2026-02-02-at-5.46.52-PM.jpeg'}
                     alt="Fine Dining Practice"

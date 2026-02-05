@@ -22,7 +22,13 @@ import itec from '@/assets/Logo_ITEC.png';
 import msp from '@/assets/msp.jpeg';
 import kkr from '@/assets/kkr.jpeg';
 import mahes from '@/assets/mahes.png';
+<<<<<<< HEAD
 
+=======
+import mse from '@/assets/mse.png';
+import mcs from '@/assets/MCSLogo.png';
+import rohkris from '@/assets/rohkris.png';
+>>>>>>> 384888a25f350f88caa3a5b3ecb28b095b655f8b
 
 interface Organization {
   name: string;
@@ -97,7 +103,7 @@ const organizations: Record<string, Organization[]> = {
       name: 'Rohkris (Christiants Spiritual)',
       description: 'Fostering spiritual growth and moral integrity through community worship and discussion.',
       category: 'Faith & Community',
-      image: programIt,
+      image: rohkris,
     },
        {
       name: 'GIFT (Grow in Faith : Catholic)',
@@ -121,7 +127,7 @@ const organizations: Record<string, Organization[]> = {
       name: 'MCS (Metland Care & Share)',
       description: 'Promoting compassion, community service, and social responsibility among students.',
       category: 'Community Service',
-      image: msp,
+      image: mcs,
     },
     {
       name: 'CK (Culinary Kingdom)',
