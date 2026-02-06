@@ -36,7 +36,7 @@ const Extracurricular = () => {
           <div className="grid lg:grid-cols-2 gap-16 mt-20 items-center">
             {/* Content */}
             <ScrollReveal delay={0.1}>
-              <div className="space-y-8 pr-0 md:pr-8 ml-0 md:ml-14">
+              <div className="space-y-8 pr-0 md:pr-8 ml-0 md:ml-24">
                 <h3 className="text-3xl font-bold text-[#12606A]">
                   Co-Curricular Programs
                 </h3>
@@ -69,7 +69,6 @@ const Extracurricular = () => {
         </div>
       </section>
 
-      {/* Stories Section */}
       {/* Stories Section */}
       <section className="section-padding bg-background">
         <div className="container mx-auto px-4 space-y-24">
@@ -130,7 +129,7 @@ const Extracurricular = () => {
           </div>
 
           {/* Story 3 */}
-          <div className="grid lg:grid-cols-2 gap-12 items-center ml-20">
+          <div className="grid lg:grid-cols-2 items-center ml-20">
             <ScrollReveal>
               <img
                 src={programCulinary}
@@ -141,7 +140,7 @@ const Extracurricular = () => {
 
             <ScrollReveal delay={0.2}>
               <div className="space-y-6">
-                <p className="text-[#12606A] font-medium leading-relaxed text-base pr-40 mr-16">
+                <p className="text-[#12606A] font-medium leading-relaxed text-base pr-32 mr-16">
                   Our extracurricular activities give students the opportunity 
                   to explore their interests, discover their talents, and enjoy 
                   learning in a more relaxed and fun environment. From sports 

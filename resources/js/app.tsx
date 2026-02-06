@@ -16,6 +16,7 @@ import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
 import major from "./pages/Major";
 import Major from './pages/Major';
+import StudentWorks from "./pages/StudentWorks";
 
 const queryClient = new QueryClient();
 
@@ -36,6 +37,7 @@ const App = () => (
             <Route path="/alumni" element={<Alumni />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/major" element={<Major />} />
+            <Route path="/student-works" element={<StudentWorks />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </AnimatePresence>
