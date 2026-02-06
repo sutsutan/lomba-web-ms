@@ -18,56 +18,56 @@ const Extracurricular = () => {
         height="height=h-[70vh]"
       />
 
-      {/* Extracurricular Activities */}
-      <section className="section-padding bg-background">
-        <div className="container mx-auto px-4">
-          <ScrollReveal>
-            <div className="flex items-center gap-4 mb-2 ml-14">
-              <div className="w-[3px] h-10 bg-[#12606A]" />
-              <h2 className="text-3xl md:text-5xl font-bold text-[#12606A] tracking-tight">
-                Extracurricular Activities
-              </h2>
-            </div>
-            <p className="text-[#12606A]/80 ml-20 text-lg font-medium">
-              Exploring talents beyond the classroom
+     {/* Extracurricular Activities */}
+<section className="section-padding bg-background overflow-hidden">
+  <div className="container mx-auto px-4 md:px-8">
+    <ScrollReveal>
+      <div className="flex items-center gap-3 md:gap-4 mb-2">
+        <div className="w-[3px] h-8 md:h-10 bg-[#12606A] flex-shrink-0" />
+        <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-5xl font-bold text-[#12606A] tracking-tight">
+          Extracurricular Activities
+        </h2>
+      </div>
+      <p className="text-[#12606A]/80 ml-0 pl-4 md:ml-20 md:pl-0 text-sm sm:text-base md:text-lg font-medium">
+        Exploring talents beyond the classroom
+      </p>
+    </ScrollReveal>
+
+    <div className="grid lg:grid-cols-2 gap-8 md:gap-16 mt-12 md:mt-20 items-center">
+      {/* Content */}
+      <ScrollReveal delay={0.1}>
+        <div className="space-y-6 md:space-y-8">
+          <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-[#12606A]">
+            Co-Curricular Programs
+          </h3>
+          <div className="space-y-4 md:space-y-6">
+            <p className="text-[#12606A] font-medium leading-relaxed text-justify text-sm md:text-base">
+              Extracurricular activities at Metland School are designed to 
+              support students' personal growth, creativity, and teamwork 
+              outside academic learning. Through a wide range of clubs and 
+              activities, students are encouraged to explore their interests, 
+              develop new skills, and build confidence in a supportive environment.
             </p>
-          </ScrollReveal>
-
-          <div className="grid lg:grid-cols-2 gap-16 mt-20 items-center">
-            {/* Content */}
-            <ScrollReveal delay={0.1}>
-              <div className="space-y-8 pr-8 ml-14">
-                <h3 className="text-3xl font-bold text-[#12606A]">
-                  Co-Curricular Programs
-                </h3>
-                <div className="space-y-6">
-                  <p className="text-[#12606A] font-medium leading-relaxed text-justify text-base pr-20">
-                    Extracurricular activities at Metland School are designed to 
-                    support students' personal growth, creativity, and teamwork 
-                    outside academic learning. Through a wide range of clubs and 
-                    activities, students are encouraged to explore their interests, 
-                    develop new skills, and build confidence in a supportive environment.
-                  </p>
-                  <p className="text-[#12606A] font-medium leading-relaxed text-justify text-base pr-20">
-                    These activities help students balance academic excellence with 
-                    character development, leadership, and social engagement.
-                  </p>
-                </div>
-                <button className="px-8 py-3 rounded-full bg-slate-300 text-[#12606A] font-bold text-sm hover:bg-slate-400 transition-colors shadow-sm">
-                  Learn More
-                </button>
-              </div>
-            </ScrollReveal>
-
-            {/* Carousel */}
-            <ScrollReveal delay={0.2}>
-               <div className="pl-4">
-                 <StackedCarousel />
-               </div>
-            </ScrollReveal>
+            <p className="text-[#12606A] font-medium leading-relaxed text-justify text-sm md:text-base">
+              These activities help students balance academic excellence with 
+              character development, leadership, and social engagement.
+            </p>
           </div>
+          <button className="px-6 md:px-8 py-2.5 md:py-3 rounded-full bg-slate-300 text-[#12606A] font-bold text-xs md:text-sm hover:bg-slate-400 transition-colors shadow-sm">
+            Learn More
+          </button>
         </div>
-      </section>
+      </ScrollReveal>
+
+      {/* Carousel */}
+      <ScrollReveal delay={0.2}>
+         <div className="w-full">
+           <StackedCarousel />
+         </div>
+      </ScrollReveal>
+    </div>
+  </div>
+</section>
 
       {/* Stories Section */}
       <section className="section-padding bg-section">
