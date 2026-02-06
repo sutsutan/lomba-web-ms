@@ -64,7 +64,7 @@ const AchievementsSlider = () => {
             </div>
           </ScrollReveal>
 
-          {/* Custom Navigation Button (Diamond Style like image) */}
+          {/* Custom Navigation Button (Diamond Style) */}
           <ScrollReveal delay={0.2}>
             <div className="flex items-center gap-2 mt-6 md:mt-0">
               <div className="relative flex items-center justify-center h-16 w-24 md:h-20 md:w-32">
@@ -118,28 +118,53 @@ const AchievementsSlider = () => {
                   }}
                   transition={{ duration: 0.4 }}
                 >
-                  {/* Desain Card Utama */}
-                  <div className="bg-gradient-to-br from-primary to-primary-dark rounded-2xl md:rounded-[2.5rem] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.2)] grid md:grid-cols-2">
-                    <div className="p-6 md:p-10 lg:p-16 flex flex-col justify-center text-white">
-                      <span className="inline-block px-3 py-1 md:px-4 md:py-1.5 bg-white/20 backdrop-blur-md rounded-full text-[10px] md:text-xs font-bold tracking-widest uppercase mb-4 md:mb-6 w-fit">
-                        {item.category}
-                      </span>
-                      <h3 className="text-xl md:text-3xl lg:text-4xl font-black mb-3 md:mb-4 leading-tight">
-                        {item.student}
-                      </h3>
-                      <p className="text-white/70 text-sm md:text-lg leading-relaxed mb-6 md:mb-8">
-                        {item.description}
-                      </p>
-                      <button className="group inline-flex items-center gap-2 md:gap-3 bg-white text-primary px-6 py-3 md:px-8 md:py-4 rounded-xl md:rounded-2xl text-sm md:text-base font-bold hover:bg-opacity-95 transition-all w-fit shadow-xl active:scale-95">
-                        <Trophy className="w-4 h-4 md:w-5 md:h-5" />
-                        Learn More
-                      </button>
-                    </div>
-                    <div className="relative h-48 md:h-auto overflow-hidden">
-                      <img src={item.image} alt={item.student} className="w-full h-full object-cover" />
-                      <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-l from-primary/40 to-transparent" />
-                    </div>
-                  </div>
+                  {/* New Design Card - Inspired by the image */}
+<div className="bg-gradient-to-t from-white via-[#E2F0F9]/20 to-[#E2F0F9] rounded-3xl md:rounded-[3rem] overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.15)] relative">
+  <div className="grid md:grid-cols-[1.2fr,0.8fr] items-center gap-6 md:gap-0 p-8 md:p-12 lg:p-16">
+    
+    {/* Left Content */}
+    <div className="space-y-4 md:space-y-6 order-2 md:order-1">
+      {/* Category Badge */}
+      <span className="inline-block px-4 md:px-6 py-2 md:py-2.5 bg-white/90 backdrop-blur-sm rounded-2xl text-slate-700 text-xs md:text-sm font-bold shadow-sm border border-white/50">
+        {item.category}
+      </span>
+      
+      {/* Student Name */}
+      <h3 className="text-[#0F5F58] text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-black text-slate-900 leading-tight">
+        {item.student}
+      </h3>
+      
+      {/* Description */}
+      <p className="text-slate-700 text-sm md:text-base lg:text-lg leading-relaxed max-w-lg">
+        {item.description}
+      </p>
+      
+      {/* Consultation Button */}
+      <button className="group inline-flex items-center justify-center gap-3 bg-[#0F4C5C] hover:bg-[#0a3844] text-white px-8 md:px-10 py-3.5 md:py-4 rounded-full text-sm md:text-base font-bold transition-all shadow-xl hover:shadow-2xl active:scale-95 mt-2 md:mt-4">
+        <Trophy className="w-4 h-4 md:w-5 md:h-5" />
+        Learn More
+      </button>
+    </div>
+
+    {/* Right Image - Circle */}
+    <div className="flex justify-center md:justify-end order-1 md:order-2 px-15">
+      <div className="relative">
+        {/* Circle Background */}
+        <div className="absolute inset-0 bg-gradient-to-br rounded-full transform scale-95 md:scale-100" />
+        
+        {/* Image Container */}
+        <div className="relative w-48 h-48 md:w-64 md:h-64 lg:w-80 lg:h-80 rounded-full overflow-hidden border-4 shadow-2xl">
+          <img 
+            src={item.image} 
+            alt={item.student} 
+            className="w-full h-full object-cover"
+          />
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</div>
                 </motion.div>
               ))}
             </motion.div>

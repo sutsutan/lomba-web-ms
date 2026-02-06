@@ -184,11 +184,10 @@ const About = () => {
                  </div>
                </div>
 
-               {/* Right Image */}
                {/* Right Image - 2 foto bersebelahan */}
-<div className="flex gap-2 h-full min-h-[600px]">
+<div className="flex gap-1 h-full min-h-[400px] md:min-h-[600px] justify-center lg:justify-start">
   {/* Foto 1 */}
-  <div className="relative w-80 rounded-t-full overflow-hidden bg-gray-100">
+  <div className="relative w-45 md:w-60 lg:w-80 rounded-t-full overflow-hidden bg-gray-100">
     <img 
       src={'https://smkmetland.net/ppdb/wp-content/uploads/2026/01/WhatsApp-Image-2026-01-05-at-3.31.26-PM.jpeg'} 
       alt="Timeline 1" 
@@ -197,7 +196,7 @@ const About = () => {
   </div>
 
   {/* Foto 2 */}
-  <div className="relative w-80 rounded-t-full overflow-hidden bg-gray-100">
+  <div className="relative w-45 md:w-60 lg:w-80 rounded-t-full overflow-hidden bg-gray-100">
     <img 
       src={'https://smkmetland.net/ppdb/wp-content/uploads/2025/09/WhatsApp-Image-2025-09-01-at-12.02.15-1.jpeg'} 
       alt="Timeline 2" 
