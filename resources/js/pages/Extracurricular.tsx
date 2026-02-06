@@ -66,21 +66,8 @@ const Extracurricular = () => {
                </div>
             </ScrollReveal>
           </div>
-          <button className="px-6 md:px-8 py-2.5 md:py-3 rounded-full bg-slate-300 text-[#12606A] font-bold text-xs md:text-sm hover:bg-slate-400 transition-colors shadow-sm">
-            Learn More
-          </button>
         </div>
-      </ScrollReveal>
-
-      {/* Carousel */}
-      <ScrollReveal delay={0.2}>
-         <div className="w-full">
-           <StackedCarousel />
-         </div>
-      </ScrollReveal>
-    </div>
-  </div>
-</section>
+      </section>
 
       {/* Stories Section */}
       <section className="section-padding bg-background">
