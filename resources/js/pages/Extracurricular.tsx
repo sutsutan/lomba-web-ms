@@ -68,7 +68,6 @@ const Extracurricular = () => {
           </div>
         </div>
       </section>
-
       {/* Stories Section */}
       <section className="section-padding bg-background">
         <div className="container mx-auto px-4 sm:px-6 md:px-8 lg:px-12 space-y-12 sm:space-y-16 md:space-y-20 lg:space-y-24">

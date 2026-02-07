@@ -130,7 +130,7 @@ const AchievementsSlider = () => {
       </span>
       
       {/* Student Name */}
-      <h3 className="text-[#0F5F58] text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-black text-slate-900 leading-tight">
+      <h3 className="text-[#0F5F58] text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-black leading-tight">
         {item.student}
       </h3>
       
