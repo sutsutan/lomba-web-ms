@@ -36,13 +36,8 @@ const Extracurricular = () => {
           <div className="grid lg:grid-cols-2 gap-6 sm:gap-8 md:gap-12 lg:gap-16 mt-8 sm:mt-10 md:mt-16 lg:mt-20 items-center">
             {/* Content */}
             <ScrollReveal delay={0.1}>
-<<<<<<< HEAD
               <div className="space-y-4 sm:space-y-6 md:space-y-8 ml-0 md:ml-6 lg:ml-12 xl:ml-16 px-2 sm:px-0">
                 <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-[#12606A]">
-=======
-              <div className="space-y-8 pr-0 md:pr-8 ml-0 md:ml-24">
-                <h3 className="text-3xl font-bold text-[#12606A]">
->>>>>>> 003a679b778dbfa72c67e746cc8234ff7e4553aa
                   Co-Curricular Programs
                 </h3>
                 <div className="space-y-3 sm:space-y-4 md:space-y-6">
@@ -74,19 +69,6 @@ const Extracurricular = () => {
         </div>
       </section>
 
-<<<<<<< HEAD
-=======
-      {/* Carousel */}
-      <ScrollReveal delay={0.2}>
-         <div className="w-full">
-           <StackedCarousel />
-         </div>
-      </ScrollReveal>
-    </div>
-  </div>
-</section>
-
->>>>>>> 003a679b778dbfa72c67e746cc8234ff7e4553aa
       {/* Stories Section */}
       <section className="section-padding bg-background">
         <div className="container mx-auto px-4 sm:px-6 md:px-8 lg:px-12 space-y-12 sm:space-y-16 md:space-y-20 lg:space-y-24">
