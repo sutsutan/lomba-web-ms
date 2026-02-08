@@ -8,84 +8,227 @@ import ScrollReveal from '@/components/ScrollReveal';
 import programIt from '@/assets/program-it.webp';
 import programCulinary from '@/assets/program-culinary.webp';
 import programDkv from '@/assets/program-dkv.jpg';
-import extracurricular from '@/assets/extracurricular.jpg';
 import programAccounting from '@/assets/akuntansi.webp';
 import programHospitality from '@/assets/aph.webp';
+import { 
+  Hotel, Utensils, Calculator, Palette, Code, 
+} from 'lucide-react';
 
 const categories = [
-  { id: 1, name: 'Culinary', icon: '</>', totalWorks: 112, color: '#0F5F58' },
-  { id: 2, name: 'Design Communication Visual', icon: '</>', totalWorks: 112, color: '#0F5F58' },
-  { id: 3, name: 'Information Technology', icon: '</>', totalWorks: 112, color: '#0F5F58' },
-  { id: 4, name: 'Hospitality', icon: '</>', totalWorks: 112, color: '#0F5F58' },
-  { id: 5, name: 'Accounting', icon: '</>', totalWorks: 112, color: '#0F5F58' },
+  { id: 1, name: 'Culinary', icon: <Utensils/>, color: '#0F5F58', image: programCulinary, shortName: 'Culinary' },
+  { id: 2, name: 'Design Communication Visual', icon: <Palette/>, color: '#0F5F58', image: programDkv, shortName: 'DKV' },
+  { id: 3, name: 'Information Technology', icon: <Code/>, color: '#0F5F58', image: programIt, shortName: 'IT' },
+  { id: 4, name: 'Hospitality', icon: <Hotel/>, color: '#0F5F58', image: programHospitality, shortName: 'Hospitality' },
+  { id: 5, name: 'Accounting', icon: <Calculator/>, color: '#0F5F58', image: programAccounting, shortName: 'Accounting' },
 ];
 
 const galleryProjects = [
+  // Culinary Projects
   {
     id: 1,
-    category: 'IT',
-    student: 'Veria Raja Tunggal',
-    class: 'XI IT 1',
-    title: 'From School to Career',
-    description: 'We\'re proud to present a collection of work created by our Information Technology students at Metland School.',
-    image: programIt,
-    githubUrl: 'https://github.com/tsukuriaI/lomba-web-ms',
-    profileImage: extracurricular
+    category: 'Culinary',
+    student: 'Chef Anisa',
+    class: 'XI Culinary 1',
+    title: 'Fusion Cuisine',
+    description: 'Creative fusion dishes combining traditional Indonesian flavors with modern techniques.',
+    image: programCulinary,
+    githubUrl: '#',
+    profileImage: programCulinary
   },
   {
     id: 2,
-    category: 'IT',
-    student: 'Ana Malia',
-    class: 'XI IT 1',
-    title: 'About Us',
-    description: 'We\'re proud to present a collection of work created by our Information Technology students at Metland School.',
+    category: 'Culinary',
+    student: 'Budi Santoso',
+    class: 'XI Culinary 2',
+    title: 'Pastry Art',
+    description: 'Artistic pastry creations showcasing precision and creativity.',
     image: programCulinary,
-    githubUrl: 'https://github.com/tsukuriaI/lomba-web-ms',
-    profileImage: extracurricular
+    githubUrl: '#',
+    profileImage: programCulinary
   },
   {
     id: 3,
-    category: 'IT',
-    student: 'Cutan bawiq',
-    class: 'XI IT 1',
-    title: 'Creative Project',
-    description: 'We\'re proud to present a collection of work created by our Information Technology students at Metland School.',
-    image: programDkv,
-    githubUrl: 'https://github.com/tsukuriaI/lomba-web-ms',
-    profileImage: extracurricular
+    category: 'Culinary',
+    student: 'Maria Dewi',
+    class: 'XI Culinary 1',
+    title: 'Traditional Delights',
+    description: 'Modern interpretation of classic Indonesian dishes.',
+    image: programCulinary,
+    githubUrl: '#',
+    profileImage: programCulinary
   },
+
+  // DKV Projects
   {
     id: 4,
-    category: 'IT',
-    student: 'Atan ilaq',
-    class: 'XI IT 1',
-    title: 'Innovation Hub',
-    description: 'We\'re proud to present a collection of work created by our Information Technology students at Metland School.',
-    image: programAccounting,
-    githubUrl: 'https://github.com/tsukuriaI/lomba-web-ms',
-    profileImage: extracurricular
+    category: 'Design Communication Visual',
+    student: 'Raka Pratama',
+    class: 'XI DKV 1',
+    title: 'Brand Identity',
+    description: 'Complete brand identity design for local businesses.',
+    image: programDkv,
+    githubUrl: '#',
+    profileImage: programDkv
   },
   {
     id: 5,
-    category: 'IT',
-    student: 'FunDih',
-    class: 'XI IT 1',
-    title: 'Tech Solutions',
-    description: 'We\'re proud to present a collection of work created by our Information Technology students at Metland School.',
-    image: programHospitality,
-    githubUrl: 'https://github.com/tsukuriaI/lomba-web-ms',
-    profileImage: extracurricular
+    category: 'Design Communication Visual',
+    student: 'Sinta Maharani',
+    class: 'XI DKV 2',
+    title: 'Motion Graphics',
+    description: 'Dynamic motion graphics for digital marketing campaigns.',
+    image: programDkv,
+    githubUrl: '#',
+    profileImage: programDkv
   },
   {
     id: 6,
-    category: 'IT',
+    category: 'Design Communication Visual',
+    student: 'Dimas Putra',
+    class: 'XI DKV 1',
+    title: 'Illustration Art',
+    description: 'Digital illustration showcasing storytelling through art.',
+    image: programDkv,
+    githubUrl: '#',
+    profileImage: programDkv
+  },
+
+  // IT Projects
+  {
+    id: 7,
+    category: 'Information Technology',
+    student: 'Veria Raja Tunggal',
+    class: 'XI IT 1',
+    title: 'From School to Career',
+    description: 'Web application connecting students with career opportunities.',
+    image: programIt,
+    githubUrl: 'https://github.com/tsukuriaI/lomba-web-ms',
+    profileImage: programIt
+  },
+  {
+    id: 8,
+    category: 'Information Technology',
+    student: 'Ana Malia',
+    class: 'XI IT 1',
+    title: 'About Us',
+    description: 'Company profile website with modern UI/UX design.',
+    image: programIt,
+    githubUrl: 'https://github.com/tsukuriaI/lomba-web-ms',
+    profileImage: programIt
+  },
+  {
+    id: 9,
+    category: 'Information Technology',
+    student: 'Cutan Bawiq',
+    class: 'XI IT 1',
+    title: 'Creative Project',
+    description: 'Interactive web application with innovative features.',
+    image: programIt,
+    githubUrl: 'https://github.com/tsukuriaI/lomba-web-ms',
+    profileImage: programIt
+  },
+  {
+    id: 10,
+    category: 'Information Technology',
+    student: 'Atan Ilaq',
+    class: 'XI IT 1',
+    title: 'Innovation Hub',
+    description: 'Platform for sharing innovative tech solutions.',
+    image: programIt,
+    githubUrl: 'https://github.com/tsukuriaI/lomba-web-ms',
+    profileImage: programIt
+  },
+  {
+    id: 11,
+    category: 'Information Technology',
+    student: 'FunDih',
+    class: 'XI IT 1',
+    title: 'Tech Solutions',
+    description: 'Mobile-responsive web application for business solutions.',
+    image: programIt,
+    githubUrl: 'https://github.com/tsukuriaI/lomba-web-ms',
+    profileImage: programIt
+  },
+  {
+    id: 12,
+    category: 'Information Technology',
     student: 'Hengki',
     class: 'XI IT 1',
     title: 'Digital Experience',
-    description: 'We\'re proud to present a collection of work created by our Information Technology students at Metland School.',
+    description: 'Enhanced digital experience platform.',
     image: programIt,
     githubUrl: 'https://github.com/tsukuriaI/lomba-web-ms',
-    profileImage: extracurricular
+    profileImage: programIt
+  },
+
+  // Hospitality Projects
+  {
+    id: 13,
+    category: 'Hospitality',
+    student: 'Rina Permata',
+    class: 'XI APH 1',
+    title: 'Hotel Service Excellence',
+    description: 'Documentation of front office service training and guest handling.',
+    image: programHospitality,
+    githubUrl: '#',
+    profileImage: programHospitality
+  },
+  {
+    id: 14,
+    category: 'Hospitality',
+    student: 'Ahmad Fauzi',
+    class: 'XI APH 2',
+    title: 'Event Management',
+    description: 'Complete event planning and execution for school events.',
+    image: programHospitality,
+    githubUrl: '#',
+    profileImage: programHospitality
+  },
+  {
+    id: 15,
+    category: 'Hospitality',
+    student: 'Putri Ayu',
+    class: 'XI APH 1',
+    title: 'F&B Service',
+    description: 'Restaurant service excellence and table setting artistry.',
+    image: programHospitality,
+    githubUrl: '#',
+    profileImage: programHospitality
+  },
+
+  // Accounting Projects
+  {
+    id: 16,
+    category: 'Accounting',
+    student: 'Kevin Wijaya',
+    class: 'XI AK 1',
+    title: 'Financial Analysis',
+    description: 'Comprehensive financial analysis report for small businesses.',
+    image: programAccounting,
+    githubUrl: '#',
+    profileImage: programAccounting
+  },
+  {
+    id: 17,
+    category: 'Accounting',
+    student: 'Lisa Hartono',
+    class: 'XI AK 2',
+    title: 'Tax Calculation System',
+    description: 'Excel-based tax calculation and reporting system.',
+    image: programAccounting,
+    githubUrl: '#',
+    profileImage: programAccounting
+  },
+  {
+    id: 18,
+    category: 'Accounting',
+    student: 'Roberto Carlos',
+    class: 'XI AK 1',
+    title: 'Budget Planning',
+    description: 'Corporate budget planning and forecasting project.',
+    image: programAccounting,
+    githubUrl: '#',
+    profileImage: programAccounting
   },
 ];
 
@@ -102,9 +245,43 @@ const projects = [
 ];
 
 
+// Descriptions for each category
+const categoryDescriptions: Record<string, { intro: string; detail: string; closing: string }> = {
+  'Culinary': {
+    intro: "We're proud to present a collection of work created by our Culinary Arts students at Metland School.",
+    detail: "These projects are the result of hands-on culinary training, creativity, and passion for food. From traditional Indonesian cuisine to modern fusion dishes, pastry arts to food styling, every work shows how our students learn to create culinary experiences that delight both the eyes and palate.",
+    closing: "Through professional kitchen practice and industry exposure, students develop not just cooking skills, but also creativity, precision, and the artistry that defines a true culinary professional. Explore their work and discover how Metland School prepares future chefs to excel in the culinary world."
+  },
+  'Design Communication Visual': {
+    intro: "We're proud to present a collection of work created by our Design Communication Visual students at Metland School.",
+    detail: "These projects are the result of creative exploration, artistic expression, and design thinking. From brand identity, illustration, motion graphics to UI/UX design, every work shows how our students learn to communicate ideas visually with impact and purpose.",
+    closing: "Through hands-on design projects and industry mentorship, students are encouraged to push creative boundaries, master design tools, and develop their unique artistic voice. Explore their work and discover how Metland School nurtures future designers and visual storytellers."
+  },
+  'Information Technology': {
+    intro: "We're proud to present a collection of work created by our Information Technology students at Metland School.",
+    detail: "These projects are the result of hands-on learning, real practice, and strong problem-solving skills. From website development, mobile applications, to UI/UX design and digital systems, every work shows how our students learn to build technology that is not only functional, but also user-friendly and well-designed.",
+    closing: "Through industry-based learning and creative exploration, students are encouraged to think critically, work collaboratively, and turn their ideas into real digital solutions. Explore their work and discover how Metland School prepares future IT talents to be ready for the world of technology and innovation."
+  },
+  'Hospitality': {
+    intro: "We're proud to present a collection of work created by our Hospitality students at Metland School.",
+    detail: "These projects showcase excellence in guest services, front office operations, food & beverage service, and event management. Every work demonstrates how our students master the art of hospitality—creating memorable experiences through attention to detail, professionalism, and genuine care for guests.",
+    closing: "Through practical training in real hospitality environments and industry partnerships, students develop the skills, confidence, and service mindset required for success in hotels, restaurants, and tourism. Explore their work and discover how Metland School prepares future hospitality professionals."
+  },
+  'Accounting': {
+    intro: "We're proud to present a collection of work created by our Accounting students at Metland School.",
+    detail: "These projects demonstrate proficiency in financial analysis, bookkeeping, tax calculation, budgeting, and business reporting. Every work shows how our students apply accounting principles to real-world scenarios with accuracy, integrity, and analytical thinking.",
+    closing: "Through practical exercises using industry-standard software and case studies, students develop the technical expertise and ethical foundation required for careers in finance and accounting. Explore their work and discover how Metland School prepares future accounting professionals."
+  }
+};
+
 const StudentWorks = () => {
   const [currentProjectIndex, setCurrentProjectIndex] = useState(0);
   const [selectedCategory, setSelectedCategory] = useState(categories[0]);
+
+  // Filter projects based on selected category
+  const filteredProjects = galleryProjects.filter(
+    (project) => project.category === selectedCategory.name
+  );
 
   const currentProject = projects[currentProjectIndex];
 
@@ -266,7 +443,7 @@ const StudentWorks = () => {
             <p className={`text-[8px] sm:text-[9px] md:text-[10px] lg:text-xs ${
               selectedCategory.id === cat.id ? 'text-white/80' : 'text-[#0F5F58]/60'
             }`}>
-              Total Works: {cat.totalWorks}
+              Total Works: {galleryProjects.filter(p => p.category === cat.name).length}
             </p>
           </div>
         </div>
@@ -281,52 +458,78 @@ const StudentWorks = () => {
       </section>
 
       <section className="py-0">
-        <div className="relative h-48 sm:h-56 md:h-64 lg:h-80 xl:h-96 overflow-hidden">
-          <img 
-            src={programIt} 
-            alt="Information Technology" 
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent" />
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="container mx-auto px-4 sm:px-6 md:px-8 lg:px-12">
-              <ScrollReveal>
-                <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light text-white tracking-wide text-center">
-                  INFORMATION TECHNOLOGY
-                </h2>
-              </ScrollReveal>
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={selectedCategory.id}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.4 }}
+            className="relative h-48 sm:h-56 md:h-64 lg:h-80 xl:h-96 overflow-hidden"
+          >
+            <img 
+              src={selectedCategory.image} 
+              alt={selectedCategory.name} 
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent" />
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="container mx-auto px-4 sm:px-6 md:px-8 lg:px-12">
+                <ScrollReveal>
+                  <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light text-white tracking-wide text-center">
+                    {selectedCategory.name.toUpperCase()}
+                  </h2>
+                </ScrollReveal>
+              </div>
             </div>
-          </div>
-        </div>
+          </motion.div>
+        </AnimatePresence>
       </section>
 
       <section className="py-12 md:py-16 lg:py-20 bg-white">
         <div className="container mx-auto px-4 sm:px-6 md:px-8 lg:px-12">
           <ScrollReveal>
-            <div className="mb-10 md:mb-12 ml-0 md:ml-12 lg:ml-16 xl:ml-20">
-              <div className="flex items-center gap-2 md:gap-3 mb-4 md:mb-6">
-                <div className="w-1 h-10 md:h-12 bg-[#1E88E5]" />
-                 <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-[#0F5F58]">
-                  Gallery of IT
-                </h2>
-              </div>
-              
-              <div className="space-y-3 md:space-y-4 text-[#0F5F58]/80 leading-relaxed max-w-5xl">
-                <p className="text-xs sm:text-sm md:text-base">
-                  We're proud to present a collection of work created by our Information Technology students at Metland School.
-                </p>
-                <p className="text-xs sm:text-sm md:text-base">
-                  These projects are the result of hands-on learning, real practice, and strong problem-solving skills. From website development, mobile applications, to UI/UX design and digital systems, every work shows how our students learn to build technology that is not only functional, but also user-friendly and well-designed.
-                </p>
-                <p className="text-xs sm:text-sm md:text-base">
-                  Through industry-based learning and creative exploration, students are encouraged to think critically, work collaboratively, and turn their ideas into real digital solutions. Explore their work and discover how Metland School prepares future IT talents to be ready for the world of technology and innovation.
-                </p>
-              </div>
-            </div>
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={selectedCategory.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.4 }}
+                className="mb-10 md:mb-12 ml-0 md:ml-12 lg:ml-16 xl:ml-20"
+              >
+                <div className="flex items-center gap-2 md:gap-3 mb-4 md:mb-6">
+                  <div className="w-1 h-10 md:h-12 bg-[#0F5F58]" />
+                  <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-[#0F5F58]">
+                    Gallery of {selectedCategory.shortName}
+                  </h2>
+                </div>
+                
+                <div className="space-y-3 md:space-y-4 text-[#0F5F58]/80 leading-relaxed max-w-5xl">
+                  <p className="text-xs sm:text-sm md:text-base">
+                    {categoryDescriptions[selectedCategory.name]?.intro}
+                  </p>
+                  <p className="text-xs sm:text-sm md:text-base">
+                    {categoryDescriptions[selectedCategory.name]?.detail}
+                  </p>
+                  <p className="text-xs sm:text-sm md:text-base">
+                    {categoryDescriptions[selectedCategory.name]?.closing}
+                  </p>
+                </div>
+              </motion.div>
+            </AnimatePresence>
           </ScrollReveal>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
-            {galleryProjects.map((project, index) => (
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={selectedCategory.id}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8"
+            >
+              {filteredProjects.map((project, index) => (
               <ScrollReveal key={project.id} delay={index * 0.1}>
                 <motion.div
                   whileHover={{ y: -8 }}
@@ -369,8 +572,9 @@ const StudentWorks = () => {
                   </div>
                 </motion.div>
               </ScrollReveal>
-            ))}
-          </div>
+              ))}
+            </motion.div>
+          </AnimatePresence>
         </div>
       </section>
 

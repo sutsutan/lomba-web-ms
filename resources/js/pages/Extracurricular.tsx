@@ -2,7 +2,10 @@ import { Link } from 'react-router-dom';
 import MainLayout from '@/layouts/MainLayout';
 import ScrollReveal from '@/components/ScrollReveal';
 import HeroCarousel from '@/components/HeroCarousel';
-import extracurricular from '@/assets/extracurricular.jpg';
+import extracurricularFutsal from '@/assets/extracurricular-futsal.jpg';
+import extracurricularBasket from '@/assets/extracurricular-basket.jpg';
+import extracurricularModelling from '@/assets/extracurricular-modelling.jpeg';
+import extracurricularBadminton from '@/assets/extracurricular-badminton.jpg';
 import programIt from '@/assets/program-it.webp';
 import programCulinary from '@/assets/program-culinary.webp';
 import StackedCarousel from '@/components/StackedCarousel';
@@ -76,7 +79,7 @@ const Extracurricular = () => {
           <div className="grid lg:grid-cols-2 gap-6 sm:gap-8 md:gap-10 lg:gap-12 items-center">
             <ScrollReveal>
               <img
-                src={programIt}
+                src={extracurricularModelling}
                 alt="Extracurricular life"
                 className="rounded-lg sm:rounded-xl md:rounded-2xl shadow-lg md:shadow-xl w-full h-48 sm:h-56 md:h-72 lg:h-96 object-cover"
               />
@@ -120,7 +123,7 @@ const Extracurricular = () => {
 
             <ScrollReveal className="order-1 lg:order-2">
               <img
-                src={extracurricular}
+                src={extracurricularFutsal}
                 alt="Extracurricular activities"
                 className="rounded-lg sm:rounded-xl md:rounded-2xl shadow-lg md:shadow-xl w-full h-48 sm:h-56 md:h-72 lg:h-96 object-cover"
               />
@@ -131,7 +134,7 @@ const Extracurricular = () => {
           <div className="grid lg:grid-cols-2 gap-6 sm:gap-8 md:gap-10 lg:gap-12 items-center">
             <ScrollReveal>
               <img
-                src={programCulinary}
+                src={extracurricularBasket}
                 alt="Creative activities"
                 className="rounded-lg sm:rounded-xl md:rounded-2xl shadow-lg md:shadow-xl w-full h-48 sm:h-56 md:h-72 lg:h-96 object-cover"
               />

@@ -17,6 +17,7 @@ import NotFound from "./pages/NotFound";
 import major from "./pages/Major";
 import Major from './pages/Major';
 import StudentWorks from "./pages/StudentWorks";
+import Ppdb from "./pages/Ppdb";
 
 const queryClient = new QueryClient();
 
@@ -38,6 +39,7 @@ const App = () => (
             <Route path="/contact" element={<Contact />} />
             <Route path="/major" element={<Major />} />
             <Route path="/student-works" element={<StudentWorks />} />
+            <Route path="/ppdb" element={<Ppdb />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </AnimatePresence>

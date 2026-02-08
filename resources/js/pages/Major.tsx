@@ -4,8 +4,10 @@ import MainLayout from '@/layouts/MainLayout';
 import ScrollReveal from '@/components/ScrollReveal';
 import { 
   Hotel, Utensils, Calculator, Palette, Code, 
-  CheckCircle2, Target, Briefcase, GraduationCap 
+  CheckCircle2, Target, Briefcase, GraduationCap, ArrowRight 
 } from 'lucide-react';
+
+// Assets
 import hospitality from '@/assets/aph.webp';
 import culinary from '@/assets/kuliner.webp';
 import accounting from '@/assets/akuntansi.webp';
@@ -15,63 +17,73 @@ import pplg from '@/assets/pepleg.webp';
 const majorsData = [
   {
     id: 'perhotelan',
-    title: 'Perhotelan',
-    subtitle: 'Hospitality & Tourism',
-    description: 'Menyiapkan tenaga profesional di bidang akomodasi dan pelayanan tamu dengan standar internasional.',
+    title: 'Hospitality',
+    subtitle: 'Excellence in Service',
+    description: 'Transform your passion for service into a professional career. Our program focuses on international standards of guest relations, room divisions, and management.',
     image: hospitality,
-    color: 'teal',
+    themeColor: '#0d9488',
+    bgGradient: 'from-teal-500 to-emerald-600',
     icon: <Hotel className="w-6 h-6" />,
-    stats: { students: '400+', partners: '25+ Hotels', duration: '3 Years' },
-    competencies: ['Front Office Management', 'Housekeeping Operations', 'Laundry Service', 'Food & Beverage Service'],
-    careers: ['Hotel Manager', 'Receptionist', 'Executive Housekeeper', 'Cruise Ship Staff']
+    competencies: ['Front Office Administration', 'Housekeeping Management', 'Laundry Operations', 'F&B Service Excellence'],
+    careers: ['Hotel Administrator', 'Guest Service Officer', 'Executive Housekeeper', 'Cruise Ship Professional'],
+    stats: { students: '420+', partners: '25+', duration: '3' },
+    detailedInfo: "Students are trained in our mock-up hotel rooms and industry-standard labs to master the art of hospitality and global service protocols."
   },
   {
     id: 'kuliner',
-    title: 'Kuliner',
-    subtitle: 'Culinary Arts',
-    description: 'Menguasai seni mengolah makanan dari tradisional hingga internasional dengan manajemen dapur profesional.',
+    title: 'Culinary Arts',
+    subtitle: 'Master the Kitchen',
+    description: 'From traditional heritage to modern fusion. Learn the science of gastronomy, kitchen management, and the high-paced environment of professional culinary arts.',
     image: culinary,
-    color: 'orange',
+    themeColor: '#0d9488',
+    bgGradient: 'from-teal-500 to-emerald-600',
     icon: <Utensils className="w-6 h-6" />,
-    stats: { students: '350+', partners: '15+ Resto', duration: '3 Years' },
-    competencies: ['Pastry & Bakery', 'Indonesian Cuisine', 'International Cuisine', 'Kitchen Management'],
-    careers: ['Professional Chef', 'Pastry Chef', 'Restaurateur', 'F&B Consultant']
+    competencies: ['Pastry & Bakery Arts', 'Indonesian Heritage Cuisine', 'Continental Cooking', 'Kitchen Logistics'],
+    careers: ['Professional Chef', 'Pastry Specialist', 'Restaurant Manager', 'Culinary Entrepreneur'],
+    stats: { students: '380+', partners: '15+', duration: '3' },
+    detailedInfo: "Equipped with commercial-grade kitchens, students learn food safety (HACCP) and high-volume production for international banquets."
   },
   {
     id: 'akuntansi',
-    title: 'Akuntansi',
-    subtitle: 'Finance & Business',
-    description: 'Membentuk ahli keuangan yang teliti, jujur, dan mahir menggunakan teknologi akuntansi modern.',
+    title: 'Accounting',
+    subtitle: 'Finance & Integrity',
+    description: 'The backbone of every business. Master financial analysis, tax regulation, and digital accounting systems with high precision and ethical standards.',
     image: accounting,
-    color: 'blue',
+    themeColor: '#0d9488',
+    bgGradient: 'from-teal-500 to-emerald-600',
     icon: <Calculator className="w-6 h-6" />,
-    stats: { students: '300+', partners: '20+ Firms', duration: '3 Years' },
-    competencies: ['Financial Reporting', 'Corporate Tax', 'Audit Systems', 'Computerized Accounting'],
-    careers: ['Accountant', 'Tax Consultant', 'Banker', 'Financial Analyst']
+    competencies: ['Financial Reporting', 'Corporate Tax Audit', 'Digital Spreadsheet Mastery', 'Computerized Accounting'],
+    careers: ['Financial Accountant', 'Tax Consultant', 'Internal Auditor', 'Bank Officer'],
+    stats: { students: '310+', partners: '20+', duration: '3' },
+    detailedInfo: "Our curriculum integrates Myob and Accurate software, ensuring graduates are ready for the digital transformation in financial sectors."
   },
   {
     id: 'dkv',
-    title: 'DKV',
-    subtitle: 'Visual Design',
-    description: 'Ekspresikan kreativitas melalui desain grafis, fotografi, dan videografi di industri kreatif digital.',
+    title: 'Visual Design',
+    subtitle: 'Creative Industry',
+    description: 'Bring ideas to life. Explore the world of graphic design, photography, and motion graphics to become a versatile creator in the digital era.',
     image: dkv,
-    color: 'purple',
+    themeColor: '#0d9488',
+    bgGradient: 'from-teal-500 to-emerald-600',
     icon: <Palette className="w-6 h-6" />,
-    stats: { students: '450+', partners: '30+ Studios', duration: '3 Years' },
-    competencies: ['Graphic Design', 'UI/UX Design', 'Digital Imaging', 'Motion Graphics'],
-    careers: ['Graphic Designer', 'Photographer', 'Art Director', 'Content Creator']
+    competencies: ['Graphic Brand Identity', 'UI/UX Design Concept', 'Digital Illustration', 'Photography & Cinematography'],
+    careers: ['Graphic Designer', 'Art Director', 'UI/UX Designer', 'Content Creator'],
+    stats: { students: '460+', partners: '30+', duration: '3' },
+    detailedInfo: "Focuses on creative problem solving and visual storytelling across various media platforms, from print to interactive digital assets."
   },
   {
     id: 'pplg',
     title: 'PPLG',
-    subtitle: 'Software Engineering',
-    description: 'Membangun masa depan melalui coding, pengembangan aplikasi web, mobile, hingga pembuatan gim.',
+    subtitle: 'Building the Future',
+    description: 'Code the future with us. Develop high-scale web applications, mobile apps, and immersive games using the latest technology stacks.',
     image: pplg,
-    color: 'indigo',
+    themeColor: '#0d9488',
+    bgGradient: 'from-teal-500 to-emerald-600',
     icon: <Code className="w-6 h-6" />,
-    stats: { students: '500+', partners: '40+ Tech Co', duration: '3 Years' },
-    competencies: ['Web Development', 'Mobile App Dev', 'Database Management', 'Game Programming'],
-    careers: ['Fullstack Developer', 'App Developer', 'Game Programmer', 'System Analyst']
+    competencies: ['Fullstack Web Development', 'Mobile App Development', 'Database Architecture', 'Game Development'],
+    careers: ['Software Developer', 'System Analyst', 'Web Architect', 'Game Programmer'],
+    stats: { students: '520+', partners: '40+', duration: '3' },
+    detailedInfo: "Students dive deep into Logic, Algorithms, and Agile Development methods to solve real-world problems through innovative software solutions."
   }
 ];
 
@@ -81,121 +93,201 @@ const Major = () => {
 
   return (
     <MainLayout>
-      {/* DYNAMIC HERO */}
-      <section className="relative h-[60vh] min-h-[600px] w-full overflow-hidden bg-neutral-600">
+      {/* DYNAMIC HERO SECTION */}
+      <section className="relative h-[65vh] min-h-[600px] w-full overflow-hidden bg-neutral-900">
         <AnimatePresence mode="wait">
           <motion.div 
             key={current.id}
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 1 }}
-            transition={{ duration: 0.7 }}
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            transition={{ duration: 0.8 }}
             className="absolute inset-0"
           >
-            <img src={current.image} className="w-full h-full object-cover opacity-40 scale-105" alt="" />
-            <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent z-[1]" />
+            <img src={current.image} className="w-full h-full object-cover opacity-50 scale-105" alt={current.title} />
+            <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/40 to-transparent z-[1]" />
           </motion.div>
         </AnimatePresence>
 
         <div className="relative z-10 h-full container mx-auto px-6 flex flex-col justify-center">
           <motion.div
-            key={current.id + "content"}
+            key={current.id + "text"}
             initial={{ x: -30, opacity: 0 }} animate={{ x: 0, opacity: 1 }}
-            className="max-w-3xl"
+            className="max-w-3xl mt-20 md:mt-0"
           >
-            <span className="inline-block px-4 py-1 rounded-full bg-neutral-900/50 backdrop-blur-md text-teal-400 font-bold text-xs tracking-widest uppercase mb-4">
+            <span 
+              className="inline-block px-4 py-1 rounded-full bg-black/40 backdrop-blur-md font-bold text-xs tracking-[0.2em] uppercase mb-4 border border-white/10"
+              style={{ color: current.themeColor }}
+            >
               {current.subtitle}
             </span>
-            <h1 className="text-6xl md:text-8xl font-black text-neutral-50 mb-6 uppercase tracking-tighter">
+            <h1 className="text-6xl md:text-8xl font-black text-neutral-50 mb-6 uppercase tracking-tighter leading-[0.9]">
               {current.title}
             </h1>
-            <p className="text-xl text-neutral-50 leading-relaxed max-w-xl">
+            <p className="text-lg md:text-xl text-neutral-300 leading-relaxed max-w-xl">
               {current.description}
             </p>
           </motion.div>
         </div>
 
-        {/* Floating Navigation Dots for Major Switcher */}
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex gap-4 z-30">
-          {majorsData.map((m, i) => (
-            <button
-              key={m.id}
-              onClick={() => setIndex(i)}
-              className={`group relative p-4 transition-all ${index === i ? 'scale-110' : 'opacity-50 hover:opacity-100'}`}
-            >
-              <div className={`flex flex-col items-center gap-2`}>
-                 <div className={`p-3 rounded-xl bg-neutral/50 backdrop-blur-md border ${index === i ? 'border-teal-400 text-teal-400' : 'border-white/20 text-white'}`}>
-                   {m.icon}
-                 </div>
-                 <span className="text-[10px] font-bold text-neutral-50 uppercase tracking-widest hidden md:block">{m.title}</span>
-              </div>
-            </button>
-          ))}
+        {/* FLOATING NAVIGATOR */}
+        <div className="absolute bottom-10 left-0 right-0 z-30 px-6 overflow-x-auto no-scrollbar py-4">
+          <div className="flex justify-start md:justify-center items-center gap-6 min-w-max mx-auto px-4">
+            {majorsData.map((m, i) => (
+              <button
+                key={m.id}
+                onClick={() => setIndex(i)}
+                className={`group flex flex-col items-center gap-2 transition-all duration-300 relative ${
+                  index === i ? 'scale-110 z-10' : 'opacity-40 hover:opacity-100'
+                }`}
+              >
+                <div 
+                  className={`p-4 rounded-2xl bg-black/40 backdrop-blur-xl border transition-all duration-500 ${
+                    index === i ? 'shadow-[0_0_25px_rgba(0,0,0,0.3)]' : 'border-white/10'
+                  }`}
+                  style={{ 
+                    borderColor: index === i ? m.themeColor : 'transparent', 
+                    color: index === i ? m.themeColor : 'white',
+                    boxShadow: index === i ? `0 0 20px ${m.themeColor}33` : '' 
+                  }}
+                >
+                  {m.icon}
+                </div>
+                <span className="text-[10px] font-bold text-white uppercase tracking-widest hidden md:block">
+                  {m.title}
+                </span>
+              </button>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* DYNAMIC CONTENT BASED ON HERO SELECTION */}
-      <section className="py-24 bg-neutral-50 text-neutral-950">
+      {/* INTRO SECTION */}
+      <section className="bg-white py-12 md:py-20">
         <div className="container mx-auto px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
-            
-            {/* Left: Competencies */}
-            <div className="lg:col-span-7">
-              <ScrollReveal>
-                <div className="flex items-center gap-4 mb-8">
-                  <div className="w-12 h-12 rounded-2xl bg-teal-500/20 flex items-center justify-center text-teal-400">
-                    <Target />
-                  </div>
-                  <h2 className="text-3xl font-bold">Kompetensi Keahlian</h2>
+          <ScrollReveal>
+            <div className="flex items-center gap-4 mb-4">
+              <div className="w-1 h-10 bg-[#12606A]" />
+              <h2 className="text-3xl md:text-5xl font-bold text-[#12606A] tracking-tight">
+                Major Highlights
+              </h2>
+            </div>
+            <p className="text-[#12606A] text-lg max-w-2xl ml-5">
+              Every major at Metland School is designed to equip students with industry-relevant skills, ensuring they are ready to excel in their chosen fields.
+            </p>
+          </ScrollReveal>
+        </div>
+      </section>
+
+      {/* DETAIL SECTION */}
+      <section className="pb-24 bg-white">
+        <div className="container mx-auto px-6 md:px-12">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={current.id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.5 }}
+              className="grid lg:grid-cols-2 gap-16 items-center"
+            >
+              {/* Image Side */}
+              <div className="relative pt-8 pr-8"> 
+                <div className="absolute top-0 left-[-20px] w-32 h-32 border-t-4 border-l-4 border-[#12606A] z-20" />
+                <div className="relative z-10 overflow-hidden rounded-2xl shadow-2xl bg-neutral-100">
+                  <img
+                    src={current.image}
+                    alt={current.title}
+                    className="w-full h-[350px] md:h-[400px] object-cover"
+                  />
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {current.competencies.map((item, i) => (
-                    <motion.div 
-                      key={item}
-                      initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }}
-                      className="p-6 rounded-2xl bg-white/5 border border-white/10 flex items-start gap-4 hover:bg-white/10 transition-colors"
-                    >
-                      <CheckCircle2 className="w-5 h-5 text-teal-400 mt-1" />
-                      <span className="font-medium text-neutral-950">{item}</span>
-                    </motion.div>
+
+                {/* Stats Overlay */}
+                <div className="absolute -bottom-6 -right-4 md:-right-8 bg-[#12606A]/80 text-white p-6 md:p-8 rounded-2xl shadow-[0_20px_50px_rgba(15,95,88,0.3)] z-20 min-w-[240px]">
+                  <div className="flex justify-around items-center gap-6">
+                    <div className="text-center">
+                      <p className="text-3xl font-bold">{current.stats.students}</p>
+                      <p className="text-[10px] uppercase tracking-widest opacity-80">Students</p>
+                    </div>
+                    <div className="w-[1px] h-10 bg-white/20" />
+                    <div className="text-center">
+                      <p className="text-3xl font-bold">{current.stats.partners}</p>
+                      <p className="text-[10px] uppercase tracking-widest opacity-80">Partners</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Content Side */}
+              <div className="space-y-8 mt-12 lg:mt-0">
+                <div className="space-y-4">
+                  <h3 className="text-4xl md:text-6xl font-black text-[#12606A] leading-none uppercase tracking-tighter">
+                    {current.title}
+                  </h3>
+                  <p className="text-[#12606A]/70 text-lg leading-relaxed text-justify italic border-l-4 border-neutral-100 pl-6">
+                    "{current.detailedInfo}"
+                  </p>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  {current.competencies.map((item, idx) => (
+                    <div key={idx} className="flex items-center gap-3 p-4 bg-neutral-50 rounded-xl border border-neutral-100 hover:border-[#0F5F58]/30 transition-colors">
+                      <CheckCircle2 size={18} className="text-[#0F5F58]" />
+                      <span className="text-[#12606A] font-bold text-sm">{item}</span>
+                    </div>
                   ))}
                 </div>
-              </ScrollReveal>
-            </div>
 
-            {/* Right: Career & Stats */}
-            <div className="lg:col-span-5 space-y-12">
-              <ScrollReveal>
-                <div className="p-8 rounded-3xl bg-gradient-to-br from-teal-500 to-emerald-600 text-white">
-                  <h3 className="text-2xl font-bold mb-6 flex items-center gap-3">
-                    <Briefcase /> Prospek Karier
-                  </h3>
-                  <div className="space-y-4">
-                    {current.careers.map(job => (
-                      <div key={job} className="bg-white/30 backdrop-blur-sm p-4 rounded-xl font-bold text-white">
-                        {job}
+                <div className="pt-4">
+                  <button className="group w-full md:w-auto flex items-center justify-center gap-3 bg-[#12606A] text-white px-10 py-5 rounded-2xl font-bold hover:bg-[#0F5F58] transition-all shadow-lg hover:shadow-[#0F5F58]/20">
+                    Click to Register!
+                    <ArrowRight className="group-hover:translate-x-2 transition-transform" />
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          </AnimatePresence>
+        </div>
+      </section>
+
+      {/* CAREER SECTION */} 
+      <section className="py-24 bg-neutral-50">
+        <div className="container mx-auto px-6">
+          <div className="grid lg:grid-cols-12 gap-12">
+            <div className="lg:col-span-7">
+               <ScrollReveal>
+                  <div className="space-y-8">
+                    <div className="flex items-center gap-4">
+                      <div className="p-3 bg-white rounded-2xl shadow-sm text-[#0F5F58]">
+                        <Briefcase size={32} />
                       </div>
-                    ))}
+                      <h3 className="text-3xl font-black text-[#12606A]">CAREER PROSPECTS</h3>
+                    </div>
+                    <div className="grid sm:grid-cols-2 gap-4">
+                      {current.careers.map((job, idx) => (
+                        <div key={idx} className="bg-white p-6 rounded-2xl border border-neutral-100 shadow-sm hover:shadow-md transition-shadow">
+                          <p className="font-bold text-[#12606A]">{job}</p>
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              </ScrollReveal>
-
-              <ScrollReveal delay={0.2}>
-                <div className="grid grid-cols-3 gap-4">
-                  <div className="text-center">
-                    <p className="text-3xl font-black text-neutral-950">{current.stats.students.split(' ')[0]}</p>
-                    <p className="text-[10px] uppercase text-slate-500 font-bold">Siswa Aktif</p>
-                  </div>
-                  <div className="text-center border-x border-white/10">
-                    <p className="text-3xl font-black text-neutral-950">{current.stats.partners.split(' ')[0]}</p>
-                    <p className="text-[10px] uppercase text-slate-500 font-bold">Mitra Industri</p>
-                  </div>
-                  <div className="text-center">
-                    <p className="text-3xl font-black text-neutral-950">3</p>
-                    <p className="text-[10px] uppercase text-slate-500 font-bold">Tahun Studi</p>
-                  </div>
-                </div>
-              </ScrollReveal>
+               </ScrollReveal>
             </div>
-
+            
+            <div className="lg:col-span-5">
+               <ScrollReveal delay={0.2}>
+                  <div className={`h-full p-10 rounded-[2.5rem] text-white flex flex-col justify-center relative overflow-hidden bg-gradient-to-br ${current.bgGradient}`}>
+                    <div className="relative z-10">
+                      <h4 className="text-2xl font-bold mb-4">Duration of Study</h4>
+                      <div className="text-6xl font-black mb-6">{current.stats.duration} <span className="text-2xl opacity-70">Years</span></div>
+                      <p className="opacity-80 mb-8">Integrated curriculum with intensive industry practice and professional certification.</p>
+                      <div className="w-12 h-1 bg-white/30" />
+                    </div>
+                    {/* Background Pattern */}
+                    <div className="absolute top-0 right-0 p-8 opacity-10">
+                      <GraduationCap size={120} />
+                    </div>
+                  </div>
+               </ScrollReveal>
+            </div>
           </div>
         </div>
       </section>
