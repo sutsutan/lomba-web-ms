@@ -88,7 +88,7 @@ const AdmissionSteps = () => {
         {/* Timeline Slider */}
         <div className="relative">
            {/* Main Horizontal Timeline Line */}
-           <div className="absolute bottom-6 left-0 right-0 h-0.5 bg-[#0F5F58]/30 w-[200vw] -ml-[50vw]" />
+           <div className="absolute bottom-16 left-0 right-0 h-0.5 bg-[#0F5F58]/30 w-[200vw] -ml-[50vw]" />
 
            <div 
              ref={scrollContainerRef}
@@ -145,8 +145,6 @@ const AdmissionSteps = () => {
                     <div className="absolute bottom-0 w-4 h-4 rounded-full border-2 border-[#0F5F58] bg-[#D5EAE9] z-10 box-content p-1">
                       <div className="w-full h-full bg-[#0F5F58] rounded-full" />
                     </div>
-                    {/* Outer Ring for Node */}
-                    <div className="absolute bottom-[-6px] w-8 h-8 rounded-full border border-[#0F5F58]/30 scale-0 group-hover:scale-100 transition-transform duration-300" />
                  </div>
                </div>
              ))}

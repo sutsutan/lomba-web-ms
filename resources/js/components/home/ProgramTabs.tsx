@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import ScrollReveal from '@/components/ScrollReveal';
 import logo from '@/assets/logo-metland.png';
-import extracurricularImg from '@/assets/extracurricular.jpg';
 import programItImg from '@/assets/program-it.webp';
 import programCulinaryImg from '@/assets/program-culinary.webp';
 import achievementImg from '@/assets/achievement-1.jpg';
@@ -14,6 +13,14 @@ import Mahes from '@/assets/mahes.png';
 import Kkr from '@/assets/kkr.jpeg';
 import LogoOsis from '@/assets/logo-osis.png';
 import Cims from '@/assets/cims.jpeg';
+import programDkv from '@/assets/dkv.webp';
+import programPerhotelan from '@/assets/aph.webp';
+import programAkuntansi from '@/assets/akuntansi.webp';
+import extracurricularFutsal from '@/assets/extracurricular-futsal.jpg';
+import extracurricularBasket from '@/assets/extracurricular-basket.jpg';
+import extracurricularBadminton from '@/assets/extracurricular-badminton.jpg';
+import extracurricularModelling from '@/assets/extracurricular-modelling.jpeg';
+
 
 
 interface TabContent {
@@ -26,7 +33,7 @@ const tabData: Record<string, TabContent> = {
   extracurricular: {
     title: 'Extracurricular',
     description: 'Our extracurricular programs allow students to discover their passions while developing confidence, responsibility, and collaboration in a supportive school environment.',
-    images: [extracurricularImg, programItImg, programCulinaryImg, achievementImg],
+    images: [extracurricularFutsal, extracurricularBasket, extracurricularBadminton, extracurricularModelling],
   },
   organization: {
     title: 'Organization',
@@ -36,7 +43,7 @@ const tabData: Record<string, TabContent> = {
   major: {
     title: 'Major',
     description: 'Choose from our industry-focused majors designed to prepare you for professional success.',
-    images: [programCulinaryImg, achievementImg, programItImg, extracurricularImg],
+    images: [programCulinaryImg, programItImg, programDkv, programPerhotelan, programAkuntansi],
   },
 };
 

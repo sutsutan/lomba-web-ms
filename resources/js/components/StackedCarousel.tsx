@@ -10,13 +10,16 @@ import 'swiper/css/navigation';
 import programIt from '@/assets/program-it.webp';
 import programCulinary from '@/assets/program-culinary.webp';
 import achievement from '@/assets/achievement-1.jpg';
+import extracurricularFutsal from '@/assets/extracurricular-futsal.jpg';
+import extracurricularBasket from '@/assets/extracurricular-basket.jpg';
+import extracurricularModelling from '@/assets/extracurricular-modelling.jpeg';
+import extracurricularBadminton from '@/assets/extracurricular-badminton.jpg';
 
 const images = [
-  programIt,
-  programCulinary,
-  achievement,
-  programIt,
-  programCulinary,
+  extracurricularFutsal,
+  extracurricularBasket,
+  extracurricularModelling,
+  extracurricularBadminton,
 ];
 
 const StackedCarousel: React.FC = () => {

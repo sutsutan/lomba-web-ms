@@ -8,7 +8,6 @@ import ScrollReveal from '@/components/ScrollReveal';
 import programIt from '@/assets/program-it.webp';
 import programCulinary from '@/assets/program-culinary.webp';
 import programDkv from '@/assets/program-dkv.jpg';
-import extracurricular from '@/assets/extracurricular.jpg';
 import programAccounting from '@/assets/akuntansi.webp';
 import programHospitality from '@/assets/aph.webp';
 import { 
@@ -34,7 +33,7 @@ const galleryProjects = [
     description: 'Creative fusion dishes combining traditional Indonesian flavors with modern techniques.',
     image: programCulinary,
     githubUrl: '#',
-    profileImage: extracurricular
+    profileImage: programCulinary
   },
   {
     id: 2,
@@ -45,7 +44,7 @@ const galleryProjects = [
     description: 'Artistic pastry creations showcasing precision and creativity.',
     image: programCulinary,
     githubUrl: '#',
-    profileImage: extracurricular
+    profileImage: programCulinary
   },
   {
     id: 3,
@@ -56,7 +55,7 @@ const galleryProjects = [
     description: 'Modern interpretation of classic Indonesian dishes.',
     image: programCulinary,
     githubUrl: '#',
-    profileImage: extracurricular
+    profileImage: programCulinary
   },
 
   // DKV Projects
@@ -69,7 +68,7 @@ const galleryProjects = [
     description: 'Complete brand identity design for local businesses.',
     image: programDkv,
     githubUrl: '#',
-    profileImage: extracurricular
+    profileImage: programDkv
   },
   {
     id: 5,
@@ -80,7 +79,7 @@ const galleryProjects = [
     description: 'Dynamic motion graphics for digital marketing campaigns.',
     image: programDkv,
     githubUrl: '#',
-    profileImage: extracurricular
+    profileImage: programDkv
   },
   {
     id: 6,
@@ -91,7 +90,7 @@ const galleryProjects = [
     description: 'Digital illustration showcasing storytelling through art.',
     image: programDkv,
     githubUrl: '#',
-    profileImage: extracurricular
+    profileImage: programDkv
   },
 
   // IT Projects
@@ -104,7 +103,7 @@ const galleryProjects = [
     description: 'Web application connecting students with career opportunities.',
     image: programIt,
     githubUrl: 'https://github.com/tsukuriaI/lomba-web-ms',
-    profileImage: extracurricular
+    profileImage: programIt
   },
   {
     id: 8,
@@ -115,7 +114,7 @@ const galleryProjects = [
     description: 'Company profile website with modern UI/UX design.',
     image: programIt,
     githubUrl: 'https://github.com/tsukuriaI/lomba-web-ms',
-    profileImage: extracurricular
+    profileImage: programIt
   },
   {
     id: 9,
@@ -126,7 +125,7 @@ const galleryProjects = [
     description: 'Interactive web application with innovative features.',
     image: programIt,
     githubUrl: 'https://github.com/tsukuriaI/lomba-web-ms',
-    profileImage: extracurricular
+    profileImage: programIt
   },
   {
     id: 10,
@@ -137,7 +136,7 @@ const galleryProjects = [
     description: 'Platform for sharing innovative tech solutions.',
     image: programIt,
     githubUrl: 'https://github.com/tsukuriaI/lomba-web-ms',
-    profileImage: extracurricular
+    profileImage: programIt
   },
   {
     id: 11,
@@ -148,7 +147,7 @@ const galleryProjects = [
     description: 'Mobile-responsive web application for business solutions.',
     image: programIt,
     githubUrl: 'https://github.com/tsukuriaI/lomba-web-ms',
-    profileImage: extracurricular
+    profileImage: programIt
   },
   {
     id: 12,
@@ -159,7 +158,7 @@ const galleryProjects = [
     description: 'Enhanced digital experience platform.',
     image: programIt,
     githubUrl: 'https://github.com/tsukuriaI/lomba-web-ms',
-    profileImage: extracurricular
+    profileImage: programIt
   },
 
   // Hospitality Projects
@@ -172,7 +171,7 @@ const galleryProjects = [
     description: 'Documentation of front office service training and guest handling.',
     image: programHospitality,
     githubUrl: '#',
-    profileImage: extracurricular
+    profileImage: programHospitality
   },
   {
     id: 14,
@@ -183,7 +182,7 @@ const galleryProjects = [
     description: 'Complete event planning and execution for school events.',
     image: programHospitality,
     githubUrl: '#',
-    profileImage: extracurricular
+    profileImage: programHospitality
   },
   {
     id: 15,
@@ -194,7 +193,7 @@ const galleryProjects = [
     description: 'Restaurant service excellence and table setting artistry.',
     image: programHospitality,
     githubUrl: '#',
-    profileImage: extracurricular
+    profileImage: programHospitality
   },
 
   // Accounting Projects
@@ -207,7 +206,7 @@ const galleryProjects = [
     description: 'Comprehensive financial analysis report for small businesses.',
     image: programAccounting,
     githubUrl: '#',
-    profileImage: extracurricular
+    profileImage: programAccounting
   },
   {
     id: 17,
@@ -218,7 +217,7 @@ const galleryProjects = [
     description: 'Excel-based tax calculation and reporting system.',
     image: programAccounting,
     githubUrl: '#',
-    profileImage: extracurricular
+    profileImage: programAccounting
   },
   {
     id: 18,
@@ -229,7 +228,7 @@ const galleryProjects = [
     description: 'Corporate budget planning and forecasting project.',
     image: programAccounting,
     githubUrl: '#',
-    profileImage: extracurricular
+    profileImage: programAccounting
   },
 ];
 
