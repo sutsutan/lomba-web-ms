@@ -59,7 +59,7 @@ const Ppdb = () => {
 
             {/* Image */}
             <ScrollReveal delay={0.2}>
-              <div className="w-full h-[300px] sm:h-[350px] md:h-[400px] lg:h-[450px] rounded-2xl overflow-hidden shadow-xl relative">
+              <div className="w-full h-[200px] sm:h-[250px] md:h-[300px] lg:h-[350px] rounded-2xl overflow-hidden shadow-xl relative">
                 <img
                   src={studentEnrollment}
                   alt="Student Enrollment"
