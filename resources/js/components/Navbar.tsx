@@ -18,6 +18,7 @@ const navItems: NavItem[] = [
     children: [
       { label: 'Profile', href: '/about' },
       { label: 'Vision & Mission', href: '/about#vision' },
+      { label: 'Our Values', href: '/about#values' },
       { label: 'Contact', href: '/contact' },
     ],
   },
@@ -26,7 +27,12 @@ const navItems: NavItem[] = [
     href: '/academics',
     children: [
       { label: 'Majors', href: '/major' },
+<<<<<<< HEAD
+      { label: 'Student Works', href: '/academics#works' },
+      { label: 'Teacher', href: '/academics#teacher' },
+=======
       { label: 'Student Works', href: '/student-works' },
+>>>>>>> 4714a89adee7a3c1b2785d85991017f9141673c4
     ],
   },
   {
