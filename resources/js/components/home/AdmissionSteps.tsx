@@ -5,26 +5,24 @@ import ScrollReveal from '@/components/ScrollReveal';
 
 const steps = [
   {
-    type: 'text',
+    image: 'https://i.pinimg.com/1200x/6a/80/35/6a8035f9bcb61800e1884a70948855a5.jpg',
     title: 'Online Registration',
-    description: 'Prospective students complete the online registration form by providing personal information and selecting their preferred study program.',
+    description: 'Begin your journey by completing our online registration form. Provide your personal information, select your preferred study program, and submit the required documents.',
   },
   {
-    type: 'image',
     image: 'https://smkmetland.pages.dev/_astro/hero-image.GuN_GPl8_199FtU.webp',
     title: 'Visit Our School',
-    description: "We'd love to show you around our campus. You'll see how we adapt learning to different strengths and needs, meet our friendly team, and explore our specialist facilities.",
+    description: "Schedule a campus tour to explore our facilities and meet our team. You'll see how we adapt learning to different strengths and needs, and discover our vibrant community.",
   },
   {
-    type: 'text',
+    image: 'https://i.pinimg.com/1200x/93/81/50/938150a75a021683da5f1f96033426e4.jpg',
     title: 'Interview & Assessment',
-    description: 'Participate in a personal interview and complete a basic aptitude assessment to help us understand your potential better.',
+    description: 'Participate in a personal interview with our admission team and complete a basic aptitude assessment. This helps us understand your potential and learning goals.',
   },
   {
-    type: 'image',
-    image: 'https://smkmetland.pages.dev/_astro/hero-image.GuN_GPl8_199FtU.webp',
+    image: 'https://i.pinimg.com/1200x/90/67/eb/9067ebc61b7b972efc65225fd6094892.jpg',
     title: 'Final Enrollment',
-    description: 'Once accepted, complete the administrative requirements and prepare for your exciting journey at Metland School.',
+    description: 'Once accepted, complete the administrative requirements and submit all final documents. Our team will guide you through the enrollment process step by step.',
   },
 ];
 
@@ -111,23 +109,21 @@ const AdmissionSteps = () => {
                }
              `}</style>
              {steps.map((step, index) => (
-               <div key={index} className="flex-shrink-0 w-[300px] md:w-[350px] group flex flex-col">
+               <div key={index} className="flex-shrink-0 w-[300px] md:w-[350px] group flex flex-col justify-end">
                  {/* Card */}
                  <motion.div 
                    initial={{ opacity: 0, y: 20 }}
                    whileInView={{ opacity: 1, y: 0 }}
                    viewport={{ once: true }}
                    transition={{ delay: index * 0.1 }}
-                   className="bg-white rounded-lg shadow-sm hover:shadow-lg transition-all duration-300 mb-8 flex-1 flex flex-col"
+                   className="bg-white rounded-lg shadow-sm hover:shadow-lg transition-all duration-300 mb-8 flex flex-col w-full"
                  >
-                   {step.type === 'image' && step.image && (
-                     <div className="h-48 overflow-hidden rounded-t-lg">
-                       <img src={step.image} alt={step.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
-                     </div>
-                   )}
+                   <div className="h-40 overflow-hidden rounded-t-lg">
+                     <img src={step.image} alt={step.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                   </div>
                    
-                   <div className="p-6 flex-1 flex flex-col">
-                     <h3 className={`font-bold text-lg mb-4 text-[#0F5F58] ${step.type === 'text' ? 'pb-4 border-b border-gray-100' : ''}`}>
+                   <div className="p-6 flex flex-col">
+                     <h3 className="font-bold text-lg mb-4 text-[#0F5F58]">
                        {step.title}
                      </h3>
                      <p className="text-sm text-gray-600 leading-relaxed">
@@ -137,7 +133,7 @@ const AdmissionSteps = () => {
                  </motion.div>
 
                  {/* Connector to Timeline */}
-                 <div className="relative h-16 flex justify-center items-end flex-shrink-0">
+                 <div className="relative h-16 flex justify-center items-end flex-shrink-0 w-full">
                     {/* Vertical Dashed Line */}
                     <div className="absolute top-[-2rem] bottom-0 w-px border-l-2 border-dashed border-[#0F5F58]/40 h-[calc(100%+2rem)]" />
                     
