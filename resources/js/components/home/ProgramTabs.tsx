@@ -15,10 +15,10 @@ import LogoOsis from '@/assets/logo-osis.png';
 import programDkv from '@/assets/dkv.webp';
 import programPerhotelan from '@/assets/aph.webp';
 import programAkuntansi from '@/assets/akuntansi.webp';
-import extracurricularFutsal from '@/assets/extracurricular-futsal.jpg';
+import extracurricularFutsal from '@/assets/extracurricular-futsal.webp';
 import extracurricularBasket from '@/assets/extracurricular-basket.jpg';
 import extracurricularBadminton from '@/assets/extracurricular-badminton.jpg';
-import extracurricularModelling from '@/assets/extracurricular-modelling.jpeg';
+import extracurricularModelling from '@/assets/extracurricular-modelling.webp';
 
 interface TabContent {
   title: string;
