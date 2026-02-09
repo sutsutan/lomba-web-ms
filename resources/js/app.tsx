@@ -21,6 +21,7 @@ import StudentWorks from "./pages/StudentWorks";
 import Ppdb from "./pages/Ppdb";
 import Teachers from "./pages/Teacher";
 import OurValues from "./pages/OurValues";
+import PpdbPopup from "./components/home/ppdbpopup";
 
 const queryClient = new QueryClient();
 

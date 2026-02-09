@@ -32,7 +32,7 @@ const navItems: NavItem[] = [
   },
   {
     label: 'Activity',
-    href: '/extracurricular',
+    href: '/news',
     children: [
       { label: 'Extracurricular', href: '/extracurricular' },
       { label: 'Organization', href: '/organization' },
