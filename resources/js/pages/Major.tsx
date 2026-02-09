@@ -59,7 +59,7 @@ const majorsData = [
   },
   {
     id: 'dkv',
-    title: 'Visual Design',
+    title: 'Visual Design & Communication',
     subtitle: 'Creative Industry',
     description: 'Bring ideas to life. Explore the world of graphic design, photography, and motion graphics to become a versatile creator in the digital era.',
     image: dkv,
