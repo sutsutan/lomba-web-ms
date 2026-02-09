@@ -2,10 +2,9 @@ import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import ScrollReveal from '@/components/ScrollReveal';
 
-// Import 3 gambar berbeda (sesuaikan path-nya)
-import aboutImage1 from '@/assets/about-preview.jpg'; // Gambar atas
-import aboutImage2 from '@/assets/about-previewkiribawah.jpg';      // Gambar kiri bawah
-import aboutImage3 from '@/assets/about-previewkananbawah.webp';    // Gambar kanan bawah
+import aboutImage1 from '@/assets/about-preview.jpg';
+import aboutImage2 from '@/assets/about-previewkiribawah.jpg';
+import aboutImage3 from '@/assets/about-previewkananbawah.webp';
 
 const AboutPreview = () => {
   return (
@@ -45,7 +44,6 @@ const AboutPreview = () => {
           {/* Image Grid Style */}
           <ScrollReveal direction="right" delay={0.2}>
             <div className="relative flex flex-col gap-4">
-              {/* Gambar Atas (Besar/Wide) */}
               <div className="rounded-lg overflow-hidden shadow-xl">
                 <img
                   src={aboutImage1}
@@ -72,7 +70,7 @@ const AboutPreview = () => {
                 </div>
               </div>
 
-              {/* Decorative Elements (Tetap dipertahankan dengan penyesuaian posisi) */}
+              {/* Decorative Elements */}
               <div className="absolute -bottom-4 -right-4 w-32 h-32 bg-primary/10 rounded-2xl -z-10" />
               <div className="absolute -top-4 -left-4 w-20 h-20 bg-gold/20 rounded-full -z-10" />
             </div>

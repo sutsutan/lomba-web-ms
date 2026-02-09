@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import ScrollReveal from '@/components/ScrollReveal';
+
 import logo from '@/assets/logo-metland.png';
 import programItImg from '@/assets/program-it.webp';
 import programCulinaryImg from '@/assets/program-culinary.webp';
@@ -46,8 +47,15 @@ const tabData: Record<string, TabContent> = {
 const ProgramTabs = () => {
   const [activeTab, setActiveTab] = useState<keyof typeof tabData>('extracurricular');
   const [activeImageIndex, setActiveImageIndex] = useState(0);
+  const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1200);
 
-  // Logika Utama: Major sekarang menggunakan layout yang sama dengan Organization
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+  
+
   const isCompactLayout = activeTab === 'organization' || activeTab === 'major';
 
   const handleTabChange = (tab: keyof typeof tabData) => {
@@ -73,34 +81,20 @@ const ProgramTabs = () => {
     const totalImages = tabData[activeTab].images.length;
     const position = (activeImageIndex - index + totalImages) % totalImages;
     
-    const baseLeft = 0;
-    
-    if (typeof window !== 'undefined') {
-      const width = window.innerWidth;
-      let spacing;
-      
-      if (width < 640) {
-        // Menggunakan isCompactLayout untuk Major & Organization
-        spacing = isCompactLayout ? 50 : 61;
-      } else {
-        spacing = isCompactLayout ? 150 : 240;
-      }
-      
-      return {
-        left: baseLeft + (position * spacing),
-        zIndex: totalImages - position,
-        scale: 1 - (position * 0.08),
-        opacity: 1,
-      };
+  let spacing;
+    if (windowWidth < 640) {
+      spacing = isCompactLayout ? 70 : 90;
+    } else if (windowWidth < 1024) {
+      spacing = isCompactLayout ? 100 : 160;
+    } else {
+      spacing = isCompactLayout ? 150 : 240;
     }
     
-    const spacing = isCompactLayout ? 150 : 240;
-    
     return {
-      left: baseLeft + (position * spacing),
+      left: position * spacing,
       zIndex: totalImages - position,
-      scale: 1 - (position * 0.08),
-      opacity: 1,
+      scale: 1 - (position * 0.1),
+      opacity: position > (windowWidth < 640 ? 2 : 4) ? 0 : 1,
     };
   };
 
