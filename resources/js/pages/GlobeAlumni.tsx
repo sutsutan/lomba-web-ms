@@ -1,6 +1,8 @@
 import { useEffect, useRef, useCallback } from "react";
 import createGlobe from "cobe";
 import { useSpring } from "framer-motion";
+import { useLanguage } from "@/contexts/LanguageContext";
+
 
 interface GlobeAlumniProps {
     targetLocation?: [number, number] | null;
@@ -8,7 +10,9 @@ interface GlobeAlumniProps {
 }
 
 const GlobeAlumni = ({ targetLocation, alumniData }: GlobeAlumniProps) => {
+    const { t } = useLanguage();
     const canvasRef = useRef<HTMLCanvasElement>(null);
+
     const pointerInteracting = useRef<number | null>(null);
     const pointerInteractionMovement = useRef(0);
     
@@ -132,8 +136,9 @@ const GlobeAlumni = ({ targetLocation, alumniData }: GlobeAlumniProps) => {
 
             {/* Petunjuk Interaksi */}
             <div className="absolute bottom-2 text-[9px] font-medium uppercase tracking-[0.2em] text-neutral-50 opacity-60">
-                Rotate Sphere • Select Alumni
+                {t('alumni.globe.hint')}
             </div>
+
         </div>
     );
 };

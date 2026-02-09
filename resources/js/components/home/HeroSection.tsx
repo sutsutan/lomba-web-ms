@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -18,6 +19,7 @@ const heroImages = [
 ];
 
 const HeroSection = () => {
+  const { t } = useLanguage();
   const [currentSlide, setCurrentSlide] = useState(0);
   
   const [isAnimatingIntro, setIsAnimatingIntro] = useState(() => {
@@ -122,7 +124,7 @@ const HeroSection = () => {
               transition={{ duration: 0.8, delay: isAnimatingIntro ? 0.2 : 0 }}
             >
               <span className="inline-block px-3 py-1 md:px-4 md:py-1.5 bg-teal-500/20 backdrop-blur-md rounded-full text-teal-300 text-[10px] md:text-xs lg:text-sm font-bold mb-4 md:mb-6 border border-teal-500/30 tracking-wider uppercase">
-                SMK Metland School — Vocational Excellence
+                {t('hero.tagline')}
               </span>
             </motion.div>
 
@@ -134,9 +136,9 @@ const HeroSection = () => {
                 transition={{ duration: 0.8, delay: isAnimatingIntro ? 0.4 : 0, ease: [0.33, 1, 0.68, 1] }}
                 className="text-4xl md:text-5xl lg:text-5xl xl:text-6xl font-black text-white leading-[0.9]"
               >
-                From School <br />
+                {t('hero.title_part1')} <br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-emerald-400">
-                  to Career
+                  {t('hero.title_part2')}
                 </span>
               </motion.h1>
             </div>
@@ -148,8 +150,7 @@ const HeroSection = () => {
               transition={{ duration: 0.8, delay: isAnimatingIntro ? 0.6 : 0 }}
               className="text-sm md:text-lg lg:text-1xl text-slate-300 mb-10 max-w-xl leading-relaxed"
             >
-              We prepare students with industry-ready skills, character development,
-              and real-world experience for successful careers.
+              {t('hero.description')}
             </motion.p>
 
             {/* Button */}
@@ -162,7 +163,7 @@ const HeroSection = () => {
                 to="/about" 
                 className="text-sm md:text-base group relative inline-flex items-center gap-2 md:gap-3 px-5 py-2.5 md:px-6 md:py-3 bg-teal-500 text-white font-bold rounded-full hover:bg-teal-400 transition-all shadow-lg shadow-teal-500/25"
               >
-                Learn More
+                {t('hero.learn_more')}
                 <ArrowRight className="w-4 h-4 md:w-5 md:h-5 group-hover:translate-x-1 transition-transform" />
               </Link>
             </motion.div>
@@ -200,7 +201,7 @@ const HeroSection = () => {
             className="absolute bottom-10 right-12 z-30 flex flex-col items-center gap-4"
           >
             <span className="text-[10px] text-white/40 uppercase tracking-[0.2em] [writing-mode:vertical-lr]">
-              Scroll to explore
+              {t('hero.scroll_explore')}
             </span>
             <div className="w-[1px] h-12 bg-gradient-to-b from-teal-500 to-transparent" />
           </motion.div>

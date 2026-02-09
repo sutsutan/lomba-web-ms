@@ -3,6 +3,7 @@ import ScrollReveal from '@/components/ScrollReveal';
 import { motion } from 'framer-motion';
 import { ChevronLeft, ChevronRight, Trophy } from 'lucide-react';
 import { useState } from 'react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface Achievement {
     id: number;
@@ -13,38 +14,38 @@ interface Achievement {
     image: string;
 }
 
-const achievements: Achievement[] = [
-    {
-        id: 1,
-        title: 'Gold Medal - National Robotics Competition',
-        student: 'Ghattan Firstian Ilhaq',
-        description:
-            'First place in the National Robotics Competition 2024, showcasing innovative automation solutions.',
-        category: 'Technology',
-        image: achievementImg,
-    },
-    {
-        id: 2,
-        title: 'Best Culinary Innovation Award',
-        student: 'Sutan Bariq Rajabbani Pasai',
-        description:
-            'Winner of the Jakarta Culinary Festival for creative fusion cuisine.',
-        category: 'Culinary',
-        image: achievementImg,
-    },
-    {
-        id: 3,
-        title: 'National Debate Championship',
-        student: 'Hanna Maria',
-        description:
-            'Champion in the National English Debate Competition representing West Java.',
-        category: 'Academic',
-        image: achievementImg,
-    },
-];
+
 
 const AchievementsSlider = () => {
+    const { t } = useLanguage();
     const [currentIndex, setCurrentIndex] = useState(0);
+
+    const achievements: Achievement[] = [
+        {
+            id: 1,
+            title: t('achievements.1.title'),
+            student: 'Ghattan Firstian Ilhaq',
+            description: t('achievements.1.desc'),
+            category: t('achievements.1.cat'),
+            image: achievementImg,
+        },
+        {
+            id: 2,
+            title: t('achievements.2.title'),
+            student: 'Sutan Bariq Rajabbani Pasai',
+            description: t('achievements.2.desc'),
+            category: t('achievements.2.cat'),
+            image: achievementImg,
+        },
+        {
+            id: 3,
+            title: t('achievements.3.title'),
+            student: 'Hanna Maria',
+            description: t('achievements.3.desc'),
+            category: t('achievements.3.cat'),
+            image: achievementImg,
+        },
+    ];
 
     const nextSlide = () => {
         setCurrentIndex((prev) => (prev + 1) % achievements.length);
@@ -64,10 +65,10 @@ const AchievementsSlider = () => {
                     <ScrollReveal>
                         <div className="text-left">
                             <h2 className="section-title !mx-0 text-2xl md:text-3xl lg:text-4xl">
-                                Moments of Achievement
+                                {t('achievements.title')}
                             </h2>
                             <p className="mt-2 text-sm text-muted-foreground md:text-base">
-                                Celebrating our students' global excellence
+                                {t('achievements.subtitle')}
                             </p>
                         </div>
                     </ScrollReveal>
@@ -156,7 +157,7 @@ const AchievementsSlider = () => {
                                                 {/* Consultation Button */}
                                                 <button className="group mt-2 inline-flex items-center justify-center gap-3 rounded-full bg-[#0F4C5C] px-8 py-3.5 text-sm font-bold text-white shadow-xl transition-all hover:bg-[#0a3844] hover:shadow-2xl active:scale-95 md:mt-4 md:px-10 md:py-4 md:text-base">
                                                     <Trophy className="h-4 w-4 md:h-5 md:w-5" />
-                                                    Learn More
+                                                    {t('achievements.learn_more')}
                                                 </button>
                                             </div>
 

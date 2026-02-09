@@ -4,6 +4,7 @@ import videoSource from '@/assets/0712_XFrfipW4.mp4';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ChevronLeft, ChevronRight, Play, Quote } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 // Framer Motion Variants untuk animasi masuk
 const containerVariants = {
@@ -31,71 +32,66 @@ interface TestimonialItem {
     description: string;
 }
 
-const testimonialData: Record<string, TestimonialItem[]> = {
-    student: [
-        {
-            id: 1,
-            name: 'Andini Julianti',
-            role: 'Student - IT & Software',
-            videoUrl: videoSource,
-            description:
-                'Metland School give me the practical skills and confidence to excel in the tech industry.',
-        },
-        {
-            id: 2,
-            name: 'Budi Santoso',
-            role: 'Student - Multimedia',
-            videoUrl: videoSource,
-            description:
-                'Program multimedia di Metland sangat membantu saya mengasah kreativitas.',
-        },
-        {
-            id: 3,
-            name: 'Siti Aminah',
-            role: 'Student - Culinary',
-            videoUrl: videoSource,
-            description:
-                'Kitchen Facility in Metland School really supports my learning journey in culinary arts.',
-        },
-    ],
-    parents: [
-        {
-            id: 4,
-            name: 'Ibu Ratna',
-            role: 'Parents',
-            videoUrl: videoSource,
-            description:
-                'character development in Metland School reallu prepares my child for the future.',
-        },
-    ],
-    teacher: [
-        {
-            id: 5,
-            name: 'Bpk. Aris',
-            role: 'Teacher - Engineering',
-            videoUrl: videoSource,
-            description:
-                'we focus on hands-on learning to ensure students are job-ready upon graduation.',
-        },
-    ],
-    alumni: [
-        {
-            id: 6,
-            name: 'Rizky Ramadhan',
-            role: 'Software Engineer',
-            videoUrl: videoSource,
-            description:
-                'industry partnerships at Metland School opened doors for my career in tech.',
-        },
-    ],
-};
-
 const TestimonialVideo = () => {
+    const { t } = useLanguage();
     const [activeTab, setActiveTab] = useState<string>('student');
     const [activeIndex, setActiveIndex] = useState(0);
     const [windowWidth, setWindowWidth] = useState(
         typeof window !== 'undefined' ? window.innerWidth : 1200,
     );
+
+    const testimonialData: Record<string, TestimonialItem[]> = {
+        student: [
+            {
+                id: 1,
+                name: 'Andini Julianti',
+                role: t('testimony.role.it'),
+                videoUrl: videoSource,
+                description: t('testimony.desc.1'),
+            },
+            {
+                id: 2,
+                name: 'Budi Santoso',
+                role: t('testimony.role.multimedia'),
+                videoUrl: videoSource,
+                description: t('testimony.desc.2'),
+            },
+            {
+                id: 3,
+                name: 'Siti Aminah',
+                role: t('testimony.role.culinary'),
+                videoUrl: videoSource,
+                description: t('testimony.desc.3'),
+            },
+        ],
+        parents: [
+            {
+                id: 4,
+                name: 'Ibu Ratna',
+                role: t('testimony.role.parent'),
+                videoUrl: videoSource,
+                description: t('testimony.desc.4'),
+            },
+        ],
+        teacher: [
+            {
+                id: 5,
+                name: 'Bpk. Aris',
+                role: t('testimony.role.eng'),
+                videoUrl: videoSource,
+                description: t('testimony.desc.5'),
+            },
+        ],
+        alumni: [
+            {
+                id: 6,
+                name: 'Rizky Ramadhan',
+                role: t('testimony.role.sw'),
+                videoUrl: videoSource,
+                description: t('testimony.desc.6'),
+            },
+        ],
+    };
 
     const videoRefs = useRef<Map<number, HTMLVideoElement>>(new Map());
     const categories = Object.keys(testimonialData);
@@ -172,7 +168,7 @@ const TestimonialVideo = () => {
                     className="mb-16 text-center"
                 >
                     <h2 className="text-3xl font-black text-[#0F5F58] md:text-5xl">
-                        Voices of Metland
+                        {t('testimony.title')}
                     </h2>
                     <div className="mx-auto mt-4 h-1 w-24 rounded-full bg-teal-500/20" />
                 </motion.div>
@@ -192,13 +188,13 @@ const TestimonialVideo = () => {
                                 setActiveTab(cat);
                                 setActiveIndex(0);
                             }}
-                            className={`relative pb-4 text-base font-bold capitalize transition-all sm:text-lg ${
+                            className={`relative pb-4 text-base font-bold transition-all sm:text-lg ${
                                 activeTab === cat
                                     ? 'text-[#0F5F58]'
                                     : 'text-slate-400 hover:text-slate-600'
                             }`}
                         >
-                            {cat}
+                            {t('testimony.cat.' + cat)}
                             {activeTab === cat && (
                                 <motion.div
                                     layoutId="underline"

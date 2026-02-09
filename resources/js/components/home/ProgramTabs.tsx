@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import ScrollReveal from '@/components/ScrollReveal';
@@ -26,25 +27,28 @@ interface TabContent {
   images: string[];
 }
 
-const tabData: Record<string, TabContent> = {
-  extracurricular: {
-    title: 'Extracurricular',
-    description: 'Our extracurricular programs allow students to discover their passions while developing confidence, responsibility, and collaboration in a supportive school environment.',
-    images: [extracurricularFutsal, extracurricularBasket, extracurricularBadminton, extracurricularModelling],
-  },
-  organization: {
-    title: 'Organization',
-    description: 'Develop leadership skills and make a difference through our student-led organizations.',
-    images: [Itec, LogoOsis, Kkr, Mahes, Msp, Mpk],
-  },
-  major: {
-    title: 'Major',
-    description: 'Choose from our industry-focused majors designed to prepare you for professional success.',
-    images: [programCulinaryImg, programItImg, programDkv, programPerhotelan, programAkuntansi],
-  },
-};
-
 const ProgramTabs = () => {
+  const { t } = useLanguage();
+  
+  const tabData: Record<string, TabContent> = {
+    extracurricular: {
+      title: t('program.extracurricular.title'),
+      description: t('program.extracurricular.desc'),
+      images: [extracurricularFutsal, extracurricularBasket, extracurricularBadminton, extracurricularModelling],
+    },
+    organization: {
+      title: t('program.organization.title'),
+      description: t('program.organization.desc'),
+      images: [Itec, LogoOsis, Kkr, Mahes, Msp, Mpk],
+    },
+    major: {
+      title: t('program.major.title'),
+      description: t('program.major.desc'),
+      images: [programCulinaryImg, programItImg, programDkv, programPerhotelan, programAkuntansi],
+    },
+  };
+
+
   const [activeTab, setActiveTab] = useState<keyof typeof tabData>('extracurricular');
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1200);
@@ -104,7 +108,7 @@ const ProgramTabs = () => {
         <ScrollReveal>
           <div className="text-center mb-8 sm:mb-10 md:mb-12">
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-primary mb-6 sm:mb-8">
-              Learning That Makes a Difference
+              {t('program.title')}
             </h2>
           </div>
         </ScrollReveal>
