@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight, Search } from 'lucide-react';
 import MainLayout from '@/layouts/MainLayout';
@@ -232,19 +232,6 @@ const galleryProjects = [
   },
 ];
 
-const projects = [
-  {
-    id: 1,
-    category: 'IT',
-    student: 'Ttang - XI PPLG 1',
-    title: 'Mobil RC',
-    description: "Empowering Vocational Excellence — SMK Metland School is a vocational secondary school dedicated to preparing students for real career pathways and future opportunities. Our learning approach is designed to help students not only understand academic concepts, but also develop practical skills, confidence, and a professional mindset needed in today’s industry. With a strong focus on hands-on experience, students are trained through project-based learning, industry-standard practices, and real-world simulations that reflect actual working environments. Beyond technical competence, we also prioritize character development, communication, teamwork, and digital literacy—so every student is ready to compete locally and globally.",
-    mainImage: programIt,
-    thumbnails: [programIt, programIt]
-  },
-];
-
-
 // Descriptions for each category
 const categoryDescriptions: Record<string, { intro: string; detail: string; closing: string }> = {
   'Culinary': {
@@ -278,22 +265,27 @@ const StudentWorks = () => {
   const [currentProjectIndex, setCurrentProjectIndex] = useState(0);
   const [selectedCategory, setSelectedCategory] = useState(categories[0]);
 
+  // Reset index when category changes
+  useEffect(() => {
+    setCurrentProjectIndex(0);
+  }, [selectedCategory]);
+
   // Filter projects based on selected category
   const filteredProjects = galleryProjects.filter(
     (project) => project.category === selectedCategory.name
   );
 
-  const currentProject = projects[currentProjectIndex];
+  const currentProject = filteredProjects[currentProjectIndex];
 
   const handleNext = () => {
-    if (projects.length > 1) {
-      setCurrentProjectIndex((prev) => (prev + 1) % projects.length);
+    if (filteredProjects.length > 1) {
+      setCurrentProjectIndex((prev) => (prev + 1) % filteredProjects.length);
     }
   };
 
   const handlePrev = () => {
-    if (projects.length > 1) {
-      setCurrentProjectIndex((prev) => (prev - 1 + projects.length) % projects.length);
+    if (filteredProjects.length > 1) {
+      setCurrentProjectIndex((prev) => (prev - 1 + filteredProjects.length) % filteredProjects.length);
     }
   };
 
@@ -332,18 +324,19 @@ const StudentWorks = () => {
                     className="overflow-hidden shadow-lg md:shadow-2xl rounded-lg md:rounded-none"
                   >
                     <img
-                      src={currentProject.mainImage}
+                      src={currentProject.image}
                       alt={currentProject.title}
                       className="w-full h-48 sm:h-64 md:h-80 lg:h-[400px] object-cover hover:scale-105 transition-transform duration-700"
                     />
                   </motion.div>
                   
                   <div className="flex gap-4 sm:gap-6 md:gap-8 mt-6 md:mt-8">
-                    {currentProject.thumbnails.map((thumb, idx) => (
-                      <div key={idx} className="w-1/2 overflow-hidden shadow-md rounded-lg md:rounded-none">
-                        <img src={thumb} alt="Thumbnail" className="w-full h-28 sm:h-32 md:h-40 object-cover hover:scale-105 transition-transform duration-500" />
-                      </div>
-                    ))}
+                    <div className="w-1/2 overflow-hidden shadow-md rounded-lg md:rounded-none">
+                      <img src={currentProject.image} alt="Thumbnail 1" className="w-full h-28 sm:h-32 md:h-40 object-cover hover:scale-105 transition-transform duration-500" />
+                    </div>
+                    <div className="w-1/2 overflow-hidden shadow-md rounded-lg md:rounded-none">
+                      <img src={currentProject.profileImage} alt="Thumbnail 2" className="w-full h-28 sm:h-32 md:h-40 object-cover hover:scale-105 transition-transform duration-500" />
+                    </div>
                   </div>
                 </ScrollReveal>
 
@@ -370,7 +363,7 @@ const StudentWorks = () => {
 
                       <button
                         onClick={handlePrev}
-                        disabled={projects.length <= 1}
+                        disabled={filteredProjects.length <= 1}
                         className="absolute left-1 sm:left-2 -top-1 w-10 h-10 sm:w-12 sm:h-12 border-2 border-[#12606A]/40 flex items-center justify-center rotate-45 hover:bg-[#12606A] hover:text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed group"
                       >
                         <ChevronLeft className="-rotate-45 w-5 h-5 sm:w-6 sm:h-6 group-active:-translate-x-1 transition-transform" />
@@ -378,7 +371,7 @@ const StudentWorks = () => {
 
                       <button
                         onClick={handleNext}
-                        disabled={projects.length <= 1}
+                        disabled={filteredProjects.length <= 1}
                         className="absolute right-1 sm:right-2 -bottom-1 w-10 h-10 sm:w-12 sm:h-12 border-2 border-[#12606A]/40 flex items-center justify-center rotate-45 hover:bg-[#12606A] hover:text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed group"
                       >
                         <ChevronRight className="-rotate-45 w-5 h-5 sm:w-6 sm:h-6 group-active:translate-x-1 transition-transform" />
