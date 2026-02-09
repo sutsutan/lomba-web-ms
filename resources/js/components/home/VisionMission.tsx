@@ -4,19 +4,15 @@ import ourVisionImg from '@/assets/our-vision.jpg';
 import ourMissionImg from '@/assets/our-mission.jpg';
 import ScrollReveal from '@/components/ScrollReveal';
 
-// Sub-komponen untuk Card agar logic mouse tidak tercampur
 const InteractiveCard = ({ children, delay }: { children: React.ReactNode, delay: number }) => {
   const cardRef = useRef<HTMLDivElement>(null);
 
-  // Motion values untuk rotasi
   const x = useMotionValue(0);
   const y = useMotionValue(0);
 
-  // Menghaluskan pergerakan dengan spring
   const mouseXSpring = useSpring(x);
   const mouseYSpring = useSpring(y);
 
-  // Transformasi derajat rotasi (maksimal 10-15 derajat agar tidak pusing)
   const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["10deg", "-10deg"]);
   const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-10deg", "10deg"]);
 
@@ -27,7 +23,6 @@ const InteractiveCard = ({ children, delay }: { children: React.ReactNode, delay
     const width = rect.width;
     const height = rect.height;
 
-    // Menghitung posisi kursor relatif terhadap tengah kartu (range -0.5 sampai 0.5)
     const mouseX = (e.clientX - rect.left) / width - 0.5;
     const mouseY = (e.clientY - rect.top) / height - 0.5;
 

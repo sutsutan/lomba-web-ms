@@ -309,7 +309,7 @@ const Major = () => {
                                         alt={current.title}
                                     />
                                 </div>
-                                <div className="absolute -bottom-6 -right-4 z-20 min-w-[280px] rounded-2xl bg-[#12606A]/90 p-6 text-white shadow-xl md:-right-8 md:p-8">
+                                <div className="absolute -bottom-6 -right-4 z-20 min-w-[280px] rounded-2xl bg-[#12606A]/80 p-6 text-white shadow-xl md:-right-8 md:p-8">
                                     <div className="flex items-center justify-between gap-8">
                                         <div className="flex items-center gap-3">
                                             <Users className="h-5 w-5 opacity-60" />
