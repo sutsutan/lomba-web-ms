@@ -84,31 +84,31 @@ const Ppdb = () => {
             {[
               { 
                 step: 1, 
-                title: 'Apply Online', 
-                subtitle: 'Start Your Application',
-                desc: 'Registration begins with a simple online form that parents can complete from home. This step is designed to make the first part of the process fast, clear, and accessible. After submitting the form, your application will be recorded in our system and you will receive confirmation along with the next instructions.',
-                date: '01 March – 30 April 2026'
+                title: t('ppdb.step1.title'), 
+                subtitle: t('ppdb.step1.subtitle'),
+                desc: t('ppdb.step1.desc'),
+                date: t('ppdb.step1.date')
               },
               { 
                 step: 2, 
-                title: 'Upload Required Documents', 
-                subtitle: 'Prepare and Submit Your Files',
-                desc: 'Once the registration form is submitted, parents will upload the required documents to complete the application. Clear and complete documents help our admission team verify information more efficiently. If any document is missing or unclear, our team will contact you to guide the revision process.',
-                date: '01 March – 05 May 2026'
+                title: t('ppdb.step2.title'), 
+                subtitle: t('ppdb.step2.subtitle'),
+                desc: t('ppdb.step2.desc'),
+                date: t('ppdb.step2.date')
               },
               { 
                 step: 3, 
-                title: 'Assessment & Interview', 
-                subtitle: 'Discover the Student\'s Potential',
-                desc: 'After all documents are submitted, the admission team will carefully review the application to ensure everything meets the requirements. This step ensures every applicant is processed fairly and professionally. Once verified, parents will receive an update and a schedule for the next stage.',
-                date: 'Within 3-5 working days after submission'
+                title: t('ppdb.step3.title'), 
+                subtitle: t('ppdb.step3.subtitle'),
+                desc: t('ppdb.step3.desc'),
+                date: t('ppdb.step3.date')
               },
               { 
                 step: 4, 
-                title: 'Admission Result', 
-                subtitle: 'Receive the Official Decision',
-                desc: 'After the assessment stage is completed, parents will receive the admission result through official school communication channels. If accepted, the student will move forward to the enrollment confirmation stage. We aim to deliver results quickly so families can plan with confidence.',
-                date: '21 May 2026'
+                title: t('ppdb.step4.title'), 
+                subtitle: t('ppdb.step4.subtitle'),
+                desc: t('ppdb.step4.desc'),
+                date: t('ppdb.step4.date')
               },
             ].map((item, index, arr) => (
               <ScrollReveal key={index} delay={0.1 * index}>

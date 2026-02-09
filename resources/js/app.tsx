@@ -15,17 +15,13 @@ import News from "./pages/News";
 import Alumni from "./pages/Alumni";
 import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
-import major from "./pages/Major";
 import Major from './pages/Major';
 import StudentWorks from "./pages/StudentWorks";
 import Ppdb from "./pages/Ppdb";
 import Teachers from "./pages/Teacher";
 import OurValues from "./pages/OurValues";
-<<<<<<< HEAD
 import { LanguageProvider } from "@/contexts/LanguageContext";
-=======
 import PpdbPopup from "./components/home/ppdbpopup";
->>>>>>> efa83c92ee05e1ee28e62c9d8a9aebec1f02a1b5
 
 const queryClient = new QueryClient();
 
@@ -56,6 +52,7 @@ const App = () => (
             </Routes>
           </AnimatePresence>
         </BrowserRouter>
+        <PpdbPopup />
       </TooltipProvider>
     </LanguageProvider>
   </QueryClientProvider>

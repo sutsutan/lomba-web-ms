@@ -4,78 +4,80 @@ import ScrollReveal from '@/components/ScrollReveal';
 import HeroCarousel from '@/components/HeroCarousel';
 import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useLanguage } from '@/contexts/LanguageContext';
 import programIt from '@/assets/program-it.webp';
 import programCulinary from '@/assets/program-culinary.webp';
 import achievement from '@/assets/achievement-1.jpg';
 import programDkv from '@/assets/program-dkv.jpg';
 
-const majors = [
-  {
-    name: 'PPLG',
-    description: 'The IT program covers software development and digital problem-solving skills, equipping students with practical abilities to design, build, and maintain modern digital solutions.',
-  },
-  {
-    name: 'Akuntansi Bisnis',
-    description: 'The Accounting program covers financial management and business reporting skills, equipping students with practical abilities to manage records, analyze data, and support business decisions.',
-  },
-  {
-    name: 'Kuliner',
-    description: 'The Culinary program covers professional cooking and kitchen management skills, equipping students with practical abilities to prepare quality dishes and maintain food safety standards.',
-  },
-  {
-    name: 'Perhotelan',
-    description: 'The Hospitality program covers service excellence and hospitality management skills, equipping students with practical abilities to deliver professional guest experiences in service industries.',
-  },
-  {
-    name: 'Desain Komunikasi Visual (DKV)',
-    description: 'The Visual Communication Design program covers creative design and visual communication skills, equipping students with practical abilities to create impactful visual content for digital and print media.',
-  },
-];
-
-const timelineItems = [
-  { 
-    image: programIt,
-    title: 'Industry Partnership',
-    subtitle: 'Connecting Students with Real World',
-    description: 'We collaborate with top companies to provide internships and real-world project experiences for our students.'
-  },
-  { 
-    image: programCulinary, 
-    title: 'Modern Facilities',
-    subtitle: 'State-of-the-Art Learning Environment',
-    description: 'Our labs and workshops are equipped with the latest technology to ensure students learn with industry-standard tools.'
-  },
-  { 
-    image: achievement, 
-    title: 'Achievements',
-    subtitle: 'Celebrating Excellence',
-    description: 'Our students frequently win national and regional competitions, showcasing their skills and dedication.'
-  },
-  { 
-    image: programIt, 
-    title: 'Global Certifications',
-    subtitle: 'Recognized Qualifications',
-    description: 'Students graduate with certifications that are recognized globally, giving them a competitive edge in the job market.'
-  }, 
-];
-
-const studentWorks = [
-  { title: 'Mobile App UI Design', student: 'SMK METLAND', image: programIt },
-  { title: 'Culinary Presentation', student: 'SMK METLAND', image: programCulinary },
-  { title: 'Brand Identity Project', student: 'SMK METLAND', image: achievement },
-  { title: 'Web Development', student: 'SMK METLAND', image: programIt },
-  { title: 'Photography Portfolio', student: 'SMK METLAND', image: programCulinary },
-];
-
 const Academics = () => {
+  const { t } = useLanguage();
+
+  const majors = [
+    {
+      name: t('category.it'),
+      description: t('academics.majors.pplg.desc'),
+    },
+    {
+      name: t('category.accounting'),
+      description: t('academics.majors.accounting.desc'),
+    },
+    {
+      name: t('category.culinary'),
+      description: t('academics.majors.culinary.desc'),
+    },
+    {
+      name: t('category.hospitality'),
+      description: t('academics.majors.hospitality.desc'),
+    },
+    {
+      name: t('category.dkv'),
+      description: t('academics.majors.dkv.desc'),
+    },
+  ];
+
+  const timelineItems = [
+    { 
+      image: programIt,
+      title: t('academics.timeline.1.title'),
+      subtitle: t('academics.timeline.1.subtitle'),
+      description: t('academics.timeline.1.desc')
+    },
+    { 
+      image: programCulinary, 
+      title: t('academics.timeline.2.title'),
+      subtitle: t('academics.timeline.2.subtitle'),
+      description: t('academics.timeline.2.desc')
+    },
+    { 
+      image: achievement, 
+      title: t('academics.timeline.3.title'),
+      subtitle: t('academics.timeline.3.subtitle'),
+      description: t('academics.timeline.3.desc')
+    },
+    { 
+      image: programIt, 
+      title: t('academics.timeline.4.title'),
+      subtitle: t('academics.timeline.4.subtitle'),
+      description: t('academics.timeline.4.desc')
+    }, 
+  ];
+
+  const studentWorks = [
+    { title: t('academics.works.1.title'), tag: t('academics.works.1.tag'), desc: t('academics.works.1.desc'), image: programIt },
+    { title: t('academics.works.2.title'), tag: t('academics.works.2.tag'), desc: t('academics.works.2.desc'), image: programCulinary },
+    { title: t('academics.works.3.title'), tag: t('academics.works.3.tag'), desc: t('academics.works.3.desc'), image: programDkv },
+    { title: t('academics.works.4.title'), tag: t('academics.works.4.tag'), desc: t('academics.works.4.desc'), image: achievement },
+  ];
+
   return (
     <MainLayout>
       {/* Hero Carousel */}
       <HeroCarousel
-        title="Academics"
-        subtitle="Empowering Vocational Excellence"
-        description="SMK Metland School is a vocational secondary school that focuses on preparing students for their future careers. Learning activities are designed to help students gain practical skills for real-life situations."
-        height="height=h-[70vh]"
+        title={t('academics.hero.title')}
+        subtitle={t('academics.hero.subtitle')}
+        description={t('academics.hero.desc')}
+        height="h-[70vh]"
       />
 
       {/* Main Content: Two Columns */}
@@ -87,34 +89,23 @@ const Academics = () => {
             <div className="lg:col-span-5 space-y-12 lg:ml-20">
               <ScrollReveal>
                 <div className="space-y-6">
-                  <h2 className="section-title text-3xl md:text-4xl text-primary font-bold">Academics</h2>
+                  <h2 className="section-title text-3xl md:text-4xl text-primary font-bold">{t('academics.main.title')}</h2>
                   <div className="space-y-4 text-muted-foreground leading-relaxed text-pretty">
                     <p className='text-[#12606A] font-medium text-justify'>
-                      Empowering Vocational Excellence
-                      SMK Metland School is a vocational secondary school that focuses on preparing 
-                      students for their future careers. Learning activities are designed to 
-                      help students not only understand academic concepts, but also 
-                      gain practical skills that can be applied in real-life situations.
+                      {t('academics.main.desc1')}
                     </p>
                     <p className='text-[#12606A] font-medium text-justify'>
-                      Our programs combine industry-relevant skills, character 
-                      development, and hands-on practice. Through this approach, 
-                      students learn discipline, responsibility, teamwork, and 
-                      self-confidence—qualities that are important both in the 
-                      workplace and in daily life.
+                      {t('academics.main.desc2')}
                     </p>
                     <p className='text-[#12606A] font-medium text-justify'>
-                      By balancing academic learning with practical experience, 
-                      SMK Metland School supports students in continuing to higher 
-                      education or entering the workforce with strong skills and 
-                      positive character.
+                      {t('academics.main.desc3')}
                     </p>
                   </div>
                 </div>
 
                 <div className="mt-12">
                   <h3 className="relative inline-block text-2xl font-bold text-primary mb-6">
-                    Majors
+                    {t('academics.majors.title')}
                     <div className="absolute -bottom-2 left-0 h-1 w-24 rounded-full bg-primary" />
                   </h3>
                   <ul className="space-y-4">
@@ -164,7 +155,6 @@ const Academics = () => {
                               alt="Vocational Excellence" 
                               className="w-full h-full object-cover transition-transform duration-700 hover:scale-110 border-none outline-none" 
                             />
-                            {/* Overlay removed as per request 'border di fotonya hilangkan' if it referred to overlay borders */}
                           </div>
                           <div className="p-6 text-primary-foreground">
                             <div className="flex items-center gap-4 mb-2">
@@ -196,10 +186,10 @@ const Academics = () => {
              <div className="flex items-center justify-between mb-12">
                 <div className="flex items-center gap-4">
                    <div className="w-1 h-12 bg-[#12606A] rounded-full" />
-                   <h2 className="text-3xl md:text-4xl font-bold text-[#12606A]">Student Works</h2>
+                   <h2 className="text-3xl md:text-4xl font-bold text-[#12606A]">{t('academics.works.title')}</h2>
                 </div>
                 <Link to="/student-works" className="px-6 py-2 rounded-full bg-gray-200 text-[#12606A] font-medium hover:bg-gray-300 transition-colors text-sm">
-                   View All Projects
+                   {t('academics.works.view_all')}
                 </Link>
              </div>
 
@@ -208,16 +198,15 @@ const Academics = () => {
                 
                 {/* Left Large Card */}
                 <div className="relative rounded-lg overflow-hidden group h-[350px] lg:h-full shadow-lg">
-                   <img src={programDkv} alt="Student Work 1" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                   <img src={studentWorks[2].image} alt="Student Work 1" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                    <div className="absolute bottom-8 left-8 right-8 text-white">
-                      <span className="bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-xs font-medium mb-3 inline-block">Web Developer</span>
-                      <h3 className="font-bold text-xl mb-1">SMK METLAND</h3>
-                      <p className="text-white/80 text-sm opacity-90">Empowering Vocational Excellence SMK Metland School</p>
+                      <span className="bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-xs font-medium mb-3 inline-block">{studentWorks[2].tag}</span>
+                      <h3 className="font-bold text-xl mb-1">{studentWorks[2].title}</h3>
+                      <p className="text-white/80 text-sm opacity-90">{studentWorks[2].desc}</p>
                    </div>
                 </div>
 
-                {/* Right Column Grid */}
                 {/* Right Column Grid */}
                 <div className="grid grid-rows-2 h-full">
                    
@@ -225,35 +214,35 @@ const Academics = () => {
                    <div className="grid grid-cols-2 md:grid-cols-2 gap-6">
                       {/* Top Left */}
                       <div className="relative rounded-lg overflow-hidden group h-[280px] shadow-lg">
-                         <img src={programIt} alt="Student Work 2" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                         <img src={studentWorks[0].image} alt="Student Work 2" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                          <div className="absolute bottom-6 left-6 right-6 text-white">
-                            <span className="bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-medium mb-2 inline-block">App Design</span>
-                            <h3 className="font-bold text-lg mb-1">SMK METLAND</h3>
-                            <p className="text-white/80 text-xs opacity-90">Mobile UI/UX Project Showcase</p>
+                            <span className="bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-medium mb-2 inline-block">{studentWorks[0].tag}</span>
+                            <h3 className="font-bold text-lg mb-1">{studentWorks[0].title}</h3>
+                            <p className="text-white/80 text-xs opacity-90">{studentWorks[0].desc}</p>
                          </div>
                       </div>
                       
                       {/* Top Right */}
                       <div className="relative rounded-lg overflow-hidden group h-[280px] shadow-lg">
-                         <img src={programCulinary} alt="Student Work 3" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                         <img src={studentWorks[1].image} alt="Student Work 3" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                          <div className="absolute bottom-6 left-6 right-6 text-white">
-                            <span className="bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-medium mb-2 inline-block">Culinary</span>
-                            <h3 className="font-bold text-lg mb-1">SMK METLAND</h3>
-                            <p className="text-white/80 text-xs opacity-90">Fine Dining Presentation</p>
+                            <span className="bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-medium mb-2 inline-block">{studentWorks[1].tag}</span>
+                            <h3 className="font-bold text-lg mb-1">{studentWorks[1].title}</h3>
+                            <p className="text-white/80 text-xs opacity-90">{studentWorks[1].desc}</p>
                          </div>
                       </div>
                    </div>
 
                    {/* Bottom Row: Wide Card */}
                    <div className="relative rounded-lg overflow-hidden group h-[300px] shadow-lg">
-                      <img src={programDkv} alt="Student Work 4" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                      <img src={studentWorks[3].image} alt="Student Work 4" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                       <div className="absolute bottom-8 left-8 right-8 text-white">
-                         <span className="bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-xs font-medium mb-3 inline-block">Achievement</span>
-                         <h3 className="font-bold text-xl mb-1">SMK METLAND</h3>
-                         <p className="text-white/80 text-sm opacity-90">National Competitions Winner</p>
+                         <span className="bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-xs font-medium mb-3 inline-block">{studentWorks[3].tag}</span>
+                         <h3 className="font-bold text-xl mb-1">{studentWorks[3].title}</h3>
+                         <p className="text-white/80 text-sm opacity-90">{studentWorks[3].desc}</p>
                       </div>
                    </div>
 

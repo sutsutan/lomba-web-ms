@@ -45,8 +45,8 @@ const Contact = () => {
                     </div>
                     <div>
                       <h4 className="font-bold text-foreground">{t('contact.info.address')}</h4>
-                      <p className="text-muted-foreground">
-                        Jl. Pendidikan No. 123, Cileungsi,<br />
+                      <p className="text-muted-foreground whitespace-pre-line">
+                        Jl. Pendidikan No. 123, Cileungsi,
                         Bogor, West Java 16820
                       </p>
                     </div>
@@ -78,9 +78,8 @@ const Contact = () => {
                     </div>
                     <div>
                       <h4 className="font-bold text-foreground">{t('contact.info.hours')}</h4>
-                      <p className="text-muted-foreground">
-                        Monday - Friday: 7:00 AM - 4:00 PM<br />
-                        Saturday: 8:00 AM - 12:00 PM
+                      <p className="text-muted-foreground whitespace-pre-line">
+                        {t('contact.info.hours_detail')}
                       </p>
                     </div>
                   </div>
@@ -134,10 +133,9 @@ const Contact = () => {
                       {t('contact.form.subject')}
                     </label>
                     <select className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white focus:outline-none focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all font-medium appearance-none">
-                      <option>General Inquiry</option>
-                      <option>Admissions</option>
-                      <option>Programs</option>
-                      <option>Other</option>
+                      {t('contact.form.subject_options').split(',').map((opt) => (
+                        <option key={opt}>{opt}</option>
+                      ))}
                     </select>
                   </div>
 

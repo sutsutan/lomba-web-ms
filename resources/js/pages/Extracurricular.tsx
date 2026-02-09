@@ -101,7 +101,7 @@ const Extracurricular = () => {
             <ScrollReveal delay={0.2} className="order-2 lg:order-1">
               <div className="space-y-6 lg:text-right">
                 <p className="text-[#12606A] font-medium leading-relaxed text-lg">
-                  {t('extra.stories.desc1')}
+                  {t('extra.stories.desc2')}
                 </p>
               </div>
             </ScrollReveal>
@@ -128,7 +128,7 @@ const Extracurricular = () => {
             <ScrollReveal delay={0.2}>
               <div className="space-y-6">
                 <p className="text-[#12606A] font-medium leading-relaxed text-lg">
-                  {t('extra.stories.desc1')}
+                  {t('extra.stories.desc3')}
                 </p>
               </div>
             </ScrollReveal>

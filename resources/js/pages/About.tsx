@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLanguage } from '@/contexts/LanguageContext';
 import MainLayout from '@/layouts/MainLayout';
@@ -10,55 +10,69 @@ import { Link } from 'react-router-dom';
 import aboutImage from '@/assets/about-preview.jpg';
 import programIt from '@/assets/program-it.webp';
 import programCulinary from '@/assets/program-culinary.webp';
-import timelineImage from '@/assets/our-timeline.jpg';
 import galadinner from '@/assets/gala-dinner.jpg';
 import leadership from '@/assets/leadership-training.jpg';
 import osis from '@/assets/osis.jpg';
 
-// Data for Sections
-const valuesData = [
-  {
-    image: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=2070&auto=format&fit=crop',
-    title: 'Industry Ready Skills',
-    description: 'Skills aligned with real industries'
-  },
-  {
-    image: 'https://images.unsplash.com/photo-1577896851231-70ef18881754?q=80&w=2070&auto=format&fit=crop',
-    title: 'Strong Character',
-    description: 'Discipline, teamwork, responsibility'
-  },
-  {
-    image: 'https://images.unsplash.com/photo-1517048676732-d65bc937f952?q=80&w=2070&auto=format&fit=crop',
-    title: 'Hands-on Learning',
-    description: 'Learning through practice'
-  }
-];
-
-const timelineYears = ['1945', '1980', '2000', '2020', '2026'];
-const timelineContent = {
-  '1945': {
-    heads: [ 'Tatang sunarja : 1945 - 2026', 'Veria Raja Tunggal : 1945 - 202' ],
-    beginning: "Metland School was established with a strong commitment to providing quality vocational education that balances academic learning, practical skills, and character development. From the very beginning, the school was designed to prepare students for real-world challenges and professional environments.",
-    growing: "As the demand for skilled and industry-ready graduates continued to increase, Metland School consistently developed and refined its academic programs, facilities, and learning approach. With a strong focus on tourism, hospitality, and vocational excellence, the school enhanced its curriculum to align with current industry standards, technological advancements, and real-world professional needs. This commitment ensures that students are not only academically prepared, but also equipped with practical skills, strong character, and adaptability to succeed in a rapidly evolving global workforce."
-  },
-  // Placeholder content for other years as specific text wasn't provided for them
-  '1980': { heads: ['Next Generation : 1980 - 2000'], beginning: 'Expansion era...', growing: 'New facilities added...' },
-  '2000': { heads: ['Modern Era : 2000 - 2020'], beginning: 'Technological integration...', growing: 'Digital transformation...' },
-  '2020': { heads: ['Current Leaders : 2020 - Present'], beginning: 'Resilience and innovation...', growing: 'Global standards...' },
-  '2026': { heads: ['Future Vision : 2026+'], beginning: 'Future forward...', growing: 'Sustainable growth...' },
-};
-
-const studyPrograms = [
-  { title: 'PPLG', desc: 'Mastering code and development', image: programIt },
-  { title: 'Culinary', desc: 'Professional culinary skills', image: programCulinary },
-  { title: 'Hospitality', desc: 'service excellence and management', image: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=2070&auto=format&fit=crop' },
-  { title: 'Accounting', desc: 'Financial management experts', image: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?q=80&w=2072&auto=format&fit=crop' },
-  { title: 'DKV', desc: 'Design, creativity, and visual communication', image: 'https://smkmetland.net/ppdb/wp-content/uploads/2024/01/MSF04850-1024x576.jpg' },
-];
-
 const About = () => {
   const { t } = useLanguage();
   const [activeYear, setActiveYear] = useState('1945');
+
+  // Data for Sections
+  const valuesData = [
+    {
+      image: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=2070&auto=format&fit=crop',
+      title: t('about.value.1.title'),
+      description: t('about.value.1.desc')
+    },
+    {
+      image: 'https://images.unsplash.com/photo-1577896851231-70ef18881754?q=80&w=2070&auto=format&fit=crop',
+      title: t('about.value.2.title'),
+      description: t('about.value.2.desc')
+    },
+    {
+      image: 'https://images.unsplash.com/photo-1517048676732-d65bc937f952?q=80&w=2070&auto=format&fit=crop',
+      title: t('about.value.3.title'),
+      description: t('about.value.3.desc')
+    }
+  ];
+
+  const timelineYears = ['1945', '1980', '2000', '2020', '2026'];
+  const timelineContent = {
+    '1945': {
+      heads: t('about.timeline.1945.heads').split(','),
+      beginning: t('about.timeline.1945.begin'),
+      growing: t('about.timeline.1945.growing')
+    },
+    '1980': { 
+      heads: t('about.timeline.1980.heads').split(','), 
+      beginning: t('about.timeline.1980.begin'), 
+      growing: t('about.timeline.1980.growing') 
+    },
+    '2000': { 
+      heads: t('about.timeline.2000.heads').split(','), 
+      beginning: t('about.timeline.2000.begin'), 
+      growing: t('about.timeline.2000.growing') 
+    },
+    '2020': { 
+      heads: t('about.timeline.2020.heads').split(','), 
+      beginning: t('about.timeline.2020.begin'), 
+      growing: t('about.timeline.2020.growing') 
+    },
+    '2026': { 
+      heads: t('about.timeline.2026.heads').split(','), 
+      beginning: t('about.timeline.2026.begin'), 
+      growing: t('about.timeline.2026.growing') 
+    },
+  };
+
+  const studyPrograms = [
+    { title: t('category.it'), desc: t('major.pplg.desc'), image: programIt },
+    { title: t('category.culinary'), desc: t('major.culinary.desc'), image: programCulinary },
+    { title: t('category.hospitality'), desc: t('major.hospitality.desc'), image: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=2070&auto=format&fit=crop' },
+    { title: t('category.accounting'), desc: t('major.accounting.desc'), image: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?q=80&w=2072&auto=format&fit=crop' },
+    { title: t('category.dkv'), desc: t('major.dkv.desc'), image: 'https://smkmetland.net/ppdb/wp-content/uploads/2024/01/MSF04850-1024x576.jpg' },
+  ];
 
   return (
     <MainLayout>
@@ -133,7 +147,7 @@ const About = () => {
             ))}
           </div>
           <div className="text-center mt-2">
-            <p className="text-[#0F5F58] text-sm italic border-b border-[#0F5F58] inline-block pb-1">Swipe for more information</p>
+            <p className="text-[#0F5F58] text-sm italic border-b border-[#0F5F58] inline-block pb-1">{t('about.values.swipe')}</p>
           </div>
         </div>
       </section>
@@ -233,7 +247,6 @@ const About = () => {
         </div>
       </section>
 
-<<<<<<< HEAD
       {/* Student Life Section */}
       <section className="py-20 bg-background">
         <div className="container mx-auto px-6 md:px-12 lg:px-24">
@@ -242,16 +255,6 @@ const About = () => {
                 <GraduationCap className="w-10 h-10 text-[#0F5F58]" />
                 <h2 className="text-3xl md:text-4xl font-bold text-[#0F5F58]">{t('about.life.title')}</h2>
              </div>
-=======
-     {/* Student Life Section */}
-<section className="py-20 bg-background">
-  <div className="container mx-auto px-6 md:px-12 lg:px-24">
-    <ScrollReveal>
-      <div className="flex items-center gap-4 mb-12">
-        <GraduationCap className="w-10 h-10 text-[#0F5F58]" />
-        <h2 className="text-3xl md:text-4xl font-bold text-[#0F5F58]">Student Life</h2>
-      </div>
->>>>>>> efa83c92ee05e1ee28e62c9d8a9aebec1f02a1b5
 
       <div className="space-y-12 md:space-y-16">
         {/* Item 1 - Image Left, Text Right */}
@@ -263,10 +266,10 @@ const About = () => {
             <div className="w-1 bg-[#0F5F58] rounded-full flex-shrink-0" />
             <div className="flex flex-col">
               <h3 className="text-xl md:text-2xl font-bold text-[#0F5F58] mb-4">
-                Student Council Presidential Debate 2025/2026
+                {t('about.life.item1.title')}
               </h3>
               <p className="text-[#0F5F58]/80 leading-relaxed text-justify text-sm md:text-base">
-                The student council president election debate is an important part of the democratic learning process at SMK Metland. During these debates, candidates are trained to present ideas, opinions, and visions in a structured and confident manner. The debate encourages critical thinking and teaches students to respect different perspectives while maintaining sportsmanship. This activity also helps develop leadership qualities, self-confidence, and effective communication skills that are essential for both school life and the wider community.
+                {t('about.life.item1.desc')}
               </p>
             </div>
           </div>
@@ -278,10 +281,10 @@ const About = () => {
             <div className="w-1 bg-[#0F5F58] rounded-full flex-shrink-0" />
             <div className="flex flex-col">
               <h3 className="text-xl md:text-2xl font-bold text-[#0F5F58] mb-4">
-                Bank Indonesia Gala Dinner Service Excellence
+                {t('about.life.item2.title')}
               </h3>
               <p className="text-[#0F5F58]/80 leading-relaxed text-justify text-sm md:text-base">
-                SMK Metland actively provides students with opportunities to gain real professional experience through collaboration with industry partners. One of these opportunities is student participation in the Bank Indonesia Gala Dinner event. During this activity, students are directly involved in various services and operations, allowing them to apply skills learned in school. Through this experience, students enhance their technical abilities, communication skills, and understanding of professional ethics and workplace standards.
+                {t('about.life.item2.desc')}
               </p>
             </div>
           </div>
@@ -299,10 +302,10 @@ const About = () => {
             <div className="w-1 bg-[#0F5F58] rounded-full flex-shrink-0" />
             <div className="flex flex-col">
               <h3 className="text-xl md:text-2xl font-bold text-[#0F5F58] mb-4">
-                Basic Leadership Training - Metland School
+                {t('about.life.item3.title')}
               </h3>
               <p className="text-[#0F5F58]/80 leading-relaxed text-justify text-sm md:text-base">
-                Discipline and leadership training activities are an integral part of student character development at SMK Metland. Through marching drills and field training, students are trained to improve teamwork, discipline, and physical endurance. These activities also aim to build mental resilience and a strong sense of responsibility. As a result, students are better prepared to become confident, independent individuals who are ready to face future challenges.
+                {t('about.life.item3.desc')}
               </p>
             </div>
           </div>

@@ -27,7 +27,7 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const t = (key: string) => {
-    const translation = translations[language][key as keyof typeof translations['en']];
+    const translation = (translations[language] as Record<string, string>)[key];
     return translation || key;
   };
 

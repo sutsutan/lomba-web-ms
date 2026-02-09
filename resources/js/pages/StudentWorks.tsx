@@ -15,238 +15,239 @@ import {
   Hotel, Utensils, Calculator, Palette, Code, 
 } from 'lucide-react';
 
-const categories = [
-  { id: 1, name: 'Culinary', icon: <Utensils/>, color: '#0F5F58', image: programCulinary, shortName: 'Culinary' },
-  { id: 2, name: 'Design Communication Visual', icon: <Palette/>, color: '#0F5F58', image: programDkv, shortName: 'DKV' },
-  { id: 3, name: 'Information Technology', icon: <Code/>, color: '#0F5F58', image: programIt, shortName: 'IT' },
-  { id: 4, name: 'Hospitality', icon: <Hotel/>, color: '#0F5F58', image: programHospitality, shortName: 'Hospitality' },
-  { id: 5, name: 'Accounting', icon: <Calculator/>, color: '#0F5F58', image: programAccounting, shortName: 'Accounting' },
-];
-
-const galleryProjects = [
-  // Culinary Projects
-  {
-    id: 1,
-    category: 'Culinary',
-    student: 'Chef Anisa',
-    class: 'XI Culinary 1',
-    title: 'Fusion Cuisine',
-    description: 'Creative fusion dishes combining traditional Indonesian flavors with modern techniques.',
-    image: programCulinary,
-    githubUrl: '#',
-    profileImage: programCulinary
-  },
-  {
-    id: 2,
-    category: 'Culinary',
-    student: 'Budi Santoso',
-    class: 'XI Culinary 2',
-    title: 'Pastry Art',
-    description: 'Artistic pastry creations showcasing precision and creativity.',
-    image: programCulinary,
-    githubUrl: '#',
-    profileImage: programCulinary
-  },
-  {
-    id: 3,
-    category: 'Culinary',
-    student: 'Maria Dewi',
-    class: 'XI Culinary 1',
-    title: 'Traditional Delights',
-    description: 'Modern interpretation of classic Indonesian dishes.',
-    image: programCulinary,
-    githubUrl: '#',
-    profileImage: programCulinary
-  },
-
-  // DKV Projects
-  {
-    id: 4,
-    category: 'Design Communication Visual',
-    student: 'Raka Pratama',
-    class: 'XI DKV 1',
-    title: 'Brand Identity',
-    description: 'Complete brand identity design for local businesses.',
-    image: programDkv,
-    githubUrl: '#',
-    profileImage: programDkv
-  },
-  {
-    id: 5,
-    category: 'Design Communication Visual',
-    student: 'Sinta Maharani',
-    class: 'XI DKV 2',
-    title: 'Motion Graphics',
-    description: 'Dynamic motion graphics for digital marketing campaigns.',
-    image: programDkv,
-    githubUrl: '#',
-    profileImage: programDkv
-  },
-  {
-    id: 6,
-    category: 'Design Communication Visual',
-    student: 'Dimas Putra',
-    class: 'XI DKV 1',
-    title: 'Illustration Art',
-    description: 'Digital illustration showcasing storytelling through art.',
-    image: programDkv,
-    githubUrl: '#',
-    profileImage: programDkv
-  },
-
-  // IT Projects
-  {
-    id: 7,
-    category: 'Information Technology',
-    student: 'Veria Raja Tunggal',
-    class: 'XI IT 1',
-    title: 'From School to Career',
-    description: 'Web application connecting students with career opportunities.',
-    image: programIt,
-    githubUrl: 'https://github.com/tsukuriaI/lomba-web-ms',
-    profileImage: programIt
-  },
-  {
-    id: 8,
-    category: 'Information Technology',
-    student: 'Ana Malia',
-    class: 'XI IT 1',
-    title: 'About Us',
-    description: 'Company profile website with modern UI/UX design.',
-    image: programIt,
-    githubUrl: 'https://github.com/tsukuriaI/lomba-web-ms',
-    profileImage: programIt
-  },
-  {
-    id: 9,
-    category: 'Information Technology',
-    student: 'Cutan Bawiq',
-    class: 'XI IT 1',
-    title: 'Creative Project',
-    description: 'Interactive web application with innovative features.',
-    image: programIt,
-    githubUrl: 'https://github.com/tsukuriaI/lomba-web-ms',
-    profileImage: programIt
-  },
-  {
-    id: 10,
-    category: 'Information Technology',
-    student: 'Atan Ilaq',
-    class: 'XI IT 1',
-    title: 'Innovation Hub',
-    description: 'Platform for sharing innovative tech solutions.',
-    image: programIt,
-    githubUrl: 'https://github.com/tsukuriaI/lomba-web-ms',
-    profileImage: programIt
-  },
-  {
-    id: 11,
-    category: 'Information Technology',
-    student: 'FunDih',
-    class: 'XI IT 1',
-    title: 'Tech Solutions',
-    description: 'Mobile-responsive web application for business solutions.',
-    image: programIt,
-    githubUrl: 'https://github.com/tsukuriaI/lomba-web-ms',
-    profileImage: programIt
-  },
-  {
-    id: 12,
-    category: 'Information Technology',
-    student: 'Hengki',
-    class: 'XI IT 1',
-    title: 'Digital Experience',
-    description: 'Enhanced digital experience platform.',
-    image: programIt,
-    githubUrl: 'https://github.com/tsukuriaI/lomba-web-ms',
-    profileImage: programIt
-  },
-
-  // Hospitality Projects
-  {
-    id: 13,
-    category: 'Hospitality',
-    student: 'Rina Permata',
-    class: 'XI APH 1',
-    title: 'Hotel Service Excellence',
-    description: 'Documentation of front office service training and guest handling.',
-    image: programHospitality,
-    githubUrl: '#',
-    profileImage: programHospitality
-  },
-  {
-    id: 14,
-    category: 'Hospitality',
-    student: 'Ahmad Fauzi',
-    class: 'XI APH 2',
-    title: 'Event Management',
-    description: 'Complete event planning and execution for school events.',
-    image: programHospitality,
-    githubUrl: '#',
-    profileImage: programHospitality
-  },
-  {
-    id: 15,
-    category: 'Hospitality',
-    student: 'Putri Ayu',
-    class: 'XI APH 1',
-    title: 'F&B Service',
-    description: 'Restaurant service excellence and table setting artistry.',
-    image: programHospitality,
-    githubUrl: '#',
-    profileImage: programHospitality
-  },
-
-  // Accounting Projects
-  {
-    id: 16,
-    category: 'Accounting',
-    student: 'Kevin Wijaya',
-    class: 'XI AK 1',
-    title: 'Financial Analysis',
-    description: 'Comprehensive financial analysis report for small businesses.',
-    image: programAccounting,
-    githubUrl: '#',
-    profileImage: programAccounting
-  },
-  {
-    id: 17,
-    category: 'Accounting',
-    student: 'Lisa Hartono',
-    class: 'XI AK 2',
-    title: 'Tax Calculation System',
-    description: 'Excel-based tax calculation and reporting system.',
-    image: programAccounting,
-    githubUrl: '#',
-    profileImage: programAccounting
-  },
-  {
-    id: 18,
-    category: 'Accounting',
-    student: 'Roberto Carlos',
-    class: 'XI AK 1',
-    title: 'Budget Planning',
-    description: 'Corporate budget planning and forecasting project.',
-    image: programAccounting,
-    githubUrl: '#',
-    profileImage: programAccounting
-  },
-];
-
-// Descriptions for each category
-const getCategoryKey = (categoryName: string) => {
-  switch (categoryName) {
-    case 'Culinary': return 'culinary';
-    case 'Design Communication Visual': return 'dkv';
-    case 'Information Technology': return 'it';
-    case 'Hospitality': return 'hospitality';
-    case 'Accounting': return 'accounting';
-    default: return 'culinary';
-  }
-};
-
 const StudentWorks = () => {
   const { t } = useLanguage();
+
+  const categories = [
+    { id: 1, name: 'Culinary', icon: <Utensils/>, color: '#0F5F58', image: programCulinary, shortName: t('category.culinary') },
+    { id: 2, name: 'Design Communication Visual', icon: <Palette/>, color: '#0F5F58', image: programDkv, shortName: 'DKV' },
+    { id: 3, name: 'Information Technology', icon: <Code/>, color: '#0F5F58', image: programIt, shortName: 'IT' },
+    { id: 4, name: 'Hospitality', icon: <Hotel/>, color: '#0F5F58', image: programHospitality, shortName: t('category.hospitality') },
+    { id: 5, name: 'Accounting', icon: <Calculator/>, color: '#0F5F58', image: programAccounting, shortName: t('category.accounting') },
+  ];
+
+  const galleryProjects = [
+    // Culinary Projects
+    {
+      id: 1,
+      category: 'Culinary',
+      student: 'Chef Anisa',
+      class: 'XI Culinary 1',
+      title: t('sw.project.1.title'),
+      description: t('sw.project.1.desc'),
+      image: programCulinary,
+      githubUrl: '#',
+      profileImage: programCulinary
+    },
+    {
+      id: 2,
+      category: 'Culinary',
+      student: 'Budi Santoso',
+      class: 'XI Culinary 2',
+      title: t('sw.project.2.title'),
+      description: t('sw.project.2.desc'),
+      image: programCulinary,
+      githubUrl: '#',
+      profileImage: programCulinary
+    },
+    {
+      id: 3,
+      category: 'Culinary',
+      student: 'Maria Dewi',
+      class: 'XI Culinary 1',
+      title: t('sw.project.3.title'),
+      description: t('sw.project.3.desc'),
+      image: programCulinary,
+      githubUrl: '#',
+      profileImage: programCulinary
+    },
+
+    // DKV Projects
+    {
+      id: 4,
+      category: 'Design Communication Visual',
+      student: 'Raka Pratama',
+      class: 'XI DKV 1',
+      title: t('sw.project.4.title'),
+      description: t('sw.project.4.desc'),
+      image: programDkv,
+      githubUrl: '#',
+      profileImage: programDkv
+    },
+    {
+      id: 5,
+      category: 'Design Communication Visual',
+      student: 'Sinta Maharani',
+      class: 'XI DKV 2',
+      title: t('sw.project.5.title'),
+      description: t('sw.project.5.desc'),
+      image: programDkv,
+      githubUrl: '#',
+      profileImage: programDkv
+    },
+    {
+      id: 6,
+      category: 'Design Communication Visual',
+      student: 'Dimas Putra',
+      class: 'XI DKV 1',
+      title: t('sw.project.6.title'),
+      description: t('sw.project.6.desc'),
+      image: programDkv,
+      githubUrl: '#',
+      profileImage: programDkv
+    },
+
+    // IT Projects
+    {
+      id: 7,
+      category: 'Information Technology',
+      student: 'Veria Raja Tunggal',
+      class: 'XI IT 1',
+      title: t('sw.project.7.title'),
+      description: t('sw.project.7.desc'),
+      image: programIt,
+      githubUrl: 'https://github.com/tsukuriaI/lomba-web-ms',
+      profileImage: programIt
+    },
+    {
+      id: 8,
+      category: 'Information Technology',
+      student: 'Ana Malia',
+      class: 'XI IT 1',
+      title: t('sw.project.8.title'),
+      description: t('sw.project.8.desc'),
+      image: programIt,
+      githubUrl: 'https://github.com/tsukuriaI/lomba-web-ms',
+      profileImage: programIt
+    },
+    {
+      id: 9,
+      category: 'Information Technology',
+      student: 'Cutan Bawiq',
+      class: 'XI IT 1',
+      title: t('sw.project.9.title'),
+      description: t('sw.project.9.desc'),
+      image: programIt,
+      githubUrl: 'https://github.com/tsukuriaI/lomba-web-ms',
+      profileImage: programIt
+    },
+    {
+      id: 10,
+      category: 'Information Technology',
+      student: 'Atan Ilaq',
+      class: 'XI IT 1',
+      title: t('sw.project.10.title'),
+      description: t('sw.project.10.desc'),
+      image: programIt,
+      githubUrl: 'https://github.com/tsukuriaI/lomba-web-ms',
+      profileImage: programIt
+    },
+    {
+      id: 11,
+      category: 'Information Technology',
+      student: 'FunDih',
+      class: 'XI IT 1',
+      title: t('sw.project.11.title'),
+      description: t('sw.project.11.desc'),
+      image: programIt,
+      githubUrl: 'https://github.com/tsukuriaI/lomba-web-ms',
+      profileImage: programIt
+    },
+    {
+      id: 12,
+      category: 'Information Technology',
+      student: 'Hengki',
+      class: 'XI IT 1',
+      title: t('sw.project.12.title'),
+      description: t('sw.project.12.desc'),
+      image: programIt,
+      githubUrl: 'https://github.com/tsukuriaI/lomba-web-ms',
+      profileImage: programIt
+    },
+
+    // Hospitality Projects
+    {
+      id: 13,
+      category: 'Hospitality',
+      student: 'Rina Permata',
+      class: 'XI APH 1',
+      title: t('sw.project.13.title'),
+      description: t('sw.project.13.desc'),
+      image: programHospitality,
+      githubUrl: '#',
+      profileImage: programHospitality
+    },
+    {
+      id: 14,
+      category: 'Hospitality',
+      student: 'Ahmad Fauzi',
+      class: 'XI APH 2',
+      title: t('sw.project.14.title'),
+      description: t('sw.project.14.desc'),
+      image: programHospitality,
+      githubUrl: '#',
+      profileImage: programHospitality
+    },
+    {
+      id: 15,
+      category: 'Hospitality',
+      student: 'Putri Ayu',
+      class: 'XI APH 1',
+      title: t('sw.project.15.title'),
+      description: t('sw.project.15.desc'),
+      image: programHospitality,
+      githubUrl: '#',
+      profileImage: programHospitality
+    },
+
+    // Accounting Projects
+    {
+      id: 16,
+      category: 'Accounting',
+      student: 'Kevin Wijaya',
+      class: 'XI AK 1',
+      title: t('sw.project.16.title'),
+      description: t('sw.project.16.desc'),
+      image: programAccounting,
+      githubUrl: '#',
+      profileImage: programAccounting
+    },
+    {
+      id: 17,
+      category: 'Accounting',
+      student: 'Lisa Hartono',
+      class: 'XI AK 2',
+      title: t('sw.project.17.title'),
+      description: t('sw.project.17.desc'),
+      image: programAccounting,
+      githubUrl: '#',
+      profileImage: programAccounting
+    },
+    {
+      id: 18,
+      category: 'Accounting',
+      student: 'Roberto Carlos',
+      class: 'XI AK 1',
+      title: t('sw.project.18.title'),
+      description: t('sw.project.18.desc'),
+      image: programAccounting,
+      githubUrl: '#',
+      profileImage: programAccounting
+    },
+  ];
+
+  // Descriptions for each category
+  const getCategoryKey = (categoryName: string) => {
+    switch (categoryName) {
+      case 'Culinary': return 'culinary';
+      case 'Design Communication Visual': return 'dkv';
+      case 'Information Technology': return 'it';
+      case 'Hospitality': return 'hospitality';
+      case 'Accounting': return 'accounting';
+      default: return 'culinary';
+    }
+  };
+
   const [currentProjectIndex, setCurrentProjectIndex] = useState(0);
   const [selectedCategory, setSelectedCategory] = useState(categories[0]);
 
@@ -397,7 +398,7 @@ const StudentWorks = () => {
     {categories.map((cat) => (
       <motion.button
         key={cat.id}
-        onClick={() => setSelectedCategory(cat)}
+        onClick={() => setSelectedCategory(cat as any)}
         whileHover={{ scale: 1.03 }}
         whileTap={{ scale: 0.98 }}
         className={`flex-shrink-0 w-28 sm:w-36 md:w-40 lg:w-48 p-3 sm:p-4 md:p-5 lg:p-6 rounded-lg sm:rounded-xl md:rounded-2xl border-2 transition-all duration-300 ${

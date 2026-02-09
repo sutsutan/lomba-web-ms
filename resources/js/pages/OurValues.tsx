@@ -11,47 +11,32 @@ import logoMetland from '@/assets/metland.png';
 const OurValues = () => {
     const { t } = useLanguage();
 
-    const cintaPoints = [
-        "Tuhan", "Orang Tua", "Guru", "Ilmu Pengetahuan",
-        "Bangsa & Tanah Air", "Alam & Budaya", "Sahabat", "Diri Sendiri"
-    ];
+    const cintaPoints = ['1', '2', '3', '4', '5', '6', '7', '8'];
 
-    const prestasiPoints = [
-        { l: "P", t: "Percaya Diri yang Kuat" },
-        { l: "R", t: "Riang & Optimis" },
-        { l: "E", t: "Empati" },
-        { l: "S", t: "Sehat Jiwa & Raga" },
-        { l: "T", t: "Tidak Pantang Menyerah" },
-        { l: "A", t: "Amanah Pemimpin" },
-        { l: "S", t: "Pribadi Mandiri" },
-        { l: "I", t: "Inovatif & Bermanfaat" },
-    ];
+    const prestasiPoints = ['1', '2', '3', '4', '5', '6', '7', '8'];
 
-    const goldenRules = [
-        "Place Honesty In the Priority above all.",
-        "Should be present according to the timing of attendance.",
-        "Should speak politely and behave well.",
-        "Well Groomed and dressed respectfully.",
-        "No Bullying and no sexual harassment.",
-        "No smoking at the school area.",
-        "Keep the school clean and beautiful.",
-        "Smile and greet everyone you meet."
-    ];
+    const goldenRules = ['1', '2', '3', '4', '5', '6', '7', '8'];
 
     const teachersValues = [
         {
             word: "METLAND", list: [
-                { l: "M", t: "Model In Integrity" }, { l: "E", t: "Enthusiastic" },
-                { l: "T", t: "Team work" }, { l: "L", t: "Leadership" },
-                { l: "A", t: "Action make it real" }, { l: "N", t: "Notion" },
-                { l: "D", t: "Dedication to service quality" }
+                { l: "M", t: t('values.teachers.metland.m') }, 
+                { l: "E", t: t('values.teachers.metland.e') },
+                { l: "T", t: t('values.teachers.metland.t') }, 
+                { l: "L", t: t('values.teachers.metland.l') },
+                { l: "A", t: t('values.teachers.metland.a') }, 
+                { l: "N", t: t('values.teachers.metland.n') },
+                { l: "D", t: t('values.teachers.metland.d') }
             ]
         },
         {
             word: "SCHOOL", list: [
-                { l: "S", t: "Sincere" }, { l: "C", t: "Creative" },
-                { l: "H", t: "Helpful" }, { l: "O", t: "Optimistic" },
-                { l: "O", t: "Ordinary Teacher People" }, { l: "L", t: "Loving" }
+                { l: "S", t: t('values.teachers.school.s') }, 
+                { l: "C", t: t('values.teachers.school.c') },
+                { l: "H", t: t('values.teachers.school.h') }, 
+                { l: "O", t: t('values.teachers.school.o1') },
+                { l: "O", t: t('values.teachers.school.o2') }, 
+                { l: "L", t: t('values.teachers.school.l') }
             ]
         }
     ];
@@ -97,7 +82,7 @@ const OurValues = () => {
                                     {cintaPoints.map((item, i) => (
                                         <div key={i} className="flex items-center gap-3 bg-white/10 backdrop-blur-sm p-4 rounded-2xl border border-white/10 hover:bg-white/20 transition-all">
                                             <CheckCircle2 className="w-5 h-5 text-[#B8C5D0]" />
-                                            <span className="font-medium tracking-wide">{t('values.cinta.prefix')} {item}</span>
+                                            <span className="font-medium tracking-wide">{t('values.cinta.prefix')} {t('values.cinta.' + item)}</span>
                                         </div>
                                     ))}
                                 </div>
@@ -123,14 +108,14 @@ const OurValues = () => {
                                         >
                                             <div className="flex justify-between items-start mb-5">
                                                 <div className="text-4xl font-black text-[#0F5F58]/10 group-hover/card:text-[#0F5F58]/30 transition-colors uppercase italic">
-                                                    {item.l}
+                                                    {t('values.prestasi.' + item + '.l')}
                                                 </div>
                                             </div>
 
                                             <div className="space-y-2">
                                                 <div className="h-1 w-6 bg-[#0F5F58]/20 group-hover/card:w-12 group-hover/card:bg-[#0F5F58] transition-all duration-500 rounded-full" />
                                                 <p className="font-bold text-[#0F5F58] leading-tight text-lg">
-                                                    {item.t}
+                                                    {t('values.prestasi.' + item + '.t')}
                                                 </p>
                                             </div>
                                         </motion.div>
@@ -181,7 +166,7 @@ const OurValues = () => {
                                                 </div>
 
                                                 <p className="font-bold text-white/80 group-hover:text-white text-lg leading-snug">
-                                                    {rule}
+                                                     {t('values.golden.' + rule)}
                                                 </p>
                                             </div>
                                         </ScrollReveal>

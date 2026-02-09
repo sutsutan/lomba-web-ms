@@ -2,8 +2,11 @@ import { Link } from 'react-router-dom';
 import { MapPin, Phone, Mail, Facebook, Instagram, Youtube, Twitter } from 'lucide-react';
 import footerBg from '@/assets/footer.jpg';
 import logo from '@/assets/logo-metland.png';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const Footer = () => {
+  const { t } = useLanguage();
+
   return (
     <footer 
       className="text-white relative"
@@ -28,8 +31,7 @@ const Footer = () => {
               </div>
             </div>
             <p className="text-sm opacity-80 leading-relaxed">
-              Empowering vocational excellence through industry-focused education, 
-              character development, and hands-on learning experiences.
+              {t('footer.description')}
             </p>
             <div className="flex gap-3">
               <a href="#" className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-white/20 transition-colors">
@@ -49,31 +51,31 @@ const Footer = () => {
 
           {/* Quick Links */}
           <div>
-            <h4 className="font-semibold text-lg mb-4">Quick Links</h4>
+            <h4 className="font-semibold text-lg mb-4">{t('footer.quick_links')}</h4>
             <ul className="space-y-3">
               <li>
                 <Link to="/about" className="text-sm opacity-80 hover:opacity-100 link-underline transition-opacity">
-                  About Us
+                  {t('nav.about')}
                 </Link>
               </li>
               <li>
                 <Link to="/academics" className="text-sm opacity-80 hover:opacity-100 link-underline transition-opacity">
-                  Academics
+                  {t('nav.academics')}
                 </Link>
               </li>
               <li>
                 <Link to="/extracurricular" className="text-sm opacity-80 hover:opacity-100 link-underline transition-opacity">
-                  Extracurricular
+                  {t('nav.extracurricular')}
                 </Link>
               </li>
               <li>
                 <Link to="/news" className="text-sm opacity-80 hover:opacity-100 link-underline transition-opacity">
-                  News & Events
+                  {t('nav.news')}
                 </Link>
               </li>
               <li>
                 <Link to="/alumni" className="text-sm opacity-80 hover:opacity-100 link-underline transition-opacity">
-                  Alumni
+                  {t('nav.alumni')}
                 </Link>
               </li>
             </ul>
@@ -81,31 +83,31 @@ const Footer = () => {
 
           {/* Programs */}
           <div>
-            <h4 className="font-semibold text-lg mb-4">Programs</h4>
+            <h4 className="font-semibold text-lg mb-4">{t('footer.programs')}</h4>
             <ul className="space-y-3">
               <li>
-                <Link to="/academics" className="text-sm opacity-80 hover:opacity-100 link-underline transition-opacity">
-                  IT & Software Development
+                <Link to="/major" className="text-sm opacity-80 hover:opacity-100 link-underline transition-opacity">
+                  {t('category.it')}
                 </Link>
               </li>
               <li>
-                <Link to="/academics" className="text-sm opacity-80 hover:opacity-100 link-underline transition-opacity">
-                  Business & Accounting
+                <Link to="/major" className="text-sm opacity-80 hover:opacity-100 link-underline transition-opacity">
+                  {t('category.accounting')}
                 </Link>
               </li>
               <li>
-                <Link to="/academics" className="text-sm opacity-80 hover:opacity-100 link-underline transition-opacity">
-                  Culinary Arts
+                <Link to="/major" className="text-sm opacity-80 hover:opacity-100 link-underline transition-opacity">
+                  {t('category.culinary')}
                 </Link>
               </li>
               <li>
-                <Link to="/academics" className="text-sm opacity-80 hover:opacity-100 link-underline transition-opacity">
-                  Hospitality & Tourism
+                <Link to="/major" className="text-sm opacity-80 hover:opacity-100 link-underline transition-opacity">
+                  {t('category.hospitality')}
                 </Link>
               </li>
               <li>
-                <Link to="/academics" className="text-sm opacity-80 hover:opacity-100 link-underline transition-opacity">
-                  Visual Communication Design
+                <Link to="/major" className="text-sm opacity-80 hover:opacity-100 link-underline transition-opacity">
+                  {t('category.dkv')}
                 </Link>
               </li>
             </ul>
@@ -113,7 +115,7 @@ const Footer = () => {
 
           {/* Contact */}
           <div>
-            <h4 className="font-semibold text-lg mb-4">Contact Us</h4>
+            <h4 className="font-semibold text-lg mb-4">{t('footer.contact_us')}</h4>
             <ul className="space-y-4">
               <li className="flex items-start gap-3">
                 <MapPin className="w-5 h-5 mt-0.5 opacity-80" />
@@ -137,14 +139,14 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="mt-12 pt-8 border-t border-white/20 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-sm opacity-70">
-            © {new Date().getFullYear()} Metland School. All rights reserved.
+            © {new Date().getFullYear()} Metland School. {t('footer.rights')}
           </p>
           <div className="flex gap-6">
             <a href="#" className="text-sm opacity-70 hover:opacity-100 transition-opacity">
-              Privacy Policy
+              {t('footer.privacy')}
             </a>
             <a href="#" className="text-sm opacity-70 hover:opacity-100 transition-opacity">
-              Terms of Service
+              {t('footer.terms')}
             </a>
           </div>
         </div>

@@ -9,54 +9,52 @@ import { useLanguage } from '@/contexts/LanguageContext';
 
 const Teachers = () => {
     const { t } = useLanguage();
-    const [activeDept, setActiveDept] = useState<string>("PPLG");
+    const [activeDept, setActiveDept] = useState<string>(t('teacher.dept.pplg'));
 
     const teacherData = {
         leadership: [
             {
                 name: "Fandi Sunarja",
-                role: "Principal",
+                role: t('teacher.role.principal'),
                 image: President,
-                bio: "Committed to driving vocational excellence through industry-standard education."
+                bio: t('teacher.bio.principal')
             },
             {
                 name: "Veria Rajabbani",
-                role: "Vice Principal",
+                role: t('teacher.role.vice_principal'),
                 image: "",
-                bio: "Expert in school management and student character development systems."
+                bio: t('teacher.bio.vice_principal')
             }
         ],
         departments: {
-            "PPLG": [
+            [t('teacher.dept.pplg')]: [
                 { name: "I Gusti Agung Kuswibawa", subject: "Lead IT Instructor", competency: ["Web Dev", "UI/UX"], image: "" },
                 { name: "Irgiawan Fhutuh", subject: "Software Engineer", competency: ["Fullstack", "JavaScript"], image: "" },
                 { name: "Muhammad Iqbal", subject: "Software Engineer", competency: ["Backend", "Python"], image: "" },
                 { name: "Azzam", subject: "Software Engineer", competency: ["Hengker", "Python"], image: "" },
                 { name: "Veria Raja Tunggal", subject: "Software Engineer", competency: ["King Laravel", "Website Developer"], image: "" },
             ],
-            "Culinary": [
+            [t('teacher.dept.culinary')]: [
                 { name: "Lely", subject: "Pastry Chef", competency: ["Baking", "Plating"], image: "" },
                 { name: "Chef Junaedi", subject: "Main Course Specialist", competency: ["Western", "Asian"], image: "" },
             ],
-            "Hospitality": [
+            [t('teacher.dept.hospitality')]: [
                 { name: "Indra", subject: "Front Office Manager", competency: ["Service", "Ethics"], image: "" },
                 { name: "Joyce Lantu", subject: "Front Office Manager", competency: ["Service", "Ethics"], image: "" },
             ],
-            "DKV": [
+            [t('teacher.dept.dkv')]: [
                 { name: "Ade Nurcholik", subject: "Typography Designer", competency: ["AI", "Photoshop"], image: "" },
                 { name: "Ikhsan Kurnia", subject: "Visual Designer", competency: ["AI", "Clip Studio Paint"], image: "" },
             ],
-            "Accounting": [
+            [t('teacher.dept.accounting')]: [
                 { name: "Dewi Lestari", subject: "Finance Teacher", competency: ["Audit", "Taxation"], image: "" },
             ],
-            "General Subjects": [
+            [t('teacher.dept.general')]: [
                 { name: "Meisty", subject: "Mathematics", competency: ["Calculus", "Logic"], image: "" },
                 { name: "Asri Maharani", subject: "English Literature", competency: ["Public Speaking"], image: "" },
                 { name: "Agustono", subject: "English Literature", competency: ["Public Speaking"], image: "" },
-                { name: "Asri Maharani", subject: "English Literature", competency: ["Public Speaking"], image: "" },
-                { name: "Asri Maharani", subject: "English Literature", competency: ["Public Speaking"], image: "" },
             ],
-            "Staff": [
+            [t('teacher.dept.staff')]: [
                 { name: "Fajar", subject: "Administration", competency: ["Support", "Archive"], image: "" },
             ]
         }
@@ -185,7 +183,7 @@ const Teachers = () => {
                                             )}
                                             <div className="absolute inset-0 bg-gradient-to-t from-[#0F5F58] via-transparent to-transparent opacity-0 group-hover:opacity-90 transition-opacity duration-500 flex items-end p-8">
                                                 <div className="space-y-3">
-                                                    <p className="text-white/70 text-xs font-bold uppercase tracking-wider">Competencies</p>
+                                                    <p className="text-white/70 text-xs font-bold uppercase tracking-wider">{t('teacher.competency.label')}</p>
                                                     <div className="flex flex-wrap gap-2">
                                                         {teacher.competency.map((skill, sIdx) => (
                                                             <span key={sIdx} className="bg-white/20 backdrop-blur-md text-white text-[10px] py-1.5 px-3 rounded-lg border border-white/20 font-bold uppercase">
