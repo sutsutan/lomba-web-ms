@@ -41,7 +41,6 @@ const PpdbPopup = () => {
             exit={{ scale: 0.9, opacity: 0, y: 30 }}
             className="relative w-full max-w-[440px] bg-white/90 backdrop-blur-xl rounded-[2.5rem] p-6 shadow-2xl border border-white/20"
           >
-            {/* Tombol Close di pojok kartu utama */}
             <button 
               onClick={closePopup}
               className="absolute -top-3 -right-3 z-20 p-2 bg-white text-[#0F5F58] shadow-lg rounded-full hover:scale-110 transition-transform border border-gray-100"
@@ -49,7 +48,7 @@ const PpdbPopup = () => {
               <X className="w-5 h-5" />
             </button>
 
-            {/* 1. INNER CARD (Untuk Poster) */}
+            {/* INNER CARD  */}
             <div className="relative group overflow-hidden rounded-[1.5rem] bg-gray-100 aspect-[4/5] shadow-inner border border-black/5">
               <img 
                 src={ppdb}
@@ -57,11 +56,11 @@ const PpdbPopup = () => {
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
               />
               
-              {/* Overlay Tipis agar poster terlihat lebih eksklusif */}
+              {/* Overlay */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
             </div>
 
-            {/* 2. TEXT & BUTTON AREA (Di luar poster) */}
+            {/* TEXT & BUTTON AREA */}
             <div className="mt-6 text-center space-y-4">
               <div>
                 <h3 className="text-2xl font-black text-[#0F5F58] tracking-tight">PPDB 2026/2027</h3>
@@ -82,7 +81,7 @@ const PpdbPopup = () => {
               </div>
             </div>
 
-            {/* Aksesoris Dekoratif */}
+            {/* decorative */}
             <div className="absolute -bottom-2 -left-2 w-12 h-12 bg-[#0F5F58]/10 rounded-full blur-xl -z-10" />
             <div className="absolute -top-2 -right-2 w-16 h-16 bg-[#0F5F58]/5 rounded-full blur-xl -z-10" />
           </motion.div>
