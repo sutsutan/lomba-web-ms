@@ -8,6 +8,7 @@ import PartnersSection from '@/components/home/PartnersSection';
 import AdmissionSteps from '@/components/home/AdmissionSteps';
 import BGM from '@/components/home/bgm';
 import Ppdbpopup from "@/components/home/ppdbpopup";
+import TestimonialVideo from "@/components/home/Testimony";
 
 const Home = () => {
   return (
@@ -19,6 +20,7 @@ const Home = () => {
       <VisionMission />
       <AchievementsSlider />
       <PartnersSection />
+      <TestimonialVideo />
       <AdmissionSteps />
       <BGM />
     </MainLayout>

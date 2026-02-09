@@ -15,14 +15,19 @@ const BackgroundMusic: React.FC = () => {
       audio.play().catch(() => {
         console.log("Menunggu interaksi user untuk memulai audio...");
       });
+      // Update atribut agar TestimonialVideo tahu boleh menyalakan kembali
+      audio.setAttribute('data-user-muted', 'false');
     } else {
       audio.pause();
+      // Update atribut agar TestimonialVideo TIDAK menyalakan audio ini
+      audio.setAttribute('data-user-muted', 'true');
     }
   }, [isPlaying]);
 
   useEffect(() => {
     const handleFirstInteraction = () => {
       const audio = audioRef.current;
+      // Tetap cek atribut, siapa tahu user sudah klik tombol merah sebelum interaksi pertama
       if (audio && isPlaying) {
         audio.play().catch(err => console.log("Playback failed:", err));
       }
@@ -39,7 +44,16 @@ const BackgroundMusic: React.FC = () => {
 
   return (
     <div style={{ position: 'fixed', bottom: '30px', right: '30px', zIndex: 9999 }}>
-      <audio ref={audioRef} src={marsMetland} loop />
+      {/* ID 'mars-metland-audio' digunakan oleh TestimonialVideo untuk 
+          mencari elemen ini dan melakukan pause/play secara otomatis.
+      */}
+      <audio 
+        id='mars-metland-audio' 
+        ref={audioRef} 
+        src={marsMetland} 
+        loop 
+        data-user-muted={!isPlaying} 
+      />
 
       <button
         onClick={toggleMusic}
@@ -48,12 +62,10 @@ const BackgroundMusic: React.FC = () => {
         }`}
       >
         {isPlaying ? (
-          // Mute
           <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
         ) : (
-          // Play
           <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
