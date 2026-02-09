@@ -33,6 +33,7 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
           <ScrollToTop />
+          <PpdbPopup />
           <AnimatePresence mode="wait">
             <Routes>
               <Route path="/" element={<Home />} />
@@ -52,7 +53,6 @@ const App = () => (
             </Routes>
           </AnimatePresence>
         </BrowserRouter>
-        <PpdbPopup />
       </TooltipProvider>
     </LanguageProvider>
   </QueryClientProvider>

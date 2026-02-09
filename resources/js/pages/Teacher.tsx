@@ -9,7 +9,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 
 const Teachers = () => {
     const { t } = useLanguage();
-    const [activeDept, setActiveDept] = useState<string>(t('teacher.dept.pplg'));
+    const [activeDept, setActiveDept] = useState<string>('pplg');
 
     const teacherData = {
         leadership: [
@@ -27,34 +27,34 @@ const Teachers = () => {
             }
         ],
         departments: {
-            [t('teacher.dept.pplg')]: [
+            pplg: [
                 { name: "I Gusti Agung Kuswibawa", subject: "Lead IT Instructor", competency: ["Web Dev", "UI/UX"], image: "" },
                 { name: "Irgiawan Fhutuh", subject: "Software Engineer", competency: ["Fullstack", "JavaScript"], image: "" },
                 { name: "Muhammad Iqbal", subject: "Software Engineer", competency: ["Backend", "Python"], image: "" },
                 { name: "Azzam", subject: "Software Engineer", competency: ["Hengker", "Python"], image: "" },
                 { name: "Veria Raja Tunggal", subject: "Software Engineer", competency: ["King Laravel", "Website Developer"], image: "" },
             ],
-            [t('teacher.dept.culinary')]: [
+            culinary: [
                 { name: "Lely", subject: "Pastry Chef", competency: ["Baking", "Plating"], image: "" },
                 { name: "Chef Junaedi", subject: "Main Course Specialist", competency: ["Western", "Asian"], image: "" },
             ],
-            [t('teacher.dept.hospitality')]: [
+            hospitality: [
                 { name: "Indra", subject: "Front Office Manager", competency: ["Service", "Ethics"], image: "" },
                 { name: "Joyce Lantu", subject: "Front Office Manager", competency: ["Service", "Ethics"], image: "" },
             ],
-            [t('teacher.dept.dkv')]: [
+            dkv: [
                 { name: "Ade Nurcholik", subject: "Typography Designer", competency: ["AI", "Photoshop"], image: "" },
                 { name: "Ikhsan Kurnia", subject: "Visual Designer", competency: ["AI", "Clip Studio Paint"], image: "" },
             ],
-            [t('teacher.dept.accounting')]: [
+            accounting: [
                 { name: "Dewi Lestari", subject: "Finance Teacher", competency: ["Audit", "Taxation"], image: "" },
             ],
-            [t('teacher.dept.general')]: [
+            general: [
                 { name: "Meisty", subject: "Mathematics", competency: ["Calculus", "Logic"], image: "" },
                 { name: "Asri Maharani", subject: "English Literature", competency: ["Public Speaking"], image: "" },
                 { name: "Agustono", subject: "English Literature", competency: ["Public Speaking"], image: "" },
             ],
-            [t('teacher.dept.staff')]: [
+            staff: [
                 { name: "Fajar", subject: "Administration", competency: ["Support", "Archive"], image: "" },
             ]
         }
@@ -137,7 +137,7 @@ const Teachers = () => {
                                                     : 'text-gray-400 hover:text-gray-600'
                                                 }`}
                                         >
-                                            {dept}
+                                            {t(`teacher.dept.${dept}`)}
                                             {activeDept === dept && (
                                                 <motion.div
                                                     layoutId="activeTabUnderline"
@@ -164,7 +164,7 @@ const Teachers = () => {
                                 transition={{ duration: 0.3 }}
                                 className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"
                             >
-                                {teacherData.departments[activeDept as keyof typeof teacherData.departments].map((teacher, index) => (
+                                {teacherData.departments[activeDept as keyof typeof teacherData.departments]?.map((teacher, index) => (
                                     <div
                                         key={index}
                                         className="group bg-white rounded-[2.5rem] overflow-hidden shadow-md hover:shadow-2xl transition-all duration-500 border border-gray-50"
