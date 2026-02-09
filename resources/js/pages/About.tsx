@@ -86,7 +86,7 @@ const About = () => {
                 </div>
                 <div className="flex flex-wrap gap-4 pt-4">
                   <Link to="/contact" className="px-6 md:px-8 py-3 bg-[#B8C5D0] text-[#0F5F58] font-semibold rounded-full hover:bg-[#A0B0BD] transition-all shadow-sm text-sm md:text-base">Contact Us</Link>
-                  <Link to="/about" className="px-6 md:px-8 py-3 border-2 border-[#B8C5D0] text-[#0F5F58] font-semibold rounded-full hover:bg-white transition-all text-sm md:text-base">Learn More</Link>
+                  <Link to="/mission-vision" className="px-6 md:px-8 py-3 border-2 border-[#B8C5D0] text-[#0F5F58] font-semibold rounded-full hover:bg-white transition-all text-sm md:text-base">Our Vision & Mission</Link>
                 </div>
               </div>
             </ScrollReveal>

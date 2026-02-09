@@ -56,9 +56,11 @@ const Extracurricular = () => {
                     character development, leadership, and social engagement.
                   </p>
                 </div>
-                <button className="px-8 py-3 rounded-full bg-slate-300 text-[#12606A] font-bold text-sm hover:bg-slate-400 transition-all active:scale-95 shadow-sm">
-                  Learn More
-                </button>
+                <Link to="/eskul" className="block w-fit">
+                  <button className="px-8 py-3 rounded-full bg-slate-300 text-[#12606A] font-bold text-sm hover:bg-slate-400 transition-all active:scale-95 shadow-sm">
+                    Learn More
+                  </button>
+                </Link>
               </div>
             </ScrollReveal>
 

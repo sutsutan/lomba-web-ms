@@ -8,23 +8,22 @@ import {
     Building2,
     Calculator,
     CheckCircle2,
-    Clock,
     Code,
     Hotel,
     Palette,
-    Target,
     Users,
     Utensils,
 } from 'lucide-react';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 // Assets
 import accounting from '@/assets/akuntansi.webp';
 import hospitality from '@/assets/aph.webp';
 import dkv from '@/assets/dkv.webp';
 import culinary from '@/assets/kuliner.webp';
-import pplg from '@/assets/pepleg.webp';
 import LogoMetland from '@/assets/metland.png';
+import pplg from '@/assets/pepleg.webp';
 
 const majorsData = [
     {
@@ -368,10 +367,12 @@ const Major = () => {
                                     ))}
                                 </div>
                                 <div className="pt-6">
-                                    <button className="group flex w-full items-center justify-center gap-4 rounded-[2rem] bg-[#12606A] px-12 py-5 text-sm font-black uppercase tracking-widest text-white shadow-xl transition-all hover:bg-neutral-900 md:w-auto">
-                                        Register Now!{' '}
-                                        <ArrowRight className="transition-transform group-hover:translate-x-2" />
-                                    </button>
+                                    <Link to="/ppdb">
+                                        <button className="group flex w-full items-center justify-center gap-4 rounded-[2rem] bg-[#12606A] px-12 py-5 text-sm font-black uppercase tracking-widest text-white shadow-xl transition-all hover:bg-neutral-900 md:w-auto">
+                                            Register Now!{' '}
+                                            <ArrowRight className="transition-transform group-hover:translate-x-2" />
+                                        </button>
+                                    </Link>
                                 </div>
                             </div>
                         </motion.div>
@@ -424,7 +425,6 @@ const Major = () => {
                                                 exit={{ opacity: 0, y: -10 }}
                                                 className="space-y-6 text-justify text-lg leading-loose text-[#12606A]/80"
                                             >
-                                                {/* Gunakan split untuk membuat paragraf jika teksnya panjang */}
                                                 {current.fullDescription
                                                     .split('\n')
                                                     .map((para, i) => (
@@ -521,68 +521,6 @@ const Major = () => {
                                                 </motion.div>
                                             ))}
                                         </div>
-                                    </div>
-                                </div>
-                            </ScrollReveal>
-                        </div>
-
-                        {/* RIGHT: STUDY DURATION */}
-                        <div className="relative lg:col-span-5">
-                            {/* ELEMEN BARU: Decorative Frame untuk menghilangkan kesan kosong di sekitar card */}
-                            <div className="absolute -inset-6 -z-10 hidden rounded-[4rem] border border-neutral-100 lg:block" />
-                            <div className="absolute -inset-12 -z-20 hidden rounded-[5rem] border border-neutral-50 lg:block" />
-
-                            <ScrollReveal delay={0.3}>
-                                <div
-                                    className={`relative flex h-[600px] flex-col justify-between overflow-hidden rounded-[3.5rem] bg-gradient-to-br p-12 text-white md:p-16 ${current.bgGradient} shadow-[0_30px_60px_-15px_rgba(18,96,106,0.3)]`}
-                                >
-                                    {/* Overlay Pattern */}
-                                    <div
-                                        className="pointer-events-none absolute inset-0 opacity-10"
-                                        style={{
-                                            backgroundImage: `radial-gradient(circle at 2px 2px, white 1px, transparent 0)`,
-                                            backgroundSize: '24px 24px',
-                                        }}
-                                    />
-
-                                    <div className="relative z-10">
-                                        <div className="mb-8 flex w-fit items-center gap-3 rounded-full border border-white/20 bg-white/10 px-4 py-2 backdrop-blur-md">
-                                            <Clock size={16} />
-                                            <span className="text-[10px] font-bold uppercase tracking-widest text-white">
-                                                Efficiency & Mastery
-                                            </span>
-                                        </div>
-
-                                        <h4 className="mb-4 text-3xl font-black uppercase tracking-tight">
-                                            Academic Period
-                                        </h4>
-                                        <div className="mb-8 flex items-baseline gap-4">
-                                            <span className="text-9xl font-black leading-none tracking-tighter">
-                                                {current.stats.duration}
-                                            </span>
-                                            <span className="text-4xl font-light uppercase tracking-widest opacity-60">
-                                                Years
-                                            </span>
-                                        </div>
-
-                                        <div className="max-w-[280px] space-y-6">
-                                            <p className="text-lg font-medium leading-relaxed opacity-90">
-                                                Focused vocational excellence
-                                                including real-world internships
-                                                and professional certification.
-                                            </p>
-                                            <div className="h-1.5 w-16 rounded-full bg-white/30" />
-                                        </div>
-                                    </div>
-
-
-                                    {/* Background Big Logo Metland (Raksasa & Transparan) */}
-                                    <div className="pointer-events-none absolute -bottom-20 -right-20 rotate-[-15deg] opacity-[0.07]">
-                                        <img
-                                            src={LogoMetland}
-                                            alt="Metland Watermark"
-                                            className="h-[500px] w-[500px] object-contain brightness-0 invert"
-                                        />
                                     </div>
                                 </div>
                             </ScrollReveal>

@@ -1,5 +1,6 @@
 import HeroCarousel from '@/components/HeroCarousel';
 import ScrollReveal from '@/components/ScrollReveal';
+import { Link } from 'react-router-dom';
 import MainLayout from '@/layouts/MainLayout';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import {
@@ -252,9 +253,12 @@ const OrganizationPage = () => {
                                         <div className="flex flex-col justify-center">
                                             <h4 className="mb-3 text-2xl font-bold italic text-slate-900 transition-colors group-hover:text-[#0F5F58]">{org.name}</h4>
                                             <p className="mb-6 text-sm leading-relaxed text-slate-500">{org.description}</p>
+                                          <Link to={`/moreorg`} className="w-fit">
                                             <button className="group/btn flex items-center gap-2 text-xs font-black uppercase tracking-widest text-[#0F5F58]">
                                                 Explore Gallery <ArrowRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-2" />
                                             </button>
+                                          </Link>
+                                           
                                         </div>
                                     </div>
                                 </ScrollReveal>

@@ -21,7 +21,9 @@ import StudentWorks from "./pages/StudentWorks";
 import Ppdb from "./pages/Ppdb";
 import Teachers from "./pages/Teacher";
 import OurValues from "./pages/OurValues";
-import PpdbPopup from "./components/home/ppdbpopup";
+import MoreEskul from "./pages/MoreEskul";
+import MoreOrg from "./pages/MoreOrg";
+import MissionVision from "./pages/MissionVission";
 
 const queryClient = new QueryClient();
 
@@ -48,6 +50,9 @@ const App = () => (
             <Route path="/student-works" element={<StudentWorks />} />
             <Route path="/ppdb" element={<Ppdb />} />
             <Route path="*" element={<NotFound />} />
+            <Route path="/eskul" element={<MoreEskul />} />
+            <Route path="/moreorg" element={<MoreOrg />} />
+            <Route path="/mission-vision" element={<MissionVision />} />
           </Routes>
         </AnimatePresence>
       </BrowserRouter>
