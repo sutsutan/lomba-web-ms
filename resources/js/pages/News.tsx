@@ -3,55 +3,58 @@ import MainLayout from '@/layouts/MainLayout';
 import ScrollReveal from '@/components/ScrollReveal';
 import HeroCarousel from '@/components/HeroCarousel';
 import { Calendar, ArrowRight } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 import heroBg from '@/assets/hero-bg.jpg';
 import programIt from '@/assets/program-it.webp';
 import programCulinary from '@/assets/program-culinary.webp';
 import achievement from '@/assets/achievement-1.jpg';
 
-const newsItems = [
-  {
-    id: 1,
-    title: 'Metland School Students Win Gold at National Robotics Competition 2024',
-    excerpt: 'Our students showcased innovative automation solutions and brought home the gold medal at the prestigious national robotics event.',
-    date: '2024-01-15',
-    category: 'Achievement',
-    image: achievement,
-  },
-  {
-    id: 2,
-    title: 'New Partnership with Leading Tech Companies for Student Internships',
-    excerpt: 'Metland School has established partnerships with top technology companies to provide internship opportunities for our students.',
-    date: '2024-01-10',
-    category: 'Partnership',
-    image: programIt,
-  },
-  {
-    id: 3,
-    title: 'Culinary Arts Department Hosts International Food Festival',
-    excerpt: 'Students from our Culinary Arts program showcased their skills at the annual international food festival held on campus.',
-    date: '2024-01-05',
-    category: 'Event',
-    image: programCulinary,
-  },
-  {
-    id: 4,
-    title: 'Annual Sports Day Celebration Brings Community Together',
-    excerpt: 'The annual sports day event was a huge success with participation from all departments and special guest appearances.',
-    date: '2024-01-01',
-    category: 'Event',
-    image: heroBg,
-  },
-];
-
 const News = () => {
+  const { t } = useLanguage();
+
+  const newsItems = [
+    {
+      id: 1,
+      title: 'Metland School Students Win Gold at National Robotics Competition 2024',
+      excerpt: 'Our students showcased innovative automation solutions and brought home the gold medal at the prestigious national robotics event.',
+      date: '2024-01-15',
+      category: 'Achievement',
+      image: achievement,
+    },
+    {
+      id: 2,
+      title: 'New Partnership with Leading Tech Companies for Student Internships',
+      excerpt: 'Metland School has established partnerships with top technology companies to provide internship opportunities for our students.',
+      date: '2024-01-10',
+      category: 'Partnership',
+      image: programIt,
+    },
+    {
+      id: 3,
+      title: 'Culinary Arts Department Hosts International Food Festival',
+      excerpt: 'Students from our Culinary Arts program showcased their skills at the annual international food festival held on campus.',
+      date: '2024-01-05',
+      category: 'Event',
+      image: programCulinary,
+    },
+    {
+      id: 4,
+      title: 'Annual Sports Day Celebration Brings Community Together',
+      excerpt: 'The annual sports day event was a huge success with participation from all departments and special guest appearances.',
+      date: '2024-01-01',
+      category: 'Event',
+      image: heroBg,
+    },
+  ];
+
   return (
     <MainLayout>
       {/* Hero Carousel */}
       <HeroCarousel
-        title="News & Updates"
-        subtitle="SMK Metland School"
-        description="Stay updated with the latest news, events, and achievements from Metland School."
-        height="height=h-[70vh]"
+        title={t('news.hero.title')}
+        subtitle={t('news.hero.subtitle')}
+        description={t('news.hero.desc')}
+        height="h-[70vh]"
       />
 
       {/* Featured News */}
@@ -77,7 +80,7 @@ const News = () => {
                   <p className="text-white/80 mb-4">{newsItems[0].excerpt}</p>
                   <div className="flex items-center gap-2 text-white/70 text-sm">
                     <Calendar className="w-4 h-4" />
-                    {new Date(newsItems[0].date).toLocaleDateString('en-US', {
+                    {new Date(newsItems[0].date).toLocaleDateString(t('nav.lang_code') === 'ID' ? 'id-ID' : 'en-US', {
                       year: 'numeric',
                       month: 'long',
                       day: 'numeric',
@@ -104,7 +107,7 @@ const News = () => {
                       </h3>
                       <div className="flex items-center gap-2 text-muted-foreground text-xs mt-2">
                         <Calendar className="w-3 h-3" />
-                        {new Date(news.date).toLocaleDateString('en-US', {
+                        {new Date(news.date).toLocaleDateString(t('nav.lang_code') === 'ID' ? 'id-ID' : 'en-US', {
                           month: 'short',
                           day: 'numeric',
                           year: 'numeric',
@@ -124,9 +127,9 @@ const News = () => {
         <div className="container mx-auto px-4">
           <ScrollReveal>
             <div className="flex items-center justify-between mb-12">
-              <h2 className="section-title text-3xl">All News</h2>
+              <h2 className="section-title text-3xl">{t('news.all.title')}</h2>
               <button className="btn-outline inline-flex items-center gap-2">
-                View Archive
+                {t('news.all.archive')}
                 <ArrowRight className="w-4 h-4" />
               </button>
             </div>
@@ -148,7 +151,7 @@ const News = () => {
                       </span>
                       <span className="text-muted-foreground text-xs flex items-center gap-1">
                         <Calendar className="w-3 h-3" />
-                        {new Date(news.date).toLocaleDateString('en-US', {
+                        {new Date(news.date).toLocaleDateString(t('nav.lang_code') === 'ID' ? 'id-ID' : 'en-US', {
                           month: 'short',
                           day: 'numeric',
                         })}
@@ -161,7 +164,7 @@ const News = () => {
                       {news.excerpt}
                     </p>
                     <button className="text-primary text-sm font-medium mt-4 inline-flex items-center gap-1 hover:gap-2 transition-all">
-                      Read More
+                      {t('news.all.read_more')}
                       <ArrowRight className="w-4 h-4" />
                     </button>
                   </div>

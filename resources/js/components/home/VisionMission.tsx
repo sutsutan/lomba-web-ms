@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import ourVisionImg from '@/assets/our-vision.jpg';
 import ourMissionImg from '@/assets/our-mission.jpg';
@@ -64,12 +65,13 @@ const InteractiveCard = ({ children, delay }: { children: React.ReactNode, delay
 };
 
 const VisionMission = () => {
+  const { t } = useLanguage();
   return (
     <section className="section-padding bg-background overflow-hidden">
       <div className="container mx-auto px-8 md:px-16 lg:px-24 xl:px-32">
         <ScrollReveal>
           <div className="text-center mb-12">
-            <h2 className="text-primary section-title mx-auto">Our Direction</h2>
+            <h2 className="text-primary section-title mx-auto">{t('vision.direction')}</h2>
           </div>
         </ScrollReveal>
 
@@ -80,17 +82,13 @@ const VisionMission = () => {
               <div className="w-14 h-14 flex items-center justify-center">
                 <img src={ourVisionImg} alt="our-vision" className="rounded-full shadow-lg" />
               </div>
-              <h3 className="text-2xl font-bold text-foreground">Our Vision</h3>
+              <h3 className="text-2xl font-bold text-foreground">{t('vision.title')}</h3>
             </div>
             <p className="text-muted-foreground leading-relaxed mb-4 indent-8 text-justify">
-              To become a leading vocational school that consistently produces graduates with strong character, 
-              excellent performance, and internationally recognized competencies, 
-              through an education system that integrates academic excellence, industry relevance, and global standards.
+              {t('vision.desc1')}
             </p>
             <p className="text-muted-foreground leading-relaxed indent-8 text-justify">
-              We strive to shape learners into confident, adaptable, 
-              and skilled individuals who are prepared to compete in the international workforce, 
-              embrace technological advancements, and contribute positively to society in an ever-changing global environment.
+              {t('vision.desc2')}
             </p>
           </InteractiveCard>
 
@@ -100,19 +98,14 @@ const VisionMission = () => {
               <div className="w-14 h-14 flex items-center justify-center">
                 <img src={ourMissionImg} alt="our-mission" className="rounded-full shadow-lg" />
               </div>
-              <h3 className="text-2xl font-bold text-foreground">Our Mission</h3>
+              <h3 className="text-2xl font-bold text-foreground">{t('mission.title')}</h3>
             </div>
             <div className="space-y-4">
               <p className="text-muted-foreground leading-relaxed indent-8 text-justify">
-                To deliver education that focuses on the development of knowledge, skills, and attitude, 
-                aligned with Industry 4.0 and strengthened 
-                by the values of Generasi Cinta Prestasi, in accordance with industry demands.
+                {t('mission.desc1')}
               </p>
               <p className="text-muted-foreground leading-relaxed indent-8 text-justify">
-                To enhance teacher professionalism based on Metland School Teacher’s Values, while 
-                continuously adapting to the needs of Industry 4.0.
-                To build strong 
-                partnerships with industries (DUDI) and vocational higher education institutions, both nationally and internationally, to support academic program development.
+                {t('mission.desc2')}
               </p>
             </div>
           </InteractiveCard>

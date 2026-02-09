@@ -1,4 +1,5 @@
 import ScrollReveal from '@/components/ScrollReveal';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { Link } from 'react-router-dom';
 import logoMetland from '@/assets/logo-metland.png';
 import Culinarypartner from '@/assets/culinary-scene.jpg';
@@ -26,6 +27,7 @@ const partners = [
 ];
 
 const PartnersSection = () => {
+    const { t } = useLanguage();
   return (
     <section className="section-padding bg-background overflow-hidden">
       <style>{`
@@ -49,9 +51,9 @@ const PartnersSection = () => {
             {/* Left: Description */}
             <div className="lg:w-1/2 text-center lg:text-right">
               <p className="text-muted-foreground leading-relaxed text-base md:text-lg">
-                We collaborate with trusted industry partners, businesses, and academic institutions at both national and international levels to ensure our learning remains relevant and future-ready.
+                {t('partners.desc1')}
                 <br /><br />
-                Through these partnerships, students gain real-world exposure, practical experience, and clearer career pathways, preparing them to meet industry standards and succeed in the professional world.
+                {t('partners.desc2')}
               </p>
             </div>
 
@@ -59,9 +61,9 @@ const PartnersSection = () => {
             <div className="lg:w-1/2 flex items-center justify-center lg:justify-start gap-6">
               <div className="text-center lg:text-right">
                 <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground">
-                  Collaborating for
+                  {t('partners.title_part1')}
                   <br />
-                  <span className="text-primary">the Future</span>
+                  <span className="text-primary">{t('partners.title_part2')}</span>
                 </h2>
               </div>
               {/* Vertical Line Decoration */}
@@ -141,9 +143,9 @@ const PartnersSection = () => {
 
               {/* Date & Caption */}
               <div className="mt-6">
-                <p className="text-[#0F5F58] font-bold text-sm mb-2">Nov, 12 - 15 - 2025</p>
+                <p className="text-[#0F5F58] font-bold text-sm mb-2">{t('partners.news_date')}</p>
                 <p className="text-muted-foreground text-xs leading-relaxed max-w-md">
-                  The achievement at SIAL Interfood 2025 also marks a proud milestone for the school and reinforces the wide career opportunities available to vocational school graduates within the global culinary industry.
+                  {t('partners.news_caption')}
                 </p>
               </div>
             </div>
@@ -151,22 +153,22 @@ const PartnersSection = () => {
             {/* Right: Content */}
             <div className="space-y-6">
               <p className="text-[#0F5F58] font-medium italic">
-                Young Global Talent Shines on the International Stage
+                {t('partners.news_subtitle')}
               </p>
               
               <h3 className="text-2xl md:text-3xl font-bold text-[#0F5F58] leading-tight">
-                Metland School Tourism Student Wins Gold at La Cuisine SIAL Interfood 2025
+                {t('partners.news_title')}
               </h3>
 
               <div className="space-y-4 text-muted-foreground leading-relaxed">
                 <p>
-                  The international culinary scene was once again impressed by Indonesia's young talents. A student from SMK Pariwisata Metland School, Yoel Ivander Theophilus, achieved an outstanding accomplishment by winning 1st Place (Gold Medal) at the prestigious La Cuisine Competition, held during SIAL Interfood 2025 at JIExpo Kemayoran, Jakarta.
+                  {t('partners.news_desc1')}
                 </p>
                 <p>
-                  This achievement stands as clear evidence of the strength of vocational education in Indonesia, particularly in the fields of hospitality and culinary arts, proving its ability to compete at a professional and international level.
+                  {t('partners.news_desc2')}
                 </p>
                 <p>
-                  With this Gold Medal victory, SMK Pariwisata Metland School further strengthens its position as a leading tourism and hospitality school, consistently producing skilled, job-ready, and high-achieving graduates.
+                  {t('partners.news_desc3')}
                 </p>
               </div>
 
@@ -175,7 +177,7 @@ const PartnersSection = () => {
                   to="/about" 
                   className="inline-block px-8 py-3 bg-[#B8C5D0] hover:bg-[#A0B0BD] text-[#0F5F58] font-semibold rounded-full transition-all duration-300"
                 >
-                  Learn More
+                  {t('hero.learn_more')}
                 </Link>
               </div>
             </div>

@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useLanguage } from '@/contexts/LanguageContext';
 import MainLayout from '@/layouts/MainLayout';
 import ScrollReveal from '@/components/ScrollReveal';
 import HeroCarousel from '@/components/HeroCarousel';
@@ -56,6 +57,7 @@ const studyPrograms = [
 ];
 
 const About = () => {
+  const { t } = useLanguage();
   const [activeYear, setActiveYear] = useState('1945');
 
   return (
@@ -67,26 +69,36 @@ const About = () => {
       
       {/* Hero */}
       <HeroCarousel
-        title="About MS"
-        subtitle="SMK Metland School"
-        description="Discover our story, our mission, and our commitment to excellence in vocational education."
+        title={t('about.hero.title')}
+        subtitle={t('about.hero.subtitle')}
+        description={t('about.hero.desc')}
         height="h-[60vh] md:h-[70vh]" 
       />
 
       {/* Get to Know Us */}
-      <section className="py-12 md:py-20 bg-background overflow-hidden">
+      <section className="py-12 md:py-20 bg-background">
         <div className="container mx-auto px-6 md:px-12 lg:px-24">
-          <div className="grid lg:grid-cols-2 gap-10 md:gap-16 items-center">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
             <ScrollReveal>
               <div className="space-y-6">
-                <h2 className="text-3xl md:text-4xl font-bold text-[#0F5F58]">Get to Know Us</h2>
-                <div className="space-y-4 text-[#0F5F58] text-base md:text-lg leading-relaxed">
-                  <p>Metland School is a vocational secondary school (SMK) that prepares students with strong character, practical skills, and real-world experience.</p>
-                  <p>We support students to grow academically, socially, and professionally, preparing them for future careers.</p>
+                <h2 className="text-4xl md:text-5xl font-black text-[#12606A] tracking-tight">
+                  {t('about.know_us.title')}
+                </h2>
+                <div className="space-y-4 text-muted-foreground text-lg leading-relaxed">
+                  <p>
+                    {t('about.know_us.desc1')}
+                  </p>
+                  <p>
+                    {t('about.know_us.desc2')}
+                  </p>
                 </div>
-                <div className="flex flex-wrap gap-4 pt-4">
-                  <Link to="/contact" className="px-6 md:px-8 py-3 bg-[#B8C5D0] text-[#0F5F58] font-semibold rounded-full hover:bg-[#A0B0BD] transition-all shadow-sm text-sm md:text-base">Contact Us</Link>
-                  <Link to="/about" className="px-6 md:px-8 py-3 border-2 border-[#B8C5D0] text-[#0F5F58] font-semibold rounded-full hover:bg-white transition-all text-sm md:text-base">Learn More</Link>
+                <div className="flex gap-4 pt-4">
+                  <button className="px-8 py-3 bg-teal-600 text-white rounded-full font-bold hover:bg-teal-700 transition-all shadow-lg hover:shadow-teal-500/30">
+                    {t('about.know_us.contact')}
+                  </button>
+                  <button className="px-8 py-3 border-2 border-teal-600 text-teal-600 rounded-full font-bold hover:bg-teal-50 transition-all">
+                    {t('about.know_us.learn')}
+                  </button>
                 </div>
               </div>
             </ScrollReveal>
@@ -130,7 +142,7 @@ const About = () => {
       <section className="py-16 md:py-24 bg-white">
         <div className="container mx-auto px-6 md:px-12 lg:px-24">
           <ScrollReveal>
-            <h2 className="text-3xl md:text-4xl font-bold text-[#0F5F58] mb-8 text-center md:text-left">Our Timeline</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-[#0F5F58] mb-8 text-center md:text-left">{t('about.timeline.title')}</h2>
             
             <div className="flex gap-4 border-b-2 border-[#2D8FDB] mb-12 overflow-x-auto hide-scrollbar scroll-smooth">
               {timelineYears.map((year) => (
@@ -159,19 +171,19 @@ const About = () => {
                     className="space-y-8"
                    >
                     <div>
-                      <h3 className="text-lg font-bold text-[#0F5F58] mb-2 uppercase tracking-wide">Heads of School</h3>
+                      <h3 className="text-lg font-bold text-[#0F5F58] mb-2 uppercase tracking-wide">{t('about.timeline.heads')}</h3>
                       {timelineContent[activeYear as keyof typeof timelineContent].heads.map((head, i) => (
                         <p key={i} className="text-[#0F5F58]/80 font-medium">{head}</p>
                       ))}
                     </div>
                     <div>
-                      <h3 className="text-lg font-bold text-[#0F5F58] mb-2 border-l-4 border-[#0F5F58] pl-3">The Beginning</h3>
+                      <h3 className="text-lg font-bold text-[#0F5F58] mb-2 border-l-4 border-[#0F5F58] pl-3">{t('about.timeline.begin')}</h3>
                       <p className="text-[#0F5F58]/80 leading-relaxed text-justify text-sm md:text-base">
                         {timelineContent[activeYear as keyof typeof timelineContent].beginning}
                       </p>
                     </div>
                     <div>
-                      <h3 className="text-lg font-bold text-[#0F5F58] mb-2 border-l-4 border-[#0F5F58] pl-3">Growing with Purpose</h3>
+                      <h3 className="text-lg font-bold text-[#0F5F58] mb-2 border-l-4 border-[#0F5F58] pl-3">{t('about.timeline.growing')}</h3>
                       <p className="text-[#0F5F58]/80 leading-relaxed text-justify text-sm md:text-base">
                         {timelineContent[activeYear as keyof typeof timelineContent].growing}
                       </p>
@@ -201,7 +213,7 @@ const About = () => {
       <section className="py-20 bg-[#0F5F58] text-white relative overflow-hidden">
         <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle, #ffffff 1px, transparent 1px)', backgroundSize: '20px 20px' }} />
         <div className="container mx-auto px-6 md:px-12 lg:px-24 relative z-10">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">Study Program</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">{t('about.program.title')}</h2>
           <div className="flex gap-6 overflow-x-auto hide-scrollbar pb-8">
              {studyPrograms.map((program, idx) => (
                <div key={idx} className="flex-shrink-0 w-[280px] md:w-[320px] bg-white rounded-2xl overflow-hidden text-[#0F5F58] shadow-xl">
@@ -212,7 +224,7 @@ const About = () => {
                     <h3 className="font-bold text-xl mb-2">{program.title}</h3>
                     <p className="text-sm opacity-80 mb-6 h-12 line-clamp-2">{program.desc}</p>
                     <Link to="/academics" className="flex items-center text-sm font-bold uppercase tracking-wider hover:gap-3 transition-all">
-                      Explore Program <ArrowRight className="w-4 h-4 ml-2" />
+                      {t('about.program.explore')} <ArrowRight className="w-4 h-4 ml-2" />
                     </Link>
                   </div>
                </div>
@@ -227,7 +239,7 @@ const About = () => {
           <ScrollReveal>
              <div className="flex items-center gap-4 mb-12 justify-center md:justify-start">
                 <GraduationCap className="w-10 h-10 text-[#0F5F58]" />
-                <h2 className="text-3xl md:text-4xl font-bold text-[#0F5F58]">Student Life</h2>
+                <h2 className="text-3xl md:text-4xl font-bold text-[#0F5F58]">{t('about.life.title')}</h2>
              </div>
 
              <div className="space-y-20 md:space-y-32">

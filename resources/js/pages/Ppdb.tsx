@@ -2,18 +2,21 @@ import MainLayout from '@/layouts/MainLayout';
 import ScrollReveal from '@/components/ScrollReveal';
 import HeroCarousel from '@/components/HeroCarousel';
 import { ArrowRight } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 import logoMetland from '@/assets/logo-metland.png';
 import achievement1 from '@/assets/achievement-1.jpg';
 import studentEnrollment from '@/assets/pepleg.webp';
 
 const Ppdb = () => {
+  const { t } = useLanguage();
+
   return (
     <MainLayout>
       {/* Hero Carousel */}
       <HeroCarousel
-        title="New Student Admission"
-        subtitle="PPDB 2026-2027"
-        description="Begin your journey with us. Discover the enrollment process and become part of Metland School community."
+        title={t('ppdb.hero.title')}
+        subtitle={t('ppdb.hero.subtitle')}
+        description={t('ppdb.hero.desc')}
         height="h-[50vh] sm:h-[60vh] md:h-[70vh]"
       />
 
@@ -24,7 +27,7 @@ const Ppdb = () => {
             <div className="flex items-center gap-3 md:gap-4 mb-8 ml-0 md:ml-6 lg:ml-10">
               <div className="w-[3px] h-8 sm:h-10 md:h-12 bg-[#12606A] flex-shrink-0" />
               <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-[#12606A] tracking-tight">
-                Enrollment Journey
+                {t('ppdb.journey.title')}
               </h2>
             </div>
           </ScrollReveal>
@@ -38,19 +41,16 @@ const Ppdb = () => {
                 
                 <div className="relative z-10 space-y-4 md:space-y-6">
                   <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-[#12606A] leading-snug">
-                    Our admission application for<br />
-                    <span className="text-[#12606A]">2026-2027 is now opened.</span>
+                    {t('ppdb.journey.open_title')}<br />
+                    <span className="text-[#12606A]">{t('ppdb.journey.open_subtitle')}</span>
                   </h3>
                   
                   <p className="text-[#12606A]/80 font-medium leading-relaxed text-sm sm:text-base">
-                    If you are interested in applying late, please start by clicking
-                    the button below and completing our initial inquiry form. The
-                    admission office will reach out should we decide to accept
-                    more applications this spring.
+                    {t('ppdb.journey.desc')}
                   </p>
                   
                   <button className="px-8 py-3 rounded-full bg-[#9DB8BF] text-[#12606A] font-bold text-sm hover:bg-[#8AA8AF] transition-all active:scale-95 shadow-md flex items-center gap-2 group">
-                    Learn More
+                    {t('ppdb.journey.learn_more')}
                     <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
                   </button>
                 </div>
@@ -67,8 +67,8 @@ const Ppdb = () => {
                 />
                 {/* Overlay decorations */}
                 <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-lg p-3 shadow-lg">
-                  <p className="text-xs font-semibold text-[#12606A]">Enrollment Open</p>
-                  <p className="text-[10px] text-[#12606A]/70">A Glowing Journey</p>
+                  <p className="text-xs font-semibold text-[#12606A]">{t('ppdb.journey.status')}</p>
+                  <p className="text-[10px] text-[#12606A]/70">{t('ppdb.journey.tagline')}</p>
                 </div>
               </div>
             </ScrollReveal>
@@ -128,7 +128,7 @@ const Ppdb = () => {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12 py-6">
                     {/* Left Column - Title */}
                     <div className="text-center md:text-left">
-                      <p className="text-[#12606A] font-bold text-lg mb-1">Step {item.step}:</p>
+                      <p className="text-[#12606A] font-bold text-lg mb-1">{t('ppdb.steps.step')} {item.step}:</p>
                       <h3 className="text-2xl md:text-3xl font-bold text-[#12606A] mb-2 leading-tight">
                         {item.title}
                       </h3>
@@ -143,7 +143,7 @@ const Ppdb = () => {
                         {item.desc}
                       </p>
                       <p className="text-[#12606A] font-medium text-sm">
-                        Date: <span className="text-[#12606A]/70">[{item.date}]</span>
+                        {t('ppdb.steps.date_label')}: <span className="text-[#12606A]/70">[{item.date}]</span>
                       </p>
                     </div>
                   </div>
@@ -173,10 +173,10 @@ const Ppdb = () => {
             <ScrollReveal>
                 <div className="text-center max-w-3xl mx-auto mb-12">
                     <h2 className="text-2xl md:text-3xl font-bold text-[#12606A] mb-4">
-                        Ready to Apply?
+                        {t('ppdb.steps.ready')}
                     </h2>
                     <p className="text-[#12606A]/80 text-md md:text-lg font-medium mb-8">
-                        Apply today and start your journey at Metland School.
+                        {t('ppdb.steps.ready_desc')}
                     </p>
                     <a 
                         href="https://smkmetland.net/ppdb/" 
@@ -184,7 +184,7 @@ const Ppdb = () => {
                         rel="noopener noreferrer"
                         className="inline-block px-8 py-3 bg-[#CFE0E3] text-[#12606A] font-bold rounded-full hover:bg-[#BED3D7] transition-all active:scale-95 shadow-md"
                     >
-                        Start Now | Ask Admissions
+                        {t('ppdb.steps.start_now')}
                     </a>
                 </div>
             </ScrollReveal>

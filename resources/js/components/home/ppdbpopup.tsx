@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ExternalLink } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import ppdb from '@/assets/ppdb-poster.png';
 
 const PpdbPopup = () => {
+  const { t } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
@@ -63,9 +65,9 @@ const PpdbPopup = () => {
             {/* TEXT & BUTTON AREA */}
             <div className="mt-6 text-center space-y-4">
               <div>
-                <h3 className="text-2xl font-black text-[#0F5F58] tracking-tight">PPDB 2026/2027</h3>
+                <h3 className="text-2xl font-black text-[#0F5F58] tracking-tight">{t('ppdb.popup.title')}</h3>
                 <p className="text-gray-500 text-sm mt-1 leading-relaxed">
-                  Join the excellence. register now for Metland School's 2026/2027 academic year and embark on a journey of growth and success.
+                  {t('ppdb.popup.desc')}
                 </p>
               </div>
 
@@ -75,7 +77,7 @@ const PpdbPopup = () => {
                   onClick={closePopup}
                   className="group relative flex items-center justify-center gap-2 bg-[#0F5F58] text-white py-4 rounded-2xl font-bold overflow-hidden transition-all hover:bg-[#12606A] hover:shadow-lg active:scale-95"
                 >
-                  <span className="relative z-10">Daftar Sekarang</span>
+                  <span className="relative z-10">{t('ppdb.popup.btn')}</span>
                   <ExternalLink className="w-4 h-4 relative z-10 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
                 </Link>
               </div>

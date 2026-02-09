@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight, Search } from 'lucide-react';
 import MainLayout from '@/layouts/MainLayout';
@@ -233,35 +234,19 @@ const galleryProjects = [
 ];
 
 // Descriptions for each category
-const categoryDescriptions: Record<string, { intro: string; detail: string; closing: string }> = {
-  'Culinary': {
-    intro: "We're proud to present a collection of work created by our Culinary Arts students at Metland School.",
-    detail: "These projects are the result of hands-on culinary training, creativity, and passion for food. From traditional Indonesian cuisine to modern fusion dishes, pastry arts to food styling, every work shows how our students learn to create culinary experiences that delight both the eyes and palate.",
-    closing: "Through professional kitchen practice and industry exposure, students develop not just cooking skills, but also creativity, precision, and the artistry that defines a true culinary professional. Explore their work and discover how Metland School prepares future chefs to excel in the culinary world."
-  },
-  'Design Communication Visual': {
-    intro: "We're proud to present a collection of work created by our Design Communication Visual students at Metland School.",
-    detail: "These projects are the result of creative exploration, artistic expression, and design thinking. From brand identity, illustration, motion graphics to UI/UX design, every work shows how our students learn to communicate ideas visually with impact and purpose.",
-    closing: "Through hands-on design projects and industry mentorship, students are encouraged to push creative boundaries, master design tools, and develop their unique artistic voice. Explore their work and discover how Metland School nurtures future designers and visual storytellers."
-  },
-  'Information Technology': {
-    intro: "We're proud to present a collection of work created by our Information Technology students at Metland School.",
-    detail: "These projects are the result of hands-on learning, real practice, and strong problem-solving skills. From website development, mobile applications, to UI/UX design and digital systems, every work shows how our students learn to build technology that is not only functional, but also user-friendly and well-designed.",
-    closing: "Through industry-based learning and creative exploration, students are encouraged to think critically, work collaboratively, and turn their ideas into real digital solutions. Explore their work and discover how Metland School prepares future IT talents to be ready for the world of technology and innovation."
-  },
-  'Hospitality': {
-    intro: "We're proud to present a collection of work created by our Hospitality students at Metland School.",
-    detail: "These projects showcase excellence in guest services, front office operations, food & beverage service, and event management. Every work demonstrates how our students master the art of hospitality—creating memorable experiences through attention to detail, professionalism, and genuine care for guests.",
-    closing: "Through practical training in real hospitality environments and industry partnerships, students develop the skills, confidence, and service mindset required for success in hotels, restaurants, and tourism. Explore their work and discover how Metland School prepares future hospitality professionals."
-  },
-  'Accounting': {
-    intro: "We're proud to present a collection of work created by our Accounting students at Metland School.",
-    detail: "These projects demonstrate proficiency in financial analysis, bookkeeping, tax calculation, budgeting, and business reporting. Every work shows how our students apply accounting principles to real-world scenarios with accuracy, integrity, and analytical thinking.",
-    closing: "Through practical exercises using industry-standard software and case studies, students develop the technical expertise and ethical foundation required for careers in finance and accounting. Explore their work and discover how Metland School prepares future accounting professionals."
+const getCategoryKey = (categoryName: string) => {
+  switch (categoryName) {
+    case 'Culinary': return 'culinary';
+    case 'Design Communication Visual': return 'dkv';
+    case 'Information Technology': return 'it';
+    case 'Hospitality': return 'hospitality';
+    case 'Accounting': return 'accounting';
+    default: return 'culinary';
   }
 };
 
 const StudentWorks = () => {
+  const { t } = useLanguage();
   const [currentProjectIndex, setCurrentProjectIndex] = useState(0);
   const [selectedCategory, setSelectedCategory] = useState(categories[0]);
 
@@ -292,9 +277,9 @@ const StudentWorks = () => {
   return (
     <MainLayout>
       <HeroCarousel
-        title="Student Works"
-        subtitle="SMK Metland School"
-        description="Stay updated with the latest works of creativity and innovation from our school community."
+        title={t('studentworks.title')}
+        subtitle={t('studentworks.subtitle')}
+        description={t('studentworks.description')}
         height="h-[60vh] md:h-[70vh]"
       />
 
@@ -304,11 +289,11 @@ const StudentWorks = () => {
             <div className="flex items-center gap-3 md:gap-4 mb-2 ml-0 md:ml-8 lg:ml-14">
               <div className="w-[2px] sm:w-[3px] h-8 sm:h-10 bg-[#12606A]" />
               <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-[#12606A] tracking-tight">
-                Student Works
+                {t('studentworks.title')}
               </h2>
             </div>
             <p className="text-[#12606A]/80 ml-3 sm:ml-4 md:ml-12 lg:ml-20 text-sm sm:text-base md:text-lg font-medium mb-8 md:mb-12 max-w-2xl">
-              Stay updated with the latest works of creativity and innovation from our school community.
+              {t('studentworks.description')}
             </p>
           </ScrollReveal>
 
@@ -382,7 +367,7 @@ const StudentWorks = () => {
               </div>
             ) : (
               <div className="text-center py-12 md:py-20 text-[#12606A]/60 text-base md:text-xl">
-                No projects found for this category yet.
+               {t('studentworks.no_projects')}
               </div>
             )}
           </AnimatePresence>
@@ -399,10 +384,10 @@ const StudentWorks = () => {
                 </div>
               </div>
               <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-[#0F5F58] mb-2 md:mb-3">
-                Explore by Category
+                {t('studentworks.explore_title')}
               </h2>
               <p className="text-xs sm:text-sm md:text-base text-[#0F5F58]/70 max-w-2xl mx-auto px-4">
-                Discover inspiring student works across different fields and explore their creativity.
+               {t('studentworks.explore_desc')}
               </p>
             </div>
           </ScrollReveal>
@@ -431,12 +416,12 @@ const StudentWorks = () => {
             <h3 className={`text-[9px] sm:text-[10px] md:text-xs lg:text-sm font-semibold mb-0.5 md:mb-1 leading-tight ${
               selectedCategory.id === cat.id ? 'text-white' : 'text-[#0F5F58]'
             }`}>
-              {cat.name}
+              {t(`category.${getCategoryKey(cat.name)}`)}
             </h3>
             <p className={`text-[8px] sm:text-[9px] md:text-[10px] lg:text-xs ${
               selectedCategory.id === cat.id ? 'text-white/80' : 'text-[#0F5F58]/60'
             }`}>
-              Total Works: {galleryProjects.filter(p => p.category === cat.name).length}
+              {t('studentworks.total_works')}: {galleryProjects.filter(p => p.category === cat.name).length}
             </p>
           </div>
         </div>
@@ -444,7 +429,7 @@ const StudentWorks = () => {
     ))}
   </div>
   <div className="text-center mt-4">
-            <p className="flex sm:hidden justify-center items-center text-[#0F5F58] italic border-b border-[#0F5F58] inline-block pb-1">Swipe for more information</p>
+            <p className="flex sm:hidden justify-center items-center text-[#0F5F58] italic border-b border-[#0F5F58] inline-block pb-1">{t('studentworks.swipe_info')}</p>
           </div>
 </ScrollReveal>
         </div>
@@ -470,7 +455,7 @@ const StudentWorks = () => {
               <div className="container mx-auto px-4 sm:px-6 md:px-8 lg:px-12">
                 <ScrollReveal>
                   <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light text-white tracking-wide text-center">
-                    {selectedCategory.name.toUpperCase()}
+                    {t(`category.${getCategoryKey(selectedCategory.name)}`).toUpperCase()}
                   </h2>
                 </ScrollReveal>
               </div>
@@ -491,22 +476,22 @@ const StudentWorks = () => {
                 transition={{ duration: 0.4 }}
                 className="mb-10 md:mb-12 ml-0 md:ml-12 lg:ml-16 xl:ml-20"
               >
-                <div className="flex items-center gap-2 md:gap-3 mb-4 md:mb-6">
+                  <div className="flex items-center gap-2 md:gap-3 mb-4 md:mb-6">
                   <div className="w-1 h-10 md:h-12 bg-[#0F5F58]" />
                   <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-[#0F5F58]">
-                    Gallery of {selectedCategory.shortName}
+                    {t('studentworks.gallery_of')} {selectedCategory.shortName}
                   </h2>
                 </div>
                 
                 <div className="space-y-3 md:space-y-4 text-[#0F5F58]/80 leading-relaxed max-w-5xl">
                   <p className="text-xs sm:text-sm md:text-base">
-                    {categoryDescriptions[selectedCategory.name]?.intro}
+                    {t(`cat.${getCategoryKey(selectedCategory.name)}.intro`)}
                   </p>
                   <p className="text-xs sm:text-sm md:text-base">
-                    {categoryDescriptions[selectedCategory.name]?.detail}
+                    {t(`cat.${getCategoryKey(selectedCategory.name)}.detail`)}
                   </p>
                   <p className="text-xs sm:text-sm md:text-base">
-                    {categoryDescriptions[selectedCategory.name]?.closing}
+                    {t(`cat.${getCategoryKey(selectedCategory.name)}.closing`)}
                   </p>
                 </div>
               </motion.div>

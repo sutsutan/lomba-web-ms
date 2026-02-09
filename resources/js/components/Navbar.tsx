@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronDown, Menu, X } from 'lucide-react';
+import { ChevronDown, Menu, X, Globe } from 'lucide-react';
 import logo from '@/assets/logo-metland.png';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface NavItem {
   label: string;
@@ -10,40 +11,43 @@ interface NavItem {
   children?: NavItem[];
 }
 
-const navItems: NavItem[] = [
-  { label: 'Home', href: '/' },
-  {
-    label: 'About',
-    href: '/about',
-    children: [
-      { label: 'Vision & Mission', href: '/about#vision' },
-      { label: 'Our Values', href: '/our-values' },
-      { label: 'Contact', href: '/contact' },
-    ],
-  },
-  {
-    label: 'Academics',
-    href: '/academics',
-    children: [
-      { label: 'Majors', href: '/major' },
-      { label: 'Student Works', href: '/student-works' },
-      { label: 'Teacher', href: '/teachers' },
-    ],
-  },
-  {
-    label: 'Activity',
-    href: '/extracurricular',
-    children: [
-      { label: 'Extracurricular', href: '/extracurricular' },
-      { label: 'Organization', href: '/organization' },
-      { label: 'News', href: '/news' },
-    ],
-  },
-  { label: 'Alumni', href: '/alumni' },
-  { label: 'PPDB', href: '/ppdb' },
-];
+
 
 const Navbar = () => {
+  const { t, language, toggleLanguage } = useLanguage();
+  
+  const navItems: NavItem[] = [
+    { label: t('nav.home'), href: '/' },
+    {
+      label: t('nav.about'),
+      href: '/about',
+      children: [
+        { label: t('nav.vision'), href: '/about#vision' },
+        { label: t('nav.values'), href: '/our-values' },
+        { label: t('nav.contact'), href: '/contact' },
+      ],
+    },
+    {
+      label: t('nav.academics'),
+      href: '/academics',
+      children: [
+        { label: t('nav.majors'), href: '/major' },
+        { label: t('nav.student_works'), href: '/student-works' },
+        { label: t('nav.teacher'), href: '/teachers' },
+      ],
+    },
+    {
+      label: t('nav.activity'),
+      href: '/extracurricular',
+      children: [
+        { label: t('nav.extracurricular'), href: '/extracurricular' },
+        { label: t('nav.organization'), href: '/organization' },
+        { label: t('nav.news'), href: '/news' },
+      ],
+    },
+    { label: t('nav.alumni'), href: '/alumni' },
+    { label: t('nav.ppdb'), href: '/ppdb' },
+  ];
   const [isScrolled, setIsScrolled] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -162,6 +166,15 @@ const Navbar = () => {
               </AnimatePresence>
             </div>
           ))}
+
+          {/* Language Toggle */}
+          <button
+            onClick={toggleLanguage}
+            className="flex items-center gap-1 px-4 py-2.5 ml-1 text-sm font-semibold text-white rounded-full hover:bg-white/20 transition-all duration-300"
+          >
+            <Globe className="w-4 h-4" />
+            <span>{language === 'en' ? 'ID' : 'ENG'}</span>
+          </button>
         </nav>
 
         {/*MOBILE BUTTON*/}
@@ -215,6 +228,14 @@ const Navbar = () => {
               )}
             </div>
           ))}
+          
+          <button
+            onClick={toggleLanguage}
+            className="w-full flex items-center justify-center gap-2 px-5 py-3 mt-4 rounded-2xl bg-slate-100 text-slate-800 font-bold hover:bg-slate-200 transition-colors"
+          >
+            <Globe className="w-5 h-5" />
+            <span>Switch to {language === 'en' ? 'Indonesian' : 'English'}</span>
+          </button>
         </div>
       </motion.div>
     </div>

@@ -10,6 +10,7 @@ import {
     Star,
     Zap,
 } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 // Import assets
 import cims from '@/assets/cims.jpeg';
@@ -31,119 +32,6 @@ interface Organization {
     category: string;
     image: string;
 }
-
-const organizations: Record<string, Organization[]> = {
-    leadership: [
-        {
-            name: 'Osis Student Council',
-            description: 'The heartbeat of student life, organizing major events and representing the student voice to the school board.',
-            category: 'Leadership & Governance',
-            image: osis,
-        },
-        {
-            name: 'MPK Representatives',
-            description: 'The supreme student legislative body, ensuring transparency and bridging ideas between students and faculty.',
-            category: 'Leadership & Governance',
-            image: mpk,
-        },
-    ],
-    creative: [
-        {
-            name: 'Maheswara - Maheswari',
-            description: 'Preserving tradition and modern art through breathtaking dance and stage performances.',
-            category: 'Performing Arts',
-            image: mahes,
-        },
-        {
-            name: 'CIMS Cinematography',
-            description: 'A creative powerhouse for aspiring filmmakers, editors, and digital storytellers.',
-            category: 'Media & Production',
-            image: cims,
-        },
-        {
-            name: 'MSE (Metland School of Entertainment)',
-            description: 'Preserving tradition and modern art through breathtaking dance and stage performances.',
-            category: 'Performing Arts',
-            image: mse,
-        },
-        {
-            name: 'CILVOK (Cileungsi Vocal)',
-            description: 'Preserving tradition and modern art through breathtaking dance and stage performances.',
-            category: 'Performing Arts',
-            image: mahes,
-        },
-    ],
-    discipline: [
-        {
-            name: 'Pramuka (Scouts)',
-            description: 'Building resilience, survival skills, and a strong sense of community through outdoor adventures.',
-            category: 'Outdoor Leadership',
-            image: programIt,
-        },
-        {
-            name: 'Paskibra',
-            description: 'The epitome of precision and discipline, training students for national-level ceremonial excellence.',
-            category: 'Ceremonial & Drill',
-            image: programCulinary,
-        },
-    ],
-    wellness: [
-        {
-            name: 'Rohis (Muslim Spiritual)',
-            description: 'Fostering spiritual growth and moral integrity through community worship and discussion.',
-            category: 'Faith & Community',
-            image: programIt,
-        },
-        {
-            name: 'Rohkris (Christiants Spiritual)',
-            description: 'Fostering spiritual growth and moral integrity through community worship and discussion.',
-            category: 'Faith & Community',
-            image: rohkris,
-        },
-        {
-            name: 'GIFT (Grow in Faith : Catholic)',
-            description: 'Fostering spiritual growth and moral integrity through community worship and discussion.',
-            category: 'Faith & Community',
-            image: programIt,
-        },
-        {
-            name: 'Rohbud (Buddhist Spiritual)',
-            description: 'Fostering spiritual growth and moral integrity through community worship and discussion.',
-            category: 'Faith & Community',
-            image: programIt,
-        },
-        {
-            name: 'KKR (Health Cadets)',
-            description: 'Promoting healthy lifestyles and emergency response skills within the school environment.',
-            category: 'Health & Safety',
-            image: kkr,
-        },
-        {
-            name: 'MCS (Metland School Care & Share)',
-            description: 'Promoting compassion, community service, and social responsibility among students.',
-            category: 'Community Service',
-            image: mcs,
-        },
-        {
-            name: 'CK (Culinary Kingdom)',
-            description: 'A hub for technical innovation and project-based learning for the future tech industry.',
-            category: 'Production & Technology',
-            image: msp,
-        },
-        {
-            name: 'ITEC (Information Technology Engineering Club)',
-            description: 'A hub for technical innovation and project-based learning for the future tech industry.',
-            category: 'Production & Technology',
-            image: itec,
-        },
-        {
-            name: 'MSP (Metland School Projects)',
-            description: 'A hub for technical innovation and project-based learning for the future tech industry.',
-            category: 'Production & Technology',
-            image: msp,
-        },
-    ],
-};
 
 const TiltCard = ({ image }: { image: string }) => {
     const x = useMotionValue(0);
@@ -177,12 +65,127 @@ const TiltCard = ({ image }: { image: string }) => {
 };
 
 const OrganizationPage = () => {
+    const { t } = useLanguage();
+
+    const organizations: Record<string, Organization[]> = {
+        leadership: [
+            {
+                name: 'Osis Student Council',
+                description: 'The heartbeat of student life, organizing major events and representing the student voice to the school board.',
+                category: t('category.leadership'),
+                image: osis,
+            },
+            {
+                name: 'MPK Representatives',
+                description: 'The supreme student legislative body, ensuring transparency and bridging ideas between students and faculty.',
+                category: t('category.leadership'),
+                image: mpk,
+            },
+        ],
+        creative: [
+            {
+                name: 'Maheswara - Maheswari',
+                description: 'Preserving tradition and modern art through breathtaking dance and stage performances.',
+                category: t('category.arts'),
+                image: mahes,
+            },
+            {
+                name: 'CIMS Cinematography',
+                description: 'A creative powerhouse for aspiring filmmakers, editors, and digital storytellers.',
+                category: t('category.media'),
+                image: cims,
+            },
+            {
+                name: 'MSE (Metland School of Entertainment)',
+                description: 'Preserving tradition and modern art through breathtaking dance and stage performances.',
+                category: t('category.arts'),
+                image: mse,
+            },
+            {
+                name: 'CILVOK (Cileungsi Vocal)',
+                description: 'Preserving tradition and modern art through breathtaking dance and stage performances.',
+                category: t('category.arts'),
+                image: mahes,
+            },
+        ],
+        discipline: [
+            {
+                name: 'Pramuka (Scouts)',
+                description: 'Building resilience, survival skills, and a strong sense of community through outdoor adventures.',
+                category: t('category.outdoor'),
+                image: programIt,
+            },
+            {
+                name: 'Paskibra',
+                description: 'The epitome of precision and discipline, training students for national-level ceremonial excellence.',
+                category: t('category.ceremonial'),
+                image: programCulinary,
+            },
+        ],
+        wellness: [
+            {
+                name: 'Rohis (Muslim Spiritual)',
+                description: 'Fostering spiritual growth and moral integrity through community worship and discussion.',
+                category: t('category.faith'),
+                image: programIt,
+            },
+            {
+                name: 'Rohkris (Christiants Spiritual)',
+                description: 'Fostering spiritual growth and moral integrity through community worship and discussion.',
+                category: t('category.faith'),
+                image: rohkris,
+            },
+            {
+                name: 'GIFT (Grow in Faith : Catholic)',
+                description: 'Fostering spiritual growth and moral integrity through community worship and discussion.',
+                category: t('category.faith'),
+                image: programIt,
+            },
+            {
+                name: 'Rohbud (Buddhist Spiritual)',
+                description: 'Fostering spiritual growth and moral integrity through community worship and discussion.',
+                category: t('category.faith'),
+                image: programIt,
+            },
+            {
+                name: 'KKR (Health Cadets)',
+                description: 'Promoting healthy lifestyles and emergency response skills within the school environment.',
+                category: t('category.health'),
+                image: kkr,
+            },
+            {
+                name: 'MCS (Metland School Care & Share)',
+                description: 'Promoting compassion, community service, and social responsibility among students.',
+                category: t('category.service'),
+                image: mcs,
+            },
+            {
+                name: 'CK (Culinary Kingdom)',
+                description: 'A hub for technical innovation and project-based learning for the future tech industry.',
+                category: t('category.tech'),
+                image: msp,
+            },
+            {
+                name: 'ITEC (Information Technology Engineering Club)',
+                description: 'A hub for technical innovation and project-based learning for the future tech industry.',
+                category: t('category.tech'),
+                image: itec,
+            },
+            {
+                name: 'MSP (Metland School Projects)',
+                description: 'A hub for technical innovation and project-based learning for the future tech industry.',
+                category: t('category.tech'),
+                image: msp,
+            },
+        ],
+    };
+
     return (
         <MainLayout>
             <HeroCarousel
-                title="Learning Beyond Class"
-                subtitle="Student Organizations"
-                description="Empowering the next generation of leaders through passion, collaboration, and real-world experience."
+                title={t('organization.hero.title')}
+                subtitle={t('organization.hero.subtitle')}
+                description={t('organization.hero.desc')}
                 height="h-[70vh]"
             />
 
@@ -193,12 +196,12 @@ const OrganizationPage = () => {
                         <ScrollReveal>
                             <div className="mb-20 flex flex-col items-center text-center">
                                 <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-slate-100 px-4 py-2 text-[10px] font-bold uppercase tracking-[0.3em] text-slate-500">
-                                    <Star className="h-3 w-3 text-teal-600" /> The Pillars of Metland
+                                    <Star className="h-3 w-3 text-teal-600" /> {t('organization.leadership.pill')}
                                 </div>
                                 {/* Heading with Underline Decoration */}
                                 <div className="relative inline-block">
                                     <h2 className="text-4xl font-black uppercase tracking-tighter text-[#0F5F58] md:text-6xl">
-                                        Leadership
+                                        {t('organization.leadership.title')}
                                     </h2>
                                     <div className="absolute -bottom-2 left-0 h-1.5 w-full rounded-full bg-[#0F5F58]/20" />
                                     <div className="absolute -bottom-2 left-0 h-1.5 w-1/3 rounded-full bg-[#0F5F58]" />
@@ -235,9 +238,13 @@ const OrganizationPage = () => {
                                 <div>
                                     <div className="mb-1 flex items-center gap-2">
                                         <Palette className="h-4 w-4 text-[#0F5F58]" />
-                                        <h3 className="text-xs font-bold uppercase tracking-widest text-[#0F5F58]">Creative Hub</h3>
+                                        <h3 className="text-xs font-bold uppercase tracking-widest text-[#0F5F58]">
+                                            {t('organization.creative.label')}
+                                        </h3>
                                     </div>
-                                    <h2 className="text-4xl font-black tracking-tight text-[#0F5F58]">Arts & Performances</h2>
+                                    <h2 className="text-4xl font-black tracking-tight text-[#0F5F58]">
+                                        {t('organization.creative.title')}
+                                    </h2>
                                 </div>
                             </div>
                         </ScrollReveal>
@@ -253,7 +260,7 @@ const OrganizationPage = () => {
                                             <h4 className="mb-3 text-2xl font-bold italic text-slate-900 transition-colors group-hover:text-[#0F5F58]">{org.name}</h4>
                                             <p className="mb-6 text-sm leading-relaxed text-slate-500">{org.description}</p>
                                             <button className="group/btn flex items-center gap-2 text-xs font-black uppercase tracking-widest text-[#0F5F58]">
-                                                Explore Gallery <ArrowRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-2" />
+                                                {t('organization.creative.explore')} <ArrowRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-2" />
                                             </button>
                                         </div>
                                     </div>
@@ -270,11 +277,15 @@ const OrganizationPage = () => {
                             <div className="mb-16 flex flex-col items-center md:items-start">
                                 <div className="mb-4 flex items-center gap-3">
                                     <ShieldCheck className="h-6 w-6  text-teal-500" />
-                                    <span className="text-sm font-bold uppercase tracking-[0.3em]  text-teal-500">Elite Discipline</span>
+                                    <span className="text-sm font-bold uppercase tracking-[0.3em]  text-teal-500">
+                                        {t('organization.discipline.label')}
+                                    </span>
                                 </div>
                                 {/* Elegant Double Line Heading */}
                                 <div className="flex items-center gap-4">
-                                    <h2 className="text-4xl font-black tracking-tight md:text-5xl">Character & Honor</h2>
+                                    <h2 className="text-4xl font-black tracking-tight md:text-5xl">
+                                        {t('organization.discipline.title')}
+                                    </h2>
                                     <div className="hidden h-[2px] flex-1 bg-gradient-to-r from-[#0F5F58]/50 to-transparent md:block" />
                                 </div>
                             </div>
@@ -309,10 +320,14 @@ const OrganizationPage = () => {
                                 {/* Centered Heading with Symmetrical Lines */}
                                 <div className="flex items-center justify-center gap-6">
                                     <div className="hidden h-[1px] w-20 bg-[#0F5F58] md:block" />
-                                    <h2 className="text-4xl font-black tracking-tight text-[#0F5F58]">Innovation & Wellbeing</h2>
+                                    <h2 className="text-4xl font-black tracking-tight text-[#0F5F58]">
+                                        {t('organization.wellness.title')}
+                                    </h2>
                                     <div className="hidden h-[1px] w-20 bg-[#0F5F58] md:block" />
                                 </div>
-                                <p className="mt-4 text-lg text-slate-500">Nurturing the mind, soul, and future skills.</p>
+                                <p className="mt-4 text-lg text-slate-500">
+                                    {t('organization.wellness.desc')}
+                                </p>
                             </div>
                         </ScrollReveal>
 

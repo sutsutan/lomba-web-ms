@@ -1,33 +1,37 @@
 import { useState, useRef } from 'react';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronRight, ChevronLeft } from 'lucide-react';
 import ScrollReveal from '@/components/ScrollReveal';
 
-const steps = [
-  {
-    image: 'https://i.pinimg.com/1200x/6a/80/35/6a8035f9bcb61800e1884a70948855a5.jpg',
-    title: 'Online Registration',
-    description: 'Begin your journey by completing our online registration form. Provide your personal information, select your preferred study program, and submit the required documents.',
-  },
-  {
-    image: 'https://smkmetland.pages.dev/_astro/hero-image.GuN_GPl8_199FtU.webp',
-    title: 'Visit Our School',
-    description: "Schedule a campus tour to explore our facilities and meet our team. You'll see how we adapt learning to different strengths and needs, and discover our vibrant community.",
-  },
-  {
-    image: 'https://i.pinimg.com/1200x/93/81/50/938150a75a021683da5f1f96033426e4.jpg',
-    title: 'Interview & Assessment',
-    description: 'Participate in a personal interview with our admission team and complete a basic aptitude assessment. This helps us understand your potential and learning goals.',
-  },
-  {
-    image: 'https://i.pinimg.com/1200x/90/67/eb/9067ebc61b7b972efc65225fd6094892.jpg',
-    title: 'Final Enrollment',
-    description: 'Once accepted, complete the administrative requirements and submit all final documents. Our team will guide you through the enrollment process step by step.',
-  },
-];
+
 
 const AdmissionSteps = () => {
+    const { t } = useLanguage();
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+  const steps = [
+    {
+      image: 'https://i.pinimg.com/1200x/6a/80/35/6a8035f9bcb61800e1884a70948855a5.jpg',
+      title: t('admission.step1.title'),
+      description: t('admission.step1.desc'),
+    },
+    {
+      image: 'https://smkmetland.pages.dev/_astro/hero-image.GuN_GPl8_199FtU.webp',
+      title: t('admission.step2.title'),
+      description: t('admission.step2.desc'),
+    },
+    {
+      image: 'https://i.pinimg.com/1200x/93/81/50/938150a75a021683da5f1f96033426e4.jpg',
+      title: t('admission.step3.title'),
+      description: t('admission.step3.desc'),
+    },
+    {
+      image: 'https://i.pinimg.com/1200x/90/67/eb/9067ebc61b7b972efc65225fd6094892.jpg',
+      title: t('admission.step4.title'),
+      description: t('admission.step4.desc'),
+    },
+  ];
 
   const scrollRight = () => {
     if (scrollContainerRef.current) {
@@ -50,10 +54,10 @@ const AdmissionSteps = () => {
           <div className="max-w-3xl">
             <ScrollReveal>
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 leading-tight">
-                Student Admission<br />Process
+                {t('admission.title_part1')} <br />{t('admission.title_part2')}
               </h2>
               <p className="text-[#0F5F58]/80 text-base md:text-lg leading-relaxed">
-                Joining Metland School is simple and transparent. Our admission process is designed to help prospective students and parents easily understand each step, from registration to enrollment. We ensure a smooth and supportive experience, guiding every applicant toward becoming part of a school that values character, competence, and future readiness.
+                {t('admission.desc')}
               </p>
             </ScrollReveal>
           </div>

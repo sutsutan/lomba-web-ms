@@ -21,36 +21,39 @@ import StudentWorks from "./pages/StudentWorks";
 import Ppdb from "./pages/Ppdb";
 import Teachers from "./pages/Teacher";
 import OurValues from "./pages/OurValues";
+import { LanguageProvider } from "@/contexts/LanguageContext";
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <ScrollToTop />
-        <AnimatePresence mode="wait">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/academics" element={<Academics />} />
-            <Route path="/teachers" element={<Teachers />} />
-            <Route path="/our-values" element={<OurValues />} />
-            <Route path="/extracurricular" element={<Extracurricular />} />
-            <Route path="/organization" element={<Organization />} />
-            <Route path="/news" element={<News />} />
-            <Route path="/alumni" element={<Alumni />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/major" element={<Major />} />
-            <Route path="/student-works" element={<StudentWorks />} />
-            <Route path="/ppdb" element={<Ppdb />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </AnimatePresence>
-      </BrowserRouter>
-    </TooltipProvider>
+    <LanguageProvider>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <ScrollToTop />
+          <AnimatePresence mode="wait">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/academics" element={<Academics />} />
+              <Route path="/teachers" element={<Teachers />} />
+              <Route path="/our-values" element={<OurValues />} />
+              <Route path="/extracurricular" element={<Extracurricular />} />
+              <Route path="/organization" element={<Organization />} />
+              <Route path="/news" element={<News />} />
+              <Route path="/alumni" element={<Alumni />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/major" element={<Major />} />
+              <Route path="/student-works" element={<StudentWorks />} />
+              <Route path="/ppdb" element={<Ppdb />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </AnimatePresence>
+        </BrowserRouter>
+      </TooltipProvider>
+    </LanguageProvider>
   </QueryClientProvider>
 );
 
