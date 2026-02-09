@@ -39,7 +39,7 @@ const teacherData = {
       { name: "Joyce Lantu", subject: "Front Office Manager", competency: ["Service", "Ethics"], image: "" },
     ],
     "DKV": [
-      { name: "Ade Nurholik", subject: "Typography Designer", competency: ["AI", "Photoshop"], image: "" },
+      { name: "Ade Nurcholik", subject: "Typography Designer", competency: ["AI", "Photoshop"], image: "" },
       { name: "Ikhsan Kurnia", subject: "Visual Designer", competency: ["AI", "Clip Studio Paint"], image: "" },
     ],
     "Accounting": [
