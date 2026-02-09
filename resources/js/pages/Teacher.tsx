@@ -10,13 +10,13 @@ import President from '@/assets/darmawan.jpg';
 const teacherData = {
   leadership: [
     {
-      name: "Tatang Sunarja",
+      name: "Fandi Sunarja",
       role: "Principal",
       image: President,
       bio: "Committed to driving vocational excellence through industry-standard education."
     },
     {
-      name: "Veria Raja Tunggal",
+      name: "Veria Rajabbani",
       role: "Vice Principal",
       image: "",
       bio: "Expert in school management and student character development systems."
