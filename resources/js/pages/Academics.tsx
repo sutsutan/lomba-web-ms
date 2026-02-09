@@ -3,6 +3,7 @@ import MainLayout from '@/layouts/MainLayout';
 import ScrollReveal from '@/components/ScrollReveal';
 import HeroCarousel from '@/components/HeroCarousel';
 import { ArrowRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import programIt from '@/assets/program-it.webp';
 import programCulinary from '@/assets/program-culinary.webp';
 import achievement from '@/assets/achievement-1.jpg';
@@ -197,9 +198,9 @@ const Academics = () => {
                    <div className="w-1 h-12 bg-[#12606A] rounded-full" />
                    <h2 className="text-3xl md:text-4xl font-bold text-[#12606A]">Student Works</h2>
                 </div>
-                <button className="px-6 py-2 rounded-full bg-gray-200 text-[#12606A] font-medium hover:bg-gray-300 transition-colors text-sm">
+                <Link to="/student-works" className="px-6 py-2 rounded-full bg-gray-200 text-[#12606A] font-medium hover:bg-gray-300 transition-colors text-sm">
                    View All Projects
-                </button>
+                </Link>
              </div>
 
              {/* Bento Grid Layout */}
