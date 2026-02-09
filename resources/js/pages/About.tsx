@@ -221,37 +221,73 @@ const About = () => {
         </div>
       </section>
 
-      {/* Student Life Section */}
-      <section className="py-20 bg-background">
-        <div className="container mx-auto px-6 md:px-12 lg:px-24">
-          <ScrollReveal>
-             <div className="flex items-center gap-4 mb-12 justify-center md:justify-start">
-                <GraduationCap className="w-10 h-10 text-[#0F5F58]" />
-                <h2 className="text-3xl md:text-4xl font-bold text-[#0F5F58]">Student Life</h2>
-             </div>
+     {/* Student Life Section */}
+<section className="py-20 bg-background">
+  <div className="container mx-auto px-6 md:px-12 lg:px-24">
+    <ScrollReveal>
+      <div className="flex items-center gap-4 mb-12">
+        <GraduationCap className="w-10 h-10 text-[#0F5F58]" />
+        <h2 className="text-3xl md:text-4xl font-bold text-[#0F5F58]">Student Life</h2>
+      </div>
 
-             <div className="space-y-20 md:space-y-32">
-                {[
-                  { img: osis, text: "The student council president election debate is an important part of the democratic learning process at SMK Metland...", reverse: false },
-                  { img: galadinner, text: "SMK Metland actively provides students with opportunities to gain real professional experience through collaboration...", reverse: true },
-                  { img: leadership, text: "Discipline and leadership training activities are an integral part of student character development at SMK Metland...", reverse: false }
-                ].map((item, i) => (
-                  <div key={i} className="grid lg:grid-cols-2 gap-8 md:gap-16 items-center">
-                    <div className={`w-full h-[250px] md:h-[400px] rounded-3xl overflow-hidden shadow-xl ${item.reverse ? 'lg:order-2' : ''}`}>
-                      <img src={item.img} className="w-full h-full object-cover" alt="Student Life" />
-                    </div>
-                    <div className={`flex flex-col ${item.reverse ? 'lg:order-1' : ''}`}>
-                      <div className="hidden lg:block w-1.5 h-16 bg-[#0F5F58] mb-6 rounded-full" />
-                      <p className="text-[#0F5F58] leading-relaxed text-justify md:text-lg">
-                        {item.text}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-             </div>
-          </ScrollReveal>
+      <div className="space-y-12 md:space-y-16">
+        {/* Item 1 - Image Left, Text Right */}
+        <div className="grid md:grid-cols-2 gap-6 md:gap-8 items-start">
+          <div className="w-full h-[280px] md:h-[350px] rounded-2xl overflow-hidden shadow-lg">
+            <img src={osis} className="w-full h-full object-cover" alt="Student Council Debate" />
+          </div>
+          <div className="flex gap-4">
+            <div className="w-1 bg-[#0F5F58] rounded-full flex-shrink-0" />
+            <div className="flex flex-col">
+              <h3 className="text-xl md:text-2xl font-bold text-[#0F5F58] mb-4">
+                Student Council Presidential Debate 2025/2026
+              </h3>
+              <p className="text-[#0F5F58]/80 leading-relaxed text-justify text-sm md:text-base">
+                The student council president election debate is an important part of the democratic learning process at SMK Metland. During these debates, candidates are trained to present ideas, opinions, and visions in a structured and confident manner. The debate encourages critical thinking and teaches students to respect different perspectives while maintaining sportsmanship. This activity also helps develop leadership qualities, self-confidence, and effective communication skills that are essential for both school life and the wider community.
+              </p>
+            </div>
+          </div>
         </div>
-      </section>
+
+        {/* Item 2 - Text Left, Image Right */}
+        <div className="grid md:grid-cols-2 gap-6 md:gap-8 items-start">
+          <div className="flex gap-4 order-2 md:order-1">
+            <div className="w-1 bg-[#0F5F58] rounded-full flex-shrink-0" />
+            <div className="flex flex-col">
+              <h3 className="text-xl md:text-2xl font-bold text-[#0F5F58] mb-4">
+                Bank Indonesia Gala Dinner Service Excellence
+              </h3>
+              <p className="text-[#0F5F58]/80 leading-relaxed text-justify text-sm md:text-base">
+                SMK Metland actively provides students with opportunities to gain real professional experience through collaboration with industry partners. One of these opportunities is student participation in the Bank Indonesia Gala Dinner event. During this activity, students are directly involved in various services and operations, allowing them to apply skills learned in school. Through this experience, students enhance their technical abilities, communication skills, and understanding of professional ethics and workplace standards.
+              </p>
+            </div>
+          </div>
+          <div className="w-full h-[280px] md:h-[350px] rounded-2xl overflow-hidden shadow-lg order-1 md:order-2">
+            <img src={galadinner} className="w-full h-full object-cover" alt="Bank Indonesia Gala Dinner" />
+          </div>
+        </div>
+
+        {/* Item 3 - Image Left, Text Right */}
+        <div className="grid md:grid-cols-2 gap-6 md:gap-8 items-start">
+          <div className="w-full h-[280px] md:h-[350px] rounded-2xl overflow-hidden shadow-lg">
+            <img src={leadership} className="w-full h-full object-cover" alt="Leadership Training" />
+          </div>
+          <div className="flex gap-4">
+            <div className="w-1 bg-[#0F5F58] rounded-full flex-shrink-0" />
+            <div className="flex flex-col">
+              <h3 className="text-xl md:text-2xl font-bold text-[#0F5F58] mb-4">
+                Basic Leadership Training - Metland School
+              </h3>
+              <p className="text-[#0F5F58]/80 leading-relaxed text-justify text-sm md:text-base">
+                Discipline and leadership training activities are an integral part of student character development at SMK Metland. Through marching drills and field training, students are trained to improve teamwork, discipline, and physical endurance. These activities also aim to build mental resilience and a strong sense of responsibility. As a result, students are better prepared to become confident, independent individuals who are ready to face future challenges.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ScrollReveal>
+  </div>
+</section>
     </MainLayout>
   );
 };
