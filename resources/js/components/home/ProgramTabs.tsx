@@ -5,14 +5,12 @@ import ScrollReveal from '@/components/ScrollReveal';
 import logo from '@/assets/logo-metland.png';
 import programItImg from '@/assets/program-it.webp';
 import programCulinaryImg from '@/assets/program-culinary.webp';
-import achievementImg from '@/assets/achievement-1.jpg';
 import Itec from '@/assets/Logo_ITEC.png';
 import Mpk from '@/assets/mpk-logo.png';
 import Msp from '@/assets/msp.jpeg';
 import Mahes from '@/assets/mahes.png';
 import Kkr from '@/assets/kkr.jpeg';
 import LogoOsis from '@/assets/logo-osis.png';
-import Cims from '@/assets/cims.jpeg';
 import programDkv from '@/assets/dkv.webp';
 import programPerhotelan from '@/assets/aph.webp';
 import programAkuntansi from '@/assets/akuntansi.webp';
@@ -20,7 +18,6 @@ import extracurricularFutsal from '@/assets/extracurricular-futsal.jpg';
 import extracurricularBasket from '@/assets/extracurricular-basket.jpg';
 import extracurricularBadminton from '@/assets/extracurricular-badminton.jpg';
 import extracurricularModelling from '@/assets/extracurricular-modelling.jpeg';
-
 
 interface TabContent {
   title: string;
@@ -49,6 +46,9 @@ const tabData: Record<string, TabContent> = {
 const ProgramTabs = () => {
   const [activeTab, setActiveTab] = useState<keyof typeof tabData>('extracurricular');
   const [activeImageIndex, setActiveImageIndex] = useState(0);
+
+  // Logika Utama: Major sekarang menggunakan layout yang sama dengan Organization
+  const isCompactLayout = activeTab === 'organization' || activeTab === 'major';
 
   const handleTabChange = (tab: keyof typeof tabData) => {
     setActiveTab(tab);
@@ -80,9 +80,10 @@ const ProgramTabs = () => {
       let spacing;
       
       if (width < 640) {
-        spacing = activeTab === 'organization' ? 50 : 61;
+        // Menggunakan isCompactLayout untuk Major & Organization
+        spacing = isCompactLayout ? 50 : 61;
       } else {
-        spacing = activeTab === 'organization' ? 150 : 240;
+        spacing = isCompactLayout ? 150 : 240;
       }
       
       return {
@@ -93,7 +94,7 @@ const ProgramTabs = () => {
       };
     }
     
-    const spacing = activeTab === 'organization' ? 150 : 240;
+    const spacing = isCompactLayout ? 150 : 240;
     
     return {
       left: baseLeft + (position * spacing),
@@ -102,8 +103,6 @@ const ProgramTabs = () => {
       opacity: 1,
     };
   };
-
-  const isOrganization = activeTab === 'organization';
 
   return (
     <section className="section-padding bg-background py-8 sm:py-12 md:py-16">
@@ -159,7 +158,7 @@ const ProgramTabs = () => {
 
             <div className="flex flex-col lg:flex-row items-center gap-6 sm:gap-8 lg:gap-12">
               <div className={`relative flex-shrink-0 overflow-visible ${
-                isOrganization 
+                isCompactLayout 
                   ? 'w-full sm:w-[550px] md:w-[700px] lg:w-[850px] xl:w-[1000px] h-[280px] sm:h-[350px] md:h-[400px] lg:h-[450px]'
                   : 'w-full sm:w-[600px] md:w-[750px] lg:w-[900px] xl:w-[1050px] h-[280px] sm:h-[350px] md:h-[400px] lg:h-[450px]'
               }`}>
@@ -169,7 +168,7 @@ const ProgramTabs = () => {
                     <motion.div
                       key={`${activeTab}-${index}`}
                       className={`absolute top-0 overflow-hidden shadow-2xl cursor-pointer ${
-                        isOrganization
+                        isCompactLayout
                           ? 'w-[100px] sm:w-[170px] md:w-[200px] lg:w-[230px] xl:w-[250px] h-[280px] sm:h-[350px] md:h-[400px] lg:h-[450px]'
                           : 'w-[122px] sm:w-[220px] md:w-[260px] lg:w-[300px] xl:w-[330px] h-[280px] sm:h-[350px] md:h-[400px] lg:h-[450px]'
                       }`}
