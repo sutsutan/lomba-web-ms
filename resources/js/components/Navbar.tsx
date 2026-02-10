@@ -11,41 +11,6 @@ interface NavItem {
   children?: NavItem[];
 }
 
-<<<<<<< HEAD
-const navItems: NavItem[] = [
-  { label: 'Home', href: '/' },
-  {
-    label: 'About',
-    href: '/about',
-    children: [
-      { label: 'Vision & Mission', href: '/mission-vision' },
-      { label: 'Our Values', href: '/our-values' },
-      { label: 'Contact', href: '/contact' },
-    ],
-  },
-  {
-    label: 'Academics',
-    href: '/academics',
-    children: [
-      { label: 'Majors', href: '/major' },
-      { label: 'Student Works', href: '/student-works' },
-      { label: 'Teacher', href: '/teachers' },
-    ],
-  },
-  {
-    label: 'Activity',
-    href: '/news',
-    children: [
-      { label: 'Extracurricular', href: '/extracurricular' },
-      { label: 'Organization', href: '/organization' },
-      { label: 'News', href: '/news' },
-    ],
-  },
-  { label: 'Alumni', href: '/alumni' },
-  { label: 'PPDB', href: '/ppdb' },
-];
-=======
->>>>>>> cf76c0e34cf58e8b624f83ee30d14cf21d09ce28
 
 const Navbar = () => {
   const { t, language, toggleLanguage } = useLanguage();

@@ -54,17 +54,11 @@ const Extracurricular = () => {
                     {t('extra.cocurricular.desc2')}
                   </p>
                 </div>
-<<<<<<< HEAD
                 <Link to="/eskul" className="block w-fit">
                   <button className="px-8 py-3 rounded-full bg-slate-300 text-[#12606A] font-bold text-sm hover:bg-slate-400 transition-all active:scale-95 shadow-sm">
                     Learn More
                   </button>
                 </Link>
-=======
-                <button className="px-10 py-4 rounded-full bg-slate-200 text-[#12606A] font-bold text-sm hover:bg-slate-300 transition-all active:scale-95 shadow-sm">
-                  {t('extra.cocurricular.learn_more')}
-                </button>
->>>>>>> cf76c0e34cf58e8b624f83ee30d14cf21d09ce28
               </div>
             </ScrollReveal>
 
