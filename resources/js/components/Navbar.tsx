@@ -11,39 +11,6 @@ interface NavItem {
   children?: NavItem[];
 }
 
-const navItems: NavItem[] = [
-  { label: 'Home', href: '/' },
-  {
-    label: 'About',
-    href: '/about',
-    children: [
-      { label: 'Vision & Mission', href: '/mission-vision' },
-      { label: 'Our Values', href: '/our-values' },
-      { label: 'Contact', href: '/contact' },
-    ],
-  },
-  {
-    label: 'Academics',
-    href: '/academics',
-    children: [
-      { label: 'Majors', href: '/major' },
-      { label: 'Student Works', href: '/student-works' },
-      { label: 'Teacher', href: '/teachers' },
-    ],
-  },
-  {
-    label: 'Activity',
-    href: '/news',
-    children: [
-      { label: 'Extracurricular', href: '/extracurricular' },
-      { label: 'Organization', href: '/organization' },
-      { label: 'News', href: '/news' },
-    ],
-  },
-  { label: 'Alumni', href: '/alumni' },
-  { label: 'PPDB', href: '/ppdb' },
-];
-
 const Navbar = () => {
   const { t, language, toggleLanguage } = useLanguage();
   
@@ -53,7 +20,7 @@ const Navbar = () => {
       label: t('nav.about'),
       href: '/about',
       children: [
-        { label: t('nav.vision'), href: '/about#vision' },
+        { label: t('nav.vision'), href: '/mission-vision' },
         { label: t('nav.values'), href: '/our-values' },
         { label: t('nav.contact'), href: '/contact' },
       ],

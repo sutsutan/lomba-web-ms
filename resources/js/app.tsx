@@ -24,6 +24,7 @@ import OurValues from "./pages/OurValues";
 import MoreEskul from "./pages/MoreEskul";
 import MoreOrg from "./pages/MoreOrg";
 import MissionVision from "./pages/MissionVission";
+import NewsArchive from "./pages/NewsArchive";
 
 
 const queryClient = new QueryClient();
@@ -55,6 +56,7 @@ const App = () => (
             <Route path="/eskul" element={<MoreEskul />} />
             <Route path="/moreorg" element={<MoreOrg />} />
             <Route path="/mission-vision" element={<MissionVision />} />
+            <Route path="/news-archive" element={<NewsArchive />} />
           </Routes>
            </LanguageProvider>
         </AnimatePresence>
