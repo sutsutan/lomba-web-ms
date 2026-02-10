@@ -8,6 +8,7 @@ import heroBg from '@/assets/hero-bg.jpg';
 import programIt from '@/assets/program-it.webp';
 import programCulinary from '@/assets/program-culinary.webp';
 import achievement from '@/assets/achievement-1.jpg';
+import axios from 'axios';
 
 const News = () => {
   const { t } = useLanguage();

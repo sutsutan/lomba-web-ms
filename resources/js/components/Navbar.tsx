@@ -11,7 +11,6 @@ interface NavItem {
   children?: NavItem[];
 }
 
-<<<<<<< HEAD
 const navItems: NavItem[] = [
   { label: 'Home', href: '/' },
   {
@@ -44,8 +43,6 @@ const navItems: NavItem[] = [
   { label: 'Alumni', href: '/alumni' },
   { label: 'PPDB', href: '/ppdb' },
 ];
-=======
->>>>>>> cf76c0e34cf58e8b624f83ee30d14cf21d09ce28
 
 const Navbar = () => {
   const { t, language, toggleLanguage } = useLanguage();

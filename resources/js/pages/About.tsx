@@ -106,19 +106,9 @@ const About = () => {
                     {t('about.know_us.desc2')}
                   </p>
                 </div>
-<<<<<<< HEAD
                 <div className="flex flex-wrap gap-4 pt-4">
                   <Link to="/contact" className="px-6 md:px-8 py-3 bg-[#B8C5D0] text-[#0F5F58] font-semibold rounded-full hover:bg-[#A0B0BD] transition-all shadow-sm text-sm md:text-base">Contact Us</Link>
                   <Link to="/mission-vision" className="px-6 md:px-8 py-3 border-2 border-[#B8C5D0] text-[#0F5F58] font-semibold rounded-full hover:bg-white transition-all text-sm md:text-base">Our Vision & Mission</Link>
-=======
-                <div className="flex gap-4 pt-4">
-                  <button className="px-8 py-3 bg-teal-600 text-white rounded-full font-bold hover:bg-teal-700 transition-all shadow-lg hover:shadow-teal-500/30">
-                    {t('about.know_us.contact')}
-                  </button>
-                  <button className="px-8 py-3 border-2 border-teal-600 text-teal-600 rounded-full font-bold hover:bg-teal-50 transition-all">
-                    {t('about.know_us.learn')}
-                  </button>
->>>>>>> cf76c0e34cf58e8b624f83ee30d14cf21d09ce28
                 </div>
               </div>
             </ScrollReveal>
