@@ -24,6 +24,8 @@ import OurValues from "./pages/OurValues";
 import MoreEskul from "./pages/MoreEskul";
 import MoreOrg from "./pages/MoreOrg";
 import MissionVision from "./pages/MissionVission";
+
+import PpdbPopup from "./components/home/ppdbpopup";
 import NewsArchive from "./pages/NewsArchive";
 import NewsDetail from "./pages/NewsDetail";
 
@@ -32,38 +34,39 @@ const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <ScrollToTop />
-        <AnimatePresence mode="wait">
-           <LanguageProvider>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/academics" element={<Academics />} />
-            <Route path="/teachers" element={<Teachers />} />
-            <Route path="/our-values" element={<OurValues />} />
-            <Route path="/extracurricular" element={<Extracurricular />} />
-            <Route path="/organization" element={<Organization />} />
-            <Route path="/news" element={<News />} />
-            <Route path="/alumni" element={<Alumni />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/major" element={<Major />} />
-            <Route path="/student-works" element={<StudentWorks />} />
-            <Route path="/ppdb" element={<Ppdb />} />
-            <Route path="*" element={<NotFound />} />
-            <Route path="/eskul" element={<MoreEskul />} />
-            <Route path="/moreorg" element={<MoreOrg />} />
-            <Route path="/mission-vision" element={<MissionVision />} />
-            <Route path="/news-archive" element={<NewsArchive />} />
-            <Route path="/more-news" element={<NewsDetail />} />
-          </Routes>
-           </LanguageProvider>
-        </AnimatePresence>
-      </BrowserRouter>
-    </TooltipProvider>
+    <LanguageProvider>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <ScrollToTop />
+          <PpdbPopup />
+          <AnimatePresence mode="wait">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/academics" element={<Academics />} />
+              <Route path="/teachers" element={<Teachers />} />
+              <Route path="/our-values" element={<OurValues />} />
+              <Route path="/extracurricular" element={<Extracurricular />} />
+              <Route path="/organization" element={<Organization />} />
+              <Route path="/news" element={<News />} />
+              <Route path="/alumni" element={<Alumni />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/major" element={<Major />} />
+              <Route path="/student-works" element={<StudentWorks />} />
+              <Route path="/ppdb" element={<Ppdb />} />
+              <Route path="*" element={<NotFound />} />
+              <Route path="/eskul" element={<MoreEskul />} />
+              <Route path="/moreorg" element={<MoreOrg />} />
+              <Route path="/mission-vision" element={<MissionVision />} />
+              <Route path="/news-archive" element={<NewsArchive />} />
+              <Route path="/more-news" element={<NewsDetail />} />  
+            </Routes>
+          </AnimatePresence>
+        </BrowserRouter>
+      </TooltipProvider>
+    </LanguageProvider>
   </QueryClientProvider>
 );
 

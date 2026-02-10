@@ -11,6 +11,7 @@ interface NavItem {
   children?: NavItem[];
 }
 
+
 const Navbar = () => {
   const { t, language, toggleLanguage } = useLanguage();
   

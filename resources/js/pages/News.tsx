@@ -144,7 +144,6 @@ const News = () => {
             {/* All News Grid */}
             <section className="section-padding bg-section">
                 <div className="container mx-auto px-4">
-                    // Di dalam News.tsx Anda, ubah bagian ini:
                     <ScrollReveal>
                         <div className="mb-12 flex items-center justify-between">
                             <h2 className="section-title text-3xl">
