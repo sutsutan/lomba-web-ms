@@ -201,10 +201,12 @@ const News = () => {
                                             <p className="line-clamp-2 text-sm text-muted-foreground">
                                                 {news.excerpt}
                                             </p>
+                                            <Link to={`/more-news`} className="flex items-center gap-2 text-primary font-bold text-sm hover:gap-3 transition-all">
                                             <button className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-primary transition-all hover:gap-2">
                                                 {t('news.all.read_more')}
                                                 <ArrowRight className="h-4 w-4" />
                                             </button>
+                                            </Link>
                                         </div>
                                     </article>
                                 </ScrollReveal>
