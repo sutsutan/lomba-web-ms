@@ -11,15 +11,24 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('news', function (Blueprint $table) {
-            $table->id();
-            $table->string('title');
-            $table->string('slug')->unique();
-            $table->text('content');
-            $table->string('thumbnail')->nullable();
-            $table->foreignId('user_id')->constrained(); // Author
-            $table->timestamps();
-        });
+       Schema::create('news', function (Blueprint $table) {
+        $table->id();
+        // Bahasa Indonesia
+        $table->string('title_id');
+        $table->text('excerpt_id');
+        $table->text('content_id');
+        
+        // English
+        $table->string('title_en');
+        $table->text('excerpt_en');
+        $table->text('content_en');
+
+        $table->string('slug')->unique();
+        $table->string('category');
+        $table->string('thumbnail')->nullable();
+        $table->foreignId('user_id')->constrained()->onDelete('cascade');
+        $table->timestamps();
+    });
     }
 
     /**

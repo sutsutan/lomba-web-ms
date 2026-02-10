@@ -9,8 +9,12 @@ import {
     Calculator,
     CheckCircle2,
     Code,
+    Cpu,
     Hotel,
+    Image as ImageIcon,
+    Monitor,
     Palette,
+    ShieldCheck,
     Users,
     Utensils,
 } from 'lucide-react';
@@ -48,6 +52,18 @@ const majorsData = [
             'Executive Housekeeper',
             'Cruise Ship Professional',
         ],
+        gallery: [
+            { title: 'Table Manner Session', category: 'Practice' },
+            { title: 'Front Office Training', category: 'Professional' },
+            { title: 'Housekeeping Workshop', category: 'Skill' },
+            { title: 'Industrial Visit', category: 'Event' },
+        ],
+        facilities: [
+            'Mockup Hotel Room',
+            'Laundry Lab',
+            'Front Office Desk',
+            'Function Hall',
+        ],
         stats: { students: '450+', partners: '30+', duration: '3' },
         detailedInfo:
             'SMK Metland operates as a Regional Public Service Agency (BLUD) under the Ministry of Education. Our program is specifically designed to provide direct, hands-on professional training in hotel management responsibilities.',
@@ -76,6 +92,18 @@ const majorsData = [
             'Restaurant Manager',
             'Culinary Entrepreneur',
         ],
+        gallery: [
+            { title: 'Plating Technique', category: 'Arts' },
+            { title: 'Pastry Production', category: 'Bakery' },
+            { title: 'Cooking Competition', category: 'Achievement' },
+            { title: 'Food Service Lab', category: 'Practice' },
+        ],
+        facilities: [
+            'Main Kitchen Lab',
+            'Pastry & Bakery Lab',
+            'Fine Dining Restaurant',
+            'Cold Storage',
+        ],
         stats: { students: '410+', partners: '20+', duration: '3' },
         detailedInfo:
             'Our curriculum emphasizes daily international-standard practical sessions. We focus on technical precision and professional attitude to produce industry-ready culinary experts.',
@@ -98,11 +126,23 @@ const majorsData = [
             'Digital Spreadsheet Mastery',
             'Computerized Accounting',
         ],
+        gallery: [
+            { title: 'Teller Bank', category: 'Teller' },
+            { title: 'Hardware Lab', category: 'Hardware' },
+            { title: 'UI/UX Workshop', category: 'Design' },
+            { title: 'App Deployment', category: 'DevOps' },
+        ],
         careers: [
             'Financial Accountant',
             'Tax Consultant',
             'Internal Auditor',
             'Bank Officer',
+        ],
+        facilities: [
+            'Accounting Software Lab',
+            'Business Center',
+            'Bank Mini',
+            'Tax Center',
         ],
         stats: { students: '350+', partners: '25+', duration: '3' },
         detailedInfo:
@@ -126,11 +166,23 @@ const majorsData = [
             'Digital Illustration',
             'Photography & Cinematography',
         ],
+        gallery: [
+            { title: 'Comifuro', category: 'Personal Branding' },
+            { title: 'product showcase', category: 'product' },
+            { title: 'UI/UX Workshop', category: 'Design' },
+            { title: 'scenery', category: 'photography' },
+        ],
         careers: [
             'Graphic Designer',
             'Art Director',
             'UI/UX Designer',
             'Content Creator',
+        ],
+        facilities: [
+            'Photography Studio',
+            'Mac Computer Lab',
+            'Drawing Studio',
+            'Videography Suite',
         ],
         stats: { students: '480+', partners: '35+', duration: '3' },
         detailedInfo:
@@ -160,6 +212,18 @@ const majorsData = [
             'Web Architect',
             'Game Programmer',
         ],
+        gallery: [
+            { title: 'Hackathon Day', category: 'Coding' },
+            { title: 'IoT Project Showcase', category: 'Hardware' },
+            { title: 'UI/UX Workshop', category: 'Design' },
+            { title: 'App Deployment', category: 'DevOps' },
+        ],
+        facilities: [
+            'Coding Innovation Lab',
+            'IoT & Hardware Room',
+            'Esports & Game Hub',
+            'Server Room',
+        ],
         stats: { students: '520+', partners: '40+', duration: '3' },
         detailedInfo:
             'Integrating Cloud Computing and IoT to prepare students for the Industry 4.0 era through a Hybrid Learning Model.',
@@ -171,6 +235,7 @@ const majorsData = [
 const Major = () => {
     const [index, setIndex] = useState(0);
     const current = majorsData[index];
+    
 
     const [rotateX, setRotateX] = useState(0);
     const [rotateY, setRotateY] = useState(0);
@@ -182,7 +247,6 @@ const Major = () => {
         const centerX = card.width / 2;
         const centerY = card.height / 2;
 
-        // Sensitivitas tilt (semakin besar pembaginya, semakin halus)
         setRotateX((y - centerY) / 40);
         setRotateY((centerX - x) / 40);
     };
@@ -191,6 +255,8 @@ const Major = () => {
         setRotateX(0);
         setRotateY(0);
     };
+
+    
 
     return (
         <MainLayout>
@@ -233,7 +299,7 @@ const Major = () => {
                     </motion.div>
                 </div>
 
-                {/* FLOATING NAVIGATOR - Uniform Teal Color */}
+                {/* FLOATING NAVIGATOR */}
                 <div className="no-scrollbar absolute bottom-10 left-0 right-0 z-30 overflow-x-auto px-6 py-4">
                     <div className="mx-auto flex min-w-max items-center justify-start gap-6 px-4 md:justify-center">
                         {majorsData.map((m, i) => (
@@ -380,7 +446,7 @@ const Major = () => {
                 </div>
             </section>
 
-            {/* NEW FULL SPECIFICATION SECTION WITH TILT ANIMATION */}
+            {/* Explanation Section */}
             <section className="perspective-1000 bg-[#12606A]/5 py-24">
                 <div className="container mx-auto px-6">
                     <div className="mx-auto max-w-5xl">
@@ -443,8 +509,66 @@ const Major = () => {
                 </div>
             </section>
 
+             {/* CORE COMPETENCIES & FACILITIES */}
+            <section className="bg-neutral-50 py-24">
+                <div className="container mx-auto px-6">
+                    <div className="grid gap-16 lg:grid-cols-2">
+                        {/* Competencies */}
+                        <div>
+                            <div className="mb-8 flex items-center gap-4">
+                                <div className="rounded-lg bg-[#12606A] p-2 text-white">
+                                    <ShieldCheck />
+                                </div>
+                                <h3 className="text-2xl font-black uppercase text-[#12606A]">
+                                    Kompetensi Keahlian
+                                </h3>
+                            </div>
+                            <div className="grid gap-4">
+                                {current.competencies.map((item, idx) => (
+                                    <div
+                                        key={idx}
+                                        className="flex items-center gap-4 rounded-xl border border-neutral-100 bg-white p-5 shadow-sm"
+                                    >
+                                        <div className="h-2 w-2 rounded-full bg-teal-500" />
+                                        <span className="font-bold text-neutral-700">
+                                            {item}
+                                        </span>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Facilities */}
+                        <div>
+                            <div className="mb-8 flex items-center gap-4">
+                                <div className="rounded-lg bg-[#12606A] p-2 text-white">
+                                    <Cpu />
+                                </div>
+                                <h3 className="text-2xl font-black uppercase text-[#12606A]">
+                                    Fasilitas Lab Praktik
+                                </h3>
+                            </div>
+                            <div className="grid grid-cols-2 gap-4">
+                                {current.facilities?.map((fac, idx) => (
+                                    <div
+                                        key={idx}
+                                        className="group relative overflow-hidden rounded-xl bg-[#12606A] p-8 text-white"
+                                    >
+                                        <div className="absolute -right-4 -top-4 opacity-10 transition-transform group-hover:scale-110">
+                                            <Monitor size={80} />
+                                        </div>
+                                        <p className="relative z-10 font-black uppercase tracking-tight">
+                                            {fac}
+                                        </p>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             <section className="relative overflow-hidden bg-white py-24">
-                {/* ELEMEN BARU: Background Large Text untuk mengisi kekosongan visual */}
                 <div className="pointer-events-none absolute left-1/2 top-1/2 w-full -translate-x-1/2 -translate-y-1/2 select-none overflow-hidden opacity-[0.03]">
                     <h2 className="whitespace-nowrap text-[20vw] font-black uppercase leading-none">
                         Future Leader • Metland • Future Leader • Metland
@@ -473,7 +597,6 @@ const Major = () => {
                                     </div>
 
                                     <div className="relative ml-10 mt-16">
-                                        {/* Garis Vertical Utama dengan Gradient */}
                                         <motion.div
                                             initial={{ height: 0 }}
                                             whileInView={{ height: '100%' }}
@@ -503,10 +626,8 @@ const Major = () => {
                                                     viewport={{ once: true }}
                                                     className="group relative pl-12"
                                                 >
-                                                    {/* Garis Miring Penghubung (Diagonal Line) */}
                                                     <div className="absolute left-0 top-1/2 h-[1px] w-8 origin-left -translate-y-1/2 -rotate-[30deg] bg-[#12606A]/30 transition-colors duration-300 group-hover:bg-[#12606A]" />
 
-                                                    {/* Dot Point dengan Ripple Effect */}
                                                     <div className="absolute left-[-6px] top-1/2 z-10 h-3 w-3 -translate-y-1/2 rounded-full border-2 border-[#12606A] bg-white shadow-sm transition-all duration-300 group-hover:bg-[#12606A]" />
 
                                                     <div className="flex flex-col">
@@ -525,6 +646,141 @@ const Major = () => {
                                 </div>
                             </ScrollReveal>
                         </div>
+
+                        {/* RIGHT: PARTNERSHIP & CERTIFICATION */}
+                        <div className="relative lg:col-span-6 xl:col-span-5">
+                            <div className="absolute -inset-4 -z-10 hidden rounded-[4rem] border border-neutral-100 lg:block" />
+                            <div className="absolute -inset-8 -z-20 hidden rounded-[5rem] border border-neutral-50 lg:block" />
+
+                            <ScrollReveal delay={0.3}>
+                                <div
+                                    className={`relative flex min-h-[650px] flex-col justify-between overflow-hidden rounded-[3.5rem] bg-gradient-to-br p-10 text-white md:p-14 ${current.bgGradient} shadow-[0_40px_80px_-15px_rgba(18,96,106,0.3)] transition-all duration-500 hover:shadow-2xl`}
+                                >
+                                    {/* Overlay Pattern */}
+                                    <div
+                                        className="pointer-events-none absolute inset-0 opacity-[0.15]"
+                                        style={{
+                                            backgroundImage: `radial-gradient(circle at 2px 2px, white 1px, transparent 0)`,
+                                            backgroundSize: '32px 32px',
+                                        }}
+                                    />
+
+                                    <div className="relative z-10 flex h-full flex-col">
+                                        {/* Header Badge */}
+                                        <div className="mb-10 flex w-fit items-center gap-3 rounded-full border border-white/20 bg-white/10 px-5 py-2.5 backdrop-blur-xl">
+                                            <Building2
+                                                size={18}
+                                                className="text-teal-300"
+                                            />
+                                            <span className="text-[11px] font-black uppercase tracking-[0.2em] text-white">
+                                                Industry Readiness
+                                            </span>
+                                        </div>
+
+                                        {/* Main Content Area */}
+                                        <div className="flex-grow">
+                                            <h4 className="mb-4 text-4xl font-black uppercase leading-[0.85] tracking-tighter md:text-5xl">
+                                                Professional
+                                                <br />
+                                                <span className="text-teal-300">
+                                                    Certification
+                                                </span>
+                                            </h4>
+
+                                            {/* Big Numbers with Context */}
+                                            <div className="mb-10 flex items-center gap-6">
+                                                <span className="text-[10rem] font-black leading-none tracking-tighter text-white/95">
+                                                    03
+                                                </span>
+                                                <div className="space-y-1 border-l-2 border-white/20 pl-6">
+                                                    <p className="text-2xl font-bold uppercase leading-tight tracking-wide">
+                                                        Global
+                                                        <br />
+                                                        Standards
+                                                    </p>
+                                                    <p className="text-xs font-medium uppercase tracking-widest text-teal-100 opacity-60">
+                                                        Verified Licenses
+                                                    </p>
+                                                </div>
+                                            </div>
+
+                                            {/* Descriptive Text */}
+                                            <div className="max-w-[340px] space-y-8">
+                                                <p className="text-xl font-medium leading-relaxed text-white/90">
+                                                    Lulusan dibekali sertifikasi
+                                                    kompetensi{' '}
+                                                    <span className="font-black text-teal-200 underline decoration-teal-400/50 underline-offset-4">
+                                                        BNSP
+                                                    </span>{' '}
+                                                    and international licence
+                                                    from industry partners.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Background Branding (Watermark) */}
+                                    <div className="pointer-events-none absolute -bottom-16 -right-16 rotate-[-12deg] opacity-[0.08] transition-transform duration-700 group-hover:scale-110">
+                                        <img
+                                            src={LogoMetland}
+                                            alt="Metland Watermark"
+                                            className="h-[550px] w-[550px] object-contain brightness-0 invert"
+                                        />
+                                    </div>
+                                </div>
+                            </ScrollReveal>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            {/* GALLERY SECTION */}
+            <section className="bg-white py-24">
+                <div className="container mx-auto px-6">
+                    <div className="mb-12 flex flex-col justify-between gap-6 md:flex-row md:items-end">
+                        <div>
+                            <div className="mb-2 flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-teal-600">
+                                <ImageIcon size={18} />
+                                <span>Moments & Activities</span>
+                            </div>
+                            <h2 className="text-4xl font-black uppercase text-[#12606A]">
+                                Activity Gallery
+                            </h2>
+                        </div>
+                        <p className="max-w-md italic text-neutral-500">
+                            A glimpse into the vibrant activities and events
+                            that define our major programs.
+                        </p>
+                    </div>
+
+                    <div className="grid h-[600px] grid-cols-1 gap-4 md:grid-cols-4">
+                        {current.gallery?.map((item, idx) => (
+                            <div
+                                key={idx}
+                                className={`group relative overflow-hidden rounded-3xl bg-neutral-200 transition-all duration-500 hover:shadow-2xl ${
+                                    idx === 0
+                                        ? 'md:col-span-2 md:row-span-2'
+                                        : ''
+                                }`}
+                            >
+                                <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60 transition-opacity group-hover:opacity-90" />
+
+                                <div className="flex h-full w-full items-center justify-center bg-[#12606A]/10">
+                                    <ImageIcon
+                                        className="text-neutral-300"
+                                        size={48}
+                                    />
+                                </div>
+
+                                <div className="absolute bottom-0 left-0 z-20 translate-y-4 transform p-6 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+                                    <span className="text-xs font-bold uppercase tracking-widest text-teal-400">
+                                        {item.category}
+                                    </span>
+                                    <h4 className="text-xl font-bold text-white">
+                                        {item.title}
+                                    </h4>
+                                </div>
+                            </div>
+                        ))}
                     </div>
                 </div>
             </section>

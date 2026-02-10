@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import ScrollToTop from "./components/ScrollToTop";
+import { LanguageProvider } from '@/contexts/LanguageContext';
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Academics from "./pages/Academics";
@@ -24,8 +25,9 @@ import MoreEskul from "./pages/MoreEskul";
 import MoreOrg from "./pages/MoreOrg";
 import MissionVision from "./pages/MissionVission";
 
-import { LanguageProvider } from "@/contexts/LanguageContext";
 import PpdbPopup from "./components/home/ppdbpopup";
+import NewsArchive from "./pages/NewsArchive";
+
 
 const queryClient = new QueryClient();
 

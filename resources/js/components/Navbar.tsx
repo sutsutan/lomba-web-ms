@@ -21,7 +21,7 @@ const Navbar = () => {
       label: t('nav.about'),
       href: '/about',
       children: [
-        { label: t('nav.vision'), href: '/about#vision' },
+        { label: t('nav.vision'), href: '/mission-vision' },
         { label: t('nav.values'), href: '/our-values' },
         { label: t('nav.contact'), href: '/contact' },
       ],

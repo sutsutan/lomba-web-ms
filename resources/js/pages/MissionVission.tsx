@@ -9,12 +9,10 @@ import ScrollReveal from '@/components/ScrollReveal';
 import schoolImage from '@/assets/metland.jpg'; 
 import logoMetland from '@/assets/metland.png';
 
-// Komponen Card dengan Efek 3D Tilt
 const TiltCard = ({ misi }: { misi: any }) => {
   const x = useMotionValue(0);
   const y = useMotionValue(0);
 
-  // Spring setting agar gerakan tilt terasa "kenyal" dan halus
   const mouseXSpring = useSpring(x);
   const mouseYSpring = useSpring(y);
 
