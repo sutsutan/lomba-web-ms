@@ -62,9 +62,6 @@ const PpdbPopup = () => {
             <div className="mt-6 text-center space-y-4">
               <div>
                 <h3 className="text-2xl font-black text-[#0F5F58] tracking-tight">{t('ppdb.popup.title')}</h3>
-                <p className="text-gray-500 text-sm mt-1 leading-relaxed">
-                  {t('ppdb.popup.desc')}
-                </p>
               </div>
 
               <div className="flex flex-col gap-3 pt-2">

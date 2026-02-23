@@ -1,3 +1,5 @@
+import VisionMission from "@/pages/MissionVission";
+
 export default {
   // Navbar
   'nav.home': 'Beranda',
@@ -16,7 +18,7 @@ export default {
   'nav.alumni': 'Alumni',
   'nav.ppdb': 'PPDB',
   'nav.switch_lang': 'Ganti ke Bahasa Inggris',
-  'nav.lang_code': 'ENG',
+  'nav.lang_code': 'EN',
 
   // Footer
   'footer.description': 'Memberdayakan keunggulan vokasi melalui pendidikan yang berfokus pada industri, pengembangan karakter, dan pengalaman belajar langsung.',
@@ -630,4 +632,223 @@ export default {
   'notfound.title': 'Ups! Halaman tidak ditemukan',
   'notfound.desc': 'Maaf, halaman yang Anda cari tidak ada atau telah dipindahkan.',
   'notfound.back': 'Kembali ke Beranda',
+
+
+// Vision Mission Page
+"hero_title": "Visi & Misi",
+  "hero_subtitle": "Peta Jalan Masa Depan Kami",
+  "hero_desc": "Visi besar kami untuk mencetak lulusan yang unggul, berkarakter, dan kompetitif secara global.",
+  "vision_label": "Visi Strategis",
+  "vision_title_start": "Mencetak",
+  "vision_title_highlight": "Pemimpin Global.",
+  "vision_quote": "“Menjadi SMK Yang Lulusannya Memiliki Performa Karakter Unggul Dan Berkompetensi Berstandar Internasional”",
+  "mission_label": "Misi Kami",
+  "mission_section_title": "Komitmen Pendidikan",
+  "misi1_title": "Industri 4.0 & Karakter",
+  "misi1_desc": "Layanan pendidikan berorientasi Knowledge, Skill, dan Attitude berbasis Industri 4.0 serta penguatan karakter GENERASI CINTA PRESTASI.",
+  "misi2_title": "Profesionalisme Guru",
+  "misi2_desc": "Mengembangkan profesionalisme guru berdasarkan nilai METLAND SCHOOL TEACHER’S VALUE yang adaptif terhadap tuntutan industri.",
+  "misi3_title": "Jaringan Kemitraan",
+  "misi3_desc": "Mengembangkan kerjasama dengan DUDI dan perguruan tinggi vokasi nasional maupun internasional untuk program akademik.",
+  "misi4_title": "Zero Unemployment",
+  "misi4_desc": "Mewujudkan keterserapan lulusan secara maksimal melalui kerjasama strategis dengan DUDI di dalam dan luar negeri.",
+
+// major
+  "hospitality_title": "Perhotelan",
+  "hospitality_subtitle": "Keunggulan Layanan Profesional",
+  "hospitality_desc": "Kuasai manajemen hotel profesional dan standar layanan global di bawah kerangka BLUD Kementerian Pendidikan.",
+  "hospitality_detailed": "SMK Metland beroperasi sebagai Badan Layanan Umum Daerah (BLUD) di bawah Kemendikbud. Program kami dirancang khusus untuk memberikan pelatihan profesional langsung.",
+  "hospitality_full": "Berdasarkan INPRES Revitalisasi SMK, SMK Metland berfungsi sebagai jembatan bagi pemangku kepentingan. Sebagai BLUD, kami bertanggung jawab atas pengembangan karakter dan kualitas pendidikan. Program Perhotelan melatih siswa dalam praktik hotel profesional, memastikan mereka siap mengelola tanggung jawab di industri pariwisata global.",
+  "hospitality_comp": "Administrasi Front Office, Manajemen Housekeeping, Operasional Laundry, Layanan F&B",
+  "hospitality_careers": "Administrator Hotel, Staf Layanan Tamu, Executive Housekeeper, Profesional Kapal Pesiar",
+  "hospitality_facilities": "Kamar Hotel Mockup, Lab Laundry, Meja Front Office, Aula Serbaguna",
+
+  "culinary_title": "Kuliner",
+  "culinary_subtitle": "Kuasai Dapur Profesional",
+  "culinary_desc": "Dari warisan tradisional hingga fusion modern. Pelajari gastronomi, manajemen dapur, dan layanan profesional.",
+  "culinary_detailed": "Kurikulum kami menekankan sesi praktis harian berstandar internasional untuk menghasilkan ahli kuliner yang siap industri.",
+  "culinary_full": "Program Kuliner (Jasa Boga) memberikan pengetahuan komprehensif dalam pengolahan, penyajian, dan pelayanan makanan. Siswa belajar mengelola toko kue, toko roti, kafetaria, dan restoran. Pembelajaran fokus pada aktivitas praktis harian menggunakan standar internasional untuk mencetak koki profesional atau pengusaha.",
+  "culinary_comp": "Seni Pastry & Bakery, Masakan Warisan Indonesia, Masakan Kontinental, Logistik Dapur",
+  "culinary_careers": "Chef Profesional, Spesialis Pastry, Manajer Restoran, Pengusaha Kuliner",
+  "culinary_facilities": "Lab Dapur Utama, Lab Pastry & Bakery, Restoran Fine Dining, Penyimpanan Dingin",
+
+  "accounting_title": "Akuntansi",
+  "accounting_subtitle": "Keuangan & Integritas",
+  "accounting_desc": "Kuasai analisis keuangan, peraturan pajak, dan sistem akuntansi digital dengan presisi tinggi.",
+  "accounting_detailed": "Membekali siswa dengan kompetensi manajemen keuangan dan administrasi bisnis yang disesuaikan dengan kebutuhan industri modern.",
+  "accounting_full": "Program Akuntansi bertujuan memberikan kompetensi inti dalam manajemen keuangan. Kurikulum mencakup transaksi keuangan, laporan keuangan, perpajakan dasar, dan administrasi kantor. Lulusan dipersiapkan untuk peran staf akuntansi, kasir, atau auditor junior.",
+  "accounting_comp": "Pelaporan Keuangan, Audit Pajak Perusahaan, Penguasaan Spreadsheet Digital, Akuntansi Komputerisasi",
+  "accounting_careers": "Akuntan Keuangan, Konsultan Pajak, Auditor Internal, Petugas Bank",
+  "accounting_facilities": "Lab Software Akuntansi, Business Center, Bank Mini, Tax Center",
+
+  "dkv_title": "Desain Visual",
+  "dkv_subtitle": "Industri Kreatif",
+  "dkv_desc": "Eksplorasi desain grafis, fotografi, dan motion graphics untuk menjadi kreator serba bisa di era digital.",
+  "dkv_detailed": "Berfokus pada pemecahan masalah kreatif dan penceritaan visual di berbagai platform media.",
+  "dkv_full": "DKV mengeksplorasi elemen visual, tata letak, dan karakter media. Siswa belajar membedakan tipe media sosial dan komersial dalam format 2D dan 3D. Program ini bertujuan membentuk siswa yang ilmiah dan kreatif, menghasilkan karya yang berbasis nilai sosial budaya nasional.",
+  "dkv_comp": "Identitas Merek Grafis, Desain UI/UX, Ilustrasi Digital, Fotografi & Sinematografi",
+  "dkv_careers": "Desainer Grafis, Art Director, Desainer UI/UX, Content Creator",
+  "dkv_facilities": "Studio Fotografi, Lab Komputer Mac, Studio Gambar, Suite Videografi",
+
+  "pplg_title": "Pengembangan Perangkat Lunak & Game",
+  "pplg_subtitle": "Membangun Masa Depan",
+  "pplg_desc": "Kembangkan aplikasi web, mobile, dan game imersif menggunakan tumpukan teknologi terbaru.",
+  "pplg_detailed": "Mengintegrasikan Cloud Computing dan IoT untuk mempersiapkan siswa menghadapi era Industri 4.0 melalui Model Pembelajaran Hybrid.",
+  "pplg_full": "Kurikulum PPLG Metland School dikembangkan untuk menjawab tantangan era digital, berfokus pada Cloud Computing, IoT, dan Game Development. Kami menerapkan sistem Hybrid Learning untuk memperkuat hardskill dan softskill guna memastikan siswa siap menghadapi dunia teknologi profesional.",
+  "pplg_comp": "Pengembangan Web Fullstack, Pengembangan Aplikasi Mobile, Internet of Things (IoT), Pengembangan Game",
+  "pplg_careers": "Software Developer, Analis Sistem, Arsitek Web, Programmer Game",
+  "pplg_facilities": "Lab Inovasi Coding, Ruang IoT, Esport Hub, Ruang Server",
+
+  "academic_title": "Keunggulan Akademik",
+  "academic_desc": "SMK Metland menyediakan pendidikan vokasi berstandar industri yang dirancang untuk menjembatani kesenjangan antara siswa dan pasar profesional global.",
+
+  "curriculum_focus": "Fokus Kurikulum",
+  "label_students": "Siswa",
+  "label_partners": "Mitra",
+  "btn_register": "Daftar Sekarang!",
+
+  "profile_section_title": "Profil Mendalam Program",
+  
+  "career_title": "Jalur Karir",
+  "career_subtitle": "Memetakan perjalanan Anda menuju lanskap profesional global",
+  "career_stage": "Tahap",
+  "cert_title_1": "Sertifikasi",
+  "cert_title_2": "Profesional",
+  "cert_label_main": "Standar Global",
+  "cert_label_sub": "Lisensi Terverifikasi",
+  "cert_desc": "Lulusan dibekali sertifikasi kompetensi BNSP dan lisensi internasional dari mitra industri.",
+
+  "facilities_title": "Fasilitas Lab Praktik",
+
+  "gallery_title": "Galeri Aktivitas",
+  "gallery_subtitle": "Intip keseruan kegiatan praktik, proyek siswa, dan momen berharga yang mendefinisikan program keahlian kami.",
+
+  // UI Labels
+  "excu_back": "Kembali",
+  "excu_choose_title": "Pilih ",
+  "excu_choose_bold": "Ambisi Anda.",
+  "excu_schedule": "Jadwal",
+  "excu_intensity": "Intensitas",
+  "excu_track_record": "Prestasi",
+  "excu_reg_form": "Formulir Pendaftaran",
+
+  // 1. Basketball
+  "excu_basket_name": "Bola Basket",
+  "excu_basket_desc": "Kuasai lapangan dengan pelatihan profesional. Kami fokus pada taktik dan ketahanan fisik.",
+  "excu_basket_detail": "Basket di Metland School memiliki sejarah panjang prestasi regional. Sesi latihan disusun untuk membangun keterampilan teknis individu dan kohesi tim.",
+  
+  // 2. Volleyball
+  "excu_volly_name": "Bola Voli",
+  "excu_volly_desc": "Mengembangkan pukulan keras dan pertahanan solid melalui kerja sama tim yang disiplin.",
+  "excu_volly_detail": "Fokus pada membangun kekuatan inti dan lompatan vertikal untuk pertandingan kompetitif.",
+
+  // 3. Futsal
+  "excu_futsal_name": "Futsal",
+  "excu_futsal_desc": "Kelincahan cepat dan kontrol bola dalam lingkungan intensitas tinggi.",
+  "excu_futsal_detail": "Dilaksanakan di arena indoor dengan standar futsal profesional.",
+
+  // 4. Badminton
+  "excu_badminton_name": "Bulutangkis",
+  "excu_badminton_desc": "Kecepatan dan presisi. Mengembangkan pergerakan kaki kelas dunia dan smash yang kuat.",
+  "excu_badminton_detail": "Latihan intensif untuk kategori tunggal maupun ganda.",
+
+  // 5. Taekwondo
+  "excu_taekwondo_name": "Taekwondo",
+  "excu_taekwondo_desc": "Seni bela diri Korea yang berfokus pada tendangan, disiplin, dan pertahanan diri.",
+  "excu_taekwondo_detail": "Pelatihan mingguan dengan Sabum bersertifikat (instruktur sabuk hitam).",
+
+  // 6. Fine Arts
+  "excu_lukis_name": "Seni Lukis",
+  "excu_lukis_desc": "Menjelajahi seni rupa dari kanvas tradisional hingga gaya kontemporer.",
+  "excu_lukis_detail": "Mempelajari teori warna, anatomi, dan berbagai eksplorasi media.",
+
+  // 7. Digital Illustration
+  "excu_digital_name": "Ilustrasi Digital",
+  "excu_digital_desc": "Masa depan seni. Membuat karakter dan dunia menggunakan tablet profesional.",
+  "excu_digital_detail": "Berfokus pada perangkat lunak standar industri seperti Photoshop dan Procreate.",
+
+  // 8. Music/Band
+  "excu_musik_name": "Musik/Band",
+  "excu_musik_desc": "Temukan ritme Anda melalui instrumen dan harmoni vokal.",
+  "excu_musik_detail": "Dilengkapi dengan studio kedap suara untuk latihan band.",
+
+  // 9. Paskibra
+  "excu_paskibra_name": "Paskibra",
+  "excu_paskibra_desc": "Kepemimpinan, disiplin, dan kebanggaan dalam pengibaran bendera nasional.",
+  "excu_paskibra_detail": "Pelatihan intensif untuk standar upacara tingkat tinggi.",
+
+  // 10. Flair Bartending
+  "excu_flair_name": "Flair Bartending",
+  "excu_flair_desc": "Seni pertunjukan dalam mixology. Keterampilan teknis dengan gaya.",
+  "excu_flair_detail": "Siswa belajar menangani alat bar profesional dengan ketangkasan akrobatik.",
+
+  // UI Labels Organizations
+  "org_hero_title": "Pusat Organisasi",
+  "org_hero_subtitle": "Pengalaman & Kepemimpinan",
+  "org_hero_desc": "Telusuri lebih dalam pencapaian dan aktivitas organisasi siswa kami.",
+  "org_featured_title": "Aktivitas Unggulan",
+  "org_no_activity": "Tidak ada sorotan aktivitas untuk kategori ini.",
+  "org_explore_title": "Jelajahi Kategori",
+  "org_explore_subtitle": "Pilih kategori untuk melihat lebih banyak pencapaian.",
+  "org_active_programs": "Program Aktif",
+  "org_active_desc": "Inisiatif dan pencapaian terbaru dari",
+  "org_view_doc": "Lihat Dokumentasi",
+
+  // Categories Name
+  "cat_leadership": "Kepemimpinan & Tata Kelola",
+  "cat_arts": "Seni Pertunjukan",
+  "cat_innovation": "Inovasi & Teknologi",
+  "cat_service": "Layanan Masyarakat",
+
+  // Category Descriptions
+  "desc_leadership_intro": "Memberdayakan generasi pemimpin visioner berikutnya melalui organisasi dan tata kelola yang sistematis.",
+  "desc_arts_intro": "Menampilkan kreativitas dan ekspresi melalui berbagai disiplin seni dan pertunjukan.",
+  "desc_innovation_intro": "Mendorong kemajuan teknologi dan penyelesaian masalah kreatif melalui inisiatif digital.",
+  "desc_service_intro": "Membangun empati dan tanggung jawab sosial melalui keterlibatan masyarakat yang bermakna.",
+
+  // Project Data (Example: Metland Cup)
+  "proj_mcup_title": "Metland Cup 2025",
+  "proj_mcup_desc": "Kompetisi seni dan olahraga tahunan terbesar di sekolah kami, melibatkan lebih dari 20+ sekolah di seluruh provinsi.",
+  "proj_mcup_achieve1": "Sukses 20+ Cabang",
+  "proj_mcup_achieve2": "Kolaborasi Sponsor Nasional",
+
+  // more organization
+ "cat_culinary": "Kuliner",
+  "cat_dkv": "Desain Komunikasi Visual",
+  "cat_it": "Teknologi Informasi",
+  "cat_hospitality": "Hospitalitas",
+  "cat_accounting": "Akuntansi",
+
+  "desc_culinary_intro": "Membina keahlian kuliner dengan fokus pada teknik profesional dan inovasi gastronomi.",
+  "desc_dkv_intro": "Mendorong kreativitas visual dan komunikasi efektif untuk industri kreatif yang berkembang pesat.",
+  "desc_it_intro": "Mendorong kemajuan teknologi dan pemecahan masalah kreatif melalui inisiatif digital.",
+  "desc_hospitality_intro": "Membangun standar layanan yang luar biasa dan manajemen operasional hotel profesional.",
+  "desc_accounting_intro": "Presisi dalam manajemen keuangan dan analisis data untuk akuntansi bisnis yang akurat.",
+
+  "org_explore_subtitles": "Pilih kategori untuk melihat lebih banyak pencapaian.",
+  "org_active_programs2": "Program Aktif",
+
+  // student work
+ "cat_culinary_name": "Kuliner",
+  "cat_dkv_name": "Desain Komunikasi Visual",
+  "cat_it_name": "Teknologi Informasi",
+  "cat_hosp_name": "Hospitalitas",
+  "cat_acc_name": "Akuntansi",
+
+  "desc_culinary_intros": "Membina keahlian kuliner dengan fokus pada teknik profesional dan inovasi gastronomi.",
+  "desc_culinary_detail": "Siswa kami mempraktikkan keterampilan kuliner mereka melalui proyek dunia nyata, seperti mengelola restoran pop-up, merancang menu inovatif, dan berpartisipasi dalam kompetisi kuliner regional. Melalui praktik dapur profesional, mereka belajar tentang teknik memasak tingkat lanjut, manajemen dapur, dan layanan pelanggan yang luar biasa. Proyek-proyek ini tidak hanya meningkatkan keterampilan teknis mereka tetapi juga membangun kepercayaan diri dan kreativitas yang diperlukan untuk sukses di industri kuliner yang kompetitif.",
+  "desc_culinary_closing": "Proyek kuliner kami menonjolkan bakat siswa dalam menciptakan pengalaman gastronomi yang luar biasa, mempersiapkan mereka untuk karir profesional atau kewirausahaan di bidang kuliner.",
+
+  "proj_motion_title": "Grafik Gerak Dinamis",
+  "proj_motion_desc": "Grafik gerak dinamis untuk kampanye pemasaran digital.",
+  "proj_illus_title": "Ilustrasi Seni",
+  "proj_illus_desc": "Ilustrasi digital menunjukkan kisah melalui seni.",
+  "proj_career_title": "Dari Sekolah ke Karir",
+  "proj_career_desc": "Aplikasi web yang menghubungkan siswa dengan peluang karir.",
+  "proj_about_title": "Tentang Kami",
+  "proj_about_desc": "Website profil perusahaan dengan desain UI/UX modern.",
+  "proj_event_title": "Manajemen Event",
+  "proj_event_desc": "Perencanaan dan pelaksanaan event lengkap untuk kegiatan sekolah.",
+  "proj_tax_title": "Sistem Perhitungan Pajak",
+  "proj_tax_desc": "Sistem perhitungan dan pelaporan pajak berbasis Excel."
 };

@@ -172,7 +172,7 @@ const Navbar = () => {
             className="flex items-center gap-1 px-4 py-2.5 ml-1 text-sm font-semibold text-white rounded-full hover:bg-white/20 transition-all duration-300"
           >
             <Globe className="w-4 h-4" />
-            <span>{language === 'en' ? 'ID' : 'ENG'}</span>
+            <span>{language === 'en' ? 'ID' : 'EN'}</span>
           </button>
         </nav>
 

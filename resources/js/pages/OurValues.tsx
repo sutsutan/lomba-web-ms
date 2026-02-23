@@ -60,7 +60,6 @@ const OurValues = () => {
                         <ScrollReveal>
                             <div className="flex flex-col items-center mb-20">
                                 <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#0F5F58]/5 border border-[#0F5F58]/10 text-[#0F5F58] font-bold text-sm mb-6 uppercase tracking-widest">
-                                    <Sparkles className="w-4 h-4" /> {t('values.core.pill')}
                                 </div>
                                 <h2 className="text-5xl md:text-7xl font-black text-[#0F5F58] text-center">
                                     {t('values.core.title_prefix')} <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0F5F58] to-[#2D8B82]">{t('values.core.title_suffix')}</span>
@@ -93,9 +92,6 @@ const OurValues = () => {
                                 <div className="absolute top-0 right-0 w-64 h-64 bg-[#0F5F58]/5 rounded-full blur-3xl -mr-32 -mt-32 transition-colors group-hover:bg-[#0F5F58]/10" />
 
                                 <div className="flex items-center gap-4 mb-12">
-                                    <div className="w-12 h-12 bg-[#0F5F58] rounded-xl flex items-center justify-center shadow-lg shadow-[#0F5F58]/20">
-                                        <Trophy className="w-6 h-6 text-white" />
-                                    </div>
                                     <h3 className="text-4xl font-black text-[#0F5F58] tracking-tight">{t('values.prestasi.title')}</h3>
                                 </div>
 
@@ -134,10 +130,6 @@ const OurValues = () => {
                             <div className="relative z-10">
                                 <ScrollReveal>
                                     <div className="flex flex-col items-center mb-16">
-                                        {/* Gold Icon */}
-                                        <div className="bg-gradient-to-br from-[#BF953F] via-[#FCF6BA] to-[#B38728] p-4 rounded-2xl mb-6 shadow-[0_0_25px_rgba(253,185,49,0.2)]">
-                                            <ShieldCheck className="w-10 h-10 text-[#1A2F2C]" />
-                                        </div>
 
                                         {/* Shining Gold Animation */}
                                         <h2 className="relative text-4xl md:text-6xl font-black tracking-tight text-center">
@@ -185,7 +177,7 @@ const OurValues = () => {
                         </div>
                     </div>
 
-                    {/* TEACHERS VALUE - DENGAN LOGO BACKGROUND MONOKROM */}
+                    {/* TEACHERS VALUE */}
                     <div className="relative pb-24">
                         <ScrollReveal>
                             <div className="flex items-center gap-4 mb-20">
@@ -193,14 +185,12 @@ const OurValues = () => {
                                 <h2 className="text-4xl md:text-5xl font-black text-[#0F5F58]">
                                     {t('values.teachers.title')}
                                 </h2>
-                                <Lightbulb className="w-8 h-8 text-[#0F5F58]" />
                             </div>
                         </ScrollReveal>
 
                         <div className="grid lg:grid-cols-2 gap-12">
                             {teachersValues.map((group, gIdx) => (
                                 <div key={gIdx} className="bg-white p-10 rounded-[3rem] shadow-xl border border-gray-100 relative overflow-hidden group">
-                                    {/* Logo Metland Monokrom sebagai Background */}
                                     <img
                                         src={logoMetland}
                                         alt="Metland Logo Background"

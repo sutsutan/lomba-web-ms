@@ -631,4 +631,222 @@ export default {
   'notfound.title': 'Oops! Page not found',
   'notfound.desc': 'Sorry, the page you are looking for does not exist or has been moved.',
   'notfound.back': 'Return to Home',
+
+  // VissionMission Page
+  "hero_title": "Vission & Mission",
+  "hero_subtitle": "our vision for the future",
+  "hero_desc": "Building a future where vocational education empowers every student to become a global leader with character and competence.",
+  "vision_label": "Strategic Vision",
+  "vision_title_start": "Score",
+  "vision_title_highlight": "Global Leaders.",
+  "vision_quote": "“To become a vocational school whose graduates possess superior character and competence to international standards.”",
+  "mission_label": "Our Mission",
+  "mission_section_title": "Educational Commitment",
+  "misi1_title": "4.0 Industry & Character",
+  "misi1_desc": "Education services oriented towards Knowledge, Skill, and Attitude based on Industry 4.0 and strengthening the GENERASI CINTA PRESTASI character.",
+  "misi2_title": "Professionalism of Teachers",
+  "misi2_desc": "Developing teacher professionalism based on METLAND SCHOOL TEACHER’S VALUE values that are adaptive to industry demands.",
+  "misi3_title": "Partnership Network",
+  "misi3_desc": "Developing collaboration with DUDI and national and international vocational higher education institutions for academic programs.",
+  "misi4_title": "Zero Unemployment",
+  "misi4_desc": "Realizing maximum graduate absorption through strategic collaboration with DUDI both domestically and internationally.",
+
+// Major
+  "hospitality_title": "Hospitality",
+  "hospitality_subtitle": "Professional Service Excellence",
+  "hospitality_desc": "Master professional hotel management and global service standards under the BLUD Ministry of Education framework.",
+  "hospitality_detailed": "SMK Metland operates as a Regional Public Service Agency (BLUD) under the Ministry of Education. Our program is designed for direct hands-on professional training.",
+  "hospitality_full": "Based on the Presidential Instruction for Vocational School Revitalization, SMK Metland serves as a bridge for stakeholders. As a BLUD, we are responsible for character development and quality education. The Hospitality program specifically trains students in professional hotel practices for the global tourism industry.",
+  "hospitality_comp": "Front Office Administration, Housekeeping Management, Laundry Operations, F&B Service Excellence",
+  "hospitality_careers": "Hotel Administrator, Guest Service Officer, Executive Housekeeper, Cruise Ship Professional",
+  "hospitality_facilities": "Mockup Hotel Room, Laundry Lab, Front Office Desk, Function Hall",
+
+  "culinary_title": "Culinary Arts",
+  "culinary_subtitle": "Master the Kitchen",
+  "culinary_desc": "From traditional heritage to modern fusion. Learn gastronomy, kitchen management, and professional service.",
+  "culinary_detailed": "Our curriculum emphasizes daily international-standard practical sessions to produce industry-ready culinary experts.",
+  "culinary_full": "The Culinary Arts program provides comprehensive knowledge in food processing, presentation, and service. Students learn to manage pastry shops, bakeries, and restaurants. Teaching is focused on daily practical activities using international standards to prepare graduates as professional chefs.",
+  "culinary_comp": "Pastry & Bakery Arts, Indonesian Heritage Cuisine, Continental Cooking, Kitchen Logistics",
+  "culinary_careers": "Professional Chef, Pastry Specialist, Restaurant Manager, Culinary Entrepreneur",
+  "culinary_facilities": "Main Kitchen Lab, Pastry & Bakery Lab, Fine Dining Restaurant, Cold Storage",
+
+  "accounting_title": "Accounting",
+  "accounting_subtitle": "Finance & Integrity",
+  "accounting_desc": "Master financial analysis, tax regulation, and digital accounting systems with high precision and ethical standards.",
+  "accounting_detailed": "Equipping students with financial management and business administration competencies tailored to modern industrial needs.",
+  "accounting_full": "The Accounting program aims to provide students with core competencies in financial management. The curriculum covers recording financial transactions, financial statements, basic taxation, and office administration. Graduates are prepared for roles as accounting staff or junior auditors.",
+  "accounting_comp": "Financial Reporting, Corporate Tax Audit, Digital Spreadsheet Mastery, Computerized Accounting",
+  "accounting_careers": "Financial Accountant, Tax Consultant, Internal Auditor, Bank Officer",
+  "accounting_facilities": "Accounting Software Lab, Business Center, Bank Mini, Tax Center",
+
+  "dkv_title": "Visual Design",
+  "dkv_subtitle": "Creative Industry",
+  "dkv_desc": "Explore graphic design, photography, and motion graphics to become a versatile creator in the digital era.",
+  "dkv_detailed": "Focuses on creative problem solving and visual storytelling across various media platforms.",
+  "dkv_full": "Visual Communication Design (DKV) explores visual elements, layout, and media characterization. Students learn to differentiate between social and commercial media in 2D and 3D formats. The program aims to form students who are scientifically grounded and creative based on national socio-cultural values.",
+  "dkv_comp": "Graphic Brand Identity, UI/UX Design Concept, Digital Illustration, Photography & Cinematography",
+  "dkv_careers": "Graphic Designer, Art Director, UI/UX Designer, Content Creator",
+  "dkv_facilities": "Photography Studio, Mac Computer Lab, Drawing Studio, Videography Suite",
+
+  "pplg_title": "Software & Game",
+  "pplg_subtitle": "Building the Future",
+  "pplg_desc": "Develop high-scale web applications, mobile apps, and immersive games using the latest technology stacks.",
+  "pplg_detailed": "Integrating Cloud Computing and IoT to prepare students for the Industry 4.0 era through a Hybrid Learning Model.",
+  "pplg_full": "The PPLG curriculum at Metland School is developed to answer digital era challenges, focusing on Cloud Computing, IoT, and Game Development. We implement a Hybrid Model Learning system to strengthen both hardskills and softskills, ensuring students are ready for the professional tech world.",
+  "pplg_comp": "Fullstack Web Development, Mobile App Development, Internet of Things (IoT), Game Development",
+  "pplg_careers": "Software Developer, System Analyst, Web Architect, Game Programmer",
+  "pplg_facilities": "Coding Innovation Lab, IoT & Hardware Room, Esports & Game Hub, Server Room",
+
+  "academic_title": "Academic Excellence",
+  "academic_desc": "Metland School provides industry-standard vocational education designed to bridge the gap between students and the global professional market.",
+
+  "curriculum_focus": "Curriculum Focus",
+  "label_students": "Students",
+  "label_partners": "Partners",
+  "btn_register": "Register Now!",
+
+  "profile_section_title": "Program In-Depth Profile",
+
+  "career_title": "Career Pathways",
+  "career_subtitle": "Mapping your journey to the global professional landscape",
+  "career_stage": "Pathway Stage",
+  "cert_title_1": "Certification",
+  "cert_title_2": "Professional",
+  "cert_label_main": "Global Standards",
+  "cert_label_sub": "Verified Licenses",
+  "cert_desc": "Graduates are equipped with BNSP competency certifications and international licenses from industry partners.",
+
+  "facilities_title": "Practical Lab Facilities",
+  
+  "gallery_title": "Activity Gallery",
+  "gallery_subtitle": "A glimpse into the vibrant practical sessions, student projects, and moments that define our major programs.",
+
+  "excu_back": "Return",
+  "excu_choose_title": "Choose Your ",
+  "excu_choose_bold": "Ambition.",
+  "excu_schedule": "Schedule",
+  "excu_intensity": "Intensity",
+  "excu_track_record": "Track Record",
+  "excu_reg_form": "Registration Form",
+
+  // 1. Basketball
+  "excu_basket_name": "Basketball",
+  "excu_basket_desc": "Master the court with professional coaching. We focus on tactical play and physical endurance.",
+  "excu_basket_detail": "Basketball at Metland School has a long history of regional achievements. Training sessions are structured to build both individual technical skills and team cohesion.",
+  
+  // 2. Volleyball
+  "excu_volly_name": "Volleyball",
+  "excu_volly_desc": "Developing power hits and solid defense through disciplined teamwork.",
+  "excu_volly_detail": "Focuses on building core strength and vertical leap for competitive matches.",
+
+  // 3. Futsal
+  "excu_futsal_name": "Futsal",
+  "excu_futsal_desc": "Fast-paced agility and ball control in a high-intensity environment.",
+  "excu_futsal_detail": "Held at the indoor arena with professional futsal standards.",
+
+  // 4. Badminton
+  "excu_badminton_name": "Badminton",
+  "excu_badminton_desc": "Speed and precision. Developing world-class footwork and powerful smashes.",
+  "excu_badminton_detail": "Intensive drills for both singles and doubles categories.",
+
+  // 5. Taekwondo
+  "excu_taekwondo_name": "Taekwondo",
+  "excu_taekwondo_desc": "Korean martial art focusing on kicks, discipline, and self-defense.",
+  "excu_taekwondo_detail": "Weekly training with certified Sabum (Black Belt instructors).",
+
+  // 6. Fine Arts
+  "excu_lukis_name": "Fine Arts",
+  "excu_lukis_desc": "Exploring fine arts from traditional canvas to contemporary styles.",
+  "excu_lukis_detail": "Learning color theory, anatomy, and various medium explorations.",
+
+  // 7. Digital Illustration
+  "excu_digital_name": "Digital Illustration",
+  "excu_digital_desc": "The future of art. Creating characters and worlds using professional tablets.",
+  "excu_digital_detail": "Focuses on industry-standard software like Photoshop and Procreate.",
+
+  // 8. Music/Band
+  "excu_musik_name": "Music/Band",
+  "excu_musik_desc": "Finding your rhythm through instruments and vocal harmony.",
+  "excu_musik_detail": "Equipped with a soundproof studio for band rehearsals.",
+
+  // 9. Paskibra
+  "excu_paskibra_name": "Paskibra",
+  "excu_paskibra_desc": "Leadership, discipline, and the pride of national flag-hoisting.",
+  "excu_paskibra_detail": "Intensive training for high-level ceremonial standards.",
+
+  // 10. Flair Bartending
+  "excu_flair_name": "Flair Bartending",
+  "excu_flair_desc": "The art of showmanship in mixology. Technical skills with style.",
+  "excu_flair_detail": "Students learn to handle professional bar tools with acrobatic flair.",
+
+  // UI Labels Organizations
+  "org_hero_title": "Organizations Hub",
+  "org_hero_subtitle": "Experience & Leadership",
+  "org_hero_desc": "Dive deeper into our student organizations' achievements and activities.",
+  "org_featured_title": "Featured Activities",
+  "org_no_activity": "No activity highlights for this category.",
+  "org_explore_title": "Explore Categories",
+  "org_explore_subtitle": "Select a category to see more achievements.",
+  "org_active_programs": "Active Programs",
+  "org_active_desc": "The latest initiatives and milestones from",
+  "org_view_doc": "View Documentation",
+
+  // Categories Name
+  "cat_leadership": "Leadership & Governance",
+  "cat_arts": "Performing Arts",
+  "cat_innovation": "Innovation & Technology",
+  "cat_service": "Community Service",
+
+  // Category Descriptions
+  "desc_leadership_intro": "Empowering the next generation of visionary leaders through systematic organization and governance.",
+  "desc_arts_intro": "Showcasing creativity and expression through various artistic disciplines and performances.",
+  "desc_innovation_intro": "Fostering technological advancement and creative problem-solving through digital initiatives.",
+  "desc_service_intro": "Building empathy and social responsibility through meaningful community engagement.",
+
+  // Project Data (Example: Metland Cup)
+  "proj_mcup_title": "Metland Cup 2025",
+  "proj_mcup_desc": "The biggest annual sports and art competition in our school, involving over 20+ schools across the province.",
+  "proj_mcup_achieve1": "Success 20+ Branches",
+  "proj_mcup_achieve2": "National Sponsor Collaboration",
+
+  // more organization
+ "cat_culinary": "Culinary",
+  "cat_dkv": "Visual Communication Design",
+  "cat_it": "Information Technology",
+  "cat_hospitality": "Hospitality",
+  "cat_accounting": "Accounting",
+
+  "desc_culinary_intro": "Developing professional cooking skills with a touch of local and international culinary creativity.",
+  "desc_dkv_intro": "Realizing creative visual ideas through graphic design, illustration, and modern communication media.",
+  "desc_it_intro": "Fostering technological advancement and creative problem-solving through digital initiatives.",
+  "desc_hospitality_intro": "Building standards of excellent service and professional hotel operational management.",
+  "desc_accounting_intro": "Precision in financial management and data analysis for accurate business accounting.",
+
+  "org_explore_subtitles": "Select a category to see more achievements.",
+  "org_active_programs2": "Active Programs",
+
+  // student work
+ "cat_culinary_name": "Culinary",
+  "cat_dkv_name": "Design Communication Visual",
+  "cat_it_name": "Information Technology",
+  "cat_hosp_name": "Hospitality",
+  "cat_acc_name": "Accounting",
+
+  "desc_culinary_intros": "We're proud to present a collection of work created by our Culinary Arts students...",
+  "desc_culinary_detail": "These projects are the result of hands-on culinary training...",
+  "desc_culinary_closing": "Through professional kitchen practice...",
+
+  "proj_motion_title": "Motion Graphics",
+  "proj_motion_desc": "Dynamic motion graphics for digital marketing campaigns.",
+  "proj_illus_title": "Illustration Art",
+  "proj_illus_desc": "Digital illustration showcasing storytelling through art.",
+  "proj_career_title": "From School to Career",
+  "proj_career_desc": "Web application connecting students with career opportunities.",
+  "proj_about_title": "About Us",
+  "proj_about_desc": "Company profile website with modern UI/UX design.",
+  "proj_event_title": "Event Management",
+  "proj_event_desc": "Complete event planning and execution for school events.",
+  "proj_tax_title": "Tax Calculation System",
+  "proj_tax_desc": "Excel-based tax calculation and reporting system."
 };
+

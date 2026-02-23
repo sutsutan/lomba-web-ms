@@ -26,6 +26,12 @@ import msp from '@/assets/msp.jpeg';
 import programCulinary from '@/assets/program-culinary.webp';
 import programIt from '@/assets/program-it.webp';
 import rohkris from '@/assets/rohkris.png';
+import rohis from '@/assets/rohis.jpeg';
+import cilvok from '@/assets/cilvok.jpg';
+import pramuka from '@/assets/pramuka.png';
+import paskib from '@/assets/paskib.png';
+import gift from '@/assets/gift.jpg';
+import ck from '@/assets/ck.jpg';
 
 interface Organization {
     name: string;
@@ -106,7 +112,7 @@ const OrganizationPage = () => {
                 name: t('org.cilvok.name'),
                 description: t('org.cilvok.desc'),
                 category: t('category.arts'),
-                image: mahes,
+                image: cilvok,
             },
         ],
         discipline: [
@@ -114,13 +120,13 @@ const OrganizationPage = () => {
                 name: t('org.pramuka.name'),
                 description: t('org.pramuka.desc'),
                 category: t('category.outdoor'),
-                image: programIt,
+                image: pramuka,
             },
             {
                 name: t('org.paskibra.name'),
                 description: t('org.paskibra.desc'),
                 category: t('category.ceremonial'),
-                image: programCulinary,
+                image: paskib,
             },
         ],
         wellness: [
@@ -128,7 +134,7 @@ const OrganizationPage = () => {
                 name: t('org.rohis.name'),
                 description: t('org.rohis.desc'),
                 category: t('category.faith'),
-                image: programIt,
+                image: rohis,
             },
             {
                 name: t('org.rohkris.name'),
@@ -140,13 +146,13 @@ const OrganizationPage = () => {
                 name: t('org.gift.name'),
                 description: t('org.gift.desc'),
                 category: t('category.faith'),
-                image: programIt,
+                image: gift,
             },
             {
                 name: t('org.rohbud.name'),
                 description: t('org.rohbud.desc'),
                 category: t('category.faith'),
-                image: programIt,
+                image: programCulinary,
             },
             {
                 name: t('org.kkr.name'),
@@ -164,7 +170,7 @@ const OrganizationPage = () => {
                 name: t('org.ck.name'),
                 description: t('org.ck.desc'),
                 category: t('category.tech'),
-                image: msp,
+                image: ck,
             },
             {
                 name: t('org.itec.name'),
@@ -197,7 +203,7 @@ const OrganizationPage = () => {
                         <ScrollReveal>
                             <div className="mb-20 flex flex-col items-center text-center">
                                 <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-slate-100 px-4 py-2 text-[10px] font-bold uppercase tracking-[0.3em] text-slate-500">
-                                    <Star className="h-3 w-3 text-teal-600" /> {t('organization.leadership.pill')}
+                                     {t('organization.leadership.pill')}
                                 </div>
                                 {/* Heading with Underline Decoration */}
                                 <div className="relative inline-block">
@@ -238,7 +244,6 @@ const OrganizationPage = () => {
                                 <div className="h-[2px] w-12 bg-[#0F5F58]" />
                                 <div>
                                     <div className="mb-1 flex items-center gap-2">
-                                        <Palette className="h-4 w-4 text-[#0F5F58]" />
                                         <h3 className="text-xs font-bold uppercase tracking-widest text-[#0F5F58]">
                                             {t('organization.creative.label')}
                                         </h3>
@@ -280,7 +285,6 @@ const OrganizationPage = () => {
                         <ScrollReveal>
                             <div className="mb-16 flex flex-col items-center md:items-start">
                                 <div className="mb-4 flex items-center gap-3">
-                                    <ShieldCheck className="h-6 w-6  text-teal-500" />
                                     <span className="text-sm font-bold uppercase tracking-[0.3em]  text-teal-500">
                                         {t('organization.discipline.label')}
                                     </span>
@@ -319,7 +323,6 @@ const OrganizationPage = () => {
                         <ScrollReveal>
                             <div className="mb-16 text-center">
                                 <div className="mx-auto mb-6 w-fit rounded-2xl bg-white p-4 shadow-sm">
-                                    <Zap className="h-8 w-8 fill-[#0F5F58] text-[#0F5F58]" />
                                 </div>
                                 {/* Centered Heading with Symmetrical Lines */}
                                 <div className="flex items-center justify-center gap-6">
@@ -346,7 +349,6 @@ const OrganizationPage = () => {
                                         <p className="mb-8 flex-1 leading-relaxed text-slate-500">{org.description}</p>
                                         <div className="flex items-center justify-between border-t border-slate-50 pt-6">
                                             <span className="text-[10px] font-black uppercase tracking-[0.25em] text-slate-400">{org.category}</span>
-                                            <HeartPulse className="h-5 w-5 text-teal[#0F5F58] opacity-0 transition-opacity group-hover:opacity-100" />
                                         </div>
                                     </div>
                                 </ScrollReveal>
