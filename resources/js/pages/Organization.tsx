@@ -32,6 +32,7 @@ import pramuka from '@/assets/pramuka.png';
 import paskib from '@/assets/paskib.png';
 import gift from '@/assets/gift.jpg';
 import ck from '@/assets/ck.jpg';
+import rohbud from '@/assets/rohbud.jpeg';
 
 interface Organization {
     name: string;
@@ -152,7 +153,7 @@ const OrganizationPage = () => {
                 name: t('org.rohbud.name'),
                 description: t('org.rohbud.desc'),
                 category: t('category.faith'),
-                image: programCulinary,
+                image: rohbud,
             },
             {
                 name: t('org.kkr.name'),
