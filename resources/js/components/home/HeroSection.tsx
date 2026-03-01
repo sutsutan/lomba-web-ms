@@ -40,7 +40,7 @@ const HeroSection = () => {
                 setIsAnimatingIntro(false);
                 document.body.style.overflow = 'auto';
                 sessionStorage.setItem('introShown', 'true');
-            }, 3500); // Sedikit lebih lama untuk transisi zoom
+            }, 3500); 
             return () => {
                 document.body.style.overflow = 'auto';
                 clearTimeout(timeout);
@@ -64,7 +64,7 @@ const HeroSection = () => {
                 }
             `}} />
 
-            {/* 1. ELEGANT INTRO OVERLAY */}
+            {/* ELEGANT INTRO OVERLAY */}
             <AnimatePresence>
                 {isAnimatingIntro && (
                     <motion.div
@@ -75,7 +75,7 @@ const HeroSection = () => {
                             transition: { duration: 0.8, ease: "easeInOut", delay: 0.4 } 
                         }}
                     >
-                        {/* DEBU CAHAYA (Hanya Desktop untuk Performa) */}
+                        {/* DEBU CAHAYA */}
                         {typeof window !== 'undefined' && window.innerWidth > 768 && (
                             <div className="absolute inset-0 pointer-events-none">
                                 {[...Array(12)].map((_, i) => (
@@ -102,7 +102,7 @@ const HeroSection = () => {
                         <motion.div
                             className="relative z-10 flex flex-col items-center"
                             exit={{ 
-                                scale: 12, // Efek menembus logo
+                                scale: 12,
                                 opacity: 0,
                                 filter: "blur(5px)",
                                 transition: { duration: 1.5, ease: [0.7, 0, 0.2, 1] } 
@@ -133,7 +133,7 @@ const HeroSection = () => {
                 )}
             </AnimatePresence>
 
-            {/* 2. CINEMATIC BACKGROUND CAROUSEL */}
+            {/* CINEMATIC BACKGROUND CAROUSEL */}
             <div className="absolute inset-0 z-0">
                 <AnimatePresence mode="popLayout">
                     <motion.div
@@ -155,7 +155,7 @@ const HeroSection = () => {
                 </AnimatePresence>
             </div>
 
-            {/* 3. DECORATIVE GEOMETRIC LINES */}
+            {/* DECORATIVE GEOMETRIC LINES */}
             <div className="pointer-events-none absolute inset-0 z-10 opacity-20">
                 <svg className="h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none">
                     <motion.path
@@ -170,7 +170,7 @@ const HeroSection = () => {
                 </svg>
             </div>
 
-            {/* 4. MAIN CONTENT (Desain Tetap Sama) */}
+            {/* MAIN CONTENT (Desain Tetap Sama) */}
             <div className="container relative z-20 mx-auto flex h-full items-center px-8 md:px-16 lg:px-24">
                 <div className="max-w-4xl">
                     <div className="mb-4 overflow-hidden">
