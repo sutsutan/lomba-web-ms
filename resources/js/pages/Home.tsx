@@ -6,8 +6,8 @@ import VisionMission from '@/components/home/VisionMission';
 import AchievementsSlider from '@/components/home/AchievementsSlider';
 import PartnersSection from '@/components/home/PartnersSection';
 import AdmissionSteps from '@/components/home/AdmissionSteps';
-import BGM from '@/components/home/bgm';
 import TestimonialVideo from "@/components/home/Testimony";
+import ButtonCorner from '@/components/home/Button';
 
 const Home = () => {
   return (
@@ -20,7 +20,7 @@ const Home = () => {
       <PartnersSection />
       <TestimonialVideo />
       <AdmissionSteps />
-      <BGM />
+      <ButtonCorner />
     </MainLayout>
   );
 };
