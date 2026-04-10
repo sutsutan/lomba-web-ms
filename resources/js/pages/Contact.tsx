@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import MainLayout from '@/layouts/MainLayout';
 import ScrollReveal from '@/components/ScrollReveal';
 import HeroCarousel from '@/components/HeroCarousel';
-import { MapPin, Phone, Mail, Clock, Send } from 'lucide-react';
+import { MapPin, Phone, Mail, Clock, Send, MessageCircle } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 const Contact = () => {
@@ -47,8 +47,7 @@ const Contact = () => {
                     <div>
                       <h4 className="font-bold text-foreground">{t('contact.info.address')}</h4>
                       <p className="text-muted-foreground whitespace-pre-line">
-                        Jl. Pendidikan No. 123, Cileungsi,
-                        Bogor, West Java 16820
+                         Jl. Kota Taman Metropolitan, Cileungsi Kidul, Kec. Cileungsi, Kabupaten Bogor, Jawa Barat 16820
                       </p>
                     </div>
                   </div>
@@ -59,7 +58,17 @@ const Contact = () => {
                     </div>
                     <div>
                       <h4 className="font-bold text-foreground">{t('contact.info.phone')}</h4>
-                      <p className="text-muted-foreground">(021) 1234-5678</p>
+                      <p className="text-muted-foreground">(021) 82496976</p>
+                    </div>
+                  </div>
+
+                   <div className="flex items-start gap-4">
+                    <div className="w-12 h-12 bg-teal-50 rounded-xl flex items-center justify-center flex-shrink-0">
+                      <MessageCircle className="w-6 h-6 text-teal-600" />
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-foreground">{t('contact.info.phone')}</h4>
+                      <p className="text-muted-foreground">+6281293395500</p>
                     </div>
                   </div>
 
@@ -69,7 +78,7 @@ const Contact = () => {
                     </div>
                     <div>
                       <h4 className="font-bold text-foreground">{t('contact.info.email')}</h4>
-                      <p className="text-muted-foreground">info@metlandschool.sch.id</p>
+                      <p className="text-muted-foreground">@metlandschool.sch.id</p>
                     </div>
                   </div>
 

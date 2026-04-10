@@ -62,8 +62,8 @@ const AdmissionSteps = () => {
             </ScrollReveal>
           </div>
 
-          {/* Navigation Buttons */}
-          <div className="flex items-center gap-2 mt-8 md:mt-0">
+             {/* Navigation Buttons */}
+          <div className="flex items-center gap-2 mt-12">
               <div className="relative flex items-center justify-center h-20 w-32">
                 {/* Garis miring */}
                 <div className="absolute h-16 w-[2px] bg-primary/30 rotate-[45deg] z-10" />

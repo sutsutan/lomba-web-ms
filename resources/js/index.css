@@ -259,7 +259,7 @@ html {
 
     /* Scroll Reveal Animation Classes */
     .reveal {
-        @apply translate-y-8 opacity-0 transition-all duration-700 ease-out;
+       @apply translate-y-8 opacity-0 transition-all duration-700 ease-out;
     }
 
     .reveal.active {
@@ -380,4 +380,13 @@ html {
   z-index: 10;
 }
 
+html, body {
+        max-width: 100vw;
+        overflow-x: hidden;
+        position: relative;
+    }
+
+    * {
+        box-sizing: border-box;
+    }
 }
