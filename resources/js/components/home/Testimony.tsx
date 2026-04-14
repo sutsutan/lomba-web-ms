@@ -91,6 +91,15 @@ const TestimonialVideo = () => {
                 description: t('testimony.desc.6'),
             },
         ],
+          industry: [
+            {
+                id: 7,
+                name: 'Google Indonesia',
+                role: t('testimony.role.industry'),
+                videoUrl: videoSource,
+                description: t('testimony.desc.7'),
+            },
+        ],
     };
 
     const videoRefs = useRef<Map<number, HTMLVideoElement>>(new Map());

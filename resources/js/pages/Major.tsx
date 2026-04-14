@@ -26,6 +26,13 @@ import dkv from '@/assets/dkv.webp';
 import culinary from '@/assets/kuliner.webp';
 import LogoMetland from '@/assets/metland.png';
 import pplg from '@/assets/pepleg.webp';
+import labit from '@/assets/tes.jpg';
+import rukref from '@/assets/rukref.jpeg';
+import pameran from '@/assets/pameran.jpg';
+import pengurus from '@/assets/pengurus-1.jpg';
+import pubspik from '@/assets/pubspik.jpg';
+import juara1 from '@/assets/juara1.jpg';
+import presentasi from '@/assets/docs1.jpg';
 
 const majorsData = [
     {
@@ -100,22 +107,23 @@ const majorsData = [
         icon: <Code className="h-6 w-6" />,
         stats: { students: '520+', partners: '40+', duration: '3' },
         gallery: [
-            {
-                image: '/images/gallery/pplg-1.jpg',
+               {
+                image: pameran,
             },
             {
-                image: '/images/gallery/hospitality-1.jpg',
+                image: pengurus,
             },
             {
-                image: '/images/gallery/hospitality-1.jpg',
+                image: pubspik,
             },
             {
-                image: '/images/gallery/hospitality-1.jpg',
+                image: juara1,
             },
             {
-                image: '/images/gallery/hospitality-1.jpg',
+                image: presentasi,
             },
         ],
+        facilities: [{ image: labit }, { image: rukref }],
     },
 ];
 

@@ -14,7 +14,11 @@ const Teachers = () => {
     const teacherData = {
         leadership: [
             {
+<<<<<<< HEAD
                 name: "Drs. Dermawan Sunarja, MM.Par",
+=======
+                name: "Drs.Darmawan Sunarja, MM.Par",
+>>>>>>> 098086cadb76676869b6a21bc0c875fc046c0dbc
                 role: t('teacher.role.principal'),
                 image: President,
                 bio: t('teacher.bio.principal')

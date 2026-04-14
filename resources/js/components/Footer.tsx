@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { MapPin, Phone, Mail, Facebook, Instagram, Youtube, Twitter } from 'lucide-react';
+import { MapPin, Phone, Mail, Facebook, Instagram, Youtube, Twitter, MessageCircle, Globe} from 'lucide-react';
 import footerBg from '@/assets/footer.jpg';
 import logo from '@/assets/logo-metland.png';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -118,19 +118,18 @@ const Footer = () => {
             <h4 className="font-semibold text-lg mb-4">{t('footer.contact_us')}</h4>
             <ul className="space-y-4">
               <li className="flex items-start gap-3">
-                <MapPin className="w-5 h-5 mt-0.5 opacity-80" />
+                <MapPin className="w-10 h-10 mt-0.5 opacity-80" />
                 <span className="text-sm opacity-80">
-                  Jl. Pendidikan No. 123, Cileungsi,<br />
-                  Bogor, West Java 16820
+                 Jl. Kota Taman Metropolitan, Cileungsi Kidul, Kec. Cileungsi, Kabupaten Bogor, Jawa Barat 16820
                 </span>
               </li>
               <li className="flex items-center gap-3">
                 <Phone className="w-5 h-5 opacity-80" />
-                <span className="text-sm opacity-80">(021) 1234-5678</span>
+                <span className="text-sm opacity-80">(021) 82496976</span>
               </li>
-              <li className="flex items-center gap-3">
-                <Mail className="w-5 h-5 opacity-80" />
-                <span className="text-sm opacity-80">info@metlandschool.sch.id</span>
+               <li className="flex items-center gap-3">
+                <MessageCircle className="w-5 h-5 opacity-80" />
+                <span className="text-sm opacity-80"> +6281293395500</span>
               </li>
             </ul>
           </div>
