@@ -206,7 +206,7 @@ export default {
   'about.timeline.begin': 'The Beginning',
   'about.timeline.growing': 'Growing with Purpose',
 
-  'about.timeline.1945.heads': 'Tatang Sunarja : 1945 - 2026, Veria Raja Tunggal : 1945 - 202',
+  'about.timeline.1945.heads': 'Dermawan Sunarja : 1945 - 2026, Veria Raja Tunggal : 1945 - 202',
   'about.timeline.1945.begin': 'Metland School was established with a strong commitment to providing quality vocational education that balances academic learning, practical skills, and character development. From the very beginning, the school was designed to prepare students for real-world challenges and professional environments.',
   'about.timeline.1945.growing': 'As the demand for skilled and industry-ready graduates continued to increase, Metland School consistently developed and refined its academic programs, facilities, and learning approach. With a strong focus on tourism, hospitality, and vocational excellence, the school enhanced its curriculum to align with current industry standards, technological advancements, and real-world professional needs. This commitment ensures that students are not only academically prepared, but also equipped with practical skills, strong character, and adaptability to succeed in a rapidly evolving global workforce.',
 
