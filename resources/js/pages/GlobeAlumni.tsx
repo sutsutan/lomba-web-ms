@@ -82,7 +82,7 @@ const GlobeAlumni = ({ targetLocation, alumniData }: GlobeAlumniProps) => {
     );
 
     return (
-        <div className="relative mx-auto flex aspect-square h-auto w-full md:aspect-auto md:h-[500px] max-w-[500px] md:max-w-[600px] items-center justify-center">
+        <div className="relative mx-auto flex aspect-square w-full max-w-[500px] items-center justify-center">
             {/* Layer 1: Ambient Teal Glow di belakang globe */}
             <div className="absolute h-64 w-64 md:h-80 md:w-80 rounded-full bg-[#12606A]/10 blur-[100px]" />
             
