@@ -61,7 +61,7 @@ const OurValues = () => {
                             <div className="flex flex-col items-center mb-20">
                                 <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#0F5F58]/5 border border-[#0F5F58]/10 text-[#0F5F58] font-bold text-sm mb-6 uppercase tracking-widest">
                                 </div>
-                                <h2 className="text-5xl md:text-7xl font-black text-[#0F5F58] text-center">
+                                <h2 className="text-3xl sm:text-5xl md:text-7xl font-black text-[#0F5F58] text-center">
                                     {t('values.core.title_prefix')} <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0F5F58] to-[#2D8B82]">{t('values.core.title_suffix')}</span>
                                 </h2>
                             </div>
@@ -72,9 +72,9 @@ const OurValues = () => {
                                 <img src={gcp} alt="GCP Logo" className="w-full max-w-[350px] object-contain mb-6" />
                             </motion.div>
 
-                            <div className="md:col-span-8 bg-[#0F5F58] p-10 rounded-[3rem] shadow-2xl text-white relative overflow-hidden border border-[#0F5F58]">
+                            <div className="md:col-span-8 bg-[#0F5F58] p-6 md:p-10 rounded-3xl md:rounded-[3rem] shadow-2xl text-white relative overflow-hidden border border-[#0F5F58]">
                                 <Heart className="absolute -bottom-10 -right-10 w-64 h-64 text-white/5 rotate-12" />
-                                <h3 className="text-3xl font-bold mb-8 flex items-center gap-4">
+                                <h3 className="text-2xl sm:text-3xl font-bold mb-6 md:mb-8 flex items-center gap-4">
                                     {t('values.cinta.title')}
                                 </h3>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -88,11 +88,11 @@ const OurValues = () => {
                             </div>
 
                             {/* Nilai PRESTASI */}
-                            <div className="md:col-span-12 bg-white p-10 md:p-14 rounded-[3rem] shadow-xl border border-gray-100 relative overflow-hidden group">
+                            <div className="md:col-span-12 bg-white p-6 md:p-10 lg:p-14 rounded-3xl md:rounded-[3rem] shadow-xl border border-gray-100 relative overflow-hidden group">
                                 <div className="absolute top-0 right-0 w-64 h-64 bg-[#0F5F58]/5 rounded-full blur-3xl -mr-32 -mt-32 transition-colors group-hover:bg-[#0F5F58]/10" />
 
-                                <div className="flex items-center gap-4 mb-12">
-                                    <h3 className="text-4xl font-black text-[#0F5F58] tracking-tight">{t('values.prestasi.title')}</h3>
+                                <div className="flex items-center gap-4 mb-8 md:mb-12">
+                                    <h3 className="text-3xl md:text-4xl font-black text-[#0F5F58] tracking-tight">{t('values.prestasi.title')}</h3>
                                 </div>
 
                                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 relative z-10">
@@ -132,7 +132,7 @@ const OurValues = () => {
                                     <div className="flex flex-col items-center mb-16">
 
                                         {/* Shining Gold Animation */}
-                                        <h2 className="relative text-4xl md:text-6xl font-black tracking-tight text-center">
+                                        <h2 className="relative text-3xl sm:text-4xl md:text-6xl font-black tracking-tight text-center">
                                             <span
                                                 className="bg-clip-text text-transparent bg-gradient-to-r from-[#BF953F] via-[#FCF6BA] to-[#BF953F]"
                                                 style={{
@@ -180,17 +180,17 @@ const OurValues = () => {
                     {/* TEACHERS VALUE */}
                     <div className="relative pb-24">
                         <ScrollReveal>
-                            <div className="flex items-center gap-4 mb-20">
-                                <div className="w-20 h-[2px] bg-[#0F5F58]" />
-                                <h2 className="text-4xl md:text-5xl font-black text-[#0F5F58]">
+                            <div className="flex items-center gap-4 mb-12 md:mb-20">
+                                <div className="w-12 md:w-20 h-[2px] bg-[#0F5F58]" />
+                                <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-[#0F5F58]">
                                     {t('values.teachers.title')}
                                 </h2>
                             </div>
                         </ScrollReveal>
 
-                        <div className="grid lg:grid-cols-2 gap-12">
+                        <div className="grid lg:grid-cols-2 gap-8 md:gap-12">
                             {teachersValues.map((group, gIdx) => (
-                                <div key={gIdx} className="bg-white p-10 rounded-[3rem] shadow-xl border border-gray-100 relative overflow-hidden group">
+                                <div key={gIdx} className="bg-white p-6 md:p-10 rounded-3xl md:rounded-[3rem] shadow-xl border border-gray-100 relative overflow-hidden group">
                                     <img
                                         src={logoMetland}
                                         alt="Metland Logo Background"

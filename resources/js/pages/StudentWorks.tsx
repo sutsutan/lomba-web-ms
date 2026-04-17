@@ -531,7 +531,7 @@ const StudentWorks = () => {
                             ))}
                         </div>
                         <div className="mt-4 text-center">
-                            <p className="inline-block flex items-center justify-center border-b border-[#0F5F58] pb-1 italic text-[#0F5F58] sm:hidden">
+                            <p className="inline-flex items-center justify-center border-b border-[#0F5F58] pb-1 italic text-[#0F5F58] sm:hidden">
                                 Swipe for more information
                             </p>
                         </div>

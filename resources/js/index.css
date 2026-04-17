@@ -170,7 +170,8 @@ html {
 
     /* Card with Hover Effect */
     .card-hover {
-        @apply rounded-xl border border-border/50 bg-card shadow-sm transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-xl hover:shadow-primary/10;
+        @apply rounded-xl border border-border/50 shadow-sm transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-xl hover:shadow-primary/10;
+        background-color: hsl(var(--card));
     }
 
     /* Tab Underline Animation */

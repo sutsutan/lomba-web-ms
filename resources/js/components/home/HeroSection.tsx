@@ -171,7 +171,7 @@ const HeroSection = () => {
             </div>
 
             {/* MAIN CONTENT (Desain Tetap Sama) */}
-            <div className="container relative z-20 mx-auto flex h-full items-center px-8 md:px-16 lg:px-24">
+            <div className="container relative z-20 mx-auto flex h-full items-center px-4 md:px-8 lg:px-24">
                 <div className="max-w-4xl">
                     <div className="mb-4 overflow-hidden">
                         <motion.div
@@ -188,7 +188,7 @@ const HeroSection = () => {
                     </div>
 
                     <div className="mb-8">
-                        <h1 className="text-5xl font-black leading-none tracking-tighter text-white md:text-7xl lg:text-8xl">
+                        <h1 className="text-4xl font-black leading-none tracking-tighter text-white sm:text-5xl md:text-7xl lg:text-8xl">
                             <div className="overflow-hidden py-1">
                                 <motion.span
                                     initial={{ y: '100%' }}

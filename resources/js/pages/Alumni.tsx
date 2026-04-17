@@ -87,7 +87,7 @@ const Alumni = () => {
                                 <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-[#12606A]/10 px-4 py-1.5 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] text-[#12606A]">
                                     <Target size={14} /> {t('alumni.global.pill')}
                                 </div>
-                                <h2 className="text-3xl font-black tracking-tight text-[#12606A] md:text-6xl">
+                                <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-[#12606A] md:text-6xl">
                                     {t('alumni.global.title').split(' ').map((word, i) => (
                                       i === t('alumni.global.title').split(' ').length - 1 
                                       ? <span key={i} className="text-teal-500">{word}</span>
@@ -126,7 +126,7 @@ const Alumni = () => {
                                     <div className="h-0.5 w-12 bg-teal-500" />
                                 </div>
                                 
-                                <div className="h-[400px] w-full md:h-[650px]">
+                                <div className="flex h-[400px] w-full items-center justify-center md:h-[650px]">
                                     <GlobeAlumni 
                                         targetLocation={activeAlumni?.location || null} 
                                         alumniData={alumniData} 
@@ -143,7 +143,7 @@ const Alumni = () => {
                 <div className="container mx-auto px-4">
                     <div className="mb-12 md:mb-20 flex flex-col items-center justify-between gap-6 border-b border-slate-100 pb-8 md:pb-12 md:flex-row md:items-end">
                         <div className="max-w-xl text-center md:text-left">
-                            <h2 className="text-3xl md:text-4xl font-black text-[#12606A]">{t('alumni.stories.title')}</h2>
+                            <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-[#12606A]">{t('alumni.stories.title')}</h2>
                             <p className="mt-2 md:mt-4 text-sm md:text-base text-slate-500">{t('alumni.stories.desc')}</p>
                         </div>
                         <div className="flex gap-4">
@@ -173,7 +173,7 @@ const Alumni = () => {
                                     >
                                         <div className="flex flex-col gap-4 p-4 lg:flex-row lg:items-center md:gap-8">
                                             {/* Profile Image */}
-                                            <div className="relative mx-auto h-32 w-32 shrink-0 md:h-40 md:w-40 lg:mx-0">
+                                            <div className="relative mx-auto h-24 w-24 sm:h-32 sm:w-32 shrink-0 md:h-40 md:w-40 lg:mx-0">
                                                 <div className={`absolute inset-0 rounded-full border-2 border-dashed border-[#12606A]/30 transition-transform duration-[3000ms] group-hover:rotate-180 ${isActive ? 'animate-spin' : ''}`} style={{ animationDuration: '10s' }} />
                                                 <div className="absolute inset-2 overflow-hidden rounded-full shadow-inner bg-slate-50">
                                                     <img src={alumni.image} alt={alumni.name} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" />
