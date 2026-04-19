@@ -102,8 +102,8 @@ const Alumni = () => {
                         </ScrollReveal>
 
                         {/* Globe Display Container */}
-                        <div className="relative w-full max-w-5xl rounded-[2.5rem] md:rounded-[4rem] border border-white/40 bg-white/30 p-2 md:p-8 shadow-2xl backdrop-blur-md">
-                            <div className="relative overflow-hidden rounded-[2.2rem] md:rounded-[3.5rem] bg-[#12606A] shadow-2xl">
+                        <div className="relative w-full max-w-5xl rounded-[2.5rem] md:rounded-[4rem] border border-white/40 bg-white/30 p-1.5 md:p-8 shadow-2xl backdrop-blur-md overflow-hidden">
+                            <div className="relative overflow-hidden rounded-[1.8rem] md:rounded-[3.5rem] bg-[#12606A] shadow-2xl">
                                 
                                 {activeAlumni && (
                                     <div className="absolute left-4 top-4 z-40 animate-in fade-in zoom-in duration-500 md:left-10 md:top-10">
@@ -126,7 +126,7 @@ const Alumni = () => {
                                     <div className="h-0.5 w-12 bg-teal-500" />
                                 </div>
                                 
-                                <div className="h-[400px] w-full md:h-[650px]">
+                                <div className="h-[300px] w-full sm:h-[380px] md:h-[650px]">
                                     <GlobeAlumni 
                                         targetLocation={activeAlumni?.location || null} 
                                         alumniData={alumniData} 

@@ -147,18 +147,18 @@ const ProgramTabs = () => {
             transition={{ duration: 0.3 }}
             className="space-y-6 sm:space-y-8"
           >
-            <div className="flex items-start gap-3 sm:gap-4 max-w-full lg:max-w-3xl">
+            <div className="flex items-start gap-3 sm:gap-4 max-w-full lg:max-w-3xl mx-auto lg:mx-0">
               <img src={logo} alt="logo" className="w-10 h-10 sm:w-12 sm:h-12 flex-shrink-0" />
-              <p className="text-muted-foreground leading-relaxed text-sm sm:text-base md:text-lg pt-1 sm:pt-2">
+              <p className="text-muted-foreground leading-relaxed text-sm sm:text-base md:text-lg pt-1 sm:pt-2 text-center lg:text-left">
                 {tabData[activeTab].description}
               </p>
             </div>
 
-            <div className="flex flex-col lg:flex-row items-center gap-6 sm:gap-8 lg:gap-12">
-              <div className={`relative flex-shrink-0 overflow-visible ${
+            <div className="flex flex-col lg:flex-row items-center justify-center lg:justify-start gap-6 sm:gap-8 lg:gap-12">
+              <div className={`relative flex-shrink-0 overflow-visible mx-auto lg:mx-0 ${
                 isCompactLayout 
-                  ? 'w-full sm:w-[550px] md:w-[700px] lg:w-[850px] xl:w-[1000px] h-[280px] sm:h-[350px] md:h-[400px] lg:h-[450px]'
-                  : 'w-full sm:w-[600px] md:w-[750px] lg:w-[900px] xl:w-[1050px] h-[280px] sm:h-[350px] md:h-[400px] lg:h-[450px]'
+                  ? 'w-[280px] sm:w-[550px] md:w-[700px] lg:w-[850px] xl:w-[1000px] h-[280px] sm:h-[350px] md:h-[400px] lg:h-[450px]'
+                  : 'w-[340px] sm:w-[600px] md:w-[750px] lg:w-[900px] xl:w-[1050px] h-[280px] sm:h-[350px] md:h-[400px] lg:h-[450px]'
               }`}>
                 {tabData[activeTab].images.map((image, index) => {
                   const position = getImagePosition(index);
