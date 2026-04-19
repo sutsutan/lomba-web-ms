@@ -102,11 +102,10 @@ const Alumni = () => {
                                 <ScrollReveal key={alumni.id} delay={index * 0.1}>
                                     <div
                                         onClick={() => handleAlumniClick(alumni)}
-                                        className={`group relative flex cursor-pointer flex-col overflow-hidden rounded-[2.5rem] md:rounded-[3rem] border-2 p-2 md:p-3 transition-all duration-500 ${
-                                            isActive
-                                                ? 'border-[#12606A] bg-teal-50/30 ring-4 md:ring-8 ring-[#12606A]/5 scale-[1.01] md:scale-[1.02]'
-                                                : 'border-slate-100 bg-white hover:border-teal-200 hover:shadow-xl'
-                                        }`}
+                                        className={`group relative flex cursor-pointer flex-col overflow-hidden rounded-[2.5rem] md:rounded-[3rem] border-2 p-2 md:p-3 transition-all duration-500 ${isActive
+                                            ? 'border-[#12606A] bg-teal-50/30 ring-4 md:ring-8 ring-[#12606A]/5 scale-[1.01] md:scale-[1.02]'
+                                            : 'border-slate-100 bg-white hover:border-teal-200 hover:shadow-xl'
+                                            }`}
                                     >
                                         <div className="flex flex-col gap-4 p-4 lg:flex-row lg:items-center md:gap-8">
                                             {/* Profile Image */}
@@ -172,11 +171,11 @@ const Alumni = () => {
                                 <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-[#12606A]/10 px-4 py-1.5 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] text-[#12606A]">
                                     <Target size={14} /> {t('alumni.global.pill')}
                                 </div>
-                                <h2 className="text-3xl font-black tracking-tight text-[#12606A] md:text-6xl">
+                                <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-[#12606A] md:text-6xl">
                                     {t('alumni.global.title').split(' ').map((word, i) => (
-                                      i === t('alumni.global.title').split(' ').length - 1 
-                                      ? <span key={i} className="text-teal-500">{word}</span>
-                                      : word + ' '
+                                        i === t('alumni.global.title').split(' ').length - 1
+                                            ? <span key={i} className="text-teal-500">{word}</span>
+                                            : word + ' '
                                     ))}
                                 </h2>
                                 <p className="mt-4 md:mt-6 max-w-2xl text-sm md:text-lg text-slate-500">
@@ -187,9 +186,9 @@ const Alumni = () => {
                         </ScrollReveal>
 
                         {/* Globe Display Container */}
-                        <div className="relative w-full max-w-5xl rounded-[2.5rem] md:rounded-[4rem] border border-white/40 bg-white/30 p-1.5 md:p-8 shadow-2xl backdrop-blur-md overflow-hidden">
-                            <div className="relative overflow-hidden rounded-[1.8rem] md:rounded-[3.5rem] bg-[#12606A] shadow-2xl">
-                                
+                        <div className="relative w-full max-w-5xl rounded-[2.5rem] md:rounded-[4rem] border border-white/40 bg-white/30 p-2 md:p-8 shadow-2xl backdrop-blur-md">
+                            <div className="relative overflow-hidden rounded-[2.2rem] md:rounded-[3.5rem] bg-[#12606A] shadow-2xl">
+
                                 {activeAlumni && (
                                     <div className="absolute left-4 top-4 z-40 animate-in fade-in zoom-in duration-500 md:left-10 md:top-10">
                                         <div className="overflow-hidden rounded-xl border border-white bg-white/90 shadow-2xl backdrop-blur-md md:rounded-2xl">
@@ -210,11 +209,11 @@ const Alumni = () => {
                                     <p className="text-[9px] font-black uppercase tracking-[0.3em] text-white">{t('alumni.map.interactive')}</p>
                                     <div className="h-0.5 w-12 bg-teal-500" />
                                 </div>
-                                
-                                <div className="h-[300px] w-full sm:h-[380px] md:h-[650px]">
-                                    <GlobeAlumni 
-                                        targetLocation={activeAlumni?.location || null} 
-                                        alumniData={alumniData} 
+
+                                <div className="flex h-[400px] w-full items-center justify-center md:h-[650px]">
+                                    <GlobeAlumni
+                                        targetLocation={activeAlumni?.location || null}
+                                        alumniData={alumniData}
                                     />
                                 </div>
                             </div>
