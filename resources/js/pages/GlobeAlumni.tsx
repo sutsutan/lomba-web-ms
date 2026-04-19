@@ -41,6 +41,11 @@ const GlobeAlumni = ({ targetLocation, alumniData }: GlobeAlumniProps) => {
                 size: targetLocation && targetLocation[0] === a.location[0] ? 0.1 : 0.04,
             })),
             onRender: (state) => {
+                if (canvasRef.current) {
+                    const width = canvasRef.current.offsetWidth;
+                    state.width = width * 2;
+                    state.height = width * 2;
+                }
                 // Phi adalah rotasi horizontal, Theta adalah vertikal
                 state.phi = rPhi.get() + pointerInteractionMovement.current;
                 state.theta = rTheta.get();
@@ -77,12 +82,12 @@ const GlobeAlumni = ({ targetLocation, alumniData }: GlobeAlumniProps) => {
     );
 
     return (
-        <div className="relative mx-auto flex h-[500px] w-full max-w-[500px] items-center justify-center">
+        <div className="relative mx-auto flex aspect-square w-full max-w-[500px] items-center justify-center">
             {/* Layer 1: Ambient Teal Glow di belakang globe */}
-            <div className="absolute h-80 w-80 rounded-full bg-[#12606A]/10 blur-[100px]" />
+            <div className="absolute h-64 w-64 md:h-80 md:w-80 rounded-full bg-[#12606A]/10 blur-[100px]" />
             
             {/* Layer 2: Ring Dekoratif (Opsional, untuk kesan clean) */}
-            <div className="absolute h-[420px] w-[420px] rounded-full border border-[#12606A]/5 pointer-events-none" />
+            <div className="absolute h-full w-full max-h-[420px] max-w-[420px] rounded-full border border-[#12606A]/5 pointer-events-none" />
 
             {/* Layer 3: Overlay Foto Profil saat Aktif */}
             {activeAlumni && (
@@ -123,14 +128,18 @@ const GlobeAlumni = ({ targetLocation, alumniData }: GlobeAlumniProps) => {
                     pointerInteracting.current = null;
                     canvasRef.current!.style.cursor = 'grab';
                 }}
-                onMouseMove={(e) => {
+                onPointerMove={(e) => {
                     if (pointerInteracting.current !== null) {
                         const delta = e.clientX - pointerInteracting.current;
                         pointerInteractionMovement.current = delta / 100;
                     }
                 }}
+                onPointerOut={() => {
+                    pointerInteracting.current = null;
+                    if(canvasRef.current) canvasRef.current.style.cursor = 'grab';
+                }}
                 className="relative z-10 h-full w-full cursor-grab opacity-0 transition-opacity duration-1000 ease-in-out"
-                style={{ opacity: 1 }}
+                style={{ opacity: 1, touchAction: 'none' }}
                 onMouseEnter={() => { if(!pointerInteracting.current) canvasRef.current!.style.cursor = 'grab' }}
             />
 

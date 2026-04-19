@@ -9,7 +9,7 @@ import ScrollReveal from '@/components/ScrollReveal';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 // Assets
-import schoolImage from '@/assets/metland.jpg'; 
+import schoolImage from '@/assets/school.jpeg'; 
 import logoMetland from '@/assets/metland.png';
 
 const TiltCard = ({ misi }: { misi: any }) => {

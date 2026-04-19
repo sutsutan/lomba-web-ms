@@ -206,7 +206,7 @@ export default {
   'about.timeline.begin': 'The Beginning',
   'about.timeline.growing': 'Growing with Purpose',
 
-  'about.timeline.1945.heads': 'Tatang Sunarja : 1945 - 2026, Veria Raja Tunggal : 1945 - 202',
+  'about.timeline.1945.heads': 'Dermawan Sunarja : 1945 - 2026, Veria Raja Tunggal : 1945 - 202',
   'about.timeline.1945.begin': 'Metland School was established with a strong commitment to providing quality vocational education that balances academic learning, practical skills, and character development. From the very beginning, the school was designed to prepare students for real-world challenges and professional environments.',
   'about.timeline.1945.growing': 'As the demand for skilled and industry-ready graduates continued to increase, Metland School consistently developed and refined its academic programs, facilities, and learning approach. With a strong focus on tourism, hospitality, and vocational excellence, the school enhanced its curriculum to align with current industry standards, technological advancements, and real-world professional needs. This commitment ensures that students are not only academically prepared, but also equipped with practical skills, strong character, and adaptability to succeed in a rapidly evolving global workforce.',
 
@@ -612,18 +612,21 @@ export default {
   'testimony.cat.parents': 'Parents',
   'testimony.cat.teacher': 'Teacher',
   'testimony.cat.alumni': 'Alumni',
+  'testimony.cat.industry': 'Industry',
   'testimony.role.it': 'Student - IT & Software',
   'testimony.role.multimedia': 'Student - Multimedia',
   'testimony.role.culinary': 'Student - Culinary',
   'testimony.role.parent': 'Parent',
   'testimony.role.eng': 'Teacher - Engineering',
   'testimony.role.sw': 'Software Engineer',
+  'testimony.role.industry': 'Industry Professional',
   'testimony.desc.1': 'Metland School give me the practical skills and confidence to excel in the tech industry.',
   'testimony.desc.2': 'Multimedia program at Metland really helped me sharpen my creativity.',
   'testimony.desc.3': 'Kitchen Facility in Metland School really supports my learning journey in culinary arts.',
   'testimony.desc.4': 'Character development in Metland School really prepares my child for the future.',
   'testimony.desc.5': 'We focus on hands-on learning to ensure students are job-ready upon graduation.',
   'testimony.desc.6': 'Industry partnerships at Metland School opened doors for my career in tech.',
+  'testimony.desc.7': 'Google Indonesia has been a great partner in providing real-world experience for our students.',
   'ppdb.step4.desc': 'After the assessment stage is completed, parents will receive the admission result through official school communication channels. If accepted, the student will move forward to the enrollment confirmation stage. We aim to deliver results quickly so families can plan with confidence.',
   'ppdb.step4.date': '21 May 2026',
 
@@ -695,7 +698,7 @@ export default {
   "pplg_full": "The PPLG curriculum at Metland School is developed to answer digital era challenges, focusing on Cloud Computing, IoT, and Game Development. We implement a Hybrid Model Learning system to strengthen both hardskills and softskills, ensuring students are ready for the professional tech world.",
   "pplg_comp": "Fullstack Web Development, Mobile App Development, Internet of Things (IoT), Game Development",
   "pplg_careers": "Software Developer, System Analyst, Web Architect, Game Programmer",
-  "pplg_facilities": "Coding Innovation Lab, IoT & Hardware Room, Esports & Game Hub, Server Room",
+  "pplg_facilities": "Lab IT, Creative Room",
 
   "academic_title": "Academic Excellence",
   "academic_desc": "Metland School provides industry-standard vocational education designed to bridge the gap between students and the global professional market.",
@@ -805,9 +808,9 @@ export default {
 
   // Project Data (Example: Metland Cup)
   "proj_mcup_title": "Metland Cup 2025",
-  "proj_mcup_desc": "The biggest annual sports and art competition in our school, involving over 20+ schools across the province.",
-  "proj_mcup_achieve1": "Success 20+ Branches",
-  "proj_mcup_achieve2": "National Sponsor Collaboration",
+  "proj_mcup_desc": "The biggest annual sports and art competition in our school, involving schools.",
+  "proj_mcup_achieve1": "Success",
+  "proj_mcup_achieve2": "Big event Sponsor Collaboration",
 
   // more organization
  "cat_culinary": "Culinary",

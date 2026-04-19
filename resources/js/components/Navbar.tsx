@@ -45,7 +45,6 @@ const Navbar = () => {
       ],
     },
     { label: t('nav.alumni'), href: '/alumni' },
-    { label: t('nav.ppdb'), href: '/ppdb' },
   ];
   const [isScrolled, setIsScrolled] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
@@ -166,6 +165,14 @@ const Navbar = () => {
             </div>
           ))}
 
+          {/* PPDB Button */}
+          <Link
+            to="/ppdb"
+            className="flex items-center gap-2 px-5 py-2.5 ml-2 text-sm font-bold text-white bg-teal-600 rounded-full hover:bg-teal-700 shadow-md transition-all duration-300 hover:scale-105 active:scale-95"
+          >
+            {t('nav.ppdb')}
+          </Link>
+
           {/* Language Toggle */}
           <button
             onClick={toggleLanguage}
@@ -191,55 +198,62 @@ const Navbar = () => {
       </div>
 
       {/*MOBILE MENU OVERLAY*/}
-      {/*MOBILE MENU OVERLAY*/}
-<AnimatePresence>
-  {isMobileMenuOpen && (
-    <div className="container mx-auto px-6 mt-4">
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: -20 }}
-        className="lg:hidden bg-white/95 backdrop-blur-2xl rounded-3xl shadow-2xl border border-white/20 overflow-hidden max-h-[70vh] overflow-y-auto"
-      >
-        <div className="p-4 flex flex-col gap-2">
-          {navItems.map((item) => (
-            <div key={item.label} className="w-full">
-              <Link
-                to={item.href}
-                className={`block w-full px-5 py-3 rounded-2xl font-bold transition-colors ${
-                  isActive(item.href) ? 'bg-teal-600 text-white' : 'text-slate-800 hover:bg-slate-100'
-                }`}
-              >
-                {item.label}
-              </Link>
-              {item.children && (
-                <div className="mt-2 ml-4 pl-4 border-l-2 border-slate-200 space-y-1">
-                  {item.children.map((child) => (
-                    <Link 
-                      key={child.href} 
-                      to={child.href} 
-                      className="block px-4 py-2.5 text-sm text-slate-600 hover:text-teal-600 hover:bg-slate-50 rounded-lg font-medium transition-colors"
-                    >
-                      {child.label}
-                    </Link>
-                  ))}
-                </div>
-              )}
-            </div>
-          ))}
-          
-          <button
-            onClick={toggleLanguage}
-            className="w-full flex items-center justify-center gap-2 px-5 py-3 mt-4 rounded-2xl bg-slate-100 text-slate-800 font-bold hover:bg-slate-200 transition-colors"
-          >
-            <Globe className="w-5 h-5" />
-            <span>Switch to {language === 'en' ? 'Indonesian' : 'English'}</span>
-          </button>
-        </div>
-      </motion.div>
-    </div>
-  )}
-</AnimatePresence>
+  <AnimatePresence>
+    {isMobileMenuOpen && (
+      <div className="fixed inset-x-0 top-[80px] px-6">
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+          className="lg:hidden bg-white/95 backdrop-blur-2xl rounded-3xl shadow-2xl border border-white/20 overflow-hidden max-h-[70vh] overflow-y-auto"
+        >
+          <div className="p-4 flex flex-col gap-2">
+            {navItems.map((item) => (
+              <div key={item.label} className="w-full">
+                <Link
+                  to={item.href}
+                  className={`block w-full px-5 py-3 rounded-2xl font-bold transition-colors ${
+                    isActive(item.href) ? 'bg-teal-600 text-white' : 'text-slate-800 hover:bg-slate-100'
+                  }`}
+                >
+                  {item.label}
+                </Link>
+                {item.children && (
+                  <div className="mt-2 ml-4 pl-4 border-l-2 border-slate-200 space-y-1">
+                    {item.children.map((child) => (
+                      <Link 
+                        key={child.href} 
+                        to={child.href} 
+                        className="block px-4 py-2.5 text-sm text-slate-600 hover:text-teal-600 hover:bg-slate-50 rounded-lg font-medium transition-colors"
+                      >
+                        {child.label}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ))}
+            
+            <Link
+              to="/ppdb"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="w-full flex items-center justify-center gap-2 px-5 py-3 mt-2 rounded-2xl bg-teal-600 text-white font-bold hover:bg-teal-700 transition-colors shadow-md"
+            >
+              Daftar PPDB
+            </Link>
+
+            <button
+              onClick={toggleLanguage}
+              className="w-full flex items-center justify-center gap-2 px-5 py-3 mt-4 rounded-2xl bg-slate-100 text-slate-800 font-bold hover:bg-slate-200 transition-colors"
+            >
+              <Globe className="w-5 h-5" />
+              <span>Switch to {language === 'en' ? 'Indonesian' : 'English'}</span>
+            </button>
+          </div>
+        </motion.div>
+      </div>
+    )}
+  </AnimatePresence>
     </motion.header>
   );
 };

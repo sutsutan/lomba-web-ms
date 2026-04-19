@@ -75,6 +75,7 @@ const Alumni = () => {
                 height="h-[60vh] md:h-[70vh]"
             />
 
+<<<<<<< HEAD
             {/* Globe Visualization Section */}
             <section ref={globeSectionRef} className="relative overflow-hidden bg-slate-50 py-16 md:py-24">
                 <div className="absolute -left-24 top-24 h-64 w-64 md:h-96 md:w-96 rounded-full bg-teal-100/50 blur-[80px] md:blur-[100px]" />
@@ -138,12 +139,14 @@ const Alumni = () => {
                 </div>
             </section>
 
+=======
+>>>>>>> c1abdfc2583ba12652f99c9ce231e10c00c1535e
             {/* Alumni Cards Grid */}
             <section className="relative bg-white py-16 md:py-24">
                 <div className="container mx-auto px-4">
                     <div className="mb-12 md:mb-20 flex flex-col items-center justify-between gap-6 border-b border-slate-100 pb-8 md:pb-12 md:flex-row md:items-end">
                         <div className="max-w-xl text-center md:text-left">
-                            <h2 className="text-3xl md:text-4xl font-black text-[#12606A]">{t('alumni.stories.title')}</h2>
+                            <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-[#12606A]">{t('alumni.stories.title')}</h2>
                             <p className="mt-2 md:mt-4 text-sm md:text-base text-slate-500">{t('alumni.stories.desc')}</p>
                         </div>
                         <div className="flex gap-4">
@@ -173,7 +176,7 @@ const Alumni = () => {
                                     >
                                         <div className="flex flex-col gap-4 p-4 lg:flex-row lg:items-center md:gap-8">
                                             {/* Profile Image */}
-                                            <div className="relative mx-auto h-32 w-32 shrink-0 md:h-40 md:w-40 lg:mx-0">
+                                            <div className="relative mx-auto h-24 w-24 sm:h-32 sm:w-32 shrink-0 md:h-40 md:w-40 lg:mx-0">
                                                 <div className={`absolute inset-0 rounded-full border-2 border-dashed border-[#12606A]/30 transition-transform duration-[3000ms] group-hover:rotate-180 ${isActive ? 'animate-spin' : ''}`} style={{ animationDuration: '10s' }} />
                                                 <div className="absolute inset-2 overflow-hidden rounded-full shadow-inner bg-slate-50">
                                                     <img src={alumni.image} alt={alumni.name} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" />
@@ -219,6 +222,69 @@ const Alumni = () => {
                                 </ScrollReveal>
                             );
                         })}
+                    </div>
+                </div>
+            </section>
+
+            {/* Globe Visualization Section */}
+            <section ref={globeSectionRef} className="relative overflow-hidden bg-slate-50 py-16 md:py-24">
+                <div className="absolute -left-24 top-24 h-64 w-64 md:h-96 md:w-96 rounded-full bg-teal-100/50 blur-[80px] md:blur-[100px]" />
+                <div className="absolute -right-24 bottom-24 h-64 w-64 md:h-96 md:w-96 rounded-full bg-blue-100/50 blur-[80px] md:blur-[100px]" />
+
+                <div className="container relative z-10 mx-auto px-4">
+                    <div className="flex flex-col items-center">
+                        <ScrollReveal>
+                            <div className="mb-8 md:mb-12 text-center">
+                                <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-[#12606A]/10 px-4 py-1.5 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] text-[#12606A]">
+                                    <Target size={14} /> {t('alumni.global.pill')}
+                                </div>
+                                <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-[#12606A] md:text-6xl">
+                                    {t('alumni.global.title').split(' ').map((word, i) => (
+                                      i === t('alumni.global.title').split(' ').length - 1 
+                                      ? <span key={i} className="text-teal-500">{word}</span>
+                                      : word + ' '
+                                    ))}
+                                </h2>
+                                <p className="mt-4 md:mt-6 max-w-2xl text-sm md:text-lg text-slate-500">
+                                    {t('alumni.global.desc')}
+                                    <span className="hidden md:inline"> {t('alumni.global.instruction')}</span>
+                                </p>
+                            </div>
+                        </ScrollReveal>
+
+                        {/* Globe Display Container */}
+                        <div className="relative w-full max-w-5xl rounded-[2.5rem] md:rounded-[4rem] border border-white/40 bg-white/30 p-2 md:p-8 shadow-2xl backdrop-blur-md">
+                            <div className="relative overflow-hidden rounded-[2.2rem] md:rounded-[3.5rem] bg-[#12606A] shadow-2xl">
+                                
+                                {activeAlumni && (
+                                    <div className="absolute left-4 top-4 z-40 animate-in fade-in zoom-in duration-500 md:left-10 md:top-10">
+                                        <div className="overflow-hidden rounded-xl border border-white bg-white/90 shadow-2xl backdrop-blur-md md:rounded-2xl">
+                                            <div className="bg-[#12606A] px-3 py-1.5 md:px-4 md:py-2 text-[8px] md:text-[10px] font-bold uppercase tracking-widest text-white">
+                                                {t('alumni.map.active_dest')}
+                                            </div>
+                                            <div className="p-3 md:p-4">
+                                                <h4 className="text-sm md:text-lg font-bold text-teal-800">{activeAlumni.company}</h4>
+                                                <p className="mt-1 flex items-center gap-2 text-[10px] md:text-sm text-teal-800 font-medium">
+                                                    <MapPin size={14} /> {activeAlumni.location[0].toFixed(2)}°, {activeAlumni.location[1].toFixed(2)}°
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+
+                                <div className="absolute bottom-6 right-8 z-20 hidden flex-col items-end gap-1 opacity-60 md:flex">
+                                    <p className="text-[9px] font-black uppercase tracking-[0.3em] text-white">{t('alumni.map.interactive')}</p>
+                                    <div className="h-0.5 w-12 bg-teal-500" />
+                                </div>
+                                
+                                <div className="flex h-[400px] w-full items-center justify-center md:h-[650px]">
+                                    <GlobeAlumni 
+                                        targetLocation={activeAlumni?.location || null} 
+                                        alumniData={alumniData} 
+                                    />
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>

@@ -86,7 +86,7 @@ const PartnersSection = () => {
               {partners.map((partner, index) => (
                 <div 
                   key={`p1-${index}`} 
-                  className="flex-shrink-0 grayscale hover:grayscale-0 transition-all duration-300 opacity-70 hover:opacity-100"
+                  className="flex-shrink-0 hover:grayscale-0 transition-all duration-300 opacity-70 hover:opacity-100"
                 >
                   {partner.type === 'image' ? (
                     <img 

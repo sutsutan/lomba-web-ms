@@ -10,7 +10,7 @@ import aboutImage3 from '@/assets/about-previewkananbawah.webp';
 const AboutPreview = () => {
   const { t } = useLanguage();
   return (
-    <section className="section-padding bg-background">
+    <section className="section-padding bg-background overflow-hidden">
       <div className="container mx-auto px-8 md:px-16 lg:px-24 xl:px-32">
         <div className="grid lg:grid-cols-2 gap-20 items-center">
           {/* Content */}
@@ -68,8 +68,8 @@ const AboutPreview = () => {
               </div>
 
               {/* Decorative Elements */}
-              <div className="absolute -bottom-4 -right-4 w-32 h-32 bg-primary/10 rounded-2xl -z-10" />
-              <div className="absolute -top-4 -left-4 w-20 h-20 bg-gold/20 rounded-full -z-10" />
+              <div className="absolute -bottom-4 -right-4 w-32 h-32 bg-primary/10 rounded-2xl -z-10 hidden sm:block" />
+              <div className="absolute -top-4 -left-4 w-20 h-20 bg-gold/20 rounded-full -z-10 hidden sm:block" />
             </div>
           </ScrollReveal>
         </div>

@@ -157,8 +157,13 @@ const ProgramTabs = () => {
             <div className="flex flex-col lg:flex-row items-center justify-center lg:justify-start gap-6 sm:gap-8 lg:gap-12">
               <div className={`relative flex-shrink-0 overflow-visible mx-auto lg:mx-0 ${
                 isCompactLayout 
+<<<<<<< HEAD
                   ? 'w-[280px] sm:w-[550px] md:w-[700px] lg:w-[850px] xl:w-[1000px] h-[280px] sm:h-[350px] md:h-[400px] lg:h-[450px]'
                   : 'w-[340px] sm:w-[600px] md:w-[750px] lg:w-[900px] xl:w-[1050px] h-[280px] sm:h-[350px] md:h-[400px] lg:h-[450px]'
+=======
+                  ? 'w-[240px] sm:w-[550px] md:w-[700px] lg:w-[850px] xl:w-[1000px] h-[280px] sm:h-[350px] md:h-[400px] lg:h-[450px]'
+                  : 'w-[300px] sm:w-[600px] md:w-[750px] lg:w-[900px] xl:w-[1050px] h-[280px] sm:h-[350px] md:h-[400px] lg:h-[450px]'
+>>>>>>> c1abdfc2583ba12652f99c9ce231e10c00c1535e
               }`}>
                 {tabData[activeTab].images.map((image, index) => {
                   const position = getImagePosition(index);

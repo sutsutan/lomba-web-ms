@@ -3,17 +3,24 @@ export default {
     content: [
         './resources/**/*.blade.php',
         './resources/js/**/*.{ts,tsx,js,jsx,css}',
+        './src/**/*.{js,ts,jsx,tsx}', // Pindahkan ke sini
     ],
     theme: {
+        // SOLUSI OVERFLOW: Membuat container otomatis di tengah dan punya padding default
+        container: {
+            center: true,
+            padding: '1rem', // Menjaga agar konten tidak mepet layar di mobile
+            screens: {
+                '2xl': '1400px',
+            },
+        },
         extend: {
             colors: {
                 border: 'hsl(var(--border))',
                 input: 'hsl(var(--input))',
                 ring: 'hsl(var(--ring))',
-
                 background: 'hsl(var(--background))',
                 foreground: 'hsl(var(--foreground))',
-
                 primary: {
                     DEFAULT: 'hsl(var(--primary))',
                     foreground: 'hsl(var(--primary-foreground))',
@@ -22,9 +29,13 @@ export default {
                     DEFAULT: 'hsl(var(--secondary))',
                     foreground: 'hsl(var(--secondary-foreground))',
                 },
-                destructive: {
-                    DEFAULT: 'hsl(var(--destructive))',
-                    foreground: 'hsl(var(--destructive-foreground))',
+                card: {
+                    DEFAULT: 'hsl(var(--card))',
+                    foreground: 'hsl(var(--card-foreground))',
+                },
+                popover: {
+                    DEFAULT: 'hsl(var(--popover))',
+                    foreground: 'hsl(var(--popover-foreground))',
                 },
                 muted: {
                     DEFAULT: 'hsl(var(--muted))',
@@ -34,29 +45,19 @@ export default {
                     DEFAULT: 'hsl(var(--accent))',
                     foreground: 'hsl(var(--accent-foreground))',
                 },
-                popover: {
-                    DEFAULT: 'hsl(var(--popover))',
-                    foreground: 'hsl(var(--popover-foreground))',
+                destructive: {
+                    DEFAULT: 'hsl(var(--destructive))',
+                    foreground: 'hsl(var(--destructive-foreground))',
                 },
-                card: {
-                    DEFAULT: 'hsl(var(--card))',
-                    foreground: 'hsl(var(--card-foreground))',
+            },
+            keyframes: {
+                shining: {
+                    '0%': { backgroundPosition: '0% center' },
+                    '100%': { backgroundPosition: '200% center' },
                 },
-                content: ['./src/**/*.{js,ts,jsx,tsx}'],
-                theme: {
-                    extend: {
-                        keyframes: {
-                            shining: {
-                                '0%': { backgroundPosition: '0% center' },
-                                '100%': { backgroundPosition: '200% center' },
-                            },
-                        },
-                        animation: {
-                            shining: 'shining 3s linear infinite',
-                        },
-                    },
-                },
-                plugins: [],
+            },
+            animation: {
+                shining: 'shining 3s linear infinite',
             },
             borderRadius: {
                 lg: 'var(--radius)',

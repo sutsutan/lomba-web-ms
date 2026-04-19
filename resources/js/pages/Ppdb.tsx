@@ -1,7 +1,9 @@
 import MainLayout from '@/layouts/MainLayout';
 import ScrollReveal from '@/components/ScrollReveal';
 import HeroCarousel from '@/components/HeroCarousel';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, User, Phone, School, BookOpen, CheckCircle, Send, FileText } from 'lucide-react';
+import { useState } from 'react';
+import { motion } from 'framer-motion';
 import { useLanguage } from '@/contexts/LanguageContext';
 import logoMetland from '@/assets/logo-metland.png';
 import achievement1 from '@/assets/achievement-1.jpg';
@@ -9,6 +11,19 @@ import studentEnrollment from '@/assets/pepleg.webp';
 
 const Ppdb = () => {
   const { t } = useLanguage();
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [formData, setFormData] = useState({
+    nama: '',
+    asalSekolah: '',
+    whatsapp: '',
+    jurusan: ''
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Simulate form submission
+    setIsSubmitted(true);
+  };
 
   return (
     <MainLayout>
@@ -167,39 +182,174 @@ const Ppdb = () => {
         </div>
       </section>
 
-      {/* Ready to Apply Section */}
-      <section className="mb-28 bg-white">
-        <div className="container mx-auto px-4 sm:px-6 md:px-8 lg:px-12">
+      {/* Registration Form Section */}
+      <section className="py-16 md:py-24 bg-[#E8F0F2] relative overflow-hidden" id="formulir-pendaftaran">
+        {/* Decorative elements */}
+        <div className="absolute top-0 right-0 w-64 h-64 bg-[#12606A]/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+        <div className="absolute bottom-0 left-0 w-80 h-80 bg-teal-500/5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
+
+        <div className="container mx-auto px-4 sm:px-6 md:px-8 max-w-4xl relative z-10">
             <ScrollReveal>
-                <div className="text-center max-w-3xl mx-auto mb-12">
-                    <h2 className="text-2xl md:text-3xl font-bold text-[#12606A] mb-4">
-                        {t('ppdb.steps.ready')}
+                <div className="text-center mb-12">
+                    <h2 className="text-3xl md:text-4xl font-black text-[#12606A] mb-4">
+                        Formulir Pendaftaran Siswa Baru
                     </h2>
-                    <p className="text-[#12606A]/80 text-md md:text-lg font-medium mb-8">
-                        {t('ppdb.steps.ready_desc')}
+                    <p className="text-[#12606A]/80 text-lg font-medium max-w-2xl mx-auto">
+                        Silakan isi data di bawah ini dengan benar. Tim kami akan segera menghubungi Bapak/Ibu melalui WhatsApp untuk proses selanjutnya.
                     </p>
-                    <a 
-                        href="https://smkmetland.net/ppdb/" 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="inline-block px-8 py-3 bg-[#CFE0E3] text-[#12606A] font-bold rounded-full hover:bg-[#BED3D7] transition-all active:scale-95 shadow-md"
-                    >
-                        {t('ppdb.steps.start_now')}
-                    </a>
                 </div>
             </ScrollReveal>
 
             <ScrollReveal delay={0.2}>
-                <div className="w-full h-[200px] md:h-[300px] overflow-hidden shadow-2xl">
-                    <img 
-                        src={achievement1} 
-                        alt="Achievement" 
-                        className="w-full h-full object-cover"
-                    />
+                <div className="bg-white rounded-3xl p-6 sm:p-10 md:p-12 shadow-2xl border border-slate-100">
+                    {isSubmitted ? (
+                        <div className="text-center py-12">
+                            <motion.div 
+                                initial={{ scale: 0 }}
+                                animate={{ scale: 1 }}
+                                className="w-24 h-24 bg-green-100 text-green-500 rounded-full flex items-center justify-center mx-auto mb-6"
+                            >
+                                <CheckCircle className="w-12 h-12" />
+                            </motion.div>
+                            <h3 className="text-2xl font-bold text-[#12606A] mb-4">Pendaftaran Berhasil Dikirim!</h3>
+                            <p className="text-slate-600 mb-8 max-w-md mx-auto">
+                                Terima kasih. Data Bapak/Ibu telah kami terima. Tim pendaftaran Metland School akan segera menghubungi Bapak/Ibu melalui WhatsApp.
+                            </p>
+                            <button 
+                                onClick={() => setIsSubmitted(false)}
+                                className="px-8 py-3 bg-[#12606A] text-white font-bold rounded-full hover:bg-[#0f4f57] transition-all shadow-md"
+                            >
+                                Kirim Data Baru
+                            </button>
+                        </div>
+                    ) : (
+                        <form onSubmit={handleSubmit} className="space-y-6">
+                            {/* Nama Lengkap */}
+                            <div>
+                                <label className="block text-[#12606A] font-bold mb-2 ml-1 text-lg">Nama Lengkap Anak</label>
+                                <div className="relative">
+                                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                        <User className="h-6 w-6 text-slate-400" />
+                                    </div>
+                                    <input 
+                                        type="text" 
+                                        required
+                                        value={formData.nama}
+                                        onChange={(e) => setFormData({...formData, nama: e.target.value})}
+                                        className="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#12606A]/50 focus:border-[#12606A] text-lg text-slate-800 transition-all placeholder:text-slate-400"
+                                        placeholder="Contoh: Budi Santoso"
+                                    />
+                                </div>
+                            </div>
+
+                            {/* Asal Sekolah */}
+                            <div>
+                                <label className="block text-[#12606A] font-bold mb-2 ml-1 text-lg">Asal Sekolah (SMP/MTs)</label>
+                                <div className="relative">
+                                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                        <School className="h-6 w-6 text-slate-400" />
+                                    </div>
+                                    <input 
+                                        type="text" 
+                                        required
+                                        value={formData.asalSekolah}
+                                        onChange={(e) => setFormData({...formData, asalSekolah: e.target.value})}
+                                        className="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#12606A]/50 focus:border-[#12606A] text-lg text-slate-800 transition-all placeholder:text-slate-400"
+                                        placeholder="Contoh: SMP Negeri 1 Cileungsi"
+                                    />
+                                </div>
+                            </div>
+
+                            {/* No WhatsApp */}
+                            <div>
+                                <label className="block text-[#12606A] font-bold mb-2 ml-1 text-lg">Nomor WhatsApp Orang Tua</label>
+                                <div className="relative">
+                                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                        <Phone className="h-6 w-6 text-slate-400" />
+                                    </div>
+                                    <input 
+                                        type="tel" 
+                                        required
+                                        value={formData.whatsapp}
+                                        onChange={(e) => setFormData({...formData, whatsapp: e.target.value})}
+                                        className="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#12606A]/50 focus:border-[#12606A] text-lg text-slate-800 transition-all placeholder:text-slate-400"
+                                        placeholder="Contoh: 081234567890"
+                                    />
+                                </div>
+                            </div>
+
+                            {/* Jurusan */}
+                            <div>
+                                <label className="block text-[#12606A] font-bold mb-2 ml-1 text-lg">Pilihan Jurusan yang Diminati</label>
+                                <div className="relative">
+                                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                        <BookOpen className="h-6 w-6 text-slate-400" />
+                                    </div>
+                                    <select 
+                                        required
+                                        value={formData.jurusan}
+                                        onChange={(e) => setFormData({...formData, jurusan: e.target.value})}
+                                        className="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#12606A]/50 focus:border-[#12606A] text-lg text-slate-800 transition-all appearance-none cursor-pointer"
+                                    >
+                                        <option value="" disabled>-- Pilih Jurusan --</option>
+                                        <option value="Perhotelan">Perhotelan</option>
+                                        <option value="Kuliner / Tata Boga">Kuliner (Tata Boga)</option>
+                                        <option value="Akuntansi">Akuntansi</option>
+                                        <option value="DKV">Desain Komunikasi Visual (DKV)</option>
+                                        <option value="PPLG">Pengembangan Perangkat Lunak & Gim (PPLG)</option>
+                                    </select>
+                                    <div className="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
+                                        <ArrowRight className="h-5 w-5 text-slate-400 rotate-90" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Submit Button */}
+                            <div className="pt-6">
+                                <button 
+                                    type="submit"
+                                    className="w-full py-5 bg-[#12606A] hover:bg-[#0f4f57] text-white rounded-2xl font-bold text-xl shadow-lg shadow-[#12606A]/30 transition-all hover:scale-[1.01] active:scale-[0.99] flex items-center justify-center gap-3"
+                                >
+                                    <Send className="w-6 h-6" />
+                                    Kirim Pendaftaran
+                                </button>
+                                <p className="text-center text-slate-500 text-sm mt-4">
+                                    Dengan mengirimkan formulir ini, Bapak/Ibu bersedia untuk dihubungi oleh tim pendaftaran Metland School.
+                                </p>
+                            </div>
+                        </form>
+                    )}
                 </div>
             </ScrollReveal>
         </div>
       </section>
+
+      {/* Floating Action Button */}
+      <motion.a
+        href="#formulir-pendaftaran"
+        initial={{ scale: 0, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ delay: 0.5, type: 'spring', stiffness: 260, damping: 20 }}
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.9 }}
+        onClick={(e) => {
+            e.preventDefault();
+            document.getElementById('formulir-pendaftaran')?.scrollIntoView({ behavior: 'smooth' });
+        }}
+        className="fixed bottom-10 right-10 z-[9999] flex items-center justify-center w-16 h-16 rounded-full shadow-2xl text-white bg-teal-600 hover:bg-teal-700 transition-colors group"
+      >
+        <FileText size={28} className="relative z-10" />
+        {/* Wave Effect */}
+        <motion.span 
+            animate={{ scale: [1, 1.5], opacity: [0.5, 0] }}
+            transition={{ repeat: Infinity, duration: 1.5 }}
+            className="absolute inset-0 rounded-full bg-white/40 pointer-events-none"
+        />
+        {/* Tooltip */}
+        <span className="absolute right-20 bg-teal-800 text-white text-sm font-bold px-4 py-2 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap shadow-lg">
+            Isi Formulir
+        </span>
+      </motion.a>
     </MainLayout>
   );
 };

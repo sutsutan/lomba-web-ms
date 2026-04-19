@@ -26,6 +26,13 @@ import dkv from '@/assets/dkv.webp';
 import culinary from '@/assets/kuliner.webp';
 import LogoMetland from '@/assets/metland.png';
 import pplg from '@/assets/pepleg.webp';
+import labit from '@/assets/tes.jpg';
+import rukref from '@/assets/rukref.jpeg';
+import pameran from '@/assets/pameran.jpg';
+import pengurus from '@/assets/pengurus-1.jpg';
+import pubspik from '@/assets/pubspik.jpg';
+import juara1 from '@/assets/juara1.jpg';
+import presentasi from '@/assets/docs1.jpg';
 
 const majorsData = [
     {
@@ -100,22 +107,23 @@ const majorsData = [
         icon: <Code className="h-6 w-6" />,
         stats: { students: '520+', partners: '40+', duration: '3' },
         gallery: [
-            {
-                image: '/images/gallery/pplg-1.jpg',
+               {
+                image: pameran,
             },
             {
-                image: '/images/gallery/hospitality-1.jpg',
+                image: pengurus,
             },
             {
-                image: '/images/gallery/hospitality-1.jpg',
+                image: pubspik,
             },
             {
-                image: '/images/gallery/hospitality-1.jpg',
+                image: juara1,
             },
             {
-                image: '/images/gallery/hospitality-1.jpg',
+                image: presentasi,
             },
         ],
+        facilities: [{ image: labit }, { image: rukref }],
     },
 ];
 
@@ -192,7 +200,7 @@ const Major = () => {
                         <span className="mb-4 inline-block rounded-full border border-white/20 bg-white/10 px-4 py-1 text-xs font-bold uppercase tracking-[0.2em] text-teal-400 backdrop-blur-md">
                             {t(`${majorsData[index].id}_subtitle`)}
                         </span>
-                        <h1 className="mb-6 text-6xl font-black uppercase leading-[0.9] tracking-tighter text-neutral-50 md:text-8xl">
+                        <h1 className="mb-6 text-4xl sm:text-5xl font-black uppercase leading-[0.9] tracking-tighter text-neutral-50 md:text-8xl">
                             {t(`${majorsData[index].id}_title`)}
                         </h1>
                         <p className="max-w-xl text-lg leading-relaxed text-neutral-300 md:text-xl">
@@ -320,7 +328,7 @@ const Major = () => {
                                     <div className="flex items-center gap-3 text-sm font-bold uppercase tracking-[0.3em] text-[#12606A]/60">
                                         {t('curriculum_focus')}
                                     </div>
-                                    <h3 className="text-5xl font-black uppercase leading-none tracking-tighter text-[#12606A] md:text-7xl">
+                                    <h3 className="text-3xl sm:text-4xl font-black uppercase leading-none tracking-tighter text-[#12606A] md:text-7xl">
                                         {t(`${majorsData[index].id}_title`)}
                                     </h3>
                                     <p className="border-l-4 border-neutral-100 pl-6 text-justify text-lg italic leading-relaxed text-[#12606A]/80">
@@ -436,7 +444,7 @@ const Major = () => {
                                             <Briefcase size={24} />
                                         </div>
                                         <div>
-                                            <h3 className="text-4xl font-black uppercase tracking-tighter text-[#12606A]">
+                                            <h3 className="text-3xl sm:text-4xl font-black uppercase tracking-tighter text-[#12606A]">
                                                 {t('career_title')}
                                             </h3>
                                             <p className="font-medium text-[#12606A]/60">
@@ -524,7 +532,7 @@ const Major = () => {
 
                                     <div className="relative z-10 flex h-full flex-col">
                                         <div className="flex-grow">
-                                            <h4 className="mb-4 text-4xl font-black uppercase leading-[0.85] tracking-tighter md:text-5xl">
+                                            <h4 className="mb-4 text-3xl sm:text-4xl font-black uppercase leading-[0.85] tracking-tighter md:text-5xl">
                                                 {t('cert_title_1')}
                                                 <br />
                                                 <span className="text-teal-300">
@@ -533,7 +541,7 @@ const Major = () => {
                                             </h4>
 
                                             <div className="mb-10 flex items-center gap-6">
-                                                <span className="text-[10rem] font-black leading-none tracking-tighter text-white/95">
+                                                <span className="text-7xl md:text-[10rem] font-black leading-none tracking-tighter text-white/95">
                                                     03
                                                 </span>
                                                 <div className="space-y-1 border-l-2 border-white/20 pl-6">
@@ -671,7 +679,7 @@ const Major = () => {
                                 <span className="h-px w-8 bg-teal-600"></span>
                                 <span>Moments & Activities</span>
                             </div>
-                            <h2 className="text-4xl font-black uppercase text-[#12606A]">
+                            <h2 className="text-2xl sm:text-3xl md:text-4xl font-black uppercase text-[#12606A]">
                                 {currentData.galleryTitle}
                             </h2>
                         </div>
