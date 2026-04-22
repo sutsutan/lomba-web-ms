@@ -105,22 +105,11 @@ const TestimonialVideo = () => {
     const videoRefs = useRef<Map<number, HTMLIFrameElement>>(new Map());
     const categories = Object.keys(testimonialData);
 
-    const controlMarsAudio = (shouldPause: boolean) => {
-        const marsAudio = document.getElementById(
-            'mars-metland-audio',
-        ) as HTMLAudioElement;
-        if (!marsAudio) return;
-
-        if (shouldPause) {
-            marsAudio.pause();
-        } else {
-            const isUserMuted =
-                marsAudio.getAttribute('data-user-muted') === 'true';
-            if (!isUserMuted) {
-                marsAudio.play().catch(() => {});
-            }
-        }
-    };
+const controlMarsAudio = (shouldPause: boolean) => {
+    window.dispatchEvent(new CustomEvent('sync-metland-music', { 
+        detail: !shouldPause 
+    }));
+};
 
     useEffect(() => {
         const handleResize = () => setWindowWidth(window.innerWidth);
