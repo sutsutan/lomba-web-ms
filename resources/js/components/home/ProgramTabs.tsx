@@ -29,7 +29,7 @@ interface TabContent {
 
 const ProgramTabs = () => {
   const { t } = useLanguage();
-  
+
   const tabData: Record<string, TabContent> = {
     extracurricular: {
       title: t('program.extracurricular.title'),
@@ -58,7 +58,7 @@ const ProgramTabs = () => {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
-  
+
 
   const isCompactLayout = activeTab === 'organization' || activeTab === 'major';
 
@@ -69,14 +69,14 @@ const ProgramTabs = () => {
 
   const handleNext = (e: React.MouseEvent) => {
     e.preventDefault();
-    setActiveImageIndex((prev) => 
+    setActiveImageIndex((prev) =>
       prev === tabData[activeTab].images.length - 1 ? 0 : prev + 1
     );
   };
 
   const handlePrev = (e: React.MouseEvent) => {
     e.preventDefault();
-    setActiveImageIndex((prev) => 
+    setActiveImageIndex((prev) =>
       prev === 0 ? tabData[activeTab].images.length - 1 : prev - 1
     );
   };
@@ -84,8 +84,8 @@ const ProgramTabs = () => {
   const getImagePosition = (index: number) => {
     const totalImages = tabData[activeTab].images.length;
     const position = (activeImageIndex - index + totalImages) % totalImages;
-    
-  let spacing;
+
+    let spacing;
     if (windowWidth < 640) {
       spacing = isCompactLayout ? 70 : 90;
     } else if (windowWidth < 1024) {
@@ -93,7 +93,7 @@ const ProgramTabs = () => {
     } else {
       spacing = isCompactLayout ? 150 : 240;
     }
-    
+
     return {
       left: position * spacing,
       zIndex: totalImages - position,
@@ -103,7 +103,7 @@ const ProgramTabs = () => {
   };
 
   return (
-    <section className="section-padding bg-background py-8 sm:py-12 md:py-16">
+    <section className="section-padding bg-background py-8 sm:py-12 md:py-16 overflow-hidden">
       <div className="container mx-auto px-4 sm:px-6 md:px-8 lg:px-16 xl:px-24 2xl:px-32">
         <ScrollReveal>
           <div className="text-center mb-8 sm:mb-10 md:mb-12">
@@ -119,11 +119,10 @@ const ProgramTabs = () => {
               <button
                 key={tab}
                 onClick={() => handleTabChange(tab as keyof typeof tabData)}
-                className={`pb-2 sm:pb-3 text-sm sm:text-base md:text-lg font-medium transition-all duration-300 relative whitespace-nowrap ${
-                  activeTab === tab
-                    ? 'text-primary'
-                    : 'text-muted-foreground hover:text-foreground'
-                }`}
+                className={`pb-2 sm:pb-3 text-sm sm:text-base md:text-lg font-medium transition-all duration-300 relative whitespace-nowrap ${activeTab === tab
+                  ? 'text-primary'
+                  : 'text-muted-foreground hover:text-foreground'
+                  }`}
               >
                 {tabData[tab as keyof typeof tabData].title}
                 {activeTab === tab && (
@@ -155,26 +154,19 @@ const ProgramTabs = () => {
             </div>
 
             <div className="flex flex-col lg:flex-row items-center justify-center lg:justify-start gap-6 sm:gap-8 lg:gap-12">
-              <div className={`relative flex-shrink-0 overflow-visible mx-auto lg:mx-0 ${
-                isCompactLayout 
-<<<<<<< HEAD
-                  ? 'w-[280px] sm:w-[550px] md:w-[700px] lg:w-[850px] xl:w-[1000px] h-[280px] sm:h-[350px] md:h-[400px] lg:h-[450px]'
-                  : 'w-[340px] sm:w-[600px] md:w-[750px] lg:w-[900px] xl:w-[1050px] h-[280px] sm:h-[350px] md:h-[400px] lg:h-[450px]'
-=======
-                  ? 'w-[240px] sm:w-[550px] md:w-[700px] lg:w-[850px] xl:w-[1000px] h-[280px] sm:h-[350px] md:h-[400px] lg:h-[450px]'
-                  : 'w-[300px] sm:w-[600px] md:w-[750px] lg:w-[900px] xl:w-[1050px] h-[280px] sm:h-[350px] md:h-[400px] lg:h-[450px]'
->>>>>>> c1abdfc2583ba12652f99c9ce231e10c00c1535e
-              }`}>
+              <div className={`relative flex-shrink-0 overflow-visible mx-auto lg:mx-0 ${isCompactLayout
+                ? 'w-[240px] sm:w-[550px] md:w-[700px] lg:w-[850px] xl:w-[1000px] h-[280px] sm:h-[350px] md:h-[400px] lg:h-[450px]'
+                : 'w-[300px] sm:w-[600px] md:w-[750px] lg:w-[900px] xl:w-[1050px] h-[280px] sm:h-[350px] md:h-[400px] lg:h-[450px]'
+                }`}>
                 {tabData[activeTab].images.map((image, index) => {
                   const position = getImagePosition(index);
                   return (
                     <motion.div
                       key={`${activeTab}-${index}`}
-                      className={`absolute top-0 overflow-hidden shadow-2xl cursor-pointer ${
-                        isCompactLayout
-                          ? 'w-[100px] sm:w-[170px] md:w-[200px] lg:w-[230px] xl:w-[250px] h-[280px] sm:h-[350px] md:h-[400px] lg:h-[450px]'
-                          : 'w-[122px] sm:w-[220px] md:w-[260px] lg:w-[300px] xl:w-[330px] h-[280px] sm:h-[350px] md:h-[400px] lg:h-[450px]'
-                      }`}
+                      className={`absolute top-0 overflow-hidden shadow-2xl cursor-pointer ${isCompactLayout
+                        ? 'w-[100px] sm:w-[170px] md:w-[200px] lg:w-[230px] xl:w-[250px] h-[280px] sm:h-[350px] md:h-[400px] lg:h-[450px]'
+                        : 'w-[122px] sm:w-[220px] md:w-[260px] lg:w-[300px] xl:w-[330px] h-[280px] sm:h-[350px] md:h-[400px] lg:h-[450px]'
+                        }`}
                       initial={{ opacity: 0, scale: 0.8 }}
                       animate={{
                         left: position.left,
@@ -188,7 +180,7 @@ const ProgramTabs = () => {
                         damping: 20,
                         mass: 0.8,
                       }}
-                      whileHover={{ 
+                      whileHover={{
                         scale: position.zIndex === tabData[activeTab].images.length ? 1.02 : position.scale,
                         transition: { duration: 0.2 }
                       }}
