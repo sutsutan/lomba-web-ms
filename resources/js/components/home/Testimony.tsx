@@ -1,6 +1,6 @@
 'use client';
 
-import videoSource from '@/assets/0712_XFrfipW4.mp4';
+const youtubeUrl = 'https://www.youtube.com/embed/Ech9a-wIzTM?enablejsapi=1&autoplay=0&controls=0&loop=1&playlist=Ech9a-wIzTM&playsinline=1&rel=0';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ChevronLeft, ChevronRight, Play, Quote } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
@@ -46,21 +46,21 @@ const TestimonialVideo = () => {
                 id: 1,
                 name: 'Andini Julianti',
                 role: t('testimony.role.it'),
-                videoUrl: videoSource,
+                videoUrl: youtubeUrl,
                 description: t('testimony.desc.1'),
             },
             {
                 id: 2,
                 name: 'Budi Santoso',
                 role: t('testimony.role.multimedia'),
-                videoUrl: videoSource,
+                videoUrl: youtubeUrl,
                 description: t('testimony.desc.2'),
             },
             {
                 id: 3,
                 name: 'Siti Aminah',
                 role: t('testimony.role.culinary'),
-                videoUrl: videoSource,
+                videoUrl: youtubeUrl,
                 description: t('testimony.desc.3'),
             },
         ],
@@ -69,7 +69,7 @@ const TestimonialVideo = () => {
                 id: 4,
                 name: 'Ibu Ratna',
                 role: t('testimony.role.parent'),
-                videoUrl: videoSource,
+                videoUrl: youtubeUrl,
                 description: t('testimony.desc.4'),
             },
         ],
@@ -78,7 +78,7 @@ const TestimonialVideo = () => {
                 id: 5,
                 name: 'Bpk. Aris',
                 role: t('testimony.role.eng'),
-                videoUrl: videoSource,
+                videoUrl: youtubeUrl,
                 description: t('testimony.desc.5'),
             },
         ],
@@ -87,7 +87,7 @@ const TestimonialVideo = () => {
                 id: 6,
                 name: 'Rizky Ramadhan',
                 role: t('testimony.role.sw'),
-                videoUrl: videoSource,
+                videoUrl: youtubeUrl,
                 description: t('testimony.desc.6'),
             },
         ],
@@ -96,13 +96,13 @@ const TestimonialVideo = () => {
                 id: 7,
                 name: 'Google Indonesia',
                 role: t('testimony.role.industry'),
-                videoUrl: videoSource,
+                videoUrl: youtubeUrl,
                 description: t('testimony.desc.7'),
             },
         ],
     };
 
-    const videoRefs = useRef<Map<number, HTMLVideoElement>>(new Map());
+    const videoRefs = useRef<Map<number, HTMLIFrameElement>>(new Map());
     const categories = Object.keys(testimonialData);
 
 const controlMarsAudio = (shouldPause: boolean) => {
@@ -121,10 +121,9 @@ const controlMarsAudio = (shouldPause: boolean) => {
     }, []);
 
     useEffect(() => {
-        videoRefs.current.forEach((video) => {
-            if (video) {
-                video.pause();
-                video.currentTime = 0;
+        videoRefs.current.forEach((iframe) => {
+            if (iframe && iframe.contentWindow) {
+                iframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
             }
         });
         controlMarsAudio(false);
@@ -275,8 +274,8 @@ const controlMarsAudio = (shouldPause: boolean) => {
                                                 const v = videoRefs.current.get(
                                                     item.id,
                                                 );
-                                                if (v) {
-                                                    v.play().catch(() => {});
+                                                if (v && v.contentWindow) {
+                                                    v.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
                                                     controlMarsAudio(true);
                                                 }
                                             }
@@ -286,38 +285,36 @@ const controlMarsAudio = (shouldPause: boolean) => {
                                                 const v = videoRefs.current.get(
                                                     item.id,
                                                 );
-                                                if (v) {
-                                                    v.pause();
+                                                if (v && v.contentWindow) {
+                                                    v.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
                                                     controlMarsAudio(false);
                                                 }
                                             }
                                         }}
                                         onClick={() => setActiveIndex(index)}
                                     >
-                                        <video
-                                            ref={(el) => {
-                                                if (el)
-                                                    videoRefs.current.set(
-                                                        item.id,
-                                                        el,
-                                                    );
-                                                else
-                                                    videoRefs.current.delete(
-                                                        item.id,
-                                                    );
-                                            }}
-                                            src={item.videoUrl}
-                                            className={`h-full w-full object-cover transition-all duration-700 ${
-                                                isFront
-                                                    ? 'opacity-100 grayscale-0'
-                                                    : 'opacity-40 grayscale'
-                                            }`}
-                                            loop
-                                            playsInline
-                                            onPlay={() =>
-                                                controlMarsAudio(true)
-                                            }
-                                        />
+                                        <div className="absolute top-1/2 left-1/2 w-[1600px] h-[900px] max-w-none -translate-x-1/2 -translate-y-1/2 pointer-events-none">
+                                            <iframe
+                                                ref={(el) => {
+                                                    if (el)
+                                                        videoRefs.current.set(
+                                                            item.id,
+                                                            el,
+                                                        );
+                                                    else
+                                                        videoRefs.current.delete(
+                                                            item.id,
+                                                        );
+                                                }}
+                                                src={item.videoUrl}
+                                                className={`h-full w-full object-cover transition-all duration-700 ${
+                                                    isFront
+                                                        ? 'opacity-100 grayscale-0'
+                                                        : 'opacity-40 grayscale'
+                                                }`}
+                                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                            />
+                                        </div>
 
                                         {isFront && (
                                             <div className="pointer-events-none absolute inset-0 flex items-center justify-center transition-opacity group-hover:opacity-0">

@@ -208,7 +208,7 @@ export default {
   'about.timeline.begin': 'Awal Mula',
   'about.timeline.growing': 'Tumbuh dengan Tujuan',
 
-  'about.timeline.1945.heads': 'Tatang Sunarja : 1945 - 2026, Veria Raja Tunggal : 1945 - 202',
+  'about.timeline.1945.heads': 'Dermawan Sunarja : 1945 - 2026, Veria Raja Tunggal : 1945 - 202',
   'about.timeline.1945.begin': 'Metland School didirikan dengan komitmen kuat untuk memberikan pendidikan vokasi berkualitas yang menyeimbangkan pembelajaran akademik, keterampilan praktis, dan pengembangan karakter. Sejak awal, sekolah ini dirancang untuk mempersiapkan siswa menghadapi tantangan dunia nyata dan lingkungan profesional.',
   'about.timeline.1945.growing': 'Seiring dengan meningkatnya permintaan akan lulusan yang terampil dan siap industri, Metland School secara konsisten mengembangkan dan menyempurnakan program akademik, fasilitas, dan pendekatan pembelajarannya. Dengan fokus yang kuat pada pariwisata, perhotelan, dan keunggulan vokasi, sekolah meningkatkan kurikulumnya agar selaras dengan standar industri saat ini, kemajuan teknologi, dan kebutuhan profesional dunia nyata. Komitmen ini memastikan bahwa siswa tidak hanya siap secara akademis, tetapi juga dilengkapi dengan keterampilan praktis, karakter yang kuat, dan adaptabilitas untuk sukses dalam tenaga kerja global yang berkembang pesat.',
 

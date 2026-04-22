@@ -45,7 +45,6 @@ const Navbar = () => {
       ],
     },
     { label: t('nav.alumni'), href: '/alumni' },
-    { label: t('nav.ppdb'), href: '/ppdb' },
   ];
   const [isScrolled, setIsScrolled] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
@@ -166,6 +165,14 @@ const Navbar = () => {
             </div>
           ))}
 
+          {/* PPDB Button */}
+          <Link
+            to="/ppdb"
+            className="flex items-center gap-2 px-5 py-2.5 ml-2 text-sm font-bold text-white bg-teal-600 rounded-full hover:bg-teal-700 shadow-md transition-all duration-300 hover:scale-105 active:scale-95"
+          >
+            {t('nav.ppdb')}
+          </Link>
+
           {/* Language Toggle */}
           <button
             onClick={toggleLanguage}
@@ -227,6 +234,14 @@ const Navbar = () => {
               </div>
             ))}
             
+            <Link
+              to="/ppdb"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="w-full flex items-center justify-center gap-2 px-5 py-3 mt-2 rounded-2xl bg-teal-600 text-white font-bold hover:bg-teal-700 transition-colors shadow-md"
+            >
+              Daftar PPDB
+            </Link>
+
             <button
               onClick={toggleLanguage}
               className="w-full flex items-center justify-center gap-2 px-5 py-3 mt-4 rounded-2xl bg-slate-100 text-slate-800 font-bold hover:bg-slate-200 transition-colors"

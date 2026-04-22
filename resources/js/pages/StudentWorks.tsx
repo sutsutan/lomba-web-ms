@@ -187,21 +187,10 @@ const galleryProjects = [
         githubUrl: 'https://github.com/tsukuriaI/lomba-web-ms',
         profileImage: programIt,
     },
-    {
-        id: 12,
-        category: 'Information Technology',
-        student: 'Hengki',
-        class: 'XI IT 1',
-        title: 'Digital Experience',
-        description: 'Enhanced digital experience platform.',
-        image: programIt,
-        githubUrl: 'https://github.com/tsukuriaI/lomba-web-ms',
-        profileImage: programIt,
-    },
 
     // Hospitality Projects
     {
-        id: 13,
+        id: 12,
         category: 'Hospitality',
         student: 'Rina Permata',
         class: 'XI APH 1',
@@ -213,7 +202,7 @@ const galleryProjects = [
         profileImage: programHospitality,
     },
     {
-        id: 14,
+        id: 13,
         category: 'Hospitality',
         student: 'Ahmad Fauzi',
         class: 'XI APH 2',
@@ -224,7 +213,7 @@ const galleryProjects = [
         profileImage: programHospitality,
     },
     {
-        id: 15,
+        id: 14,
         category: 'Hospitality',
         student: 'Putri Ayu',
         class: 'XI APH 1',
@@ -238,7 +227,7 @@ const galleryProjects = [
 
     // Accounting Projects
     {
-        id: 16,
+        id: 15,
         category: 'Accounting',
         student: 'Kevin Wijaya',
         class: 'XI AK 1',
@@ -250,7 +239,7 @@ const galleryProjects = [
         profileImage: programAccounting,
     },
     {
-        id: 17,
+        id: 16,
         category: 'Accounting',
         student: 'Lisa Hartono',
         class: 'XI AK 2',
@@ -261,7 +250,7 @@ const galleryProjects = [
         profileImage: programAccounting,
     },
     {
-        id: 18,
+        id: 17,
         category: 'Accounting',
         student: 'Roberto Carlos',
         class: 'XI AK 1',
@@ -542,7 +531,7 @@ const StudentWorks = () => {
                             ))}
                         </div>
                         <div className="mt-4 text-center">
-                            <p className="inline-block flex items-center justify-center border-b border-[#0F5F58] pb-1 italic text-[#0F5F58] sm:hidden">
+                            <p className="inline-flex items-center justify-center border-b border-[#0F5F58] pb-1 italic text-[#0F5F58] sm:hidden">
                                 Swipe for more information
                             </p>
                         </div>
