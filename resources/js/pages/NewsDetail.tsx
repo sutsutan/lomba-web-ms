@@ -4,6 +4,7 @@ import MainLayout from '@/layouts/MainLayout';
 import ScrollReveal from '@/components/ScrollReveal';
 import { Calendar, ArrowLeft, Share2 } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useToast } from '@/hooks/use-toast';
 
 import achievement from '@/assets/achievement-1.jpg';
 import programIt from '@/assets/program-it.webp';
@@ -12,17 +13,57 @@ import programCulinary from '@/assets/program-culinary.webp';
 const NewsDetail = () => {
   const { id } = useParams();
   const { t, language } = useLanguage();
+  const { toast } = useToast();
 
   const allNews = useMemo(() => [
-    { id: 1, category: "Achievement", date: "2024-01-15", image: achievement, titleKey: "news.item.1.title", contentKey: "news.item.1.excerpt" },
+    { id: 1, category: "Achievement", categoryKey: "achievements.1.cat", date: "2024-01-15", image: achievement, titleKey: "news.item.1.title", contentKey: "news.item.1.excerpt" },
     { id: 2, category: "Partnership", date: "2024-01-12", image: programIt, titleKey: "news.item.2.title", contentKey: "news.item.2.excerpt" },
     { id: 3, category: "Event", date: "2024-01-10", image: programCulinary, titleKey: "news.item.3.title", contentKey: "news.item.3.excerpt" },
     { id: 4, category: "Event", date: "2024-01-08", image: programIt, titleKey: "news.item.4.title", contentKey: "news.item.4.excerpt" },
+    { id: 5, category: "Achievement", categoryKey: "achievements.2.cat", date: "2024-01-12", image: programCulinary, titleKey: "news.item.5.title", contentKey: "news.item.5.excerpt" },
+    { id: 6, category: "Achievement", categoryKey: "achievements.3.cat", date: "2024-01-08", image: achievement, titleKey: "news.item.6.title", contentKey: "news.item.6.excerpt" },
   ], []);
 
   const currentNews = allNews.find(n => n.id === Number(id)) || allNews[0];
   
   const sidebarNews = allNews.filter(n => n.id !== currentNews.id).slice(0, 3);
+
+  const handleShare = async () => {
+    const shareData = {
+      title: t(currentNews.titleKey),
+      text: t(currentNews.contentKey),
+      url: window.location.href,
+    };
+
+    if (navigator.share && navigator.canShare && navigator.canShare(shareData)) {
+      try {
+        await navigator.share(shareData);
+      } catch (err) {
+        if ((err as Error).name !== 'AbortError') {
+          console.error('Error sharing:', err);
+        }
+      }
+    } else {
+      try {
+        await navigator.clipboard.writeText(window.location.href);
+        toast({
+          title: language === 'id' ? 'Tautan disalin!' : 'Link copied!',
+          description: language === 'id' 
+            ? 'Tautan berita telah disalin ke papan klip Anda.' 
+            : 'The news link has been copied to your clipboard.',
+        });
+      } catch (err) {
+        console.error('Failed to copy text:', err);
+        toast({
+          variant: "destructive",
+          title: language === 'id' ? 'Gagal menyalin' : 'Failed to copy',
+          description: language === 'id' 
+            ? 'Tidak dapat menyalin tautan secara otomatis.' 
+            : 'Could not copy the link automatically.',
+        });
+      }
+    }
+  };
 
   return (
     <MainLayout>
@@ -41,7 +82,7 @@ const NewsDetail = () => {
               <ScrollReveal>
                 <div className="mb-6">
                   <span className="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm font-bold uppercase tracking-wide">
-                    {currentNews.category}
+                    {currentNews.categoryKey ? t(currentNews.categoryKey) : currentNews.category}
                   </span>
                   <h1 className="text-3xl md:text-5xl font-bold text-foreground mt-4 mb-6 leading-tight">
                     {t(currentNews.titleKey)}
@@ -53,9 +94,12 @@ const NewsDetail = () => {
                         day: 'numeric', month: 'long', year: 'numeric' 
                       })}
                     </div>
-                    <div className="flex items-center gap-2 cursor-pointer hover:text-primary transition-colors">
+                    <button 
+                      onClick={handleShare}
+                      className="flex items-center gap-2 cursor-pointer hover:text-primary transition-colors focus:outline-none"
+                    >
                       <Share2 className="w-4 h-4" /> {language === 'id' ? 'Bagikan' : 'Share'}
-                    </div>
+                    </button>
                   </div>
                 </div>
 
@@ -67,8 +111,8 @@ const NewsDetail = () => {
                   <p className="mb-6">{t(currentNews.contentKey)}</p>
                   <p className="mb-6">
                     {language === 'id' 
-                      ? 'Konten berita lengkap akan ditampilkan di sini. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.' 
-                      : 'Full news content will be displayed here. Lorem ipsum dolor sit amet, consectetur adipiscing elit.'}
+                       ? 'Konten berita lengkap akan ditampilkan di sini. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.' 
+                       : 'Full news content will be displayed here. Lorem ipsum dolor sit amet, consectetur adipiscing elit.'}
                   </p>
                   <blockquote className="border-l-4 border-primary pl-4 italic my-8 text-foreground font-medium bg-section p-4 rounded-r-lg">
                     "Pendidikan adalah senjata paling ampuh yang bisa Anda gunakan untuk mengubah dunia."
@@ -102,7 +146,7 @@ const NewsDetail = () => {
                   {sidebarNews.map((news) => (
                     <Link 
                       key={news.id} 
-                      to={`/news/${news.id}`} 
+                      to={`/more-news/${news.id}`} 
                       className="group flex gap-4 items-start"
                       onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                     >
@@ -118,7 +162,7 @@ const NewsDetail = () => {
                           {t(news.titleKey)}
                         </h4>
                         <div className="flex items-center gap-2 text-[10px] text-muted-foreground uppercase font-bold tracking-wider">
-                          <span className="text-primary">{news.category}</span>
+                          <span className="text-primary">{news.categoryKey ? t(news.categoryKey) : news.category}</span>
                           <span>•</span>
                           <span>{new Date(news.date).getFullYear()}</span>
                         </div>

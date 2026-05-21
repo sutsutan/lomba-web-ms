@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { ChevronLeft, ChevronRight, Trophy } from 'lucide-react';
 import { useState } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { Link } from 'react-router-dom';
 
 interface Achievement {
     id: number;
@@ -12,6 +13,7 @@ interface Achievement {
     description: string;
     category: string;
     image: string;
+    newsId: number;
 }
 
 
@@ -28,6 +30,7 @@ const AchievementsSlider = () => {
             description: t('achievements.1.desc'),
             category: t('achievements.1.cat'),
             image: achievementImg,
+            newsId: 1,
         },
         {
             id: 2,
@@ -36,6 +39,7 @@ const AchievementsSlider = () => {
             description: t('achievements.2.desc'),
             category: t('achievements.2.cat'),
             image: achievementImg,
+            newsId: 5,
         },
         {
             id: 3,
@@ -44,6 +48,7 @@ const AchievementsSlider = () => {
             description: t('achievements.3.desc'),
             category: t('achievements.3.cat'),
             image: achievementImg,
+            newsId: 6,
         },
     ];
 
@@ -56,6 +61,9 @@ const AchievementsSlider = () => {
             (prev) => (prev - 1 + achievements.length) % achievements.length,
         );
     };
+
+    const nextSlideIndex = (currentIndex + 1) % achievements.length;
+    const prevSlideIndex = (currentIndex - 1 + achievements.length) % achievements.length;
 
     return (
         <section className="section-padding bg-section overflow-hidden">
@@ -155,10 +163,10 @@ const AchievementsSlider = () => {
                                                 </p>
 
                                                 {/* Consultation Button */}
-                                                <button className="group mt-2 inline-flex items-center justify-center gap-3 rounded-full bg-[#0F4C5C] px-8 py-3.5 text-sm font-bold text-white shadow-xl transition-all hover:bg-[#0a3844] hover:shadow-2xl active:scale-95 md:mt-4 md:px-10 md:py-4 md:text-base">
+                                                <Link to={`/more-news/${item.newsId}`} className="group mt-2 inline-flex items-center justify-center gap-3 rounded-full bg-[#0F4C5C] px-8 py-3.5 text-sm font-bold text-white shadow-xl transition-all hover:bg-[#0a3844] hover:shadow-2xl active:scale-95 md:mt-4 md:px-10 md:py-4 md:text-base">
                                                     <Trophy className="h-4 w-4 md:h-5 md:w-5" />
                                                     {t('achievements.learn_more')}
-                                                </button>
+                                                </Link>
                                             </div>
 
                                             {/* Right Image - Circle */}

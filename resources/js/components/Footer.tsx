@@ -86,27 +86,27 @@ const Footer = () => {
             <h4 className="font-semibold text-lg mb-4">{t('footer.programs')}</h4>
             <ul className="space-y-3">
               <li>
-                <Link to="/major" className="text-sm opacity-80 hover:opacity-100 link-underline transition-opacity">
+                <Link to="/major?type=pplg" className="text-sm opacity-80 hover:opacity-100 link-underline transition-opacity">
                   {t('category.it')}
                 </Link>
               </li>
               <li>
-                <Link to="/major" className="text-sm opacity-80 hover:opacity-100 link-underline transition-opacity">
+                <Link to="/major?type=accounting" className="text-sm opacity-80 hover:opacity-100 link-underline transition-opacity">
                   {t('category.accounting')}
                 </Link>
               </li>
               <li>
-                <Link to="/major" className="text-sm opacity-80 hover:opacity-100 link-underline transition-opacity">
+                <Link to="/major?type=culinary" className="text-sm opacity-80 hover:opacity-100 link-underline transition-opacity">
                   {t('category.culinary')}
                 </Link>
               </li>
               <li>
-                <Link to="/major" className="text-sm opacity-80 hover:opacity-100 link-underline transition-opacity">
+                <Link to="/major?type=hospitality" className="text-sm opacity-80 hover:opacity-100 link-underline transition-opacity">
                   {t('category.hospitality')}
                 </Link>
               </li>
               <li>
-                <Link to="/major" className="text-sm opacity-80 hover:opacity-100 link-underline transition-opacity">
+                <Link to="/major?type=dkv" className="text-sm opacity-80 hover:opacity-100 link-underline transition-opacity">
                   {t('category.dkv')}
                 </Link>
               </li>

@@ -17,6 +17,7 @@ const NewsArchive = () => {
     { 
       id: 1, 
       category: "Achievement", 
+      categoryKey: "achievements.1.cat",
       date: "2024-01-15", 
       image: achievement,
       titleKey: "news.item.1.title",
@@ -48,19 +49,21 @@ const NewsArchive = () => {
     },
     { 
       id: 5, 
-      category: "Field Trip", 
-      date: "2024-01-05", 
+      category: "Achievement", 
+      categoryKey: "achievements.2.cat",
+      date: "2024-01-12", 
       image: programCulinary,
-      titleKey: "news.item.1.title",
-      excerptKey: "news.item.1.excerpt"
+      titleKey: "news.item.5.title",
+      excerptKey: "news.item.5.excerpt"
     },
     { 
       id: 6, 
-      category: "Announcement", 
-      date: "2024-01-03", 
+      category: "Achievement", 
+      categoryKey: "achievements.3.cat",
+      date: "2024-01-08", 
       image: achievement,
-      titleKey: "news.item.2.title",
-      excerptKey: "news.item.2.excerpt"
+      titleKey: "news.item.6.title",
+      excerptKey: "news.item.6.excerpt"
     },
     { 
       id: 7, 
@@ -126,7 +129,7 @@ const NewsArchive = () => {
                     />
                     <div className="absolute top-4 left-4">
                       <span className="bg-primary px-3 py-1 rounded-full text-xs font-bold text-primary-foreground shadow-lg">
-                        {news.category}
+                        {news.categoryKey ? t(news.categoryKey) : news.category}
                       </span>
                     </div>
                   </div>
@@ -148,7 +151,7 @@ const NewsArchive = () => {
                     </p>
                     
                     <div className="mt-auto">
-                      <Link to={`/more-news`} className="flex items-center gap-2 text-primary font-bold text-sm hover:gap-3 transition-all">
+                      <Link to={`/more-news/${news.id}`} className="flex items-center gap-2 text-primary font-bold text-sm hover:gap-3 transition-all">
                       <button className="flex items-center gap-2 text-primary font-bold text-sm hover:gap-3 transition-all group/btn">
                         {t('news.all.read_more')} 
                         <ArrowRight className="w-4 h-4 transition-transform group-hover/btn:translate-x-1" />
