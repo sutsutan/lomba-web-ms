@@ -45,6 +45,22 @@ const News = () => {
             category: 'Event',
             image: heroBg,
         },
+        {
+            id: 5,
+            title: t('news.item.5.title'),
+            excerpt: t('news.item.5.excerpt'),
+            date: '2024-01-12',
+            category: t('achievements.2.cat'),
+            image: programCulinary,
+        },
+        {
+            id: 6,
+            title: t('news.item.6.title'),
+            excerpt: t('news.item.6.excerpt'),
+            date: '2024-01-08',
+            category: t('achievements.3.cat'),
+            image: achievement,
+        },
     ];
 
     return (
@@ -63,7 +79,7 @@ const News = () => {
                     <ScrollReveal>
                         <div className="grid gap-8 lg:grid-cols-2">
                             {/* Main Featured */}
-                            <div className="group relative h-[500px] overflow-hidden rounded-2xl">
+                            <Link to={`/more-news/${newsItems[0].id}`} className="group relative h-[500px] overflow-hidden rounded-2xl block">
                                 <img
                                     src={newsItems[0].image}
                                     alt={newsItems[0].title}
@@ -96,14 +112,15 @@ const News = () => {
                                         )}
                                     </div>
                                 </div>
-                            </div>
+                            </Link>
 
                             {/* Side News */}
                             <div className="space-y-4">
                                 {newsItems.slice(1, 4).map((news, index) => (
-                                    <div
+                                    <Link
                                         key={news.id}
-                                        className="card-hover flex gap-4 p-4"
+                                        to={`/more-news/${news.id}`}
+                                        className="card-hover flex gap-4 p-4 block"
                                     >
                                         <img
                                             src={news.image}
@@ -133,7 +150,7 @@ const News = () => {
                                                 )}
                                             </div>
                                         </div>
-                                    </div>
+                                    </Link>
                                 ))}
                             </div>
                         </div>
@@ -200,7 +217,7 @@ const News = () => {
                                             <p className="line-clamp-2 text-sm text-muted-foreground">
                                                 {news.excerpt}
                                             </p>
-                                            <Link to={`/more-news`} className="flex items-center gap-2 text-primary font-bold text-sm hover:gap-3 transition-all">
+                                            <Link to={`/more-news/${news.id}`} className="flex items-center gap-2 text-primary font-bold text-sm hover:gap-3 transition-all">
                                             <button className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-primary transition-all hover:gap-2">
                                                 {t('news.all.read_more')}
                                                 <ArrowRight className="h-4 w-4" />

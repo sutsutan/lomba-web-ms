@@ -440,6 +440,10 @@ export default {
   'news.item.3.excerpt': 'Students from our Culinary Arts program showcased their skills at the annual international food festival held on campus.',
   'news.item.4.title': 'Annual Sports Day Celebration Brings Community Together',
   'news.item.4.excerpt': 'The annual sports day event was a huge success with participation from all departments and special guest appearances.',
+  'news.item.5.title': 'Sutan Bariq Wins Best Culinary Innovation Award at Jakarta Culinary Festival 2024',
+  'news.item.5.excerpt': 'Metland School Culinary Arts student, Sutan Bariq Rajabbani Pasai, successfully won the award for his innovative fusion cuisine creation.',
+  'news.item.6.title': 'Hanna Maria Wins National English Debate Championship 2024',
+  'news.item.6.excerpt': 'Hanna Maria brought home the first-place trophy after representing West Java in the prestigious national English debate competition.',
 
   // Teachers Page
   'teacher.hero.title': 'Our Educators',

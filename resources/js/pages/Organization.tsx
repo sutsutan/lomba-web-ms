@@ -266,8 +266,8 @@ const OrganizationPage = () => {
                                         <div className="flex flex-col justify-center">
                                             <h4 className="mb-3 text-2xl font-bold italic text-slate-900 transition-colors group-hover:text-[#0F5F58]">{org.name}</h4>
                                             <p className="mb-6 text-sm leading-relaxed text-slate-500">{org.description}</p>
-                                          <Link to={`/moreorg`} className="w-fit">
-                                            <button className="group/btn flex items-center gap-2 text-xs font-black uppercase tracking-widest text-[#0F5F58]">
+                                          <Link to={`/moreorg`} className="mt-4 inline-block">
+                                            <button className="group/btn flex items-center gap-2 rounded-xl bg-[#0F5F58] px-5 py-2.5 text-xs font-bold uppercase tracking-widest text-white shadow-md shadow-[#0F5F58]/10 transition-all duration-300 hover:scale-105 hover:bg-[#0C4E48] hover:shadow-lg hover:shadow-[#0F5F58]/20 active:scale-95">
                                                 {t('organization.creative.explore')} <ArrowRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-2" />
                                             </button>
                                           </Link>

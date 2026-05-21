@@ -441,6 +441,10 @@ export default {
   'news.item.3.excerpt': 'Siswa dari program Seni Kuliner kami memamerkan keterampilan mereka di festival makanan internasional tahunan yang diadakan di kampus.',
   'news.item.4.title': 'Perayaan Hari Olahraga Tahunan Mempererat Komunitas',
   'news.item.4.excerpt': 'Acara hari olahraga tahunan sukses besar dengan partisipasi dari semua departemen dan penampilan tamu spesial.',
+  'news.item.5.title': 'Sutan Bariq Raih Penghargaan Inovasi Kuliner Terbaik di Jakarta Culinary Festival 2024',
+  'news.item.5.excerpt': 'Siswa Seni Kuliner Metland School, Sutan Bariq Rajabbani Pasai, berhasil memenangkan penghargaan atas kreasi masakan fusi yang inovatif.',
+  'news.item.6.title': 'Hanna Maria Menangkan Kejuaraan Debat Bahasa Inggris Tingkat Nasional 2024',
+  'news.item.6.excerpt': 'Hanna Maria mempersembahkan piala juara pertama setelah mewakili Jawa Barat dalam ajang kompetisi debat bergengsi tingkat nasional.',
 
   // Teachers Page
   'teacher.hero.title': 'Pendidik Kami',

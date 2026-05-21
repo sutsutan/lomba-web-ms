@@ -62,6 +62,7 @@ const App = () => (
               <Route path="/mission-vision" element={<MissionVision />} />
               <Route path="/news-archive" element={<NewsArchive />} />
               <Route path="/more-news" element={<NewsDetail />} />  
+              <Route path="/more-news/:id" element={<NewsDetail />} />  
             </Routes>
           </AnimatePresence>
         </BrowserRouter>

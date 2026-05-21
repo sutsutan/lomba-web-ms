@@ -16,8 +16,8 @@ import {
     Utensils,
     X,
 } from 'lucide-react';
-import { useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useMemo, useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 
 // Assets
 import accounting from '@/assets/akuntansi.webp';
@@ -141,6 +141,24 @@ const Major = () => {
     const [index, setIndex] = useState(0);
     const { t } = useLanguage();
     const [selectedImg, setSelectedImg] = useState<string | null>(null);
+    const location = useLocation();
+
+    const majorIdToIndex = useMemo(() => ({
+        hospitality: 0,
+        culinary: 1,
+        accounting: 2,
+        dkv: 3,
+        pplg: 4,
+        it: 4,
+    }), []);
+
+    useEffect(() => {
+        const params = new URLSearchParams(location.search);
+        const type = params.get('type');
+        if (type && type in majorIdToIndex) {
+            setIndex((majorIdToIndex as any)[type]);
+        }
+    }, [location.search, majorIdToIndex]);
 
     const currentStatic = (majorsData as any)[index];
     const id = currentStatic.id;
