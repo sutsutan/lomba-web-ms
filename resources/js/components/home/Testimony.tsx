@@ -1,12 +1,12 @@
 'use client';
 
-const youtubeUrl = 'https://www.youtube.com/embed/Ech9a-wIzTM?enablejsapi=1&autoplay=0&controls=0&loop=1&playlist=Ech9a-wIzTM&playsinline=1&rel=0';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ChevronLeft, ChevronRight, Play, Quote } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 
-// Framer Motion Variants untuk animasi masuk
+const youtubeUrl = 'https://www.youtube.com/embed/Ech9a-wIzTM?enablejsapi=1&autoplay=0&controls=0&loop=1&playlist=Ech9a-wIzTM&playsinline=1&rel=0';
+
 const containerVariants = {
     hidden: { opacity: 0, y: 30 },
     visible: {
@@ -42,91 +42,53 @@ const TestimonialVideo = () => {
 
     const testimonialData: Record<string, TestimonialItem[]> = {
         student: [
-            {
-                id: 1,
-                name: 'Andini Julianti',
-                role: t('testimony.role.it'),
-                videoUrl: youtubeUrl,
-                description: t('testimony.desc.1'),
-            },
-            {
-                id: 2,
-                name: 'Budi Santoso',
-                role: t('testimony.role.multimedia'),
-                videoUrl: youtubeUrl,
-                description: t('testimony.desc.2'),
-            },
-            {
-                id: 3,
-                name: 'Siti Aminah',
-                role: t('testimony.role.culinary'),
-                videoUrl: youtubeUrl,
-                description: t('testimony.desc.3'),
-            },
+            { id: 1, name: 'Andini Julianti', role: t('testimony.role.it'), videoUrl: youtubeUrl, description: t('testimony.desc.1') },
+            { id: 2, name: 'Budi Santoso', role: t('testimony.role.multimedia'), videoUrl: youtubeUrl, description: t('testimony.desc.2') },
+            { id: 3, name: 'Siti Aminah', role: t('testimony.role.culinary'), videoUrl: youtubeUrl, description: t('testimony.desc.3') },
         ],
         parents: [
-            {
-                id: 4,
-                name: 'Ibu Ratna',
-                role: t('testimony.role.parent'),
-                videoUrl: youtubeUrl,
-                description: t('testimony.desc.4'),
-            },
+            { id: 4, name: 'Ibu Ratna', role: t('testimony.role.parent'), videoUrl: youtubeUrl, description: t('testimony.desc.4') },
         ],
         teacher: [
-            {
-                id: 5,
-                name: 'Bpk. Aris',
-                role: t('testimony.role.eng'),
-                videoUrl: youtubeUrl,
-                description: t('testimony.desc.5'),
-            },
+            { id: 5, name: 'Bpk. Aris', role: t('testimony.role.eng'), videoUrl: youtubeUrl, description: t('testimony.desc.5') },
         ],
         alumni: [
-            {
-                id: 6,
-                name: 'Rizky Ramadhan',
-                role: t('testimony.role.sw'),
-                videoUrl: youtubeUrl,
-                description: t('testimony.desc.6'),
-            },
+            { id: 6, name: 'Rizky Ramadhan', role: t('testimony.role.sw'), videoUrl: youtubeUrl, description: t('testimony.desc.6') },
         ],
-          industry: [
-            {
-                id: 7,
-                name: 'Google Indonesia',
-                role: t('testimony.role.industry'),
-                videoUrl: youtubeUrl,
-                description: t('testimony.desc.7'),
-            },
+        industry: [
+            { id: 7, name: 'Google Indonesia', role: t('testimony.role.industry'), videoUrl: youtubeUrl, description: t('testimony.desc.7') },
         ],
     };
 
     const videoRefs = useRef<Map<number, HTMLIFrameElement>>(new Map());
     const categories = Object.keys(testimonialData);
 
-const controlMarsAudio = (shouldPause: boolean) => {
-    window.dispatchEvent(new CustomEvent('sync-metland-music', { 
-        detail: !shouldPause 
-    }));
-};
+    // Kirim sinyal ke ButtonCorner: 
+    // isVideoPlaying true -> Musik PAUSE (false)
+    // isVideoPlaying false -> Musik RESUME (true)
+    const controlMarsAudio = (isVideoPlaying: boolean) => {
+        window.dispatchEvent(new CustomEvent('sync-metland-music', { 
+            detail: !isVideoPlaying 
+        }));
+    };
 
     useEffect(() => {
         const handleResize = () => setWindowWidth(window.innerWidth);
         window.addEventListener('resize', handleResize);
         return () => {
             window.removeEventListener('resize', handleResize);
-            controlMarsAudio(false);
+            controlMarsAudio(false); 
         };
     }, []);
 
+    // HANYA menghentikan video saat slide berubah.
+    // Tidak memanggil controlMarsAudio(false) di sini agar BGM tidak "kaget" menyala saat klik slide.
     useEffect(() => {
         videoRefs.current.forEach((iframe) => {
             if (iframe && iframe.contentWindow) {
                 iframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
             }
         });
-        controlMarsAudio(false);
     }, [activeTab, activeIndex]);
 
     const handleNext = () => {
@@ -156,7 +118,7 @@ const controlMarsAudio = (shouldPause: boolean) => {
     return (
         <section className="overflow-hidden bg-white py-16 sm:py-24">
             <div className="container mx-auto px-6 lg:px-24">
-                {/* Judul dengan Animasi Scroll */}
+                {/* Header Section */}
                 <motion.div
                     initial="hidden"
                     whileInView="visible"
@@ -170,7 +132,7 @@ const controlMarsAudio = (shouldPause: boolean) => {
                     <div className="mx-auto mt-4 h-1 w-24 rounded-full bg-teal-500/20" />
                 </motion.div>
 
-                {/* Tabs dengan Animasi Fade-in */}
+                {/* Categories Tab */}
                 <motion.div
                     initial={{ opacity: 0 }}
                     whileInView={{ opacity: 1 }}
@@ -186,9 +148,7 @@ const controlMarsAudio = (shouldPause: boolean) => {
                                 setActiveIndex(0);
                             }}
                             className={`relative pb-4 text-base font-bold transition-all sm:text-lg ${
-                                activeTab === cat
-                                    ? 'text-[#0F5F58]'
-                                    : 'text-slate-400 hover:text-slate-600'
+                                activeTab === cat ? 'text-[#0F5F58]' : 'text-slate-400 hover:text-slate-600'
                             }`}
                         >
                             {t('testimony.cat.' + cat)}
@@ -209,7 +169,7 @@ const controlMarsAudio = (shouldPause: boolean) => {
                     viewport={{ once: true }}
                     variants={containerVariants}
                 >
-                    {/* Content Section (Kiri) */}
+                    {/* Text Testimony */}
                     <motion.div variants={itemVariants} className="max-w-3xl">
                         <AnimatePresence mode="wait">
                             <motion.div
@@ -222,34 +182,20 @@ const controlMarsAudio = (shouldPause: boolean) => {
                                 <Quote className="h-10 w-10 flex-shrink-0 text-teal-500 opacity-30" />
                                 <div>
                                     <p className="mb-4 text-lg italic leading-relaxed text-slate-600 sm:text-xl">
-                                        "
-                                        {
-                                            testimonialData[activeTab][
-                                                activeIndex
-                                            ]?.description
-                                        }
-                                        "
+                                        "{testimonialData[activeTab][activeIndex]?.description}"
                                     </p>
                                     <h4 className="text-2xl font-black text-[#0F5F58]">
-                                        {
-                                            testimonialData[activeTab][
-                                                activeIndex
-                                            ]?.name
-                                        }
+                                        {testimonialData[activeTab][activeIndex]?.name}
                                     </h4>
                                     <p className="text-sm font-bold uppercase tracking-widest text-teal-600">
-                                        {
-                                            testimonialData[activeTab][
-                                                activeIndex
-                                            ]?.role
-                                        }
+                                        {testimonialData[activeTab][activeIndex]?.role}
                                     </p>
                                 </div>
                             </motion.div>
                         </AnimatePresence>
                     </motion.div>
 
-                    {/* Video Interaction Section (Kanan/Bawah) */}
+                    {/* Video Stack Section */}
                     <motion.div
                         variants={itemVariants}
                         className="flex flex-col items-center gap-8 lg:flex-row lg:gap-16"
@@ -264,30 +210,22 @@ const controlMarsAudio = (shouldPause: boolean) => {
                                         key={item.id}
                                         className="group absolute top-0 h-full w-[180px] cursor-pointer overflow-hidden border-4 border-white bg-black shadow-2xl sm:w-[280px] md:w-[320px]"
                                         animate={positionStyle}
-                                        transition={{
-                                            type: 'spring',
-                                            stiffness: 100,
-                                            damping: 20,
-                                        }}
+                                        transition={{ type: 'spring', stiffness: 100, damping: 20 }}
                                         onMouseEnter={() => {
                                             if (isFront) {
-                                                const v = videoRefs.current.get(
-                                                    item.id,
-                                                );
+                                                const v = videoRefs.current.get(item.id);
                                                 if (v && v.contentWindow) {
                                                     v.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
-                                                    controlMarsAudio(true);
+                                                    controlMarsAudio(true); // Pause BGM
                                                 }
                                             }
                                         }}
                                         onMouseLeave={() => {
                                             if (isFront) {
-                                                const v = videoRefs.current.get(
-                                                    item.id,
-                                                );
+                                                const v = videoRefs.current.get(item.id);
                                                 if (v && v.contentWindow) {
                                                     v.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
-                                                    controlMarsAudio(false);
+                                                    controlMarsAudio(false); // Resume BGM
                                                 }
                                             }
                                         }}
@@ -296,21 +234,12 @@ const controlMarsAudio = (shouldPause: boolean) => {
                                         <div className="absolute top-1/2 left-1/2 w-[1600px] h-[900px] max-w-none -translate-x-1/2 -translate-y-1/2 pointer-events-none">
                                             <iframe
                                                 ref={(el) => {
-                                                    if (el)
-                                                        videoRefs.current.set(
-                                                            item.id,
-                                                            el,
-                                                        );
-                                                    else
-                                                        videoRefs.current.delete(
-                                                            item.id,
-                                                        );
+                                                    if (el) videoRefs.current.set(item.id, el);
+                                                    else videoRefs.current.delete(item.id);
                                                 }}
                                                 src={item.videoUrl}
                                                 className={`h-full w-full object-cover transition-all duration-700 ${
-                                                    isFront
-                                                        ? 'opacity-100 grayscale-0'
-                                                        : 'opacity-40 grayscale'
+                                                    isFront ? 'opacity-100 grayscale-0' : 'opacity-40 grayscale'
                                                 }`}
                                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                             />
@@ -319,10 +248,7 @@ const controlMarsAudio = (shouldPause: boolean) => {
                                         {isFront && (
                                             <div className="pointer-events-none absolute inset-0 flex items-center justify-center transition-opacity group-hover:opacity-0">
                                                 <div className="flex h-14 w-14 items-center justify-center rounded-full border border-white/30 bg-white/20 backdrop-blur-md">
-                                                    <Play
-                                                        size={24}
-                                                        className="ml-1 fill-white text-white"
-                                                    />
+                                                    <Play size={24} className="ml-1 fill-white text-white" />
                                                 </div>
                                             </div>
                                         )}
@@ -331,7 +257,7 @@ const controlMarsAudio = (shouldPause: boolean) => {
                             })}
                         </div>
 
-                        {/* Pagination Buttons dengan Animasi Slide-in */}
+                        {/* Navigation */}
                         <motion.div
                             initial={{ opacity: 0, scale: 0.8 }}
                             whileInView={{ opacity: 1, scale: 1 }}

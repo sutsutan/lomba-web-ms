@@ -127,6 +127,7 @@ export default {
   'program.organization.desc': 'Kembangkan keterampilan kepemimpinan dan buat perbedaan melalui organisasi yang dipimpin oleh siswa.',
   'program.major.title': 'Jurusan',
   'program.major.desc': 'Pilih dari jurusan kami yang berfokus pada industri yang dirancang untuk mempersiapkan Anda menuju kesuksesan profesional.',
+  'discover.more': 'Jelajahi Lebih Lanjut',
 
   // Vision Mission
   'vision.direction': 'Arah Kami',

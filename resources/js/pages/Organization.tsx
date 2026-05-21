@@ -44,8 +44,8 @@ interface Organization {
 const TiltCard = ({ image }: { image: string }) => {
     const x = useMotionValue(0);
     const y = useMotionValue(0);
-    const mouseXSpring = useSpring(x);
-    const mouseYSpring = useSpring(y);
+    const mouseXSpring = useSpring(x, { stiffness: 300, damping: 30 });
+    const mouseYSpring = useSpring(y, { stiffness: 300, damping: 30 });
     const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ['10deg', '-10deg']);
     const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ['-10deg', '10deg']);
 
@@ -62,7 +62,7 @@ const TiltCard = ({ image }: { image: string }) => {
             style={{ rotateY, rotateX, transformStyle: 'preserve-3d' }}
             className="group relative mx-auto w-full max-w-[280px] cursor-pointer"
         >
-            <div style={{ transform: 'translateZ(50px)', transformStyle: 'preserve-3d' }} className="relative aspect-square transition-all duration-500">
+            <div style={{ transform: 'translateZ(50px)', transformStyle: 'preserve-3d' }} className="relative aspect-square transition-all duration-50">
                 <img src={image} alt="Logo" className="h-full w-full object-contain drop-shadow-[0_20px_30px_rgba(0,0,0,0.15)] filter group-hover:scale-105 group-hover:drop-shadow-[0_30px_50px_rgba(0,0,0,0.25)]" />
             </div>
             <div className="absolute inset-0 -z-10 flex items-center justify-center opacity-0 transition-opacity duration-700 group-hover:opacity-100">

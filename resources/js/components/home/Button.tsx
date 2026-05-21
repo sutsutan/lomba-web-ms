@@ -1,38 +1,71 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Pause, Play, MessageCircle, UserPlus, Plus  } from 'lucide-react';
+import { Pause, Play, MessageCircle, UserPlus, Plus } from 'lucide-react';
 import marsMetland from '@/assets/mars-metland.mp3';
 
 const ButtonCorner: React.FC = () => {
-  const [isPlaying, setIsPlaying] = useState<boolean>(true);
+  // 1. State utama: apakah user mengizinkan musik menyala secara umum?
+  const [isUserEnabled, setIsUserEnabled] = useState<boolean>(true);
+  
+  // 2. State interupsi: apakah ada video yang sedang mem-pause musik kita?
+  const [isInterrupted, setIsInterrupted] = useState<boolean>(false);
+  
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  // Semi-Circle button
+  // Listen ke event dari video testimonial
+  useEffect(() => {
+    const handleSync = (e: any) => {
+      const shouldMusicPlay = e.detail;
+      // Jika shouldMusicPlay = false, artinya video sedang main, maka kita set interrupted = true
+      setIsInterrupted(!shouldMusicPlay);
+    };
+
+    window.addEventListener('sync-metland-music', handleSync);
+    return () => window.removeEventListener('sync-metland-music', handleSync);
+  }, []);
+
+  // Logika Play/Pause yang sebenarnya
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    audio.volume = 0.4;
+
+    // Musik HANYA berbunyi jika: User mengizinkan DAN tidak sedang diinterupsi video
+    if (isUserEnabled && !isInterrupted) {
+      audio.play().catch(() => {
+        console.log("Autoplay dicegah browser");
+        setIsUserEnabled(false);
+      });
+    } else {
+      audio.pause();
+    }
+  }, [isUserEnabled, isInterrupted]);
+
+  // Handler klik tombol music
+  const toggleMusic = () => {
+    setIsUserEnabled(!isUserEnabled);
+  };
+
   const radius = 90;
   const menuItems = [
-    { id: 'music', icon: isPlaying ? <Pause size={20} /> : <Play size={20} />, color: isPlaying ? 'bg-teal-500' : 'bg-red-500', action: 'music' },
+    { 
+      id: 'music', 
+      icon: isUserEnabled ? <Pause size={20} /> : <Play size={20} />, 
+      color: isUserEnabled ? 'bg-teal-500' : 'bg-red-500', 
+      action: 'music' 
+    },
     { id: 'wa', icon: <MessageCircle size={20} />, color: 'bg-green-500', action: 'wa' },
     { id: 'ppdb', icon: <UserPlus size={20} />, color: 'bg-amber-500', action: 'ppdb' },
   ];
-
-  useEffect(() => {
-    const audio = audioRef.current;
-    if (audio) {
-      audio.volume = 0.4;
-      isPlaying ? audio.play().catch(() => {}) : audio.pause();
-    }
-  }, [isPlaying]);
 
   return (
     <div className="fixed bottom-10 right-10 z-[9999] flex items-center justify-center">
       <audio id='mars-metland-audio' ref={audioRef} src={marsMetland} loop />
 
-      {/* bloom effect */}
       <AnimatePresence>
         {isOpen && menuItems.map((item, index) => {
-          // corner calculation: spread from 180 degrees (left) to 270 degrees (up)
-          // for full circle, divide 360 by the number of items
           const angle = 180 + (index * 45);
           const radian = (angle * Math.PI) / 180;
           const x = Math.cos(radian) * radius;
@@ -46,7 +79,7 @@ const ButtonCorner: React.FC = () => {
               exit={{ x: 0, y: 0, scale: 0, opacity: 0 }}
               transition={{ type: "spring", stiffness: 260, damping: 20, delay: index * 0.05 }}
               onClick={() => {
-                if (item.action === 'music') setIsPlaying(!isPlaying);
+                if (item.action === 'music') toggleMusic();
                 if (item.action === 'wa') window.open('https://wa.me/628xxx', '_blank');
                 if (item.action === 'ppdb') window.location.href = '/ppdb';
               }}
@@ -58,7 +91,6 @@ const ButtonCorner: React.FC = () => {
         })}
       </AnimatePresence>
 
-      {/* Main Button */}
       <motion.button
         onClick={() => setIsOpen(!isOpen)}
         className="relative z-10 flex items-center justify-center w-16 h-16 rounded-full shadow-2xl text-white bg-primary transition-colors overflow-hidden"
@@ -72,8 +104,8 @@ const ButtonCorner: React.FC = () => {
           <Plus size={30} />
         </motion.div>
         
-        {/* Wave Effect */}
-        {isPlaying && (
+        {/* Wave effect hanya muncul jika user mengaktifkan musik DAN tidak sedang diinterupsi */}
+        {isUserEnabled && !isInterrupted && (
             <motion.span 
                 animate={{ scale: [1, 1.5], opacity: [0.5, 0] }}
                 transition={{ repeat: Infinity, duration: 1.5 }}
@@ -85,4 +117,4 @@ const ButtonCorner: React.FC = () => {
   );
 };
 
-export default ButtonCorner;
+export default ButtonCorner; 

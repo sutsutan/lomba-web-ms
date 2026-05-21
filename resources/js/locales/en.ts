@@ -125,6 +125,7 @@ export default {
   'program.organization.desc': 'Develop leadership skills and make a difference through our student-led organizations.',
   'program.major.title': 'Major',
   'program.major.desc': 'Choose from our industry-focused majors designed to prepare you for professional success.',
+  'discover.more': 'Discover More',
 
   // Vision Mission
   'vision.direction': 'Our Direction',
