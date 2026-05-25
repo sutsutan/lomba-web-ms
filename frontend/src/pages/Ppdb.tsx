@@ -64,7 +64,10 @@ const Ppdb = () => {
                     {t('ppdb.journey.desc')}
                   </p>
                   
-                  <button className="px-8 py-3 rounded-full bg-[#9DB8BF] text-[#12606A] font-bold text-sm hover:bg-[#8AA8AF] transition-all active:scale-95 shadow-md flex items-center gap-2 group">
+                  <button 
+                    onClick={() => document.getElementById('formulir-pendaftaran')?.scrollIntoView({ behavior: 'smooth' })}
+                    className="px-8 py-3 rounded-full bg-[#9DB8BF] text-[#12606A] font-bold text-sm hover:bg-[#8AA8AF] transition-all active:scale-95 shadow-md flex items-center gap-2 group"
+                  >
                     {t('ppdb.journey.learn_more')}
                     <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
                   </button>
