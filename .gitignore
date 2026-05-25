@@ -28,3 +28,13 @@ yarn-error.log
 /.zed
 node_modules/
 dist/
+/vendor
+.env.*
+! .env.example
+storage/*.key
+storage/logs/*.log
+storage/framework/cache/*
+storage/framework/sessions/*
+storage/framework/views/*
+*.sql
+.vscode/
