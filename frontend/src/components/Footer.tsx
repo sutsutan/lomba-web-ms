@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { MapPin, Phone, Mail, MessageCircle, Globe} from 'lucide-react';
 import { FaFacebook, FaInstagram, FaYoutube, FaTwitter } from 'react-icons/fa';
 import footerBg from '@/assets/footer.jpg';
-import logo from '@/assets/logo-metland.png';
+import logo from '@/assets/metland.png';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 const Footer = () => {

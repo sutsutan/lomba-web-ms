@@ -5,7 +5,7 @@ import { ArrowRight, User, Phone, School, BookOpen, CheckCircle, Send, FileText 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useLanguage } from '@/contexts/LanguageContext';
-import logoMetland from '@/assets/logo-metland.png';
+import logoMetland from '@/assets/metland.png';
 import achievement1 from '@/assets/achievement-1.jpg';
 import studentEnrollment from '@/assets/pepleg.webp';
 

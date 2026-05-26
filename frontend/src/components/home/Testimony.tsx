@@ -81,8 +81,6 @@ const TestimonialVideo = () => {
         };
     }, []);
 
-    // HANYA menghentikan video saat slide berubah.
-    // Tidak memanggil controlMarsAudio(false) di sini agar BGM tidak "kaget" menyala saat klik slide.
     useEffect(() => {
         videoRefs.current.forEach((iframe) => {
             if (iframe && iframe.contentWindow) {

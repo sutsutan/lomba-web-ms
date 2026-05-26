@@ -12,7 +12,7 @@ import extracurricularBasket from '@/assets/extracurricular-basket.jpg';
 import extracurricularFutsal from '@/assets/extracurricular-futsal.webp';
 import extracurricularModelling from '@/assets/extracurricular-modelling.webp';
 import Kkr from '@/assets/kkr.jpeg';
-import logo from '@/assets/logo-metland.png';
+import logo from '@/assets/metland.png';
 import LogoOsis from '@/assets/logo-osis.png';
 import Itec from '@/assets/Logo_ITEC.png';
 import Mahes from '@/assets/mahes.png';
