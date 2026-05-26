@@ -89,10 +89,9 @@ const App = () => (
                 <Route path="/more-news/:id" element={<NewsDetail />} />  
                 
                 {/* Admin Routes */}
-                <Route path="/admin/login" element={<AdminLoginPage />} />
-                
-                {/* Nested Admin Routes dengan RequireAuth */}
-                <Route path="/admin" element={<AdminRequireAuth><AdminLayout /></AdminRequireAuth>}>
+                <Route path="/internal/sekolah/login" element={<AdminLoginPage />} />
+
+                <Route path="/dashboard" element={<AdminRequireAuth><AdminLayout /></AdminRequireAuth>}>
                   <Route index element={<AdminDashboard />} />
                   <Route path="hero" element={<AdminHeroPage />} />
                   <Route path="achievements" element={<AdminAchievementsPage />} />
@@ -108,9 +107,8 @@ const App = () => (
                   <Route path="news" element={<AdminNewsPage />} />
                   <Route path="explore-gallery" element={<AdminExploreGalleryPage />} />
                   <Route path="alumni" element={<AdminAlumniPage />} />
-                </Route> {/* <-- Menutup tag Route /admin yang hilang */}
+                </Route>
 
-                {/* Fallback 404 Route - Sebaiknya ditaruh paling bawah */}
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </AnimatePresence>

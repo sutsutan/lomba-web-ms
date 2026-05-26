@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Icon } from '../../components/admin/Icons'; // Pastikan path Icon benar
+import { Icon } from '../../components/admin/Icons';
 
 const mockStats = {
   teachers: 42, news: 18, alumni: 236, students_works: 54,

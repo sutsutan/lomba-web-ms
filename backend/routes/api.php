@@ -22,7 +22,7 @@ use App\Http\Controllers\Api\{
 
 // Auth
 
-Route::post('/login', [AuthController::class, 'login']);
+Route::post('/internal/sekolah/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
 
 // Public endpoints
@@ -50,7 +50,7 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 // Protected - admin only
-Route::middleware(['auth:sanctum', 'admin'])->prefix('admin')->group(function () {
+Route::middleware(['auth:sanctum', 'admin'])->prefix('/internal/sekolah/login')->group(function () {
     Route::get('/stats', [AuthController::class, 'adminStats']);
     Route::post('/upload', [UploadController::class, 'upload']);
 

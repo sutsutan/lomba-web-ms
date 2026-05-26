@@ -20,16 +20,16 @@ export default function AdminLoginPage() {
   setIsSubmitting(true);
 
   try {
-    await axios.get('/sanctum/csrf-cookie', {
-      baseURL: 'http://localhost:8000',
-      withCredentials: true 
-    });
-
     await login(email, password);
-    
-    navigate('/admin');
-  } catch (err: unknown) {
-    setError('Email atau password salah. Pastikan data yang dimasukkan benar.');
+    navigate('/dashboard'); 
+  } catch (err: any) {
+    if (err.response?.status === 422) {
+      const messages = err.response.data.errors;
+      const firstError = Object.values(messages)[0] as string[];
+      setError(firstError[0]); 
+    } else {
+      setError('Email atau password salah.');
+    }
   } finally {
     setIsSubmitting(false);
   }

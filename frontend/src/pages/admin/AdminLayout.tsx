@@ -1,42 +1,42 @@
 import React, { useState } from 'react';
 import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../contexts/AuthContext'; // Sesuaikan path context Anda
-import { Icon } from '../../components/admin/Icons'; // Pastikan path Icon benar
+import { useAuth } from '../../contexts/AuthContext';
+import { Icon } from '../../components/admin/Icons';
 
 export default function AdminLayout() {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   
-  // Mengambil data user dan fungsi logout dari AuthContext, bukan dari props!
   const { user, logout } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
 
   const navItems = [
-    { path: '/admin', label: 'Dashboard', icon: 'dashboard' },
-    { path: '/admin/hero', label: 'Hero Background', icon: 'image' },
-    { path: '/admin/achievements', label: 'Prestasi', icon: 'trophy' },
-    { path: '/admin/partnerships', label: 'Kemitraan', icon: 'handshake' },
-    { path: '/admin/testimonies', label: 'Testimoni', icon: 'star' },
-    { path: '/admin/majors', label: 'Jurusan', icon: 'book' },
-    { path: '/admin/facilities', label: 'Fasilitas', icon: 'building' },
-    { path: '/admin/activity-gallery', label: 'Galeri Kegiatan', icon: 'camera' },
-    { path: '/admin/student-works', label: 'Karya Siswa', icon: 'palette' },
-    { path: '/admin/teachers', label: 'Guru & Staf', icon: 'users' },
-    { path: '/admin/extracurriculars', label: 'Ekskul', icon: 'sportball' },
-    { path: '/admin/organizations', label: 'Organisasi', icon: 'flag' },
-    { path: '/admin/news', label: 'Berita', icon: 'newspaper' },
-    { path: '/admin/explore-gallery', label: 'Galeri Eksplorasi', icon: 'camera' },
-    { path: '/admin/alumni', label: 'Alumni', icon: 'globe' },
+    { path: '/dashboard', label: 'Dashboard', icon: 'dashboard' },
+    { path: '/dashboard/hero', label: 'Hero Background', icon: 'image' },
+    { path: '/dashboard/achievements', label: 'Prestasi', icon: 'trophy' },
+    { path: '/dashboard/partnerships', label: 'Kemitraan', icon: 'handshake' },
+    { path: '/dashboard/testimonies', label: 'Testimoni', icon: 'star' },
+    { path: '/dashboard/majors', label: 'Jurusan', icon: 'book' },
+    { path: '/dashboard/facilities', label: 'Fasilitas', icon: 'building' },
+    { path: '/dashboard/activity-gallery', label: 'Galeri Kegiatan', icon: 'camera' },
+    { path: '/dashboard/student-works', label: 'Karya Siswa', icon: 'palette' },
+    { path: '/dashboard/teachers', label: 'Guru & Staf', icon: 'users' },
+    { path: '/dashboard/extracurriculars', label: 'Ekskul', icon: 'sportball' },
+    { path: '/dashboard/organizations', label: 'Organisasi', icon: 'flag' },
+    { path: '/dashboard/news', label: 'Berita', icon: 'newspaper' },
+    { path: '/dashboard/explore-gallery', label: 'Galeri Eksplorasi', icon: 'camera' },
+    { path: '/dashboard/alumni', label: 'Alumni', icon: 'globe' },
   ];
 
   const handleLogoutClick = async () => {
     if (confirm('Apakah Anda yakin ingin keluar dari sistem admin?')) {
       await logout();
-      navigate('/admin/login');
+      navigate('/internal/sekolah/login');
     }
   };
 
   const currentLabel = navItems.find(item => item.path === location.pathname)?.label || 'Dashboard';
+  
 
   return (
     <div className="flex h-screen bg-gray-50 overflow-hidden">
@@ -50,19 +50,23 @@ export default function AdminLayout() {
         </div>
         
         <nav className="flex-1 overflow-y-auto p-3 space-y-1">
-          {navItems.map(item => {
-            const isActive = location.pathname === item.path;
-            return (
-              <Link 
-                key={item.path} 
-                to={item.path} 
-                className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors ${isActive ? 'bg-indigo-600 text-white shadow-md' : 'hover:bg-slate-900 hover:text-slate-100'}`}
-              >
-                <Icon name={item.icon} className="w-5 h-5 flex-shrink-0" />
-                {!sidebarCollapsed && <span>{item.label}</span>}
-              </Link>
-            );
-          })}
+         {navItems.map(item => {
+        const isActive = location.pathname === item.path || 
+                        (item.path !== '/dashboard' && location.pathname.startsWith(item.path));
+        
+        return (
+          <Link 
+            key={item.path} 
+            to={item.path} 
+            className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors ${
+              isActive ? 'bg-indigo-600 text-white shadow-md' : 'hover:bg-slate-900 hover:text-slate-100'
+            }`}
+          >
+            <Icon name={item.icon} className="w-5 h-5 flex-shrink-0" />
+            {!sidebarCollapsed && <span>{item.label}</span>}
+          </Link>
+        );
+      })}
         </nav>
 
         <div className="p-4 border-t border-slate-800 bg-slate-900 flex items-center justify-between">
@@ -94,7 +98,6 @@ export default function AdminLayout() {
         </header>
 
         <main className="flex-1 overflow-y-auto bg-gray-50/50">
-          {/* Outlet inilah yang bertugas merender halaman internal admin seperti Dashboard, Hero, dll */}
           <Outlet />
         </main>
       </div>

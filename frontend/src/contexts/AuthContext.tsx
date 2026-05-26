@@ -10,6 +10,7 @@ interface User {
 
 interface AuthContextType {
   user: User | null;
+  isAdmin: boolean;
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
   loading: boolean;
@@ -21,29 +22,39 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    api.get('/api/me')
-      .then(res => setUser(res.data))
-      .catch((err) => {
-        if (err.response?.status !== 401) {
-            console.error("Terjadi error tak terduga:", err);
-        }
-        setUser(null);
-      })
-      .finally(() => setLoading(false));
-  }, []);
+ useEffect(() => {
+  api.get('/api/me')
+    .then(res => setUser(res.data))
+    .catch((err) => {
+      if (err.response?.status !== 401) {
+        console.error("Terjadi masalah saat mengecek sesi:", err);
+      }
+      setUser(null);
+    })
+    .finally(() => setLoading(false));
+}, []);
 
   const login = async (email: string, password: string): Promise<void> => {
     try {
+      console.log("Meminta CSRF cookie...");
       await api.get('/sanctum/csrf-cookie');
       
-      const res = await api.post('/api/login', { email, password });
+      console.log("Mengirim request login...");
+      const res = await api.post('/api/internal/sekolah/login', { email, password });
       
       setUser(res.data.user);
-    } catch (error) {
-      console.error("Login gagal:", error);
-      throw error;
+    } catch (error: any) {
+      if (error.response?.status === 419) {
+       console.error("CSRF Token Mismatch: Periksa SESSION_DOMAIN di .env Laravel!");
     }
+  if (error.response && error.response.status === 422) {
+    console.log("Detail Error Validasi:", error.response.data.errors);
+    alert("Login gagal: " + JSON.stringify(error.response.data.errors));
+  } else {
+    console.error("Login gagal:", error);
+  }
+  throw error;
+}
   };
 
   const logout = async () => {
@@ -52,7 +63,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, loading }}>
+    <AuthContext.Provider value={{ 
+      user, 
+      isAdmin: user?.role === 'admin',
+      login, 
+      logout, 
+      loading 
+    }}>
       {children}
     </AuthContext.Provider>
   );
