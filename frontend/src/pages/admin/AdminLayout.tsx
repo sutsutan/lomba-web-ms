@@ -27,6 +27,7 @@ export default function AdminLayout() {
     { path: '/dashboard/news', label: 'Berita', icon: 'newspaper' },
     { path: '/dashboard/explore-gallery', label: 'Galeri Eksplorasi', icon: 'camera' },
     { path: '/dashboard/alumni', label: 'Alumni', icon: 'globe' },
+    { path: '/dashboard/manage-user', label: 'Manajemen User', icon: 'users' },
   ];
 
   const handleLogoutClick = async () => {
@@ -52,26 +53,26 @@ export default function AdminLayout() {
         </div>
         
         <nav className="flex-1 overflow-y-auto p-3 space-y-1">
-         {navItems.map(item => {
-        const isActive = location.pathname === item.path || 
-                        (item.path !== '/dashboard' && location.pathname.startsWith(item.path));
-        
-        return (
-          <Link 
-            key={item.path} 
-            to={item.path} 
-            className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors ${
-              isActive ? 'bg-teal-600 text-white shadow-md' : 'hover:bg-teal-800 hover:text-slate-100'
-            }`}
-          >
-            <Icon name={item.icon} className="w-5 h-5 flex-shrink-0" />
-            {!sidebarCollapsed && <span>{item.label}</span>}
-          </Link>
-        );
-      })}
+          {navItems.map(item => {
+            const isActive = location.pathname === item.path || 
+                            (item.path !== '/dashboard' && location.pathname.startsWith(item.path));
+            
+            return (
+              <Link 
+                key={item.path} 
+                to={item.path} 
+                className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors ${
+                  isActive ? 'bg-teal-600 text-white shadow-md' : 'hover:bg-teal-800 hover:text-slate-100'
+                }`}
+              >
+                <Icon name={item.icon} className="w-5 h-5 flex-shrink-0" />
+                {!sidebarCollapsed && <span>{item.label}</span>}
+              </Link>
+            );
+          })}
         </nav>
 
-        <div className="p-4 border-t border-teal-800 bg-teal-900 flex items-center justify-between">
+        <div className="p-4 border-b border-teal-800 bg-teal-900 flex items-center justify-between">
           {!sidebarCollapsed && (
             <div className="truncate pr-2">
               <p className="text-xs text-slate-400 font-semibold truncate">{user?.name || 'Admin Sekolah'}</p>

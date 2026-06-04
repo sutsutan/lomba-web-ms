@@ -1,69 +1,47 @@
-import achievementImg from '@/assets/achievement-1.jpg';
-import ScrollReveal from '@/components/ScrollReveal';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ChevronLeft, ChevronRight, Trophy } from 'lucide-react';
-import { useState } from 'react';
-import { useLanguage } from '@/contexts/LanguageContext';
 import { Link } from 'react-router-dom';
-
-interface Achievement {
-    id: number;
-    title: string;
-    student: string;
-    description: string;
-    category: string;
-    image: string;
-    newsId: number;
-}
-
-
+import { useLanguage } from '@/contexts/LanguageContext';
+import ScrollReveal from '@/components/ScrollReveal';
+import { fetchPublicAchievements, AchievementData } from '@/services/Achievement';
 
 const AchievementsSlider = () => {
     const { t } = useLanguage();
     const [currentIndex, setCurrentIndex] = useState(0);
+    const [achievements, setAchievements] = useState<AchievementData[]>([]);
+    const [loading, setLoading] = useState(true);
 
-    const achievements: Achievement[] = [
-        {
-            id: 1,
-            title: t('achievements.1.title'),
-            student: 'Ghattan Firstian Ilhaq',
-            description: t('achievements.1.desc'),
-            category: t('achievements.1.cat'),
-            image: achievementImg,
-            newsId: 1,
-        },
-        {
-            id: 2,
-            title: t('achievements.2.title'),
-            student: 'Sutan Bariq Rajabbani Pasai',
-            description: t('achievements.2.desc'),
-            category: t('achievements.2.cat'),
-            image: achievementImg,
-            newsId: 5,
-        },
-        {
-            id: 3,
-            title: t('achievements.3.title'),
-            student: 'Hanna Maria',
-            description: t('achievements.3.desc'),
-            category: t('achievements.3.cat'),
-            image: achievementImg,
-            newsId: 6,
-        },
-    ];
+    useEffect(() => {
+        fetchPublicAchievements().then((data) => {
+            setAchievements(data);
+            setLoading(false);
+        });
+    }, []);
 
     const nextSlide = () => {
+        if (achievements.length === 0) return;
         setCurrentIndex((prev) => (prev + 1) % achievements.length);
     };
 
     const prevSlide = () => {
+        if (achievements.length === 0) return;
         setCurrentIndex(
             (prev) => (prev - 1 + achievements.length) % achievements.length,
         );
     };
 
-    const nextSlideIndex = (currentIndex + 1) % achievements.length;
-    const prevSlideIndex = (currentIndex - 1 + achievements.length) % achievements.length;
+    if (loading) {
+        return (
+            <div className="section-padding bg-section flex h-60 items-center justify-center text-[#0F5F58] font-medium">
+                Memuat data prestasi...
+            </div>
+        );
+    }
+
+    if (achievements.length === 0) {
+        return null;
+    }
 
     return (
         <section className="section-padding bg-section overflow-hidden">
@@ -81,40 +59,37 @@ const AchievementsSlider = () => {
                         </div>
                     </ScrollReveal>
 
-                    {/* Custom Navigation Button (Diamond Style) */}
-                    <ScrollReveal delay={0.2}>
-                        <div className="mt-6 flex items-center gap-2 md:mt-0">
-                            <div className="relative flex h-16 w-24 items-center justify-center md:h-20 md:w-32">
-                                {/* Garis miring */}
-                                <div className="absolute z-10 h-12 w-[2px] rotate-[45deg] bg-primary/30 md:h-16" />
+                    {/* Custom Navigation Button (Diamond Style) - Hanya tampil jika data > 1 */}
+                    {achievements.length > 1 && (
+                        <ScrollReveal delay={0.2}>
+                            <div className="mt-6 flex items-center gap-2 md:mt-0">
+                                <div className="relative flex h-16 w-24 items-center justify-center md:h-20 md:w-32">
+                                    <div className="absolute z-10 h-12 w-[2px] rotate-[45deg] bg-primary/30 md:h-16" />
 
-                                {/* Button Prev */}
-                                <button
-                                    onClick={prevSlide}
-                                    className="group absolute -top-1 left-1 flex h-10 w-10 rotate-45 items-center justify-center border-2 border-primary/40 transition-all hover:bg-primary hover:text-white md:left-2 md:h-12 md:w-12"
-                                >
-                                    <ChevronLeft className="h-5 w-5 -rotate-45 transition-transform group-active:-translate-x-1 md:h-6 md:w-6" />
-                                </button>
+                                    <button
+                                        onClick={prevSlide}
+                                        className="group absolute -top-1 left-1 flex h-10 w-10 rotate-45 items-center justify-center border-2 border-primary/40 transition-all hover:bg-primary hover:text-white md:left-2 md:h-12 md:w-12"
+                                    >
+                                        <ChevronLeft className="h-5 w-5 -rotate-45 transition-transform group-active:-translate-x-1 md:h-6 md:w-6" />
+                                    </button>
 
-                                {/* Button Next */}
-                                <button
-                                    onClick={nextSlide}
-                                    className="group absolute -bottom-1 right-1 flex h-10 w-10 rotate-45 items-center justify-center border-2 border-primary/40 transition-all hover:bg-primary hover:text-white md:right-2 md:h-12 md:w-12"
-                                >
-                                    <ChevronRight className="h-5 w-5 -rotate-45 transition-transform group-active:translate-x-1 md:h-6 md:w-6" />
-                                </button>
+                                    <button
+                                        onClick={nextSlide}
+                                        className="group absolute -bottom-1 right-1 flex h-10 w-10 rotate-45 items-center justify-center border-2 border-primary/40 transition-all hover:bg-primary hover:text-white md:right-2 md:h-12 md:w-12"
+                                    >
+                                        <ChevronRight className="h-5 w-5 -rotate-45 transition-transform group-active:translate-x-1 md:h-6 md:w-6" />
+                                    </button>
+                                </div>
                             </div>
-                        </div>
-                    </ScrollReveal>
+                        </ScrollReveal>
+                    )}
                 </div>
 
                 {/* Kontainer Utama Slider */}
                 <div className="relative mx-auto w-full max-w-6xl">
-                    {/* Layer Fade Smooth di Samping */}
                     <div className="from-section via-section/80 pointer-events-none absolute inset-y-0 left-0 z-20 hidden w-12 bg-gradient-to-r to-transparent md:block md:w-32" />
                     <div className="from-section via-section/80 pointer-events-none absolute inset-y-0 right-0 z-20 hidden w-12 bg-gradient-to-l to-transparent md:block md:w-32" />
 
-                    {/* Area Slider */}
                     <div className="relative overflow-visible">
                         <motion.div
                             className="flex gap-4 md:gap-8 lg:gap-12"
@@ -133,28 +108,24 @@ const AchievementsSlider = () => {
                                     className="min-w-full"
                                     animate={{
                                         scale: index === currentIndex ? 1 : 0.9,
-                                        opacity:
-                                            index === currentIndex ? 1 : 0.4,
-                                        filter:
-                                            index === currentIndex
-                                                ? 'blur(0px)'
-                                                : 'blur(2px)',
+                                        opacity: index === currentIndex ? 1 : 0.4,
+                                        filter: index === currentIndex ? 'blur(0px)' : 'blur(2px)',
                                     }}
                                     transition={{ duration: 0.4 }}
                                 >
-                                    {/* New Design Card - Inspired by the image */}
                                     <div className="relative overflow-hidden rounded-3xl bg-gradient-to-t from-white via-[#E2F0F9]/20 to-[#E2F0F9] shadow-[0_20px_60px_rgba(0,0,0,0.15)] md:rounded-[3rem]">
                                         <div className="grid items-center gap-6 p-8 md:grid-cols-[1.2fr,0.8fr] md:gap-0 md:p-12 lg:p-16">
+                                            
                                             {/* Left Content */}
                                             <div className="order-2 space-y-4 md:order-1 md:space-y-6">
                                                 {/* Category Badge */}
-                                                <span className="inline-block rounded-2xl border border-white/50 bg-white/90 px-4 py-2 text-xs font-bold text-slate-700 shadow-sm backdrop-blur-sm md:px-6 md:py-2.5 md:text-sm">
-                                                    {item.category}
+                                                <span className="inline-block rounded-2xl border border-white/50 bg-white/90 px-4 py-2 text-xs font-bold text-slate-700 shadow-sm backdrop-blur-sm md:px-6 md:py-2.5 md:text-sm uppercase tracking-wider">
+                                                    {item.category} ({item.year})
                                                 </span>
 
                                                 {/* Student Name */}
                                                 <h3 className="text-2xl font-black leading-tight text-[#0F5F58] md:text-3xl lg:text-4xl xl:text-5xl">
-                                                    {item.student}
+                                                    {item.holder_name}
                                                 </h3>
 
                                                 {/* Description */}
@@ -162,29 +133,33 @@ const AchievementsSlider = () => {
                                                     {item.description}
                                                 </p>
 
-                                                {/* Consultation Button */}
-                                                <Link to={`/more-news/${item.newsId}`} className="group mt-2 inline-flex items-center justify-center gap-3 rounded-full bg-[#0F4C5C] px-8 py-3.5 text-sm font-bold text-white shadow-xl transition-all hover:bg-[#0a3844] hover:shadow-2xl active:scale-95 md:mt-4 md:px-10 md:py-4 md:text-base">
+                                                {/* Detail/News Link */}
+                                                <Link 
+                                                    to={item.news_id ? `/more-news/${item.news_id}` : '#'} 
+                                                    className={`group mt-2 inline-flex items-center justify-center gap-3 rounded-full bg-[#0F4C5C] px-8 py-3.5 text-sm font-bold text-white shadow-xl transition-all hover:bg-[#0a3844] hover:shadow-2xl active:scale-95 md:mt-4 md:px-10 md:py-4 md:text-base ${!item.news_id && 'pointer-events-none opacity-60'}`}
+                                                >
                                                     <Trophy className="h-4 w-4 md:h-5 md:w-5" />
                                                     {t('achievements.learn_more')}
                                                 </Link>
                                             </div>
 
                                             {/* Right Image - Circle */}
-                                            <div className="px-15 order-1 flex justify-center md:order-2 md:justify-end">
+                                            <div className="order-1 flex justify-center md:order-2 md:justify-end">
                                                 <div className="relative">
-                                                    {/* Circle Background */}
                                                     <div className="absolute inset-0 scale-95 transform rounded-full bg-gradient-to-br md:scale-100" />
-
-                                                    {/* Image Container */}
                                                     <div className="relative h-48 w-48 overflow-hidden rounded-full border-4 shadow-2xl md:h-64 md:w-64 lg:h-80 lg:w-80">
                                                         <img
-                                                            src={item.image}
-                                                            alt={item.student}
+                                                            src={item.image_url}
+                                                            alt={item.holder_name}
                                                             className="h-full w-full object-cover"
+                                                            onError={(e) => {
+                                                                e.currentTarget.src = 'https://placehold.co/600x600/0f172a/fff?text=🏆';
+                                                            }}
                                                         />
                                                     </div>
                                                 </div>
                                             </div>
+
                                         </div>
                                     </div>
                                 </motion.div>
@@ -192,20 +167,22 @@ const AchievementsSlider = () => {
                         </motion.div>
                     </div>
 
-                    {/* Dots Indicator */}
-                    <div className="mt-8 flex justify-center gap-2 md:mt-12 md:gap-3">
-                        {achievements.map((_, index) => (
-                            <button
-                                key={index}
-                                onClick={() => setCurrentIndex(index)}
-                                className={`rounded-full transition-all duration-500 ${
-                                    index === currentIndex
-                                        ? 'h-2.5 w-8 bg-primary md:h-3 md:w-10'
-                                        : 'h-2.5 w-2.5 bg-slate-300 md:h-3 md:w-3'
-                                }`}
-                            />
-                        ))}
-                    </div>
+                    {/* Dots Indicator - Hanya tampil jika data > 1 */}
+                    {achievements.length > 1 && (
+                        <div className="mt-8 flex justify-center gap-2 md:mt-12 md:gap-3">
+                            {achievements.map((_, index) => (
+                                <button
+                                    key={index}
+                                    onClick={() => setCurrentIndex(index)}
+                                    className={`rounded-full transition-all duration-500 ${
+                                        index === currentIndex
+                                            ? 'h-2.5 w-8 bg-primary md:h-3 md:w-10'
+                                            : 'h-2.5 w-2.5 bg-slate-300 md:h-3 md:w-3'
+                                    }`}
+                                />
+                            ))}
+                        </div>
+                    )}
                 </div>
             </div>
         </section>

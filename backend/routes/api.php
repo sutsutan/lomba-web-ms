@@ -17,7 +17,7 @@ use App\Http\Controllers\Api\{
     NewsController,
     ExploreGalleryController,
     AlumniController,
-    UploadController
+    UploadController,
 };
 
 // Auth
@@ -42,6 +42,9 @@ Route::get('/news', [NewsController::class, 'index']);
 Route::get('/news/{slug}', [NewsController::class, 'show']);
 Route::get('/explore-galleries', [ExploreGalleryController::class, 'index']);
 Route::get('/alumni', [AlumniController::class, 'index']);
+Route::get('/heroes', [HeroBackgroundController::class, 'index']);
+
+Route::apiResource('teachers', TeacherController::class);
 
 // Protected - user
 Route::middleware('auth:sanctum')->group(function () {

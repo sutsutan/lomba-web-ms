@@ -5,20 +5,22 @@ import { Icon } from '../../components/admin/Icons';
 const mockStats = {
   teachers: 42, news: 18, alumni: 236, students_works: 54,
   achievements: 31, organizations: 8, extracurriculars: 14, partnerships: 27,
+  users: 115,
 };
 
 export default function AdminDashboard() {
   const navigate = useNavigate();
 
   const stats = [
-    { label: 'Guru & Staf', value: mockStats.teachers, icon: 'users', color: 'indigo', path: '/admin/teachers' },
-    { label: 'Berita', value: mockStats.news, icon: 'newspaper', color: 'blue', path: '/admin/news' },
-    { label: 'Alumni', value: mockStats.alumni, icon: 'globe', color: 'emerald', path: '/admin/alumni' },
-    { label: 'Karya Siswa', value: mockStats.students_works, icon: 'palette', color: 'violet', path: '/admin/student-works' },
-    { label: 'Prestasi', value: mockStats.achievements, icon: 'trophy', color: 'amber', path: '/admin/achievements' },
-    { label: 'Organisasi', value: mockStats.organizations, icon: 'flag', color: 'rose', path: '/admin/organizations' },
-    { label: 'Ekskul', value: mockStats.extracurriculars, icon: 'sportball', color: 'orange', path: '/admin/extracurriculars' },
-    { label: 'Mitra', value: mockStats.partnerships, icon: 'handshake', color: 'teal', path: '/admin/partnerships' },
+    { label: 'Guru & Staf', value: mockStats.teachers, icon: 'users', color: 'indigo', path: '/dashboard/teachers' },
+    { label: 'Berita', value: mockStats.news, icon: 'newspaper', color: 'blue', path: '/dashboard/news' },
+    { label: 'Alumni', value: mockStats.alumni, icon: 'globe', color: 'emerald', path: '/dashboard/alumni' },
+    { label: 'Karya Siswa', value: mockStats.students_works, icon: 'palette', color: 'violet', path: '/dashboard/student-works' },
+    { label: 'Prestasi', value: mockStats.achievements, icon: 'trophy', color: 'amber', path: '/dashboard/achievements' },
+    { label: 'Organisasi', value: mockStats.organizations, icon: 'flag', color: 'rose', path: '/dashboard/organizations' },
+    { label: 'Ekskul', value: mockStats.extracurriculars, icon: 'sportball', color: 'orange', path: '/dashboard/extracurriculars' },
+    { label: 'Mitra', value: mockStats.partnerships, icon: 'handshake', color: 'teal', path: '/dashboard/partnerships' },
+    { label: 'Manajemen User', value: mockStats.users, icon: 'users', color: 'cyan', path: '/dashboard/manage-user' },
   ];
 
   const colorMap: Record<string, string> = {
@@ -30,6 +32,7 @@ export default function AdminDashboard() {
     rose: 'bg-rose-50 text-rose-600',
     orange: 'bg-orange-50 text-orange-600',
     teal: 'bg-teal-50 text-teal-600',
+    cyan: 'bg-cyan-50 text-cyan-600',
   };
 
   return (
@@ -39,7 +42,8 @@ export default function AdminDashboard() {
         <p className="text-gray-500 mt-1">Kelola seluruh konten website sekolah dari sini.</p>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+      {/* Grid Statistik Utama */}
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 mb-8">
         {stats.map(stat => (
           <div key={stat.label} className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
             <div className={`w-10 h-10 rounded-xl flex items-center justify-center mb-3 ${colorMap[stat.color]}`}>
@@ -52,6 +56,7 @@ export default function AdminDashboard() {
       </div>
 
       <div className="grid md:grid-cols-2 gap-6">
+        {/* Panel Akses Cepat */}
         <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
           <h3 className="font-bold text-gray-800 mb-4">Akses Cepat</h3>
           <div className="grid grid-cols-2 gap-3">
@@ -70,6 +75,7 @@ export default function AdminDashboard() {
           </div>
         </div>
 
+        {/* Info Detail Sistem */}
         <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
           <h3 className="font-bold text-gray-800 mb-4">Info Sistem</h3>
           <div className="space-y-3">
@@ -92,4 +98,4 @@ export default function AdminDashboard() {
       </div>
     </div>
   );
-}
+} 

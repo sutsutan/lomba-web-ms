@@ -1,4 +1,4 @@
-import VisionMission from "@/pages/MissionVission";
+import VisionMission from "@/pages/public/MissionVission";
 
 export default {
   // Navbar

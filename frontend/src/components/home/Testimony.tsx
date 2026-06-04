@@ -1,286 +1,289 @@
+// Testimony.tsx
 'use client';
 
 import { AnimatePresence, motion } from 'framer-motion';
 import { ChevronLeft, ChevronRight, Play, Quote } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
-
-const youtubeUrl = 'https://www.youtube.com/embed/Ech9a-wIzTM?enablejsapi=1&autoplay=0&controls=0&loop=1&playlist=Ech9a-wIzTM&playsinline=1&rel=0';
+import { fetchPublicTestimonies, TestimonialItem } from '@/services/Testimony';
 
 const containerVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-        opacity: 1,
-        y: 0,
-        transition: {
-            duration: 0.8,
-            staggerChildren: 0.2,
-        },
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.8,
+      staggerChildren: 0.2,
     },
+  },
 };
 
 const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0 },
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0 },
 };
 
-interface TestimonialItem {
-    id: number;
-    name: string;
-    role: string;
-    videoUrl: string;
-    description: string;
-}
-
 const TestimonialVideo = () => {
-    const { t } = useLanguage();
-    const [activeTab, setActiveTab] = useState<string>('student');
-    const [activeIndex, setActiveIndex] = useState(0);
-    const [windowWidth, setWindowWidth] = useState(
-        typeof window !== 'undefined' ? window.innerWidth : 1200,
-    );
+  const { t } = useLanguage();
+  const [activeTab, setActiveTab] = useState<string>('student');
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [testimonialData, setTestimonialData] = useState<Record<string, TestimonialItem[]>>({
+    student: [], parents: [], teacher: [], alumni: [], industry: []
+  });
+  const [windowWidth, setWindowWidth] = useState(
+    typeof window !== 'undefined' ? window.innerWidth : 1200,
+  );
 
-    const testimonialData: Record<string, TestimonialItem[]> = {
-        student: [
-            { id: 1, name: 'Andini Julianti', role: t('testimony.role.it'), videoUrl: youtubeUrl, description: t('testimony.desc.1') },
-            { id: 2, name: 'Budi Santoso', role: t('testimony.role.multimedia'), videoUrl: youtubeUrl, description: t('testimony.desc.2') },
-            { id: 3, name: 'Siti Aminah', role: t('testimony.role.culinary'), videoUrl: youtubeUrl, description: t('testimony.desc.3') },
-        ],
-        parents: [
-            { id: 4, name: 'Ibu Ratna', role: t('testimony.role.parent'), videoUrl: youtubeUrl, description: t('testimony.desc.4') },
-        ],
-        teacher: [
-            { id: 5, name: 'Bpk. Aris', role: t('testimony.role.eng'), videoUrl: youtubeUrl, description: t('testimony.desc.5') },
-        ],
-        alumni: [
-            { id: 6, name: 'Rizky Ramadhan', role: t('testimony.role.sw'), videoUrl: youtubeUrl, description: t('testimony.desc.6') },
-        ],
-        industry: [
-            { id: 7, name: 'Google Indonesia', role: t('testimony.role.industry'), videoUrl: youtubeUrl, description: t('testimony.desc.7') },
-        ],
-    };
+  const videoRefs = useRef<Map<number, HTMLIFrameElement>>(new Map());
+  const categories = Object.keys(testimonialData);
 
-    const videoRefs = useRef<Map<number, HTMLIFrameElement>>(new Map());
-    const categories = Object.keys(testimonialData);
-
-    // Kirim sinyal ke ButtonCorner: 
-    // isVideoPlaying true -> Musik PAUSE (false)
-    // isVideoPlaying false -> Musik RESUME (true)
-    const controlMarsAudio = (isVideoPlaying: boolean) => {
-        window.dispatchEvent(new CustomEvent('sync-metland-music', { 
-            detail: !isVideoPlaying 
-        }));
-    };
-
-    useEffect(() => {
-        const handleResize = () => setWindowWidth(window.innerWidth);
-        window.addEventListener('resize', handleResize);
-        return () => {
-            window.removeEventListener('resize', handleResize);
-            controlMarsAudio(false); 
-        };
-    }, []);
-
-    useEffect(() => {
-        videoRefs.current.forEach((iframe) => {
-            if (iframe && iframe.contentWindow) {
-                iframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
-            }
+  // Fetch data dari database Laravel
+  useEffect(() => {
+    fetchPublicTestimonies().then((data) => {
+      // Jika data dari backend kosong, gunakan fallback default agar web tidak blank
+      const hasData = Object.values(data).some(arr => arr.length > 0);
+      if (hasData) {
+        setTestimonialData(data);
+        // Set tab aktif pertama yang memiliki data
+        const firstActive = Object.keys(data).find(key => data[key].length > 0);
+        if (firstActive) setActiveTab(firstActive);
+      } else {
+        const fallBackUrl = 'https://www.youtube.com/embed/Ech9a-wIzTM?enablejsapi=1&autoplay=0&controls=0&loop=1&playlist=Ech9a-wIzTM&playsinline=1&rel=0';
+        setTestimonialData({
+          student: [
+            { id: 1, name: 'Andini Julianti', role: t('testimony.role.it'), videoUrl: fallBackUrl, description: t('testimony.desc.1') },
+          ],
+          parents: [{ id: 4, name: 'Ibu Ratna', role: t('testimony.role.parent'), videoUrl: fallBackUrl, description: t('testimony.desc.4') }],
+          teacher: [{ id: 5, name: 'Bpk. Aris', role: t('testimony.role.eng'), videoUrl: fallBackUrl, description: t('testimony.desc.5') }],
+          alumni: [{ id: 6, name: 'Rizky Ramadhan', role: t('testimony.role.sw'), videoUrl: fallBackUrl, description: t('testimony.desc.6') }],
+          industry: [{ id: 7, name: 'Google Indonesia', role: t('testimony.role.industry'), videoUrl: fallBackUrl, description: t('testimony.desc.7') }],
         });
-    }, [activeTab, activeIndex]);
+      }
+    });
+  }, [t]);
 
-    const handleNext = () => {
-        const total = testimonialData[activeTab].length;
-        setActiveIndex((prev) => (prev === total - 1 ? 0 : prev + 1));
+  const controlMarsAudio = (isVideoPlaying: boolean) => {
+    window.dispatchEvent(new CustomEvent('sync-metland-music', { 
+      detail: !isVideoPlaying 
+    }));
+  };
+
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      controlMarsAudio(false); 
     };
+  }, []);
 
-    const handlePrev = () => {
-        const total = testimonialData[activeTab].length;
-        setActiveIndex((prev) => (prev === 0 ? total - 1 : prev - 1));
+  useEffect(() => {
+    videoRefs.current.forEach((iframe) => {
+      if (iframe && iframe.contentWindow) {
+        iframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+      }
+    });
+  }, [activeTab, activeIndex]);
+
+  const handleNext = () => {
+    const total = testimonialData[activeTab]?.length || 0;
+    if (total === 0) return;
+    setActiveIndex((prev) => (prev === total - 1 ? 0 : prev + 1));
+  };
+
+  const handlePrev = () => {
+    const total = testimonialData[activeTab]?.length || 0;
+    if (total === 0) return;
+    setActiveIndex((prev) => (prev === 0 ? total - 1 : prev - 1));
+  };
+
+  const getVideoPosition = (index: number) => {
+    const total = testimonialData[activeTab]?.length || 0;
+    const position = (index - activeIndex + total) % total;
+    let spacing = windowWidth < 640 ? 80 : windowWidth < 1024 ? 150 : 220;
+
+    return {
+      left: position * spacing,
+      zIndex: total - position,
+      scale: 1 - position * 0.1,
+      opacity: position > (windowWidth < 640 ? 2 : 3) ? 0 : 1,
+      pointerEvents: (position === 0 ? 'auto' : 'none') as any,
     };
+  };
 
-    const getVideoPosition = (index: number) => {
-        const total = testimonialData[activeTab].length;
-        const position = (index - activeIndex + total) % total;
-        let spacing = windowWidth < 640 ? 80 : windowWidth < 1024 ? 150 : 220;
+  return (
+    <section className="overflow-hidden bg-white py-16 sm:py-24">
+      <div className="container mx-auto px-6 lg:px-24">
+        {/* Header Section */}
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-100px' }}
+          variants={itemVariants}
+          className="mb-16 text-center"
+        >
+          <h2 className="text-3xl font-black text-[#0F5F58] md:text-5xl">
+            {t('testimony.title')}
+          </h2>
+          <div className="mx-auto mt-4 h-1 w-24 rounded-full bg-teal-500/20" />
+        </motion.div>
 
-        return {
-            left: position * spacing,
-            zIndex: total - position,
-            scale: 1 - position * 0.1,
-            opacity: position > (windowWidth < 640 ? 2 : 3) ? 0 : 1,
-            pointerEvents: (position === 0 ? 'auto' : 'none') as any,
-        };
-    };
-
-    return (
-        <section className="overflow-hidden bg-white py-16 sm:py-24">
-            <div className="container mx-auto px-6 lg:px-24">
-                {/* Header Section */}
+        {/* Categories Tab */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.3 }}
+          className="no-scrollbar mb-16 flex justify-center gap-6 overflow-x-auto border-b border-slate-100 pb-2 sm:gap-12"
+        >
+          {categories.map((cat) => (
+            <button
+              key={cat}
+              onClick={() => {
+                setActiveTab(cat);
+                setActiveIndex(0);
+              }}
+              className={`relative pb-4 text-base font-bold transition-all sm:text-lg ${
+                activeTab === cat ? 'text-[#0F5F58]' : 'text-slate-400 hover:text-slate-600'
+              }`}
+            >
+              {t('testimony.cat.' + cat)}
+              {activeTab === cat && (
                 <motion.div
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true, margin: '-100px' }}
-                    variants={itemVariants}
-                    className="mb-16 text-center"
+                  layoutId="underline"
+                  className="absolute bottom-0 left-0 right-0 h-1 bg-[#0F5F58]"
+                />
+              )}
+            </button>
+          ))}
+        </motion.div>
+
+        {testimonialData[activeTab] && testimonialData[activeTab].length > 0 ? (
+          <motion.div
+            className="flex flex-col gap-12"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={containerVariants}
+          >
+            {/* Text Testimony */}
+            <motion.div variants={itemVariants} className="max-w-3xl">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={`${activeTab}-${activeIndex}`}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: 20 }}
+                  className="flex gap-4"
                 >
-                    <h2 className="text-3xl font-black text-[#0F5F58] md:text-5xl">
-                        {t('testimony.title')}
-                    </h2>
-                    <div className="mx-auto mt-4 h-1 w-24 rounded-full bg-teal-500/20" />
+                  <Quote className="h-10 w-10 flex-shrink-0 text-teal-500 opacity-30" />
+                  <div>
+                    <p className="mb-4 text-lg italic leading-relaxed text-slate-600 sm:text-xl">
+                      "{testimonialData[activeTab][activeIndex]?.description}"
+                    </p>
+                    <h4 className="text-2xl font-black text-[#0F5F58]">
+                      {testimonialData[activeTab][activeIndex]?.name}
+                    </h4>
+                    <p className="text-sm font-bold uppercase tracking-widest text-teal-600">
+                      {testimonialData[activeTab][activeIndex]?.role}
+                    </p>
+                  </div>
                 </motion.div>
+              </AnimatePresence>
+            </motion.div>
 
-                {/* Categories Tab */}
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.3 }}
-                    className="no-scrollbar mb-16 flex justify-center gap-6 overflow-x-auto border-b border-slate-100 pb-2 sm:gap-12"
-                >
-                    {categories.map((cat) => (
-                        <button
-                            key={cat}
-                            onClick={() => {
-                                setActiveTab(cat);
-                                setActiveIndex(0);
-                            }}
-                            className={`relative pb-4 text-base font-bold transition-all sm:text-lg ${
-                                activeTab === cat ? 'text-[#0F5F58]' : 'text-slate-400 hover:text-slate-600'
-                            }`}
-                        >
-                            {t('testimony.cat.' + cat)}
-                            {activeTab === cat && (
-                                <motion.div
-                                    layoutId="underline"
-                                    className="absolute bottom-0 left-0 right-0 h-1 bg-[#0F5F58]"
-                                />
-                            )}
-                        </button>
-                    ))}
-                </motion.div>
+            {/* Video Stack Section */}
+            <motion.div
+              variants={itemVariants}
+              className="flex flex-col items-center gap-8 lg:flex-row lg:gap-16"
+            >
+              <div className="relative h-[300px] w-full overflow-visible sm:h-[400px] md:h-[450px]">
+                {testimonialData[activeTab].map((item, index) => {
+                  const positionStyle = getVideoPosition(index);
+                  const isFront = index === activeIndex;
 
-                <motion.div
-                    className="flex flex-col gap-12"
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true }}
-                    variants={containerVariants}
-                >
-                    {/* Text Testimony */}
-                    <motion.div variants={itemVariants} className="max-w-3xl">
-                        <AnimatePresence mode="wait">
-                            <motion.div
-                                key={`${activeTab}-${activeIndex}`}
-                                initial={{ opacity: 0, x: -20 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                exit={{ opacity: 0, x: 20 }}
-                                className="flex gap-4"
-                            >
-                                <Quote className="h-10 w-10 flex-shrink-0 text-teal-500 opacity-30" />
-                                <div>
-                                    <p className="mb-4 text-lg italic leading-relaxed text-slate-600 sm:text-xl">
-                                        "{testimonialData[activeTab][activeIndex]?.description}"
-                                    </p>
-                                    <h4 className="text-2xl font-black text-[#0F5F58]">
-                                        {testimonialData[activeTab][activeIndex]?.name}
-                                    </h4>
-                                    <p className="text-sm font-bold uppercase tracking-widest text-teal-600">
-                                        {testimonialData[activeTab][activeIndex]?.role}
-                                    </p>
-                                </div>
-                            </motion.div>
-                        </AnimatePresence>
-                    </motion.div>
-
-                    {/* Video Stack Section */}
+                  return (
                     <motion.div
-                        variants={itemVariants}
-                        className="flex flex-col items-center gap-8 lg:flex-row lg:gap-16"
+                      key={item.id}
+                      className="group absolute top-0 h-full w-[180px] cursor-pointer overflow-hidden border-4 border-white bg-black shadow-2xl sm:w-[280px] md:w-[320px]"
+                      animate={positionStyle}
+                      transition={{ type: 'spring', stiffness: 100, damping: 20 }}
+                      onMouseEnter={() => {
+                        if (isFront) {
+                          const v = videoRefs.current.get(item.id);
+                          if (v && v.contentWindow) {
+                            v.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+                            controlMarsAudio(true);
+                          }
+                        }
+                      }}
+                      onMouseLeave={() => {
+                        if (isFront) {
+                          const v = videoRefs.current.get(item.id);
+                          if (v && v.contentWindow) {
+                            v.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+                            controlMarsAudio(false);
+                          }
+                        }
+                      }}
+                      onClick={() => setActiveIndex(index)}
                     >
-                        <div className="relative h-[300px] w-full overflow-visible sm:h-[400px] md:h-[450px]">
-                            {testimonialData[activeTab].map((item, index) => {
-                                const positionStyle = getVideoPosition(index);
-                                const isFront = index === activeIndex;
+                      <div className="absolute top-1/2 left-1/2 w-[1600px] h-[900px] max-w-none -translate-x-1/2 -translate-y-1/2 pointer-events-none">
+                        <iframe
+                          ref={(el) => {
+                            if (el) videoRefs.current.set(item.id, el);
+                            else videoRefs.current.delete(item.id);
+                          }}
+                          src={item.videoUrl}
+                          className={`h-full w-full object-cover transition-all duration-700 ${
+                            isFront ? 'opacity-100 grayscale-0' : 'opacity-40 grayscale'
+                          }`}
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        />
+                      </div>
 
-                                return (
-                                    <motion.div
-                                        key={item.id}
-                                        className="group absolute top-0 h-full w-[180px] cursor-pointer overflow-hidden border-4 border-white bg-black shadow-2xl sm:w-[280px] md:w-[320px]"
-                                        animate={positionStyle}
-                                        transition={{ type: 'spring', stiffness: 100, damping: 20 }}
-                                        onMouseEnter={() => {
-                                            if (isFront) {
-                                                const v = videoRefs.current.get(item.id);
-                                                if (v && v.contentWindow) {
-                                                    v.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
-                                                    controlMarsAudio(true); // Pause BGM
-                                                }
-                                            }
-                                        }}
-                                        onMouseLeave={() => {
-                                            if (isFront) {
-                                                const v = videoRefs.current.get(item.id);
-                                                if (v && v.contentWindow) {
-                                                    v.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
-                                                    controlMarsAudio(false); // Resume BGM
-                                                }
-                                            }
-                                        }}
-                                        onClick={() => setActiveIndex(index)}
-                                    >
-                                        <div className="absolute top-1/2 left-1/2 w-[1600px] h-[900px] max-w-none -translate-x-1/2 -translate-y-1/2 pointer-events-none">
-                                            <iframe
-                                                ref={(el) => {
-                                                    if (el) videoRefs.current.set(item.id, el);
-                                                    else videoRefs.current.delete(item.id);
-                                                }}
-                                                src={item.videoUrl}
-                                                className={`h-full w-full object-cover transition-all duration-700 ${
-                                                    isFront ? 'opacity-100 grayscale-0' : 'opacity-40 grayscale'
-                                                }`}
-                                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                            />
-                                        </div>
-
-                                        {isFront && (
-                                            <div className="pointer-events-none absolute inset-0 flex items-center justify-center transition-opacity group-hover:opacity-0">
-                                                <div className="flex h-14 w-14 items-center justify-center rounded-full border border-white/30 bg-white/20 backdrop-blur-md">
-                                                    <Play size={24} className="ml-1 fill-white text-white" />
-                                                </div>
-                                            </div>
-                                        )}
-                                    </motion.div>
-                                );
-                            })}
+                      {isFront && (
+                        <div className="pointer-events-none absolute inset-0 flex items-center justify-center transition-opacity group-hover:opacity-0">
+                          <div className="flex h-14 w-14 items-center justify-center rounded-full border border-white/30 bg-white/20 backdrop-blur-md">
+                            <Play size={24} className="ml-1 fill-white text-white" />
+                          </div>
                         </div>
-
-                        {/* Navigation */}
-                        <motion.div
-                            initial={{ opacity: 0, scale: 0.8 }}
-                            whileInView={{ opacity: 1, scale: 1 }}
-                            viewport={{ once: true }}
-                            className="relative flex h-20 w-32 flex-shrink-0 items-center justify-center"
-                        >
-                            <div className="absolute left-1/2 top-1/2 h-24 w-[2px] -translate-x-1/2 -translate-y-1/2 rotate-[45deg] bg-[#0F5F58]/20" />
-                            <button
-                                onClick={handlePrev}
-                                className="group absolute -top-2 left-0 flex h-12 w-12 rotate-45 items-center justify-center border-2 border-[#0F5F58]/30 transition-all hover:bg-[#0F5F58] hover:text-white"
-                            >
-                                <ChevronLeft className="-rotate-45" />
-                            </button>
-                            <button
-                                onClick={handleNext}
-                                className="group absolute -bottom-2 right-0 flex h-12 w-12 rotate-45 items-center justify-center border-2 border-[#0F5F58]/30 transition-all hover:bg-[#0F5F58] hover:text-white"
-                            >
-                                <ChevronRight className="-rotate-45" />
-                            </button>
-                        </motion.div>
+                      )}
                     </motion.div>
-                </motion.div>
-            </div>
-        </section>
-    );
+                  );
+                })}
+              </div>
+
+              {/* Navigation */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                className="relative flex h-20 w-32 flex-shrink-0 items-center justify-center"
+              >
+                <div className="absolute left-1/2 top-1/2 h-24 w-[2px] -translate-x-1/2 -translate-y-1/2 rotate-[45deg] bg-[#0F5F58]/20" />
+                <button
+                  onClick={handlePrev}
+                  className="group absolute -top-2 left-0 flex h-12 w-12 rotate-45 items-center justify-center border-2 border-[#0F5F58]/30 transition-all hover:bg-[#0F5F58] hover:text-white"
+                >
+                  <ChevronLeft className="-rotate-45" />
+                </button>
+                <button
+                  onClick={handleNext}
+                  className="group absolute -bottom-2 right-0 flex h-12 w-12 rotate-45 items-center justify-center border-2 border-[#0F5F58]/30 transition-all hover:bg-[#0F5F58] hover:text-white"
+                >
+                  <ChevronRight className="-rotate-45" />
+                </button>
+              </motion.div>
+            </motion.div>
+          </motion.div>
+        ) : (
+          <div className="text-center py-12 text-slate-400">Belum ada data testimoni pada kategori ini.</div>
+        )}
+      </div>
+    </section>
+  );
 };
 
 export default TestimonialVideo;
