@@ -10,25 +10,25 @@ import { LanguageProvider } from '@/contexts/LanguageContext';
 import { AuthProvider } from './contexts/AuthContext';
 
 // Public Pages
-import Home from "./pages/Home";
-import About from "./pages/About";
-import Academics from "./pages/Academics";
-import Extracurricular from "./pages/Extracurricular";
-import Organization from "./pages/Organization";
-import News from "./pages/News";
-import Alumni from "./pages/Alumni";
-import Contact from "./pages/Contact";
-import NotFound from "./pages/NotFound";
-import Major from './pages/Major';
-import StudentWorks from "./pages/StudentWorks";
-import Ppdb from "./pages/Ppdb";
-import Teachers from "./pages/Teacher";
-import OurValues from "./pages/OurValues";
-import MoreEskul from "./pages/MoreEskul";
-import MoreOrg from "./pages/MoreOrg";
-import MissionVision from "./pages/MissionVission";
-import NewsArchive from "./pages/NewsArchive";
-import NewsDetail from "./pages/NewsDetail";
+import Home from "./pages/public/Home";
+import About from "./pages/public/About";
+import Academics from "./pages/public/Academics";
+import Extracurricular from "./pages/public/Extracurricular";
+import Organization from "./pages/public/Organization";
+import News from "./pages/public/News";
+import Alumni from "./pages/public/Alumni";
+import Contact from "./pages/public/Contact";
+import NotFound from "./pages/public/NotFound";
+import Major from './pages/public/Major';
+import StudentWorks from "./pages/public/StudentWorks";
+import Ppdb from "./pages/public/Ppdb";
+import Teachers from "./pages/public/Teacher";
+import OurValues from "./pages/public/OurValues";
+import MoreEskul from "./pages/public/MoreEskul";
+import MoreOrg from "./pages/public/MoreOrg";
+import MissionVision from "./pages/public/MissionVission";
+import NewsArchive from "./pages/public/NewsArchive";
+import NewsDetail from "./pages/public/NewsDetail";
 
 // Admin Pages & Layouts
 import AdminLoginPage from './pages/admin/AdminLoginPage';
@@ -49,6 +49,7 @@ import AdminOrganizationsPage from './pages/admin/AdminOrganizationsPage';
 import AdminNewsPage from './pages/admin/AdminNewsPage';
 import AdminExploreGalleryPage from './pages/admin/AdminExploreGalleryPage';
 import AdminAlumniPage from './pages/admin/AdminAlumniPage';
+import AdminManageUser from './pages/admin/AdminManageUser';
 
 // Components
 import PpdbPopup from "./components/home/ppdbpopup";
@@ -107,6 +108,7 @@ const App = () => (
                   <Route path="news" element={<AdminNewsPage />} />
                   <Route path="explore-gallery" element={<AdminExploreGalleryPage />} />
                   <Route path="alumni" element={<AdminAlumniPage />} />
+                  <Route path="manage-user" element={<AdminManageUser />} />
                 </Route>
 
                 <Route path="*" element={<NotFound />} />

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { Icon } from '../../components/admin/Icons';
+import metland from '@/assets/metland.png';
 
 export default function AdminLayout() {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -26,6 +27,7 @@ export default function AdminLayout() {
     { path: '/dashboard/news', label: 'Berita', icon: 'newspaper' },
     { path: '/dashboard/explore-gallery', label: 'Galeri Eksplorasi', icon: 'camera' },
     { path: '/dashboard/alumni', label: 'Alumni', icon: 'globe' },
+    { path: '/dashboard/manage-user', label: 'Manajemen User', icon: 'users' },
   ];
 
   const handleLogoutClick = async () => {
@@ -41,35 +43,36 @@ export default function AdminLayout() {
   return (
     <div className="flex h-screen bg-gray-50 overflow-hidden">
       {/* Sidebar Panel */}
-      <aside className={`bg-slate-950 text-slate-300 transition-all duration-300 flex flex-col z-20 ${sidebarCollapsed ? 'w-20' : 'w-64'}`}>
-        <div className="h-16 flex items-center justify-between px-4 border-b border-slate-800 bg-slate-900">
+      <aside className={`bg-teal-950 text-slate-300 transition-all duration-300 flex flex-col z-20 ${sidebarCollapsed ? 'w-20' : 'w-64'}`}>
+        <div className="h-16 flex items-center justify-between px-4 border-b border-teal-800 bg-teal-900">
           {!sidebarCollapsed && <span className="font-bold text-white tracking-wide">PANEL ADMIN</span>}
-          <button onClick={() => setSidebarCollapsed(!sidebarCollapsed)} className="p-1.5 hover:bg-slate-800 rounded-xl">
+          <img src={metland} alt="Logo Metland" className="w-8 h-8 object-contain" />
+          <button onClick={() => setSidebarCollapsed(!sidebarCollapsed)} className="p-1.5 hover:bg-teal-800 rounded-xl">
             <Icon name="menu" className="w-5 h-5 text-white" />
           </button>
         </div>
         
         <nav className="flex-1 overflow-y-auto p-3 space-y-1">
-         {navItems.map(item => {
-        const isActive = location.pathname === item.path || 
-                        (item.path !== '/dashboard' && location.pathname.startsWith(item.path));
-        
-        return (
-          <Link 
-            key={item.path} 
-            to={item.path} 
-            className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors ${
-              isActive ? 'bg-indigo-600 text-white shadow-md' : 'hover:bg-slate-900 hover:text-slate-100'
-            }`}
-          >
-            <Icon name={item.icon} className="w-5 h-5 flex-shrink-0" />
-            {!sidebarCollapsed && <span>{item.label}</span>}
-          </Link>
-        );
-      })}
+          {navItems.map(item => {
+            const isActive = location.pathname === item.path || 
+                            (item.path !== '/dashboard' && location.pathname.startsWith(item.path));
+            
+            return (
+              <Link 
+                key={item.path} 
+                to={item.path} 
+                className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors ${
+                  isActive ? 'bg-teal-600 text-white shadow-md' : 'hover:bg-teal-800 hover:text-slate-100'
+                }`}
+              >
+                <Icon name={item.icon} className="w-5 h-5 flex-shrink-0" />
+                {!sidebarCollapsed && <span>{item.label}</span>}
+              </Link>
+            );
+          })}
         </nav>
 
-        <div className="p-4 border-t border-slate-800 bg-slate-900 flex items-center justify-between">
+        <div className="p-4 border-b border-teal-800 bg-teal-900 flex items-center justify-between">
           {!sidebarCollapsed && (
             <div className="truncate pr-2">
               <p className="text-xs text-slate-400 font-semibold truncate">{user?.name || 'Admin Sekolah'}</p>
