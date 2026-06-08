@@ -250,7 +250,7 @@ const ExtracurricularPage = () => {
 
                 {/* NAVIGATION BAR */}
                 <nav className="sticky top-0 z-40 border-b border-slate-100 bg-white/90 shadow-sm backdrop-blur-md">
-                    <div className="container mx-auto flex h-20 items-center justify-between px-6">
+                    <div className="container mx-auto flex h-20 items-center justify-between px-6 md:px-12 lg:px-24">
                         <Link to="/" className="flex items-center gap-3 font-medium text-slate-400 hover:text-teal-700 transition-colors">
                             <ArrowLeft size={18} />
                             <span className="text-sm tracking-wide">{t('excu_back')}</span>
@@ -272,7 +272,7 @@ const ExtracurricularPage = () => {
                     </div>
                 </nav>
 
-                <main className="container mx-auto px-6 py-16">
+                <main className="container mx-auto px-6 md:px-12 lg:px-24 py-16">
                     <div className="grid gap-12 lg:grid-cols-12">
                         {/* LEFT: SIDEBAR LIST */}
                         <div className="space-y-8 lg:col-span-4">

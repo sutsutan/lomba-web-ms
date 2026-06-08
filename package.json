@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "new": "^0.1.1",
+    "react-quill": "^2.0.0"
+  }
+}
