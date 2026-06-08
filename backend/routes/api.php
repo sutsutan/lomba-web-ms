@@ -2,30 +2,17 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\{
-    AuthController,
-    HeroBackgroundController,
-    MajorController,
-    AchievementController,
-    PartnershipController,
-    TestimonyController,
-    FacilityController,
-    ActivityGalleryController,
-    StudentWorkController,
-    TeacherController,
-    ExtracurricularController,
-    OrganizationController,
-    NewsController,
-    ExploreGalleryController,
-    AlumniController,
-    UploadController,
+    AuthController, HeroBackgroundController, MajorController, AchievementController,
+    PartnershipController, TestimonyController, FacilityController, ActivityGalleryController,
+    StudentWorkController, TeacherController, ExtracurricularController, OrganizationController,
+    NewsController, ExploreGalleryController, AlumniController, UploadController,
 };
 
-// Auth
-
-Route::post('/internal/sekolah/login', [AuthController::class, 'login']);
+// --- Auth Routes ---
+Route::post('/admin/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
 
-// Public endpoints
+// --- Public Routes ---
 Route::get('/hero-backgrounds', [HeroBackgroundController::class, 'index']);
 Route::get('/majors', [MajorController::class, 'index']);
 Route::get('/majors/{slug}', [MajorController::class, 'show']);
@@ -44,20 +31,20 @@ Route::get('/explore-galleries', [ExploreGalleryController::class, 'index']);
 Route::get('/alumni', [AlumniController::class, 'index']);
 Route::get('/heroes', [HeroBackgroundController::class, 'index']);
 
-Route::apiResource('teachers', TeacherController::class);
-
-// Protected - user
+// --- Protected Routes (User) ---
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/me', [AuthController::class, 'me']);
 });
 
-// Protected - admin only
-Route::middleware(['auth:sanctum', 'admin'])->prefix('/internal/sekolah/login')->group(function () {
+// --- Admin Only Routes ---
+Route::middleware(['auth:sanctum', 'admin'])->prefix('admin')->group(function () {
+    // Utilities
     Route::get('/stats', [AuthController::class, 'adminStats']);
     Route::post('/upload', [UploadController::class, 'upload']);
 
-    $resources = [
+    // Resources (Auto-generated)
+    Route::apiResources([
         'hero-backgrounds'   => HeroBackgroundController::class,
         'majors'             => MajorController::class,
         'achievements'       => AchievementController::class,
@@ -72,9 +59,5 @@ Route::middleware(['auth:sanctum', 'admin'])->prefix('/internal/sekolah/login')-
         'news'               => NewsController::class,
         'explore-galleries'  => ExploreGalleryController::class,
         'alumni'             => AlumniController::class,
-    ];
-
-    foreach ($resources as $uri => $controller) {
-        Route::apiResource($uri, $controller)->except(['index', 'show']);
-    }
+    ]);
 });

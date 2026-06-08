@@ -12,10 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('hero_backgrounds', function (Blueprint $table) {
-           $table->id();
+            $table->id();
             $table->string('image_url');
-            $table->string('title')->nullable();
-            $table->string('subtitle')->nullable();
+            $table->string('title_id')->nullable();
+            $table->string('title_en')->nullable();
+            $table->text('subtitle_id')->nullable();
+            $table->text('subtitle_en')->nullable();
+            $table->string('category')->nullable();
             $table->integer('order')->default(0);
             $table->boolean('is_active')->default(true);
             $table->timestamps();

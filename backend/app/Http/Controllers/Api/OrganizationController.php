@@ -10,14 +10,15 @@ class OrganizationController extends BaseResourceController
     protected $model = Organization::class;
     
     protected $validationRules = [
-        'name'         => 'required|string|max:255',
-        'category'     => 'required|in:leadership,arts,performance,character',
-        'role'         => 'nullable|string|max:255',
-        'description'  => 'nullable|string',
-        'logo_url'     => 'nullable|string|max:255',
-        'competencies' => 'nullable|string|max:255',
-        'is_active'    => 'nullable|boolean',
-    ];
+    'name'         => 'required|string|max:255',
+    'category'     => 'required|in:leadership,creative,discipline,wellness',
+    'leader_name'  => 'required|string|max:255',
+    'advisor_name' => 'required|string|max:255',
+    'description_en'  => 'nullable',
+    'description_id' => 'nullable',
+    'logo_url' => 'required',
+    'is_active'    => 'nullable|boolean',
+];
 
     public function index(Request $request)
     {

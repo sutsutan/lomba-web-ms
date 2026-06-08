@@ -1,4 +1,5 @@
 import './index.css';
+import './i18n';
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -90,7 +91,7 @@ const App = () => (
                 <Route path="/more-news/:id" element={<NewsDetail />} />  
                 
                 {/* Admin Routes */}
-                <Route path="/internal/sekolah/login" element={<AdminLoginPage />} />
+                <Route path="/admin/login" element={<AdminLoginPage />} />
 
                 <Route path="/dashboard" element={<AdminRequireAuth><AdminLayout /></AdminRequireAuth>}>
                   <Route index element={<AdminDashboard />} />
