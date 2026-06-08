@@ -58,7 +58,6 @@ const News = () => {
 
   return (
     <MainLayout>
-      {/* Hero Carousel */}
       <HeroCarousel
         title={t('news.hero.title')}
         subtitle={t('news.hero.subtitle')}
@@ -66,16 +65,14 @@ const News = () => {
         height="h-[70vh]"
       />
 
-      {/* Featured News */}
       <section className="section-padding bg-background">
         <div className="container mx-auto px-4">
           <ScrollReveal>
             <div className="grid gap-8 lg:grid-cols-2">
-              {/* Main Featured (Berita Pertama ke-0) */}
               <Link to={`/more-news/${newsItems[0].id}`} className="group relative h-[500px] overflow-hidden rounded-2xl block">
                 <img
-                  src={newsItems[0].cover_image}
-                  alt={newsItems[0].title}
+                  src={newsItems[0].thumbnail}
+                  alt={newsItems[0].title_id}
                   className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-primary via-primary/50 to-transparent" />
@@ -84,10 +81,10 @@ const News = () => {
                     {newsItems[0].category}
                   </span>
                   <h2 className="mb-4 text-2xl font-bold text-white md:text-3xl">
-                    {newsItems[0].title}
+                    {newsItems[0].title_id}
                   </h2>
                   <p className="mb-4 text-white/80 line-clamp-2">
-                    {newsItems[0].excerpt || 'Baca selengkapnya...'}
+                    {newsItems[0].excerpt_id || 'Baca selengkapnya...'}
                   </p>
                   <div className="flex items-center gap-2 text-sm text-white/70">
                     <Calendar className="h-4 w-4" />
@@ -96,7 +93,6 @@ const News = () => {
                 </div>
               </Link>
 
-              {/* Side News (Berita ke 1, 2, dan 3) */}
               <div className="space-y-4">
                 {newsItems.slice(1, 4).map((news) => (
                   <Link
@@ -105,8 +101,8 @@ const News = () => {
                     className="card-hover flex gap-4 p-4 block"
                   >
                     <img
-                      src={news.cover_image}
-                      alt={news.title}
+                      src={news.thumbnail}
+                      alt={news.title_id}
                       className="h-24 w-32 flex-shrink-0 rounded-xl object-cover"
                     />
                     <div className="flex-1">
@@ -114,7 +110,7 @@ const News = () => {
                         {news.category}
                       </span>
                       <h3 className="mt-1 line-clamp-2 font-semibold text-foreground">
-                        {news.title}
+                        {news.title_id}
                       </h3>
                       <div className="mt-2 flex items-center gap-2 text-xs text-muted-foreground">
                         <Calendar className="h-3 w-3" />
@@ -129,14 +125,11 @@ const News = () => {
         </div>
       </section>
 
-      {/* All News Grid */}
       <section className="section-padding bg-section">
         <div className="container mx-auto px-4">
           <ScrollReveal>
             <div className="mb-12 flex items-center justify-between">
-              <h2 className="section-title text-3xl">
-                {t('news.all.title')}
-              </h2>
+              <h2 className="section-title text-3xl">{t('news.all.title')}</h2>
               <Link to="/news-archive" className="btn-outline inline-flex items-center gap-2">
                 {t('news.all.archive')}
                 <ArrowRight className="h-4 w-4" />
@@ -150,8 +143,8 @@ const News = () => {
                 <article className="card-hover overflow-hidden h-full flex flex-col justify-between">
                   <div>
                     <img
-                      src={news.cover_image}
-                      alt={news.title}
+                      src={news.thumbnail}
+                      alt={news.title_id}
                       className="h-48 w-full object-cover"
                     />
                     <div className="p-6">
@@ -165,10 +158,10 @@ const News = () => {
                         </span>
                       </div>
                       <h3 className="mb-2 line-clamp-2 font-semibold text-foreground">
-                        {news.title}
+                        {news.title_id}
                       </h3>
                       <p className="line-clamp-2 text-sm text-muted-foreground">
-                        {news.excerpt || 'Klik untuk membaca detail artikel.'}
+                        {news.excerpt_id || 'Klik untuk membaca detail artikel.'}
                       </p>
                     </div>
                   </div>

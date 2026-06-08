@@ -412,6 +412,7 @@ export default {
   'contact.map.desc': 'Kami akan senang mengajak Anda berkeliling! Jadwalkan tur atau kunjungi kami selama jam kantor di kampus Cileungsi kami.',
 
   // Extra Page
+  // Extra Page
   'extra.hero.title': 'Belajar di Luar Kelas',
   'extra.hero.subtitle': 'Kegiatan Ekstrakurikuler',
   'extra.hero.desc': 'Menjelajahi bakat di luar kelas melalui berbagai kegiatan dan program.',
@@ -425,7 +426,37 @@ export default {
   'extra.stories.desc1': 'Kegiatan ekstrakurikuler kami memberikan kesempatan kepada siswa untuk mengeksplorasi minat mereka, menemukan bakat mereka, dan menikmati pembelajaran dalam lingkungan yang lebih santai dan menyenangkan.',
   'extra.stories.desc2': 'Dari olahraga dan seni hingga klub kreatif dan berbasis minat, siswa didorong untuk mencoba pengalaman baru, membangun persahabatan, dan mengembangkan kepercayaan diri.',
   'extra.stories.desc3': 'Kegiatan ini membantu siswa tumbuh tidak hanya secara akademis, tetapi juga secara sosial dan pribadi, mendukung kehidupan sekolah yang seimbang dan bermakna.',
+  'extra.stories.desc1_plus': ' Di samping itu, program ekstrakurikuler senantiasa menjadi tempat di mana keterampilan kepemimpinan mulai diasah dengan memberikan tanggung jawab langsung kepada siswa untuk menyelenggarakan acara besar dan kompetisi antar kelas.',
+  'extra.stories.extraDesc1': 'Dengan mengedepankan kolaborasi antar sesama anggota, para siswa belajar bagaimana beradaptasi dengan karakter yang berbeda-beda, melatih komunikasi empatik, dan membangun jejaring pertemanan yang solid sejak dini yang akan berguna di dunia kerja kelak.',
+  'extra.stories.infoBox1': 'Kategori: Pengembangan Karakter\nJadwal: Fleksibel dan Menyesuaikan\nFokus Utama: Kolaborasi & Bakat',
 
+  'extra.stories.title2': 'Perkuat Fisik & Mental',
+  'extra.stories.desc2_plus': ' Ekstrakurikuler olahraga secara khusus didesain untuk melatih kelincahan, ketepatan, serta kekuatan fisik dalam menembus batas kemampuan para peserta didik di bawah bimbingan para pelatih profesional dan sangat berpengalaman.',
+  'extra.stories.extraDesc2': 'Melalui berbagai ajang laga tanding rutin, turnamen lokal, dan kompetisi persahabatan dengan sekolah lain, mental juara siswa dibentuk secara bertahap. Setiap tetes keringat di lapangan bukan hanya tentang mencetak poin dan meraih medali, tapi juga tentang dedikasi dan menjunjung nilai-nilai sportivitas yang tinggi.',
+  'extra.stories.infoBox2': 'Kategori: Olahraga Pilihan\nJadwal: Rutin Mingguan (Sore Hari)\nFokus Utama: Stamina & Olah Taktik',
+
+  'extra.stories.title3': 'Kreativitas Tanpa Batas',
+  'extra.stories.desc3_plus': ' Sementara di bidang seni dan kreativitas, setiap siswa difasilitasi dengan ruang berekspresi sebebas-bebasnya, serta dukungan alat peraga dan studio yang sangat representatif untuk menciptakan mahakarya orisinal mereka sendiri yang bernilai estetik.',
+  'extra.stories.extraDesc3': 'Banyak dari proyek-proyek kreativitas siswa kami yang kemudian diikutsertakan dalam berbagai pameran galeri tingkat daerah maupun provinsi. Tidak sedikit dari karya tersebut yang berhasil mencuri perhatian banyak pihak industri karena keunikan ide serta eksekusinya yang sangat matang.',
+  'extra.stories.infoBox3': 'Kategori: Seni & Estetika\nJadwal: Sesi Terjadwal & Fleksibel\nFokus Utama: Seni, Karya & Inovasi',
+
+  'extra.dynamic.desc_part1': ' merupakan salah satu wadah pengembangan minat dan bakat pilihan yang sangat diminati di ekosistem sekolah kami. Program ini dirancang secara khusus dengan metode pelatihan terstruktur dan menyenangkan yang bertujuan utamanya adalah membekali setiap peserta dengan pemahaman dan keterampilan teknis mutakhir. Tidak hanya berfokus pada kemampuan teknis individu, kegiatan mendalam ini juga menekankan pentingnya sinergi kerja sama tim, integritas sportivitas, serta memacu daya kreativitas berpikir tanpa batas.',
+  'extra.dynamic.track_record_prefix': 'Berbagai deretan prestasi yang membanggakan telah berhasil diukir secara konsisten oleh organisasi ekskul ini, di beberapa antaranya yaitu: ',
+  'extra.dynamic.track_record_suffix': '. Pencapaian-pencapaian luar biasa tersebut senantiasa menjadi bukti paling nyata dari tingginya dedikasi, kedisiplinan, dan kerja keras para peserta didik serta kesabaran pembina selama ini.',
+  'extra.dynamic.no_track_record_prefix': 'Dengan memutuskan untuk bergabung dan aktif bersama ',
+  'extra.dynamic.no_track_record_suffix': ', kamu tidak hanya akan mendapatkan keterampilan dan teman-teman lintas jurusan baru, tetapi secara langsung juga akan meraih banyak kesempatan emas untuk terus berkarya, membuktikan kapabilitas diri, dan mulai membangun portofolio kebanggaan semenjak dini demi masa depan.',
+  
+  'extra.dynamic.info_coach': 'Nama Pembina: ',
+  'extra.dynamic.info_coach_default': 'Tim Pembina Profesional & Ahli',
+  'extra.dynamic.info_schedule': 'Jadwal Latihan: ',
+  'extra.dynamic.info_schedule_default': 'Belum ditentukan (Akan diinformasikan menyusul)',
+  'extra.dynamic.info_intensity': 'Level Intensitas: ',
+  'extra.dynamic.info_intensity_default': 'Reguler Berkelanjutan',
+
+  'extra.btn.explore_more': 'Jelajahi Lebih Lengkap',
+  'extra.btn.explore_desc': 'Lihat daftar lengkap pilihan ekstrakurikuler beserta jadwal dan tingkat prestasinya.',
+  'extra.btn.join_online': 'Ikut Bergabung Secara Online →',
+  
   // News Page
   'news.hero.title': 'Berita & Pembaruan',
   'news.hero.subtitle': 'Metland School Press',

@@ -25,11 +25,8 @@ const quillModules = {
 };
 
 const quillFormats = [
-  'header',
-  'bold', 'italic', 'underline', 'blockquote',
-  'list', 'bullet',
-  'align',
-  'link'
+  'header', 'bold', 'italic', 'underline', 'blockquote',
+  'list', 'align', 'link'
 ];
 
 export default function AdminNewsPage() {
@@ -39,20 +36,19 @@ export default function AdminNewsPage() {
   const [editing, setEditing] = useState<NewsData | null>(null);
   const [search, setSearch] = useState('');
   
-  const [form, setForm] = useState<NewsData>({ 
-    title: '', 
+  const [form, setForm] = useState({ 
+    title_id: '', 
     category: 'Kegiatan', 
     published_date: '', 
     is_published: false, 
-    cover_image: '', 
-    content: '' 
+    thumbnail: '', 
+    content_id: '' 
   });
 
-  // 🛠️ AMBIL DATA DARI SERVER
-  const loadNews = async () => {
+ const loadNews = async () => {
     try {
       setLoading(true);
-      const data = await newsService.getAll(false); // false = ambil semua termasuk draft
+      const data = await newsService.getAll(false);
       setItems(data);
     } catch (error) {
       console.error(error);
@@ -61,64 +57,76 @@ export default function AdminNewsPage() {
     }
   };
 
-  useEffect(() => {
-    loadNews();
-  }, []);
+  useEffect(() => { loadNews(); }, []);
 
   const filtered = items.filter(i => 
-    i.title.toLowerCase().includes(search.toLowerCase())
+    i.title_id?.toLowerCase().includes(search.toLowerCase())
   );
 
   const openAdd = () => { 
     setEditing(null); 
     setForm({ 
-      title: '', 
-      category: 'Kegiatan', 
+      title_id: '', category: 'Kegiatan', 
       published_date: new Date().toISOString().split('T')[0], 
-      is_published: false, 
-      cover_image: '', 
-      content: '' 
+      is_published: false, thumbnail: '', content_id: '' 
     }); 
     setModal(true); 
   };
 
-  const openEdit = (item: NewsData) => { 
+  const openEdit = (item: any) => { 
     setEditing(item); 
-    setForm({ ...item }); 
+    setForm({ 
+      title_id: item.title_id,
+      category: item.category,
+      published_date: item.published_date,
+      is_published: !!item.is_published,
+      thumbnail: item.thumbnail,
+      content_id: item.content_id
+    }); 
     setModal(true); 
   };
 
-  // 🛠️ AKSI SIMPAN KE API SERVER
   const save = async () => {
     try {
-      // Membuat deskripsi singkat otomatis dari content jika backend membutuhkannya
-      const cleanText = form.content.replace(/<[^>]*>/g, '');
+      // 1. Generate excerpt secara otomatis jika belum ada
+      const cleanText = form.content_id.replace(/<[^>]*>/g, '');
       const excerpt = cleanText.substring(0, 120) + (cleanText.length > 120 ? '...' : '');
-      const payload = { ...form, excerpt };
+      
+     const payload: NewsData = {
+        title_id: form.title_id,
+        category: form.category,
+        thumbnail: form.thumbnail,
+        content_id: form.content_id,
+        excerpt_id: excerpt, // Menambahkan excerpt yang sudah dibersihkan
+        is_published: !!form.is_published,
+        published_date: form.published_date || new Date().toISOString().split('T')[0]
+      };
 
-      if (editing && editing.id) {
-        const updated = await newsService.update(editing.id, payload);
-        setItems(items.map(i => i.id === editing.id ? updated : i));
+      // 3. Eksekusi API
+      if (editing?.id) {
+        await newsService.update(editing.id, payload);
       } else {
-        const created = await newsService.create(payload);
-        setItems([...items, created]);
+        await newsService.create(payload);
       }
+
+      // 4. Refresh data dan tutup modal
+      await loadNews();
       setModal(false);
-    } catch (error) {
-      console.error("Gagal menyimpan berita:", error);
-      alert("Terjadi masalah saat menyimpan data ke server.");
+      setEditing(null);
+    } catch (error: any) {
+      console.error("Error saving news:", error);
+      // Menampilkan pesan error yang lebih informatif dari Laravel
+      const errorMessage = error.response?.data?.message || "Terjadi kesalahan saat menyimpan data.";
+      alert("Gagal menyimpan: " + errorMessage);
     }
   };
 
-  // 🛠️ AKSI HAPUS DARI API SERVER
   const del = async (id: number) => {
-    if (confirm("Apakah Anda yakin ingin menghapus berita ini?")) {
+    if (confirm("Hapus berita ini?")) {
       try {
         await newsService.delete(id);
-        setItems(items.filter(i => i.id !== id));
-      } catch (error) {
-        console.error("Gagal menghapus berita:", error);
-      }
+        loadNews();
+      } catch (error) { console.error(error); }
     }
   };
 
@@ -142,98 +150,122 @@ export default function AdminNewsPage() {
         {loading ? (
           <div className="p-8 text-center text-gray-500 font-medium">Memuat database berita...</div>
         ) : (
-          <DataTable
-            columns={[
-              { 
-                key: 'cover_image', 
-                label: 'Cover', 
-                render: (item: any) => (
-                  <img 
-                    src={item.cover_image} 
-                    className="w-20 h-12 object-cover rounded-lg border border-gray-100 shadow-sm" 
-                    alt="" 
-                    onError={e => (e.currentTarget.src = 'https://placehold.co/80x48/e2e8f0/94a3b8?text=img')} 
-                  />
-                ) 
-              },
-              { 
-                key: 'title', 
-                label: 'Judul Berita', 
-                render: (item: any) => (
-                  <span className="font-semibold text-gray-900 line-clamp-2 max-w-xs block">
-                    {item.title}
-                  </span>
-                ) 
-              },
-              { 
-                key: 'category', 
-                label: 'Kategori', 
-                render: (item: any) => (
-                  <Badge color={getCategoryColor(item.category)}>
-                    {item.category}
-                  </Badge>
-                ) 
-              },
-              { key: 'published_date', label: 'Tanggal Terbit' },
-              { 
-                key: 'is_published', 
-                label: 'Status', 
-                render: (item: any) => (
-                  <Badge color={item.is_published ? 'green' : 'yellow'}>
-                    {item.is_published ? 'Published' : 'Draft'}
-                  </Badge>
-                ) 
-              },
-            ]}
-            data={filtered}
-            onEdit={(item: any) => openEdit(item as NewsData)}
-            onDelete={(item: any) => item.id && del(item.id)}
-          />
-        )}
+         <DataTable
+  columns={[
+    { 
+      key: 'thumbnail', // Ubah dari cover_image ke thumbnail
+      label: 'Cover', 
+      render: (item: any) => (
+        <img 
+          src={item.thumbnail} // Sesuaikan key-nya
+          className="w-20 h-12 object-cover rounded-lg border border-gray-100 shadow-sm" 
+          alt="" 
+          onError={e => (e.currentTarget.src = 'https://placehold.co/80x48/e2e8f0/94a3b8?text=img')} 
+        />
+      ) 
+    },
+    { 
+      key: 'title_id', // Ubah dari title ke title_id
+      label: 'Judul Berita', 
+      render: (item: any) => (
+        <span className="font-semibold text-gray-900 line-clamp-2 max-w-xs block">
+          {item.title_id} {/* Sesuaikan key-nya */}
+        </span>
+      ) 
+    },
+    { 
+      key: 'category', 
+      label: 'Kategori', 
+      render: (item: any) => (
+        <Badge color={getCategoryColor(item.category)}>
+          {item.category}
+        </Badge>
+      ) 
+    },
+    { key: 'published_date', label: 'Tanggal Terbit' },
+    { 
+      key: 'is_published', 
+      label: 'Status', 
+      render: (item: any) => (
+        <Badge color={item.is_published ? 'green' : 'yellow'}>
+          {item.is_published ? 'Published' : 'Draft'}
+        </Badge>
+      ) 
+    },
+  ]}
+  data={filtered}
+  onEdit={(item: any) => openEdit(item as NewsData)}
+  onDelete={(item: any) => item.id && del(item.id)}
+/>        )}
       </div>
 
-      <Modal isOpen={modal} onClose={() => setModal(false)} title={editing ? 'Edit Berita' : 'Tulis Berita Baru'} size="xl">
-        <div className="space-y-4">
-          <FormField label="Judul Berita" required>
-            <input className={inputClass} value={form.title} onChange={e => setForm({ ...form, title: e.target.value })} placeholder="Masukkan judul berita utama..." />
-          </FormField>
-          
-          <div className="grid grid-cols-2 gap-4">
-            <FormField label="Kategori" required>
-              <input className={inputClass} value={form.category} onChange={e => setForm({ ...form, category: e.target.value })} placeholder="Contoh: Prestasi, Kegiatan, Pengumuman" />
-            </FormField>
-            <FormField label="Tanggal Publish" required>
-              <input type="date" className={inputClass} value={form.published_date} onChange={e => setForm({ ...form, published_date: e.target.value })} />
-            </FormField>
-          </div>
-          
-          <ImageUploadField value={form.cover_image} onChange={url => setForm({ ...form, cover_image: url })} label="Foto Cover Artikel" />
-          
-          <FormField label="Konten Artikel" required hint="Gunakan toolbar di bawah untuk mengatur gaya tulisan artikel">
-            <div className="admin-rich-editor rounded-xl overflow-hidden border border-gray-200 focus-within:border-indigo-400 focus-within:ring-2 focus-within:ring-indigo-100 transition-all bg-white">
-              <ReactQuill 
-                theme="snow"
-                value={form.content}
-                onChange={htmlValue => setForm({ ...form, content: htmlValue })}
-                modules={quillModules}
-                formats={quillFormats}
-                placeholder="Tulis dan kreasikan materi konten berita sekolah di sini..."
-                className="bg-white min-h-[240px]"
-              />
-            </div>
-          </FormField>
-          
-          <div className="flex items-center gap-3 p-3.5 bg-gray-50 rounded-xl border border-gray-100">
-            <input type="checkbox" id="news-published" checked={form.is_published} onChange={e => setForm({ ...form, is_published: e.target.checked })} className="w-4 h-4 rounded accent-indigo-600" />
-            <label htmlFor="news-published" className="text-sm font-medium text-gray-700 select-none">Publikasikan sekarang (tampil di modul berita utama website)</label>
-          </div>
-          
-          <div className="flex gap-3 pt-2">
-            <button type="button" onClick={() => setModal(false)} className="flex-1 py-2.5 border border-gray-200 rounded-xl text-sm font-medium text-gray-600 hover:bg-gray-50 transition-colors">Batal</button>
-            <button type="button" onClick={save} className="flex-1 py-2.5 bg-indigo-600 rounded-xl text-sm font-medium text-white hover:bg-indigo-700 transition-colors">Simpan Berita</button>
-          </div>
-        </div>
-      </Modal>
+    <Modal isOpen={modal} onClose={() => setModal(false)} title={editing ? 'Edit Berita' : 'Tulis Berita Baru'} size="xl">
+  <div className="space-y-4">
+    <FormField label="Judul Berita" required>
+      <input 
+        className={inputClass} 
+        value={form.title_id} 
+        onChange={e => setForm({ ...form, title_id: e.target.value })} 
+        placeholder="Masukkan judul berita utama..." 
+      />
+    </FormField>
+    
+    <div className="grid grid-cols-2 gap-4">
+      <FormField label="Kategori" required>
+        <input 
+          className={inputClass} 
+          value={form.category} 
+          onChange={e => setForm({ ...form, category: e.target.value })} 
+          placeholder="Contoh: Prestasi, Kegiatan, Pengumuman" 
+        />
+      </FormField>
+      <FormField label="Tanggal Publish" required>
+        <input 
+          type="date" 
+          className={inputClass} 
+          value={form.published_date} 
+          onChange={e => setForm({ ...form, published_date: e.target.value })} 
+        />
+      </FormField>
+    </div>
+    
+    <ImageUploadField 
+      value={form.thumbnail} 
+      onChange={url => setForm({ ...form, thumbnail: url })} 
+      label="Foto Cover Artikel" 
+    />
+    
+    <FormField label="Konten Artikel" required hint="Gunakan toolbar di bawah untuk mengatur gaya tulisan artikel">
+      <div className="admin-rich-editor rounded-xl overflow-hidden border border-gray-200 focus-within:border-indigo-400 focus-within:ring-2 focus-within:ring-indigo-100 transition-all bg-white">
+        <ReactQuill 
+          theme="snow"
+          value={form.content_id}
+          onChange={htmlValue => setForm({ ...form, content_id: htmlValue })}
+          modules={quillModules}
+          formats={quillFormats}
+          placeholder="Tulis dan kreasikan materi konten berita sekolah di sini..."
+          className="bg-white min-h-[240px]"
+        />
+      </div>
+    </FormField>
+    
+    <div className="flex items-center gap-3 p-3.5 bg-gray-50 rounded-xl border border-gray-100">
+      <input 
+        type="checkbox" 
+        id="news-published" 
+        checked={!!form.is_published} 
+        onChange={e => setForm({ ...form, is_published: e.target.checked })} 
+        className="w-4 h-4 rounded accent-indigo-600" 
+      />
+      <label htmlFor="news-published" className="text-sm font-medium text-gray-700 select-none">Publikasikan sekarang (tampil di modul berita utama website)</label>
+    </div>
+    
+    <div className="flex gap-3 pt-2">
+      <button type="button" onClick={() => setModal(false)} className="flex-1 py-2.5 border border-gray-200 rounded-xl text-sm font-medium text-gray-600 hover:bg-gray-50 transition-colors">Batal</button>
+      <button type="button" onClick={save} className="flex-1 py-2.5 bg-indigo-600 rounded-xl text-sm font-medium text-white hover:bg-indigo-700 transition-colors">Simpan Berita</button>
+    </div>
+  </div>
+</Modal>
     </div>
   );
 }
