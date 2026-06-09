@@ -25,6 +25,26 @@ class NewsController extends BaseResourceController {
         'is_published'   => 'nullable|boolean',
     ];
 
+    public function index(Request $request) {
+        $query = $this->model::query();
+
+        if ($request->has('search') && !empty($request->search)) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                foreach ($this->searchableFields as $field) {
+                    $q->orWhere($field, 'like', "%{$search}%");
+                }
+            });
+        }
+
+        if ($request->has('is_published')) {
+            $query->where('is_published', $request->boolean('is_published'));
+        }
+
+        $perPage = $request->get('per_page', 20);
+        return response()->json($query->latest()->paginate($perPage));
+    }
+
     public function store(Request $request) {
         $data = $request->validate($this->validationRules);
         

@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { getAdminAlumni, createAlumni, updateAlumni, deleteAlumni } from '@/services/Alumni';
 
 // Import komponen admin dari folder components
 import PageHeader from '@/components/admin/PageHeader';
@@ -25,10 +26,8 @@ interface AlumniItem {
 }
 
 export default function AdminAlumniPage() {
-  const [items, setItems] = useState<AlumniItem[]>([
-    { id: 1, name: 'Rizki Pratama', role: 'Software Engineer at Gojek', tags: 'IT,startup,tech', grad_year: 2020, location_name: 'Jakarta, Indonesia', latitude: '-6.2088', longitude: '106.8456', testimony: 'SMK Nusantara membuka jalan karir saya.', is_active: true, profile_picture: 'https://placehold.co/100x100/6366f1/fff?text=RP' },
-    { id: 2, name: 'Anisa Putri', role: 'Chef di Hotel Bintang 5', tags: 'culinary,hospitality', grad_year: 2019, location_name: 'Bali, Indonesia', latitude: '-8.4095', longitude: '115.1889', testimony: 'Fasilitas praktikumnya sangat lengkap!', is_active: true, profile_picture: 'https://placehold.co/100x100/f59e0b/fff?text=AP' },
-  ]);
+  const [items, setItems] = useState<AlumniItem[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const [modal, setModal] = useState(false);
   const [editing, setEditing] = useState<AlumniItem | null>(null);
@@ -78,18 +77,48 @@ export default function AdminAlumniPage() {
     setModal(true);
   };
 
-  // Aksi Simpan (Create / Update)
-  const save = () => {
-    if (editing) {
-      setItems(items.map(i => i.id === editing.id ? { ...i, ...form } : i));
-    } else {
-      setItems([...items, { id: Date.now(), ...form }]);
+  // Fetch data dari API
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+      const data = await getAdminAlumni();
+      setItems(data);
+    } catch (error) {
+      console.error('Gagal memuat data alumni:', error);
+    } finally {
+      setLoading(false);
     }
-    setModal(false);
+  };
+
+  useEffect(() => { fetchData(); }, []);
+
+  // Aksi Simpan (Create / Update)
+  const save = async () => {
+    try {
+      if (editing) {
+        await updateAlumni(editing.id, form);
+      } else {
+        await createAlumni(form);
+      }
+      setModal(false);
+      fetchData();
+    } catch (error) {
+      console.error('Gagal menyimpan data alumni:', error);
+      alert('Gagal menyimpan data. Silakan coba lagi.');
+    }
   };
 
   // Aksi Hapus
-  const del = (id: number) => setItems(items.filter(i => i.id !== id));
+  const del = async (id: number) => {
+    if (!confirm('Yakin ingin menghapus data alumni ini?')) return;
+    try {
+      await deleteAlumni(id);
+      fetchData();
+    } catch (error) {
+      console.error('Gagal menghapus data alumni:', error);
+      alert('Gagal menghapus data. Silakan coba lagi.');
+    }
+  };
 
   return (
     <div className="p-6 space-y-6">

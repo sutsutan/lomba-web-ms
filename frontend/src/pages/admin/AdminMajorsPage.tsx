@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { getAdminMajors, createMajor, updateMajor, deleteMajor } from '@/services/Major';
 
 // Import komponen admin dari folder components
 import PageHeader from '@/components/admin/PageHeader';
@@ -21,10 +22,8 @@ interface Major {
 }
 
 export default function AdminMajorPage() {
-  const [items, setItems] = useState<Major[]>([
-    { id: 1, code: 'it', name: 'Pengembangan Perangkat Lunak & Gim (IT)', head_of_major: 'Pak Rian Syah, M.Kom', description: 'Fokus pada pemrograman web, aplikasi mobile, cloud computing, dan pengembangan game.', total_students: 120, is_active: true },
-    { id: 2, code: 'vcd', name: 'Desain Komunikasi Visual (VCD)', head_of_major: 'Bu Amanda, S.Sn', description: 'Mempelajari grafis periklanan, ilustrasi digital, videografi, dan animasi kreatif.', total_students: 96, is_active: true },
-  ]);
+  const [items, setItems] = useState<Major[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const [modal, setModal] = useState(false);
   const [editing, setEditing] = useState<Major | null>(null);
@@ -61,18 +60,48 @@ export default function AdminMajorPage() {
     setModal(true);
   };
 
-  // Aksi Simpan (Create / Update)
-  const save = () => {
-    if (editing) {
-      setItems(items.map(i => i.id === editing.id ? { ...i, ...form } : i));
-    } else {
-      setItems([...items, { id: Date.now(), ...form }]);
+  // Fetch data dari API
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+      const data = await getAdminMajors();
+      setItems(data);
+    } catch (error) {
+      console.error('Gagal memuat data jurusan:', error);
+    } finally {
+      setLoading(false);
     }
-    setModal(false);
+  };
+
+  useEffect(() => { fetchData(); }, []);
+
+  // Aksi Simpan (Create / Update)
+  const save = async () => {
+    try {
+      if (editing) {
+        await updateMajor(editing.id, form);
+      } else {
+        await createMajor(form);
+      }
+      setModal(false);
+      fetchData();
+    } catch (error) {
+      console.error('Gagal menyimpan data jurusan:', error);
+      alert('Gagal menyimpan data. Silakan coba lagi.');
+    }
   };
 
   // Aksi Hapus
-  const del = (id: number) => setItems(items.filter(i => i.id !== id));
+  const del = async (id: number) => {
+    if (!confirm('Yakin ingin menghapus jurusan ini?')) return;
+    try {
+      await deleteMajor(id);
+      fetchData();
+    } catch (error) {
+      console.error('Gagal menghapus data jurusan:', error);
+      alert('Gagal menghapus data. Silakan coba lagi.');
+    }
+  };
 
   // Mapping warna badge berdasarkan kode kode jurusan
   const majorColors: Record<string, string> = {

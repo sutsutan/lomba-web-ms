@@ -91,9 +91,11 @@ export default function AdminNewsPage() {
   // 🛠️ AKSI SIMPAN KE API SERVER
   const save = async () => {
     try {
-      // Membuat deskripsi singkat otomatis dari content jika backend membutuhkannya
-      const cleanText = form.content.replace(/<[^>]*>/g, '');
-      const excerpt = cleanText.substring(0, 120) + (cleanText.length > 120 ? '...' : '');
+      // Decode HTML entities
+      const tempDiv = document.createElement("div");
+      tempDiv.innerHTML = form.content;
+      const textContent = tempDiv.textContent || tempDiv.innerText || "";
+      const excerpt = textContent.substring(0, 120) + (textContent.length > 120 ? '...' : '');
       const payload = { ...form, excerpt };
 
       if (editing && editing.id) {
@@ -104,9 +106,17 @@ export default function AdminNewsPage() {
         setItems([...items, created]);
       }
       setModal(false);
-    } catch (error) {
+    } catch (error: any) {
       console.error("Gagal menyimpan berita:", error);
-      alert("Terjadi masalah saat menyimpan data ke server.");
+      let errorMsg = "Terjadi masalah saat menyimpan data ke server.";
+      if (error.response?.data?.errors) {
+        // Extract validation errors
+        const errors = error.response.data.errors;
+        errorMsg = "Data tidak lengkap/valid:\n" + Object.values(errors).flat().join('\n');
+      } else if (error.response?.data?.message) {
+        errorMsg = error.response.data.message;
+      }
+      alert(errorMsg);
     }
   };
 
@@ -187,7 +197,7 @@ export default function AdminNewsPage() {
             ]}
             data={filtered}
             onEdit={(item: any) => openEdit(item as NewsData)}
-            onDelete={(item: any) => item.id && del(item.id)}
+            onDelete={(id: number) => del(id)}
           />
         )}
       </div>
@@ -211,10 +221,11 @@ export default function AdminNewsPage() {
           
           <FormField label="Konten Artikel" required hint="Gunakan toolbar di bawah untuk mengatur gaya tulisan artikel">
             <div className="admin-rich-editor rounded-xl overflow-hidden border border-gray-200 focus-within:border-indigo-400 focus-within:ring-2 focus-within:ring-indigo-100 transition-all bg-white">
+              {/* @ts-ignore - ReactQuill types mismatch with React 18/19 */}
               <ReactQuill 
                 theme="snow"
                 value={form.content}
-                onChange={htmlValue => setForm({ ...form, content: htmlValue })}
+                onChange={(htmlValue: string) => setForm({ ...form, content: htmlValue })}
                 modules={quillModules}
                 formats={quillFormats}
                 placeholder="Tulis dan kreasikan materi konten berita sekolah di sini..."
