@@ -89,7 +89,6 @@ const openEdit = (item: any) => {
   setModal(true); 
 };
 
-<<<<<<< HEAD
  const save = async () => {
   try {
     const cleanTextId = form.content_id.replace(/<[^>]*>/g, '');
@@ -114,32 +113,6 @@ const openEdit = (item: any) => {
             published_date: form.published_date,
             user_id: 1
     };
-=======
-  const save = async () => {
-    try {
-<<<<<<< HEAD
-      // Decode HTML entities
-      const tempDiv = document.createElement("div");
-      tempDiv.innerHTML = form.content;
-      const textContent = tempDiv.textContent || tempDiv.innerText || "";
-      const excerpt = textContent.substring(0, 120) + (textContent.length > 120 ? '...' : '');
-      const payload = { ...form, excerpt };
-=======
-      // 1. Generate excerpt secara otomatis jika belum ada
-      const cleanText = form.content_id.replace(/<[^>]*>/g, '');
-      const excerpt = cleanText.substring(0, 120) + (cleanText.length > 120 ? '...' : '');
-      
-     const payload: NewsData = {
-        title_id: form.title_id,
-        category: form.category,
-        thumbnail: form.thumbnail,
-        content_id: form.content_id,
-        excerpt_id: excerpt, // Menambahkan excerpt yang sudah dibersihkan
-        is_published: !!form.is_published,
-        published_date: form.published_date || new Date().toISOString().split('T')[0]
-      };
->>>>>>> 0a5216d368e8c7e522e29366506d05b340c3cd48
->>>>>>> 9f14b0d97745d68ad9dd5d844057d53111026f2a
 
       if (editing?.id) {
         await newsService.update(editing.id, payload);
@@ -149,25 +122,11 @@ const openEdit = (item: any) => {
 
       await loadNews();
       setModal(false);
-<<<<<<< HEAD
-    } catch (error: any) {
-      console.error("Gagal menyimpan berita:", error);
-      let errorMsg = "Terjadi masalah saat menyimpan data ke server.";
-      if (error.response?.data?.errors) {
-        // Extract validation errors
-        const errors = error.response.data.errors;
-        errorMsg = "Data tidak lengkap/valid:\n" + Object.values(errors).flat().join('\n');
-      } else if (error.response?.data?.message) {
-        errorMsg = error.response.data.message;
-      }
-      alert(errorMsg);
-=======
       setEditing(null);
     } catch (error: any) {
       console.error("Error saving news:", error);
       const errorMessage = error.response?.data?.message || "Terjadi kesalahan saat menyimpan data.";
       alert("Gagal menyimpan: " + errorMessage);
->>>>>>> 0a5216d368e8c7e522e29366506d05b340c3cd48
     }
   };
 
@@ -200,101 +159,6 @@ const openEdit = (item: any) => {
         {loading ? (
           <div className="p-8 text-center text-gray-500 font-medium">Memuat database berita...</div>
         ) : (
-<<<<<<< HEAD
-          <DataTable
-            columns={[
-              { 
-                key: 'cover_image', 
-                label: 'Cover', 
-                render: (item: any) => (
-                  <img 
-                    src={item.cover_image} 
-                    className="w-20 h-12 object-cover rounded-lg border border-gray-100 shadow-sm" 
-                    alt="" 
-                    onError={e => (e.currentTarget.src = 'https://placehold.co/80x48/e2e8f0/94a3b8?text=img')} 
-                  />
-                ) 
-              },
-              { 
-                key: 'title', 
-                label: 'Judul Berita', 
-                render: (item: any) => (
-                  <span className="font-semibold text-gray-900 line-clamp-2 max-w-xs block">
-                    {item.title}
-                  </span>
-                ) 
-              },
-              { 
-                key: 'category', 
-                label: 'Kategori', 
-                render: (item: any) => (
-                  <Badge color={getCategoryColor(item.category)}>
-                    {item.category}
-                  </Badge>
-                ) 
-              },
-              { key: 'published_date', label: 'Tanggal Terbit' },
-              { 
-                key: 'is_published', 
-                label: 'Status', 
-                render: (item: any) => (
-                  <Badge color={item.is_published ? 'green' : 'yellow'}>
-                    {item.is_published ? 'Published' : 'Draft'}
-                  </Badge>
-                ) 
-              },
-            ]}
-            data={filtered}
-            onEdit={(item: any) => openEdit(item as NewsData)}
-            onDelete={(id: number) => del(id)}
-          />
-        )}
-      </div>
-
-      <Modal isOpen={modal} onClose={() => setModal(false)} title={editing ? 'Edit Berita' : 'Tulis Berita Baru'} size="xl">
-        <div className="space-y-4">
-          <FormField label="Judul Berita" required>
-            <input className={inputClass} value={form.title} onChange={e => setForm({ ...form, title: e.target.value })} placeholder="Masukkan judul berita utama..." />
-          </FormField>
-          
-          <div className="grid grid-cols-2 gap-4">
-            <FormField label="Kategori" required>
-              <input className={inputClass} value={form.category} onChange={e => setForm({ ...form, category: e.target.value })} placeholder="Contoh: Prestasi, Kegiatan, Pengumuman" />
-            </FormField>
-            <FormField label="Tanggal Publish" required>
-              <input type="date" className={inputClass} value={form.published_date} onChange={e => setForm({ ...form, published_date: e.target.value })} />
-            </FormField>
-          </div>
-          
-          <ImageUploadField value={form.cover_image} onChange={url => setForm({ ...form, cover_image: url })} label="Foto Cover Artikel" />
-          
-          <FormField label="Konten Artikel" required hint="Gunakan toolbar di bawah untuk mengatur gaya tulisan artikel">
-            <div className="admin-rich-editor rounded-xl overflow-hidden border border-gray-200 focus-within:border-indigo-400 focus-within:ring-2 focus-within:ring-indigo-100 transition-all bg-white">
-              {/* @ts-ignore - ReactQuill types mismatch with React 18/19 */}
-              <ReactQuill 
-                theme="snow"
-                value={form.content}
-                onChange={(htmlValue: string) => setForm({ ...form, content: htmlValue })}
-                modules={quillModules}
-                formats={quillFormats}
-                placeholder="Tulis dan kreasikan materi konten berita sekolah di sini..."
-                className="bg-white min-h-[240px]"
-              />
-            </div>
-          </FormField>
-          
-          <div className="flex items-center gap-3 p-3.5 bg-gray-50 rounded-xl border border-gray-100">
-            <input type="checkbox" id="news-published" checked={form.is_published} onChange={e => setForm({ ...form, is_published: e.target.checked })} className="w-4 h-4 rounded accent-indigo-600" />
-            <label htmlFor="news-published" className="text-sm font-medium text-gray-700 select-none">Publikasikan sekarang (tampil di modul berita utama website)</label>
-          </div>
-          
-          <div className="flex gap-3 pt-2">
-            <button type="button" onClick={() => setModal(false)} className="flex-1 py-2.5 border border-gray-200 rounded-xl text-sm font-medium text-gray-600 hover:bg-gray-50 transition-colors">Batal</button>
-            <button type="button" onClick={save} className="flex-1 py-2.5 bg-indigo-600 rounded-xl text-sm font-medium text-white hover:bg-indigo-700 transition-colors">Simpan Berita</button>
-          </div>
-        </div>
-      </Modal>
-=======
          <DataTable
   columns={[
     { 
@@ -402,7 +266,6 @@ const openEdit = (item: any) => {
     <button type="button" onClick={save} className="flex-1 py-2.5 bg-indigo-600 rounded-xl text-sm font-medium text-white hover:bg-indigo-700">Simpan Berita</button>
   </div>
 </Modal>
->>>>>>> 0a5216d368e8c7e522e29366506d05b340c3cd48
     </div>
   );
 }
