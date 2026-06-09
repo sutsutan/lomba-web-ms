@@ -1,8 +1,11 @@
+//HeroCarousel.tsx
+
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { fetchPublicHero, HeroData } from '@/services/Hero'; 
 
 interface HeroCarouselProps {
+  category?: string;
   title?: string;
   subtitle?: string;
   description?: string;
@@ -11,9 +14,10 @@ interface HeroCarouselProps {
 }
 
 const HeroCarousel = ({ 
+  category = 'home',
   title: staticTitle,
   subtitle: staticSubtitle,
-  description, 
+  description: staticDescription, 
   height = 'min-h-screen',
   lang = 'id'
 }: HeroCarouselProps) => {
@@ -24,15 +28,14 @@ const HeroCarousel = ({
 
   useEffect(() => {
     fetchPublicHero().then((data) => {
-      // LOGIKA BARU: Filter hanya untuk Home, Aktif, dan Sort berdasarkan order
       const filteredData = data
-        .filter((item) => item.category === 'home' && item.is_active)
+        .filter((item) => item.category === category && item.is_active)
         .sort((a, b) => a.order - b.order);
       
       setHeroSlides(filteredData);
       setLoading(false);
     });
-  }, []);
+  }, [category]);
 
   useEffect(() => {
     if (heroSlides.length <= 1) return;
@@ -59,6 +62,11 @@ const HeroCarousel = ({
 
   const displaySubtitle = staticSubtitle || (activeSlide 
     ? (lang === 'en' ? (activeSlide.subtitle_en || activeSlide.subtitle_id) : activeSlide.subtitle_id) 
+    : '');
+
+  // Logika pengambilan deskripsi dari API atau prop statis
+  const displayDescription = staticDescription || (activeSlide 
+    ? (lang === 'en' ? (activeSlide.description_en || activeSlide.description_id) : activeSlide.description_id) 
     : '');
 
   return (
@@ -117,14 +125,15 @@ const HeroCarousel = ({
               {displayTitle}
             </motion.h1>
 
-            {description && (
+            {/* Render dinamis menggunakan displayDescription */}
+            {displayDescription && (
               <motion.p
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.3 }}
                 className="text-base md:text-lg lg:text-xl text-white/90 max-w-2xl mx-auto leading-relaxed"
               >
-                {description}
+                {displayDescription}
               </motion.p>
             )}
           </motion.div>

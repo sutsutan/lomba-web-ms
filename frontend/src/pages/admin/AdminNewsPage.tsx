@@ -1,4 +1,3 @@
-// src/pages/admin/AdminNewsPage.tsx
 import React, { useState, useEffect } from 'react';
 import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
@@ -37,13 +36,15 @@ export default function AdminNewsPage() {
   const [search, setSearch] = useState('');
   
   const [form, setForm] = useState({ 
-    title_id: '', 
-    category: 'Kegiatan', 
-    published_date: '', 
-    is_published: false, 
-    thumbnail: '', 
-    content_id: '' 
-  });
+  title_id: '', 
+  title_en: '',
+  category: 'Kegiatan', 
+  published_date: '', 
+  is_published: false, 
+  thumbnail: '', 
+  content_id: '',
+  content_en: ''
+});
 
  const loadNews = async () => {
     try {
@@ -64,14 +65,14 @@ export default function AdminNewsPage() {
   );
 
   const openAdd = () => { 
-    setEditing(null); 
-    setForm({ 
-      title_id: '', category: 'Kegiatan', 
-      published_date: new Date().toISOString().split('T')[0], 
-      is_published: false, thumbnail: '', content_id: '' 
-    }); 
-    setModal(true); 
-  };
+  setEditing(null); 
+  setForm({ 
+    title_id: '', title_en: '', category: 'Kegiatan', 
+    published_date: new Date().toISOString().split('T')[0], 
+    is_published: false, thumbnail: '', content_id: '', content_en: '' 
+  }); 
+  setModal(true); 
+};
 
   const openEdit = (item: any) => { 
     setEditing(item); 
@@ -104,18 +105,17 @@ export default function AdminNewsPage() {
         excerpt_id: excerpt,
       };
 
-      // 3. Eksekusi API
       if (editing?.id) {
         await newsService.update(editing.id, payload);
       } else {
         await newsService.create(payload);
       }
 
-      // 4. Refresh data dan tutup modal
       await loadNews();
       setModal(false);
       setEditing(null);
     } catch (error: any) {
+<<<<<<< HEAD
       console.error("Gagal menyimpan berita:", error);
       let errorMsg = "Terjadi masalah saat menyimpan data ke server.";
       if (error.response?.data?.errors) {
@@ -126,6 +126,11 @@ export default function AdminNewsPage() {
         errorMsg = error.response.data.message;
       }
       alert(errorMsg);
+=======
+      console.error("Error saving news:", error);
+      const errorMessage = error.response?.data?.message || "Terjadi kesalahan saat menyimpan data.";
+      alert("Gagal menyimpan: " + errorMessage);
+>>>>>>> a90f98283b16b654638f6630a1d9e472712ca382
     }
   };
 
