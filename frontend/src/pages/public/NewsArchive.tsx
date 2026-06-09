@@ -7,7 +7,6 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import HeroCarousel from '@/components/HeroCarousel';
 import { Link } from 'react-router-dom';
 
-// 🛠️ IMPORT SERVICE & INTERFACE BERITA
 import { newsService, NewsData } from '@/services/News';
 
 const NewsArchive = () => {
@@ -18,14 +17,15 @@ const NewsArchive = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
 
-  // 🛠️ FETCH DATA BERITA YANG SUDAH PUBLISH (true)
   useEffect(() => {
     const fetchNews = async () => {
       try {
         setLoading(true);
+        // Mengambil hanya berita yang sudah di-publish
         const data = await newsService.getAll(true);
-        // Urutkan berita berdasarkan tanggal terbaru
-        const sortedData = data.sort((a, b) => 
+        
+        // Sorting berdasarkan published_date
+        const sortedData = [...data].sort((a, b) => 
           new Date(b.published_date).getTime() - new Date(a.published_date).getTime()
         );
         setAllNewsData(sortedData);
@@ -88,9 +88,10 @@ const NewsArchive = () => {
                       <article className="group card-hover bg-card rounded-2xl overflow-hidden border border-border flex flex-col h-full shadow-sm">
                         <div className="relative h-56 overflow-hidden">
                           <img 
-                            src={news.cover_image} 
+                            src={news.thumbnail} // Menggunakan thumbnail
                             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" 
-                            alt={news.title} 
+                            alt={news.title_id} 
+                            onError={e => (e.currentTarget.src = 'https://placehold.co/80x48/e2e8f0/94a3b8?text=img')} 
                           />
                           <div className="absolute top-4 left-4">
                             <span className="bg-primary px-3 py-1 rounded-full text-xs font-bold text-primary-foreground shadow-lg">
@@ -108,15 +109,15 @@ const NewsArchive = () => {
                           </div>
                           
                           <h3 className="text-xl font-bold mb-3 group-hover:text-primary transition-colors line-clamp-2">
-                            {news.title}
+                            {news.title_id} {/* Menggunakan title_id */}
                           </h3>
                           
                           <p className="text-muted-foreground text-sm mb-6 line-clamp-3 leading-relaxed">
-                            {news.excerpt || news.content.substring(0, 120) + '...'}
+                            {news.excerpt_id || news.content_id.replace(/<[^>]*>/g, '').substring(0, 120) + '...'}
                           </p>
                           
                           <div className="mt-auto">
-                            <Link to={`/more-news/${news.id}`}>
+                            <Link to={`/more-news/${news.slug || news.id}`}>
                               <button className="flex items-center gap-2 text-primary font-bold text-sm hover:gap-3 transition-all group/btn">
                                 {t('news.all.read_more')} 
                                 <ArrowRight className="w-4 h-4 transition-transform group-hover/btn:translate-x-1" />
@@ -135,7 +136,7 @@ const NewsArchive = () => {
                   <button 
                     onClick={() => handlePageChange(currentPage - 1)}
                     disabled={currentPage === 1}
-                    className="p-3 rounded-xl border border-border bg-card hover:bg-primary hover:text-primary-foreground disabled:opacity-30 disabled:hover:bg-card disabled:hover:text-current transition-all"
+                    className="p-3 rounded-xl border border-border bg-card hover:bg-primary hover:text-primary-foreground disabled:opacity-30 transition-all"
                   >
                     <ChevronLeft className="w-5 h-5" />
                   </button>
@@ -147,7 +148,7 @@ const NewsArchive = () => {
                         onClick={() => handlePageChange(i + 1)}
                         className={`w-12 h-12 rounded-xl border font-bold transition-all ${
                           currentPage === i + 1 
-                            ? 'bg-primary border-primary text-primary-foreground shadow-lg shadow-primary/20 scale-110' 
+                            ? 'bg-primary border-primary text-primary-foreground shadow-lg scale-110' 
                             : 'border-border bg-card hover:border-primary hover:text-primary'
                         }`}
                       >
@@ -159,7 +160,7 @@ const NewsArchive = () => {
                   <button 
                     onClick={() => handlePageChange(currentPage + 1)}
                     disabled={currentPage === totalPages}
-                    className="p-3 rounded-xl border border-border bg-card hover:bg-primary hover:text-primary-foreground disabled:opacity-30 disabled:hover:bg-card disabled:hover:text-current transition-all"
+                    className="p-3 rounded-xl border border-border bg-card hover:bg-primary hover:text-primary-foreground disabled:opacity-30 transition-all"
                   >
                     <ChevronRight className="w-5 h-5" />
                   </button>

@@ -11,17 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('organizations', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->enum('category', ['leadership', 'arts', 'performance', 'character']);
-            $table->string('role')->nullable();
-            $table->text('description')->nullable();
-            $table->string('logo_url')->nullable();
-            $table->string('competencies')->nullable();
-            $table->boolean('is_active')->default(true);
-            $table->timestamps();
-        });
+      // Di dalam file migrasi (method up)
+Schema::create('organizations', function (Blueprint $table) {
+    $table->id();
+    $table->string('name');
+    $table->enum('category', ['leadership', 'creative', 'discipline', 'wellness']);
+    $table->string('leader_name')->nullable();
+    $table->string('advisor_name')->nullable();
+    $table->text('description_id')->nullable();
+    $table->text('description_en')->nullable();
+    $table->longText('logo_url'); 
+    $table->boolean('is_active')->default(true);
+    $table->timestamps();
+});
     }
 
     /**

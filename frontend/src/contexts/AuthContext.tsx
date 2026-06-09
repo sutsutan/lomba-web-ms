@@ -22,44 +22,37 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
- useEffect(() => {
-  api.get('/api/me')
-    .then(res => setUser(res.data))
-    .catch((err) => {
-      if (err.response?.status !== 401) {
-        console.error("Terjadi masalah saat mengecek sesi:", err);
-      }
-      setUser(null);
-    })
-    .finally(() => setLoading(false));
-}, []);
+  useEffect(() => {
+    // Mengecek sesi user yang sedang login
+    api.get('/me')
+      .then(res => setUser(res.data))
+      .catch(() => setUser(null))
+      .finally(() => setLoading(false));
+  }, []);
 
   const login = async (email: string, password: string): Promise<void> => {
     try {
-      console.log("Meminta CSRF cookie...");
       await api.get('/sanctum/csrf-cookie');
       
-      console.log("Mengirim request login...");
-      const res = await api.post('/api/internal/sekolah/login', { email, password });
+      const res = await api.post('/admin/login', { email, password });
       
       setUser(res.data.user);
     } catch (error: any) {
       if (error.response?.status === 419) {
-       console.error("CSRF Token Mismatch: Periksa SESSION_DOMAIN di .env Laravel!");
+        console.error("CSRF Token Mismatch: Periksa SESSION_DOMAIN di .env Laravel!");
+      } else if (error.response?.status === 422) {
+        console.log("Validasi gagal:", error.response.data.errors);
+      }
+      throw error;
     }
-  if (error.response && error.response.status === 422) {
-    console.log("Detail Error Validasi:", error.response.data.errors);
-    alert("Login gagal: " + JSON.stringify(error.response.data.errors));
-  } else {
-    console.error("Login gagal:", error);
-  }
-  throw error;
-}
   };
 
   const logout = async () => {
-    await api.post('/api/logout');
-    setUser(null);
+    try {
+      await api.post('/logout');
+    } finally {
+      setUser(null);
+    }
   };
 
   return (

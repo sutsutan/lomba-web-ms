@@ -1,15 +1,29 @@
 <?php
+
 namespace App\Http\Controllers\Api;
-use App\Models\Hero_Background;
+
+use App\Models\HeroBackground;
+use Illuminate\Http\Request;
 
 class HeroBackgroundController extends BaseResourceController {
-    protected $model = Hero_Background::class;
-    protected $searchableFields = ['title', 'subtitle'];
-    protected $validationRules = [
-        'image_url' => 'required|string',
-        'title'     => 'nullable|string|max:255',
-        'subtitle'  => 'nullable|string|max:255',
-        'order'     => 'nullable|integer',
-        'is_active' => 'nullable|boolean',
+    protected $model = HeroBackground::class;
+
+    protected $searchableFields = [
+        'title_id', 'title_en', 'subtitle_id', 'subtitle_en', 'category'
     ];
+
+    protected $validationRules = [
+        'image_url'   => 'required',
+        'title_id'    => 'nullable|string|max:255',
+        'title_en'    => 'nullable|string|max:255',
+        'subtitle_id' => 'nullable|string',
+        'subtitle_en' => 'nullable|string',
+        'category'    => 'required|string|max:100',
+        'order'       => 'nullable|integer|min:0|max:4',
+        'is_active'   => 'boolean',
+    ];
+
+    public function store(Request $request) 
+    {
+    }
 }

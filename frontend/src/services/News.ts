@@ -1,16 +1,22 @@
+<<<<<<< HEAD
+=======
+// src/services/News.ts
+>>>>>>> 0a5216d368e8c7e522e29366506d05b340c3cd48
 import api from '@/lib/api';
 
 export interface NewsData {
-  id?: number;
-  title: string;
-  category: string;      // 'Achievement', 'Event', 'Partnership', 'Facility'
-  published_date: string; // Format: 'YYYY-MM-DD' atau ISO string
+  id: number;
+  title_id: string;
+  category: string;
+  published_date: string;
   is_published: boolean;
-  cover_image: string;    // URL Gambar
-  content: string;        // Isi berita lengkap
-  excerpt?: string;       // Cuplikan teks pendek
+  thumbnail: string;
+  content_id: string;
+  excerpt_id?: string;
+  slug: string;
 }
 
+<<<<<<< HEAD
 // Map backend response item to frontend format
 const mapToFrontend = (item: any): NewsData => {
   return {
@@ -70,5 +76,41 @@ export const newsService = {
 
   delete: async (id: number | string): Promise<void> => {
     await api.delete(`/api/internal/sekolah/login/news/${id}`);
+=======
+const ADMIN_PATH = '/admin';
+
+// Helper untuk konsistensi data
+const extractData = (response: any) => {
+  return response.data?.data || response.data;
+};
+
+export const newsService = {
+  // --- Public Routes ---
+  getAll: async (onlyPublished = false): Promise<NewsData[]> => {
+    const response = await api.get('/news', {
+      params: onlyPublished ? { published: true } : {}
+    });
+    return extractData(response);
+  },
+
+getById: async (identifier: number | string): Promise<NewsData> => {
+  const response = await api.get(`/news/${identifier}`);
+  return response.data;
+},
+
+  // --- Admin Routes ---
+  create: async (data: NewsData): Promise<NewsData> => {
+    const response = await api.post(`${ADMIN_PATH}/news`, data);
+    return response.data;
+  },
+
+  update: async (id: number | string, data: NewsData): Promise<NewsData> => {
+    const response = await api.put(`${ADMIN_PATH}/news/${id}`, data);
+    return response.data;
+  },
+
+  delete: async (id: number | string): Promise<void> => {
+    await api.delete(`${ADMIN_PATH}/news/${id}`);
+>>>>>>> 0a5216d368e8c7e522e29366506d05b340c3cd48
   },
 };
