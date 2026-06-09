@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { getAdminStudentWorks, createStudentWork, updateStudentWork, deleteStudentWork } from '@/services/StudentWork';
 
 // Import komponen admin dari folder components
 import PageHeader from '@/components/admin/PageHeader';
@@ -22,10 +23,8 @@ interface StudentWork {
 }
 
 export default function AdminStudentWorkPage() {
-  const [items, setItems] = useState<StudentWork[]>([
-    { id: 1, preview_url: 'https://placehold.co/300x200/6366f1/fff?text=App+E-Commerce', title: 'Sistem Informasi Koperasi Sekolah Terintegrasi', major_code: 'it', creators: 'Andi Wijaya & Tim Kelas XII RPL 1', project_url: 'https://github.com', description: 'Aplikasi kasir dan inventory berbasis web menggunakan React dan Node.js untuk mendigitalisasi transaksi koperasi sekolah.', is_active: true },
-    { id: 2, preview_url: 'https://placehold.co/300x200/purple/fff?text=Branding+Pack', title: 'Rebranding Identitas Visual UMKM Kripik Lokal', major_code: 'vcd', creators: 'Siti Aminah', project_url: 'https://behance.net', description: 'Projek portofolio perancangan logo baru, kemasan produk (packaging layout), dan strategi aset konten promosi digital.', is_active: true },
-  ]);
+  const [items, setItems] = useState<StudentWork[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const [modal, setModal] = useState(false);
   const [editing, setEditing] = useState<StudentWork | null>(null);
@@ -63,18 +62,48 @@ export default function AdminStudentWorkPage() {
     setModal(true);
   };
 
-  // Aksi Simpan (Create / Update)
-  const save = () => {
-    if (editing) {
-      setItems(items.map(i => i.id === editing.id ? { ...i, ...form } : i));
-    } else {
-      setItems([...items, { id: Date.now(), ...form }]);
+  // Fetch data dari API
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+      const data = await getAdminStudentWorks();
+      setItems(data);
+    } catch (error) {
+      console.error('Gagal memuat data karya siswa:', error);
+    } finally {
+      setLoading(false);
     }
-    setModal(false);
+  };
+
+  useEffect(() => { fetchData(); }, []);
+
+  // Aksi Simpan (Create / Update)
+  const save = async () => {
+    try {
+      if (editing) {
+        await updateStudentWork(editing.id, form);
+      } else {
+        await createStudentWork(form);
+      }
+      setModal(false);
+      fetchData();
+    } catch (error) {
+      console.error('Gagal menyimpan data karya siswa:', error);
+      alert('Gagal menyimpan data. Silakan coba lagi.');
+    }
   };
 
   // Aksi Hapus
-  const del = (id: number) => setItems(items.filter(i => i.id !== id));
+  const del = async (id: number) => {
+    if (!confirm('Yakin ingin menghapus karya siswa ini?')) return;
+    try {
+      await deleteStudentWork(id);
+      fetchData();
+    } catch (error) {
+      console.error('Gagal menghapus data karya siswa:', error);
+      alert('Gagal menghapus data. Silakan coba lagi.');
+    }
+  };
 
   // Mapping warna badge sesuai jurusan karya
   const majorColors: Record<string, string> = {
