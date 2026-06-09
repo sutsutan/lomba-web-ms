@@ -6,12 +6,19 @@ interface ModalProps {
   onClose: () => void;
   title: string;
   children: React.ReactNode;
-  size?: 'sm' | 'md' | 'lg' | 'xl';
+  size?: 'sm' | 'md' | 'lg' | 'xl' | '2xl';
 }
 
 export default function Modal({ isOpen, onClose, title, children, size = 'md' }: ModalProps) {
   if (!isOpen) return null;
-  const sizes = { sm: 'max-w-md', md: 'max-w-xl', lg: 'max-w-2xl', xl: 'max-w-4xl' };
+
+ const sizes = { 
+    sm: 'max-w-md', 
+    md: 'max-w-xl', 
+    lg: 'max-w-2xl', 
+    xl: 'max-w-4xl',
+    '2xl': 'max-w-6xl' 
+  };
   
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto">

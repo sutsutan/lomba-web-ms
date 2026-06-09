@@ -39,10 +39,10 @@
 
     // --- Admin Only Routes ---
     Route::middleware(['auth:sanctum', 'admin'])->prefix('admin')->group(function () {
+
         // Utilities
         Route::get('/stats', [AuthController::class, 'adminStats']);
         Route::post('/upload', [UploadController::class, 'upload']);
-        
 
         // Resources (Auto-generated)
         Route::apiResources([

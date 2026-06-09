@@ -9,18 +9,18 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-   public function up()
-{
-    Schema::table('hero_backgrounds', function (Blueprint $table) {
-        $table->longText('image_url')->change();
+    public function up(): void
+    {
+       Schema::table('news', function (Blueprint $table) {
+        $table->longText('thumbnail')->nullable()->change();
     });
-}
+    }
 
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        //
+        Schema::dropIfExists('news');
     }
 };

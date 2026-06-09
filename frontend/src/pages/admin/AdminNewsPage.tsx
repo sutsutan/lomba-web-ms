@@ -1,4 +1,3 @@
-// src/pages/admin/AdminNewsPage.tsx
 import React, { useState, useEffect } from 'react';
 import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
@@ -37,13 +36,15 @@ export default function AdminNewsPage() {
   const [search, setSearch] = useState('');
   
   const [form, setForm] = useState({ 
-    title_id: '', 
-    category: 'Kegiatan', 
-    published_date: '', 
-    is_published: false, 
-    thumbnail: '', 
-    content_id: '' 
-  });
+  title_id: '', 
+  title_en: '',
+  category: 'Kegiatan', 
+  published_date: '', 
+  is_published: false, 
+  thumbnail: '', 
+  content_id: '',
+  content_en: ''
+});
 
  const loadNews = async () => {
     try {
@@ -64,58 +65,66 @@ export default function AdminNewsPage() {
   );
 
   const openAdd = () => { 
-    setEditing(null); 
-    setForm({ 
-      title_id: '', category: 'Kegiatan', 
-      published_date: new Date().toISOString().split('T')[0], 
-      is_published: false, thumbnail: '', content_id: '' 
-    }); 
-    setModal(true); 
-  };
+  setEditing(null); 
+  setForm({ 
+    title_id: '', title_en: '', category: 'Kegiatan', 
+    published_date: new Date().toISOString().split('T')[0], 
+    is_published: false, thumbnail: '', content_id: '', content_en: '' 
+  }); 
+  setModal(true); 
+};
 
-  const openEdit = (item: any) => { 
-    setEditing(item); 
-    setForm({ 
-      title_id: item.title_id,
-      category: item.category,
-      published_date: item.published_date,
-      is_published: !!item.is_published,
-      thumbnail: item.thumbnail,
-      content_id: item.content_id
-    }); 
-    setModal(true); 
-  };
+const openEdit = (item: any) => { 
+  setEditing(item); 
+  setForm({ 
+    title_id: item.title_id,
+    title_en: item.title_en || '',
+    category: item.category,
+    published_date: item.published_date,
+    is_published: !!item.is_published,
+    thumbnail: item.thumbnail,
+    content_id: item.content_id,
+    content_en: item.content_en || ''
+  }); 
+  setModal(true); 
+};
 
-  const save = async () => {
-    try {
-      // 1. Generate excerpt secara otomatis jika belum ada
-      const cleanText = form.content_id.replace(/<[^>]*>/g, '');
-      const excerpt = cleanText.substring(0, 120) + (cleanText.length > 120 ? '...' : '');
-      
-     const payload: NewsData = {
-        title_id: form.title_id,
-        category: form.category,
-        thumbnail: form.thumbnail,
-        content_id: form.content_id,
-        excerpt_id: excerpt, // Menambahkan excerpt yang sudah dibersihkan
-        is_published: !!form.is_published,
-        published_date: form.published_date || new Date().toISOString().split('T')[0]
-      };
+ const save = async () => {
+  try {
+    const cleanTextId = form.content_id.replace(/<[^>]*>/g, '');
+    const cleanTextEn = form.content_en.replace(/<[^>]*>/g, '');
+    
+    const excerptId = cleanTextId.substring(0, 120) + (cleanTextId.length > 120 ? '...' : '');
+    const excerptEn = cleanTextEn.substring(0, 120) + (cleanTextEn.length > 120 ? '...' : '');
+    
+    const slug = form.title_id.toLowerCase().replace(/[^a-z0-9]+/g, '-');
 
-      // 3. Eksekusi API
+    const payload: any = {
+            title_id: form.title_id,
+            title_en: form.title_en || form.title_id,
+            excerpt_id: excerptId,
+            excerpt_en: excerptEn || excerptId,
+            category: form.category,
+            content_id: form.content_id,
+            content_en: form.content_en || form.content_id,
+            thumbnail: form.thumbnail,
+            slug: slug,
+            is_published: !!form.is_published,
+            published_date: form.published_date,
+            user_id: 1
+    };
+
       if (editing?.id) {
         await newsService.update(editing.id, payload);
       } else {
         await newsService.create(payload);
       }
 
-      // 4. Refresh data dan tutup modal
       await loadNews();
       setModal(false);
       setEditing(null);
     } catch (error: any) {
       console.error("Error saving news:", error);
-      // Menampilkan pesan error yang lebih informatif dari Laravel
       const errorMessage = error.response?.data?.message || "Terjadi kesalahan saat menyimpan data.";
       alert("Gagal menyimpan: " + errorMessage);
     }
@@ -165,7 +174,7 @@ export default function AdminNewsPage() {
       ) 
     },
     { 
-      key: 'title_id', // Ubah dari title ke title_id
+      key: 'title_id',
       label: 'Judul Berita', 
       render: (item: any) => (
         <span className="font-semibold text-gray-900 line-clamp-2 max-w-xs block">
@@ -199,71 +208,62 @@ export default function AdminNewsPage() {
 />        )}
       </div>
 
-    <Modal isOpen={modal} onClose={() => setModal(false)} title={editing ? 'Edit Berita' : 'Tulis Berita Baru'} size="xl">
-  <div className="space-y-4">
-    <FormField label="Judul Berita" required>
-      <input 
-        className={inputClass} 
-        value={form.title_id} 
-        onChange={e => setForm({ ...form, title_id: e.target.value })} 
-        placeholder="Masukkan judul berita utama..." 
-      />
-    </FormField>
-    
-    <div className="grid grid-cols-2 gap-4">
-      <FormField label="Kategori" required>
-        <input 
-          className={inputClass} 
-          value={form.category} 
-          onChange={e => setForm({ ...form, category: e.target.value })} 
-          placeholder="Contoh: Prestasi, Kegiatan, Pengumuman" 
-        />
+    <Modal isOpen={modal} 
+  onClose={() => setModal(false)} 
+  title={editing ? 'Edit Berita' : 'Tulis Berita Baru'} 
+  size="2xl">
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+    {/* KOLOM KIRI: BAHASA INDONESIA */}
+    <div className="space-y-4 border-r border-gray-100 pr-0 md:pr-6">
+      <h3 className="font-bold text-gray-900 border-b pb-2">Bahasa Indonesia (ID)</h3>
+      <FormField label="Judul (ID)" required>
+        <input className={inputClass} value={form.title_id} onChange={e => setForm({ ...form, title_id: e.target.value })} />
       </FormField>
-      <FormField label="Tanggal Publish" required>
-        <input 
-          type="date" 
-          className={inputClass} 
-          value={form.published_date} 
-          onChange={e => setForm({ ...form, published_date: e.target.value })} 
-        />
-      </FormField>
-    </div>
-    
-    <ImageUploadField 
-      value={form.thumbnail} 
-      onChange={url => setForm({ ...form, thumbnail: url })} 
-      label="Foto Cover Artikel" 
-    />
-    
-    <FormField label="Konten Artikel" required hint="Gunakan toolbar di bawah untuk mengatur gaya tulisan artikel">
-      <div className="admin-rich-editor rounded-xl overflow-hidden border border-gray-200 focus-within:border-indigo-400 focus-within:ring-2 focus-within:ring-indigo-100 transition-all bg-white">
+      <FormField label="Konten (ID)" required>
         <ReactQuill 
-          theme="snow"
-          value={form.content_id}
-          onChange={htmlValue => setForm({ ...form, content_id: htmlValue })}
-          modules={quillModules}
-          formats={quillFormats}
-          placeholder="Tulis dan kreasikan materi konten berita sekolah di sini..."
-          className="bg-white min-h-[240px]"
+          theme="snow" value={form.content_id} 
+          onChange={val => setForm({ ...form, content_id: val })}
+          modules={quillModules} formats={quillFormats} className="h-64"
         />
-      </div>
+      </FormField>
+    </div>
+
+    {/* KOLOM KANAN: BAHASA INGGRIS */}
+    <div className="space-y-4">
+      <h3 className="font-bold text-gray-900 border-b pb-2">English (EN)</h3>
+      <FormField label="Title (EN)" required>
+        <input className={inputClass} value={form.title_en} onChange={e => setForm({ ...form, title_en: e.target.value })} />
+      </FormField>
+      <FormField label="Content (EN)" required>
+        <ReactQuill 
+          theme="snow" value={form.content_en} 
+          onChange={val => setForm({ ...form, content_en: val })}
+          modules={quillModules} formats={quillFormats} className="h-64"
+        />
+      </FormField>
+    </div>
+  </div>
+
+  {/* PENGATURAN UMUM */}
+  <div className="grid grid-cols-2 gap-4 mt-6">
+    <FormField label="Kategori" required>
+      <input className={inputClass} value={form.category} onChange={e => setForm({ ...form, category: e.target.value })} />
     </FormField>
-    
-    <div className="flex items-center gap-3 p-3.5 bg-gray-50 rounded-xl border border-gray-100">
-      <input 
-        type="checkbox" 
-        id="news-published" 
-        checked={!!form.is_published} 
-        onChange={e => setForm({ ...form, is_published: e.target.checked })} 
-        className="w-4 h-4 rounded accent-indigo-600" 
-      />
-      <label htmlFor="news-published" className="text-sm font-medium text-gray-700 select-none">Publikasikan sekarang (tampil di modul berita utama website)</label>
-    </div>
-    
-    <div className="flex gap-3 pt-2">
-      <button type="button" onClick={() => setModal(false)} className="flex-1 py-2.5 border border-gray-200 rounded-xl text-sm font-medium text-gray-600 hover:bg-gray-50 transition-colors">Batal</button>
-      <button type="button" onClick={save} className="flex-1 py-2.5 bg-indigo-600 rounded-xl text-sm font-medium text-white hover:bg-indigo-700 transition-colors">Simpan Berita</button>
-    </div>
+    <FormField label="Tanggal Publish" required>
+      <input type="date" className={inputClass} value={form.published_date} onChange={e => setForm({ ...form, published_date: e.target.value })} />
+    </FormField>
+  </div>
+
+  <ImageUploadField value={form.thumbnail} onChange={url => setForm({ ...form, thumbnail: url })} label="Foto Cover Artikel" />
+
+  <div className="flex items-center gap-3 p-3.5 bg-gray-50 rounded-xl border border-gray-100">
+    <input type="checkbox" id="news-published" checked={!!form.is_published} onChange={e => setForm({ ...form, is_published: e.target.checked })} className="w-4 h-4 rounded accent-indigo-600" />
+    <label htmlFor="news-published" className="text-sm font-medium text-gray-700">Publikasikan sekarang</label>
+  </div>
+
+  <div className="flex gap-3 pt-4">
+    <button type="button" onClick={() => setModal(false)} className="flex-1 py-2.5 border rounded-xl text-sm font-medium hover:bg-gray-50">Batal</button>
+    <button type="button" onClick={save} className="flex-1 py-2.5 bg-indigo-600 rounded-xl text-sm font-medium text-white hover:bg-indigo-700">Simpan Berita</button>
   </div>
 </Modal>
     </div>

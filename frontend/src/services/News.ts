@@ -2,7 +2,7 @@
 import api from '@/lib/api';
 
 export interface NewsData {
-  id: number;
+  id?: number;
   title_id: string;
   category: string;
   published_date: string;
@@ -10,7 +10,7 @@ export interface NewsData {
   thumbnail: string;
   content_id: string;
   excerpt_id?: string;
-  slug: string;
+  slug?: string;
 }
 
 const ADMIN_PATH = '/admin';

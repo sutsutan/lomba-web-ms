@@ -1,7 +1,7 @@
 <?php
 
 return [
-'paths' => ['api/*', 'sanctum/csrf-cookie', '/admin/login/*', 'admin/login', 'admin/logout'],
+'paths' => ['api/*', 'sanctum/csrf-cookie', '/admin/login/*', 'admin/login', 'admin/logout', 'build/*'],
 'allowed_methods' => ['*'],
 'allowed_origins' => ['http://127.0.0.1:5173'],
 'allowed_headers' => ['*'],

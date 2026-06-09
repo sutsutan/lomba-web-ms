@@ -1,3 +1,5 @@
+//AdminHeroPage.tsx
+
 import React, { useState, useEffect } from 'react';
 import PageHeader from '@/components/admin/PageHeader';
 import DataTable from '@/components/admin/DataTable';
@@ -17,6 +19,8 @@ interface HeroBg {
   title_en: string | null; 
   subtitle_id: string | null; 
   subtitle_en: string | null; 
+  description_id: string | null; // Added
+  description_en: string | null; // Added
   category: string | null; 
   order: number; 
   is_active: boolean; 
@@ -35,6 +39,8 @@ export default function AdminHeroPage() {
     title_en: '', 
     subtitle_id: '', 
     subtitle_en: '', 
+    description_id: '', 
+    description_en: '', 
     category: 'home', 
     order: 0, 
     is_active: true 
@@ -44,10 +50,9 @@ export default function AdminHeroPage() {
   const fetchData = async () => {
     try {
       setLoading(true);
-      // Menggunakan endpoint /admin/ agar masuk ke middleware admin
       const response = await api.get('/admin/hero-backgrounds');
-      const data = Array.isArray(response.data) ? response.data : (response.data.data || []);
-      setItems(data);
+      const items = response.data.data || response.data || [];
+      setItems(items); 
     } catch (error) {
       console.error("Gagal mengambil data:", error);
       setItems([]);
@@ -62,20 +67,18 @@ export default function AdminHeroPage() {
   const openEdit = (item: HeroBg) => { setEditing(item); setForm({ ...item }); setModal(true); };
 
   const save = async () => {
-    // 1. Validasi logic khusus Home
-    if (form.category === 'home' && (form.order < 1 || form.order > 4)) {
-      toast({ title: "Validasi", description: "Urutan Home harus antara 1-4", variant: "destructive" });
-      return;
-    }
-
-    // 2. Bersihkan data: jika category 'home', set null field teks agar lolos validasi database
+    const isHome = form.category === 'home';
     const payload = {
-        ...form,
-        title_id: form.category === 'home' ? null : form.title_id,
-        title_en: form.category === 'home' ? null : form.title_en,
-        subtitle_id: form.category === 'home' ? null : form.subtitle_id,
-        subtitle_en: form.category === 'home' ? null : form.subtitle_en,
-        order: form.category === 'home' ? form.order : 0
+        image_url: form.image_url,
+        category: form.category,
+        is_active: form.is_active,
+        title_id: isHome ? null : form.title_id,
+        title_en: isHome ? null : form.title_en,
+        subtitle_id: isHome ? null : form.subtitle_id,
+        subtitle_en: isHome ? null : form.subtitle_en,
+        description_id: isHome ? null : form.description_id, // Added
+        description_en: isHome ? null : form.description_en, // Added
+        order: isHome ? form.order : 0
     };
 
     try {
@@ -86,15 +89,10 @@ export default function AdminHeroPage() {
         await api.post('/admin/hero-backgrounds', payload);
         toast({ title: "Berhasil", description: "Data berhasil ditambahkan" });
       }
-      await fetchData(); // Refresh data setelah berhasil
+      await fetchData(); 
       setModal(false);
     } catch (error: any) {
-      console.error("Detail Error:", error.response?.data);
-      toast({ 
-        title: "Error", 
-        description: error.response?.data?.message || "Gagal menyimpan data", 
-        variant: "destructive" 
-      });
+      toast({ title: "Error", description: "Gagal menyimpan", variant: "destructive" });
     }
   };
 
@@ -109,8 +107,8 @@ export default function AdminHeroPage() {
     }
   };
 
-  const homeItems = items.filter(i => i.category === 'home');
-  const universalItems = items.filter(i => i.category !== 'home');
+  const homeItems = items.filter(i => (i.category || '').toLowerCase() === 'home');
+  const universalItems = items.filter(i => (i.category || '').toLowerCase() !== 'home');
 
   return (
     <div className="p-6 space-y-8">
@@ -140,18 +138,9 @@ export default function AdminHeroPage() {
               columns={[
                 { key: 'category', label: 'Kategori' },
                 { key: 'image_url', label: 'Gambar', render: (i) => <img src={i.image_url} className="w-16 h-10 object-cover rounded-lg" alt="" /> },
-                { key: 'title_id', label: 'Judul (ID)' },
-                { key: 'title_en', label: 'Title (EN)' },
-                { 
-                  key: 'subtitle_id', 
-                  label: 'Subjudul (ID/EN)', 
-                  render: (i) => (
-                    <div className="text-xs truncate max-w-[200px]">
-                      <div className="font-medium">ID: {i.subtitle_id || '-'}</div>
-                      <div className="text-gray-500">EN: {i.subtitle_en || '-'}</div>
-                    </div>
-                  ) 
-                },
+                { key: 'title_id', label: 'Judul (ID/EN)', render: (i) => <div>{i.title_id}<div className="text-gray-400">{i.title_en}</div></div> },
+                { key: 'subtitle_id', label: 'Subjudul (ID/EN)', render: (i) => <div>{i.subtitle_id}<div className="text-gray-400">{i.subtitle_en}</div></div> },
+                { key: 'description_id', label: 'Deskripsi (ID/EN)', render: (i) => <div className="text-xs truncate max-w-[150px]">{i.description_id || '-'}<br/><span className="text-gray-400">{i.description_en || '-'}</span></div> },
                 { key: 'is_active', label: 'Status', render: (i) => <Badge color={i.is_active ? 'green' : 'gray'}>{i.is_active ? 'Aktif' : 'Nonaktif'}</Badge> },
               ]}
               data={universalItems}
@@ -168,14 +157,18 @@ export default function AdminHeroPage() {
           
           {form.category !== 'home' && (
             <>
-                <div className="grid grid-cols-2 gap-4">
-                    <FormField label="Judul (ID)"><input className={inputClass} value={form.title_id || ''} onChange={e => setForm({ ...form, title_id: e.target.value })} /></FormField>
-                    <FormField label="Title (EN)"><input className={inputClass} value={form.title_en || ''} onChange={e => setForm({ ...form, title_en: e.target.value })} /></FormField>
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                    <FormField label="Subjudul (ID)"><input className={inputClass} value={form.subtitle_id || ''} onChange={e => setForm({ ...form, subtitle_id: e.target.value })} /></FormField>
-                    <FormField label="Subtitle (EN)"><input className={inputClass} value={form.subtitle_en || ''} onChange={e => setForm({ ...form, subtitle_en: e.target.value })} /></FormField>
-                </div>
+              <div className="grid grid-cols-2 gap-4">
+                <FormField label="Judul (ID)"><input className={inputClass} value={form.title_id || ''} onChange={e => setForm({ ...form, title_id: e.target.value })} /></FormField>
+                <FormField label="Title (EN)"><input className={inputClass} value={form.title_en || ''} onChange={e => setForm({ ...form, title_en: e.target.value })} /></FormField>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <FormField label="Subjudul (ID)"><input className={inputClass} value={form.subtitle_id || ''} onChange={e => setForm({ ...form, subtitle_id: e.target.value })} /></FormField>
+                <FormField label="Subtitle (EN)"><input className={inputClass} value={form.subtitle_en || ''} onChange={e => setForm({ ...form, subtitle_en: e.target.value })} /></FormField>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <FormField label="Deskripsi (ID)"><textarea className={inputClass} rows={2} value={form.description_id || ''} onChange={e => setForm({ ...form, description_id: e.target.value })} /></FormField>
+                <FormField label="Description (EN)"><textarea className={inputClass} rows={2} value={form.description_en || ''} onChange={e => setForm({ ...form, description_en: e.target.value })} /></FormField>
+              </div>
             </>
           )}
 
@@ -187,13 +180,6 @@ export default function AdminHeroPage() {
               <option value="contact">Contact</option>
               <option value="about">About</option>
               <option value="academics">Academics</option>
-              <option value="student-works">Student Works</option>
-              <option value="teacher">Teacher</option>
-              <option value="extracurricular">Extracurricular</option>
-              <option value="organization">Organization</option>
-              <option value="news">News</option>
-              <option value="admin">Admin</option>
-              <option value="ppdb">PPDB</option>
             </select>
           </FormField>
 

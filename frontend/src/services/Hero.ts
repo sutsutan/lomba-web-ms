@@ -7,6 +7,8 @@ export interface HeroData {
   title_en?: string | null;
   subtitle_id: string;
   subtitle_en?: string | null;
+  description_id?: string | null;
+  description_en?: string | null;
   category?: string | null;
   order: number;
   is_active: boolean;
