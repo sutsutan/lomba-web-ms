@@ -115,7 +115,6 @@ export default function AdminNewsPage() {
       setModal(false);
       setEditing(null);
     } catch (error: any) {
-<<<<<<< HEAD
       console.error("Gagal menyimpan berita:", error);
       let errorMsg = "Terjadi masalah saat menyimpan data ke server.";
       if (error.response?.data?.errors) {
@@ -126,11 +125,6 @@ export default function AdminNewsPage() {
         errorMsg = error.response.data.message;
       }
       alert(errorMsg);
-=======
-      console.error("Error saving news:", error);
-      const errorMessage = error.response?.data?.message || "Terjadi kesalahan saat menyimpan data.";
-      alert("Gagal menyimpan: " + errorMessage);
->>>>>>> a90f98283b16b654638f6630a1d9e472712ca382
     }
   };
 

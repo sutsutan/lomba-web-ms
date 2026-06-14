@@ -1,7 +1,4 @@
-<<<<<<< HEAD
 // src/services/News.ts
-=======
->>>>>>> a90f98283b16b654638f6630a1d9e472712ca382
 import api from '@/lib/api';
 
 export interface NewsData {
