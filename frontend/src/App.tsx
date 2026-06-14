@@ -95,7 +95,7 @@ const App = () => (
 
                
                 {/* Admin Routes */}
-                <Route path="/admin/login" element={<AdminLoginPage />} />
+                <Route path="/internal/sekolah/login" element={<AdminLoginPage />} />
                 <Route path="/dashboard" element={<AdminRequireAuth><AdminLayout /></AdminRequireAuth>}>
                   <Route index element={<AdminDashboard />} />
                   <Route path="hero" element={<AdminHeroPage />} />
