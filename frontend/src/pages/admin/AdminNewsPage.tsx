@@ -1,4 +1,3 @@
-// src/pages/admin/AdminNewsPage.tsx
 import React, { useState, useEffect } from 'react';
 import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
@@ -25,11 +24,8 @@ const quillModules = {
 };
 
 const quillFormats = [
-  'header',
-  'bold', 'italic', 'underline', 'blockquote',
-  'list', 'bullet',
-  'align',
-  'link'
+  'header', 'bold', 'italic', 'underline', 'blockquote',
+  'list', 'align', 'link'
 ];
 
 export default function AdminNewsPage() {
@@ -39,20 +35,21 @@ export default function AdminNewsPage() {
   const [editing, setEditing] = useState<NewsData | null>(null);
   const [search, setSearch] = useState('');
   
-  const [form, setForm] = useState<NewsData>({ 
-    title: '', 
-    category: 'Kegiatan', 
-    published_date: '', 
-    is_published: false, 
-    cover_image: '', 
-    content: '' 
-  });
+  const [form, setForm] = useState({ 
+  title_id: '', 
+  title_en: '',
+  category: 'Kegiatan', 
+  published_date: '', 
+  is_published: false, 
+  thumbnail: '', 
+  content_id: '',
+  content_en: ''
+});
 
-  // 🛠️ AMBIL DATA DARI SERVER
-  const loadNews = async () => {
+ const loadNews = async () => {
     try {
       setLoading(true);
-      const data = await newsService.getAll(false); // false = ambil semua termasuk draft
+      const data = await newsService.getAll(false);
       setItems(data);
     } catch (error) {
       console.error(error);
@@ -61,64 +58,82 @@ export default function AdminNewsPage() {
     }
   };
 
-  useEffect(() => {
-    loadNews();
-  }, []);
+  useEffect(() => { loadNews(); }, []);
 
   const filtered = items.filter(i => 
-    i.title.toLowerCase().includes(search.toLowerCase())
+    i.title_id?.toLowerCase().includes(search.toLowerCase())
   );
 
   const openAdd = () => { 
-    setEditing(null); 
+  setEditing(null); 
+  setForm({ 
+    title_id: '', title_en: '', category: 'Kegiatan', 
+    published_date: new Date().toISOString().split('T')[0], 
+    is_published: false, thumbnail: '', content_id: '', content_en: '' 
+  }); 
+  setModal(true); 
+};
+
+  const openEdit = (item: any) => { 
+    setEditing(item); 
     setForm({ 
-      title: '', 
-      category: 'Kegiatan', 
-      published_date: new Date().toISOString().split('T')[0], 
-      is_published: false, 
-      cover_image: '', 
-      content: '' 
+      title_id: item.title_id || '',
+      category: item.category || '',
+      published_date: item.published_date || '',
+      is_published: !!item.is_published,
+      thumbnail: item.thumbnail || '',
+      content_id: item.content_id || ''
     }); 
     setModal(true); 
   };
 
-  const openEdit = (item: NewsData) => { 
-    setEditing(item); 
-    setForm({ ...item }); 
-    setModal(true); 
-  };
-
-  // 🛠️ AKSI SIMPAN KE API SERVER
   const save = async () => {
     try {
-      // Membuat deskripsi singkat otomatis dari content jika backend membutuhkannya
-      const cleanText = form.content.replace(/<[^>]*>/g, '');
-      const excerpt = cleanText.substring(0, 120) + (cleanText.length > 120 ? '...' : '');
-      const payload = { ...form, excerpt };
+      // Decode HTML entities
+      const tempDiv = document.createElement("div");
+      tempDiv.innerHTML = form.content_id;
+      const textContent = tempDiv.textContent || tempDiv.innerText || "";
+      const excerpt = textContent.substring(0, 120) + (textContent.length > 120 ? '...' : '');
+      
+      const payload: NewsData = {
+        title_id: form.title_id,
+        category: form.category,
+        published_date: form.published_date || new Date().toISOString().split('T')[0],
+        is_published: form.is_published,
+        thumbnail: form.thumbnail,
+        content_id: form.content_id,
+        excerpt_id: excerpt,
+      };
 
-      if (editing && editing.id) {
-        const updated = await newsService.update(editing.id, payload);
-        setItems(items.map(i => i.id === editing.id ? updated : i));
+      if (editing?.id) {
+        await newsService.update(editing.id, payload);
       } else {
-        const created = await newsService.create(payload);
-        setItems([...items, created]);
+        await newsService.create(payload);
       }
+
+      await loadNews();
       setModal(false);
-    } catch (error) {
+      setEditing(null);
+    } catch (error: any) {
       console.error("Gagal menyimpan berita:", error);
-      alert("Terjadi masalah saat menyimpan data ke server.");
+      let errorMsg = "Terjadi masalah saat menyimpan data ke server.";
+      if (error.response?.data?.errors) {
+        // Extract validation errors
+        const errors = error.response.data.errors;
+        errorMsg = "Data tidak lengkap/valid:\n" + Object.values(errors).flat().join('\n');
+      } else if (error.response?.data?.message) {
+        errorMsg = error.response.data.message;
+      }
+      alert(errorMsg);
     }
   };
 
-  // 🛠️ AKSI HAPUS DARI API SERVER
   const del = async (id: number) => {
-    if (confirm("Apakah Anda yakin ingin menghapus berita ini?")) {
+    if (confirm("Hapus berita ini?")) {
       try {
         await newsService.delete(id);
-        setItems(items.filter(i => i.id !== id));
-      } catch (error) {
-        console.error("Gagal menghapus berita:", error);
-      }
+        loadNews();
+      } catch (error) { console.error(error); }
     }
   };
 
@@ -145,11 +160,11 @@ export default function AdminNewsPage() {
           <DataTable
             columns={[
               { 
-                key: 'cover_image', 
+                key: 'thumbnail', 
                 label: 'Cover', 
                 render: (item: any) => (
                   <img 
-                    src={item.cover_image} 
+                    src={item.thumbnail} 
                     className="w-20 h-12 object-cover rounded-lg border border-gray-100 shadow-sm" 
                     alt="" 
                     onError={e => (e.currentTarget.src = 'https://placehold.co/80x48/e2e8f0/94a3b8?text=img')} 
@@ -157,11 +172,11 @@ export default function AdminNewsPage() {
                 ) 
               },
               { 
-                key: 'title', 
+                key: 'title_id', 
                 label: 'Judul Berita', 
                 render: (item: any) => (
                   <span className="font-semibold text-gray-900 line-clamp-2 max-w-xs block">
-                    {item.title}
+                    {item.title_id}
                   </span>
                 ) 
               },
@@ -187,7 +202,7 @@ export default function AdminNewsPage() {
             ]}
             data={filtered}
             onEdit={(item: any) => openEdit(item as NewsData)}
-            onDelete={(item: any) => item.id && del(item.id)}
+            onDelete={(id: number) => del(id)}
           />
         )}
       </div>
@@ -195,26 +210,46 @@ export default function AdminNewsPage() {
       <Modal isOpen={modal} onClose={() => setModal(false)} title={editing ? 'Edit Berita' : 'Tulis Berita Baru'} size="xl">
         <div className="space-y-4">
           <FormField label="Judul Berita" required>
-            <input className={inputClass} value={form.title} onChange={e => setForm({ ...form, title: e.target.value })} placeholder="Masukkan judul berita utama..." />
+            <input 
+              className={inputClass} 
+              value={form.title_id} 
+              onChange={e => setForm({ ...form, title_id: e.target.value })} 
+              placeholder="Masukkan judul berita utama..." 
+            />
           </FormField>
           
           <div className="grid grid-cols-2 gap-4">
             <FormField label="Kategori" required>
-              <input className={inputClass} value={form.category} onChange={e => setForm({ ...form, category: e.target.value })} placeholder="Contoh: Prestasi, Kegiatan, Pengumuman" />
+              <input 
+                className={inputClass} 
+                value={form.category} 
+                onChange={e => setForm({ ...form, category: e.target.value })} 
+                placeholder="Contoh: Prestasi, Kegiatan, Pengumuman" 
+              />
             </FormField>
             <FormField label="Tanggal Publish" required>
-              <input type="date" className={inputClass} value={form.published_date} onChange={e => setForm({ ...form, published_date: e.target.value })} />
+              <input 
+                type="date" 
+                className={inputClass} 
+                value={form.published_date} 
+                onChange={e => setForm({ ...form, published_date: e.target.value })} 
+              />
             </FormField>
           </div>
           
-          <ImageUploadField value={form.cover_image} onChange={url => setForm({ ...form, cover_image: url })} label="Foto Cover Artikel" />
+          <ImageUploadField 
+            value={form.thumbnail} 
+            onChange={url => setForm({ ...form, thumbnail: url })} 
+            label="Foto Cover Artikel" 
+          />
           
           <FormField label="Konten Artikel" required hint="Gunakan toolbar di bawah untuk mengatur gaya tulisan artikel">
             <div className="admin-rich-editor rounded-xl overflow-hidden border border-gray-200 focus-within:border-indigo-400 focus-within:ring-2 focus-within:ring-indigo-100 transition-all bg-white">
+              {/* @ts-ignore - ReactQuill types mismatch with React 18/19 */}
               <ReactQuill 
                 theme="snow"
-                value={form.content}
-                onChange={htmlValue => setForm({ ...form, content: htmlValue })}
+                value={form.content_id}
+                onChange={(htmlValue: string) => setForm({ ...form, content_id: htmlValue })}
                 modules={quillModules}
                 formats={quillFormats}
                 placeholder="Tulis dan kreasikan materi konten berita sekolah di sini..."
@@ -224,7 +259,13 @@ export default function AdminNewsPage() {
           </FormField>
           
           <div className="flex items-center gap-3 p-3.5 bg-gray-50 rounded-xl border border-gray-100">
-            <input type="checkbox" id="news-published" checked={form.is_published} onChange={e => setForm({ ...form, is_published: e.target.checked })} className="w-4 h-4 rounded accent-indigo-600" />
+            <input 
+              type="checkbox" 
+              id="news-published" 
+              checked={form.is_published} 
+              onChange={e => setForm({ ...form, is_published: e.target.checked })} 
+              className="w-4 h-4 rounded accent-indigo-600" 
+            />
             <label htmlFor="news-published" className="text-sm font-medium text-gray-700 select-none">Publikasikan sekarang (tampil di modul berita utama website)</label>
           </div>
           

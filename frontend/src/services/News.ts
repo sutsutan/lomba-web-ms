@@ -1,48 +1,51 @@
 // src/services/News.ts
-import axios from 'axios';
+import api from '@/lib/api';
 
 export interface NewsData {
   id?: number;
-  title: string;
-  category: string;      // 'Achievement', 'Event', 'Partnership', 'Facility'
-  published_date: string; // Format: 'YYYY-MM-DD' atau ISO string
+  title_id: string;
+  category: string;
+  published_date: string;
   is_published: boolean;
-  cover_image: string;    // URL Gambar
-  content: string;        // Isi berita lengkap
-  excerpt?: string;       // Cuplikan teks pendek
+  thumbnail: string;
+  content_id: string;
+  excerpt_id?: string;
+  slug?: string;
 }
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+const ADMIN_PATH = '/admin';
+
+// Helper untuk konsistensi data
+const extractData = (response: any) => {
+  return response.data?.data || response.data;
+};
 
 export const newsService = {
-  // Ambil semua berita (dengan parameter filter untuk publik/admin)
+  // --- Public Routes ---
   getAll: async (onlyPublished = false): Promise<NewsData[]> => {
-    const response = await axios.get(`${API_URL}/news`, {
+    const response = await api.get('/news', {
       params: onlyPublished ? { published: true } : {}
     });
+    return extractData(response);
+  },
+
+  getById: async (identifier: number | string): Promise<NewsData> => {
+    const response = await api.get(`/news/${identifier}`);
     return response.data;
   },
 
-  // Ambil detail satu berita berdasarkan ID
-  getById: async (id: number | string): Promise<NewsData> => {
-    const response = await axios.get(`${API_URL}/news/${id}`);
-    return response.data;
-  },
-
-  // Tambah berita baru (Admin)
+  // --- Admin Routes ---
   create: async (data: NewsData): Promise<NewsData> => {
-    const response = await axios.post(`${API_URL}/news`, data);
+    const response = await api.post(`${ADMIN_PATH}/news`, data);
     return response.data;
   },
 
-  // Edit berita lama (Admin)
   update: async (id: number | string, data: NewsData): Promise<NewsData> => {
-    const response = await axios.put(`${API_URL}/news/${id}`, data);
+    const response = await api.put(`${ADMIN_PATH}/news/${id}`, data);
     return response.data;
   },
 
-  // Hapus berita (Admin)
   delete: async (id: number | string): Promise<void> => {
-    await axios.delete(`${API_URL}/news/${id}`);
+    await api.delete(`${ADMIN_PATH}/news/${id}`);
   },
 };

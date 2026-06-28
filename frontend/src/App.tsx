@@ -1,4 +1,6 @@
 import './index.css';
+import './i18n';
+import 'quill/dist/quill.snow.css';
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -30,6 +32,8 @@ import MissionVision from "./pages/public/MissionVission";
 import NewsArchive from "./pages/public/NewsArchive";
 import NewsDetail from "./pages/public/NewsDetail";
 
+
+
 // Admin Pages & Layouts
 import AdminLoginPage from './pages/admin/AdminLoginPage';
 import AdminLayout from './pages/admin/AdminLayout';
@@ -53,10 +57,9 @@ import AdminManageUser from './pages/admin/AdminManageUser';
 
 // Components
 import PpdbPopup from "./components/home/ppdbpopup";
-
 const queryClient = new QueryClient();
-
 const App = () => (
+
   <QueryClientProvider client={queryClient}>
     <BrowserRouter>
       <AuthProvider>
@@ -68,6 +71,7 @@ const App = () => (
             <PpdbPopup />
             <AnimatePresence mode="wait">
               <Routes>
+
                 {/* Public Routes */}
                 <Route path="/" element={<Home />} />
                 <Route path="/about" element={<About />} />
@@ -88,10 +92,10 @@ const App = () => (
                 <Route path="/news-archive" element={<NewsArchive />} />
                 <Route path="/more-news" element={<NewsDetail />} />  
                 <Route path="/more-news/:id" element={<NewsDetail />} />  
-                
+
+               
                 {/* Admin Routes */}
                 <Route path="/internal/sekolah/login" element={<AdminLoginPage />} />
-
                 <Route path="/dashboard" element={<AdminRequireAuth><AdminLayout /></AdminRequireAuth>}>
                   <Route index element={<AdminDashboard />} />
                   <Route path="hero" element={<AdminHeroPage />} />

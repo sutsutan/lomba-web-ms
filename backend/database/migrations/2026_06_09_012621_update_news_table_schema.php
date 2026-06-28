@@ -12,8 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('news', function (Blueprint $table) {
-            //
-        });
+        $table->string('title_en')->nullable()->change();
+        $table->text('excerpt_en')->nullable()->change();
+        $table->longText('content_en')->nullable()->change();
+        $table->longText('thumbnail')->nullable()->change();
+    });
     }
 
     /**
@@ -21,8 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('news', function (Blueprint $table) {
-            //
-        });
+        //
     }
 };

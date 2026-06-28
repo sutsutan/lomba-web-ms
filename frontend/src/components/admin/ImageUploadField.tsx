@@ -1,42 +1,78 @@
 import React, { useRef, useState } from 'react';
-import { Upload, X, FileText } from 'lucide-react';
+import { Upload, X, FileText, Loader2 } from 'lucide-react';
 import FormField, { inputClass } from './FormField';
+import api from '@/lib/api';
 
 interface ImageUploadFieldProps {
   value: string;
   onChange: (url: string) => void;
   label?: string;
-  accept?: string; // Menentukan jenis file (default: semua gambar)
+  accept?: string;
+  folder?: string; // folder tujuan di server (default: 'uploads')
 }
 
 export default function ImageUploadField({ 
   value, 
   onChange, 
   label = "Gambar/Dokumen", 
-  accept = "image/*,.pdf,.doc,.docx" 
+  accept = "image/*,.pdf,.doc,.docx",
+  folder = "uploads"
 }: ImageUploadFieldProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [fileName, setFileName] = useState<string>('');
+  const [uploading, setUploading] = useState(false);
+  const [error, setError] = useState<string>('');
 
-  // Handler saat user memilih file dari komputer lokal
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  // Handler saat user memilih file — upload ke server, simpan URL-nya
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) {
-      setFileName(file.name);
+    if (!file) return;
 
-      // Mengubah file lokal menjadi string Base64 agar bisa dibaca langsung oleh frontend
+    setFileName(file.name);
+    setError('');
+    setUploading(true);
+
+    try {
+      // Pertama, ambil CSRF cookie dari Sanctum
+      await api.get('/sanctum/csrf-cookie');
+
+      // Upload file ke backend via /api/internal/sekolah/login/upload
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('folder', folder);
+
+      const response = await api.post('/api/internal/sekolah/login/upload', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+
+      // Backend mengembalikan { url: '/storage/uploads/...', path: '...' }
+      const uploadedUrl = response.data.url;
+      
+      // Buat URL lengkap jika url-nya relatif
+      const fullUrl = uploadedUrl.startsWith('http') || uploadedUrl.startsWith('//')
+        ? uploadedUrl 
+        : `http://127.0.0.1:8000${uploadedUrl.startsWith('/') ? '' : '/'}${uploadedUrl}`;
+      
+      onChange(fullUrl);
+    } catch (err: any) {
+      console.error('Upload gagal:', err);
+      const msg = err.response?.data?.message || err.response?.data?.errors?.file?.[0] || 'Gagal upload file. Pastikan sudah login sebagai admin.';
+      setError(msg);
+      // Fallback: jika upload gagal, tetap pakai base64 agar preview tetap muncul
       const reader = new FileReader();
       reader.onloadend = () => {
-        const base64String = reader.result as string;
-        onChange(base64String); // Mengirim string Base64 ke form state utama
+        onChange(reader.result as string);
       };
       reader.readAsDataURL(file);
+    } finally {
+      setUploading(false);
     }
   };
 
   // Menghapus file/URL yang sudah dipilih
   const handleClear = () => {
     setFileName('');
+    setError('');
     onChange('');
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
@@ -61,10 +97,10 @@ export default function ImageUploadField({
                   onChange(e.target.value);
                 }
               }}
-              disabled={value.startsWith('data:')} // Kunci input text jika sedang memakai file lokal
+              disabled={value.startsWith('data:') || uploading}
               placeholder="Masukkan URL gambar atau gunakan tombol upload..."
             />
-            {value && (
+            {value && !uploading && (
               <button
                 type="button"
                 onClick={handleClear}
@@ -89,12 +125,27 @@ export default function ImageUploadField({
           <button
             type="button"
             onClick={() => fileInputRef.current?.click()}
-            className="px-4 py-2.5 bg-indigo-50 border border-indigo-200 hover:bg-indigo-100 text-indigo-600 font-semibold rounded-xl text-sm transition-colors flex items-center gap-2 shrink-0 shadow-sm"
+            disabled={uploading}
+            className="px-4 py-2.5 bg-indigo-50 border border-indigo-200 hover:bg-indigo-100 text-indigo-600 font-semibold rounded-xl text-sm transition-colors flex items-center gap-2 shrink-0 shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            <Upload className="w-4 h-4" />
-            <span>Pilih File</span>
+            {uploading ? (
+              <>
+                <Loader2 className="w-4 h-4 animate-spin" />
+                <span>Uploading...</span>
+              </>
+            ) : (
+              <>
+                <Upload className="w-4 h-4" />
+                <span>Pilih File</span>
+              </>
+            )}
           </button>
         </div>
+
+        {/* Error Message */}
+        {error && (
+          <p className="text-xs text-red-500 font-medium">{error}</p>
+        )}
 
         {/* Preview Area Dinamis */}
         {value && (
@@ -120,7 +171,7 @@ export default function ImageUploadField({
         )}
         
         <p className="text-[11px] text-gray-400 leading-relaxed">
-          💡 Mendukung input tautan eksternal (URL) atau langsung mengunggah dokumen/foto dari perangkat lokal Anda.
+          💡 File akan di-upload ke server secara otomatis. Mendukung tautan eksternal (URL) atau upload langsung dari perangkat.
         </p>
       </div>
     </FormField>

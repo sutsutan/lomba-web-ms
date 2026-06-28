@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { getAdminExploreGalleries, createExploreGallery, updateExploreGallery, deleteExploreGallery } from '@/services/ExploreGallery';
 
 // Import komponen admin dari folder components
 import PageHeader from '@/components/admin/PageHeader';
@@ -22,10 +23,8 @@ interface ExploreGallery {
 }
 
 export default function AdminExploreGalleryPage() {
-  const [items, setItems] = useState<ExploreGallery[]>([
-    { id: 1, image_url: 'https://placehold.co/300x200/6366f1/fff?text=LDKS', title: 'Pelantikan Pengurus OSIS & LDKS Angkatan Terbaru', relation_type: 'organization', related_to: 'leadership', publish_date: '2026-06-01', description: 'Dokumentasi keseruan dan ketegasan momen Latihan Dasar Kepemimpinan Siswa (LDKS) gabungan di Bumi Perkemahan.', is_active: true },
-    { id: 2, image_url: 'https://placehold.co/300x200/10b981/fff?text=Juara+Paskib', title: 'Aksi Tim Paskibraka Sabet Piala Bergilir Provinsi', relation_type: 'news', related_to: 'Berita: Juara Umum Paskibra 2026', publish_date: '2026-05-28', description: 'Foto selebrasi pasukan pengibar bendera sekolah sesaat setelah penyerahan piala juara umum perlombaan baris-berbaris.', is_active: true },
-  ]);
+  const [items, setItems] = useState<ExploreGallery[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const [modal, setModal] = useState(false);
   const [editing, setEditing] = useState<ExploreGallery | null>(null);
@@ -63,18 +62,48 @@ export default function AdminExploreGalleryPage() {
     setModal(true);
   };
 
-  // Aksi Simpan (Create / Update)
-  const save = () => {
-    if (editing) {
-      setItems(items.map(i => i.id === editing.id ? { ...i, ...form } : i));
-    } else {
-      setItems([...items, { id: Date.now(), ...form }]);
+  // Fetch data dari API
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+      const data = await getAdminExploreGalleries();
+      setItems(data);
+    } catch (error) {
+      console.error('Gagal memuat data explore gallery:', error);
+    } finally {
+      setLoading(false);
     }
-    setModal(false);
+  };
+
+  useEffect(() => { fetchData(); }, []);
+
+  // Aksi Simpan (Create / Update)
+  const save = async () => {
+    try {
+      if (editing) {
+        await updateExploreGallery(editing.id, form);
+      } else {
+        await createExploreGallery(form);
+      }
+      setModal(false);
+      fetchData();
+    } catch (error) {
+      console.error('Gagal menyimpan data explore gallery:', error);
+      alert('Gagal menyimpan data. Silakan coba lagi.');
+    }
   };
 
   // Aksi Hapus
-  const del = (id: number) => setItems(items.filter(i => i.id !== id));
+  const del = async (id: number) => {
+    if (!confirm('Yakin ingin menghapus item galeri ini?')) return;
+    try {
+      await deleteExploreGallery(id);
+      fetchData();
+    } catch (error) {
+      console.error('Gagal menghapus data explore gallery:', error);
+      alert('Gagal menghapus data. Silakan coba lagi.');
+    }
+  };
 
   // Warna badge pembeda tipe keterhubungan
   const typeColors: Record<string, string> = {

@@ -3,50 +3,59 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+import api from '@/lib/api';
 
 // Assets
-import heroBg2 from '@/assets/hero-bg-2.jpg';
-import heroBg3 from '@/assets/hero-bg-3.jpg';
-import heroBg4 from '@/assets/hero-bg-4.jpg';
-import heroBg from '@/assets/hero-bg.jpg';
 import metland from '@/assets/metland.png';
 
-const heroImages = [
-    { src: heroBg, alt: 'Students learning together' },
-    { src: heroBg2, alt: 'Vocational training' },
-    { src: heroBg3, alt: 'Practical learning' },
-    { src: heroBg4, alt: 'Student activities' },
-];
 
 const HeroSection = () => {
     const { t } = useLanguage();
     const [currentSlide, setCurrentSlide] = useState(0);
-    const [isAnimatingIntro, setIsAnimatingIntro] = useState(
-        () => !sessionStorage.getItem('introShown'),
-    );
+    const [isAnimatingIntro, setIsAnimatingIntro] = useState(() => !sessionStorage.getItem('introShown'));
 
-    useEffect(() => {
-        if (isAnimatingIntro) return;
+    // 1. Hook useQuery tetap di atas
+    const { data: slides = [], isLoading, isError } = useQuery({
+        queryKey: ['hero-home'],
+        queryFn: async () => {
+            const res = await api.get('/hero-backgrounds');
+            const data = res.data?.data || [];
+            return data
+                .filter((item: any) => item.category === 'home' && item.is_active)
+                .sort((a: any, b: any) => a.order - b.order);
+        },
+        staleTime: 1000 * 60 * 5,
+        refetchOnWindowFocus: false,
+    });
+
+
+   useEffect(() => {
+        if (isAnimatingIntro || slides.length === 0) return;
         const timer = setInterval(() => {
-            setCurrentSlide((prev) => (prev + 1) % heroImages.length);
+            setCurrentSlide((prev) => (prev + 1) % slides.length);
         }, 7000);
         return () => clearInterval(timer);
-    }, [isAnimatingIntro]);
+    }, [isAnimatingIntro, slides.length]);
 
     useEffect(() => {
-        if (isAnimatingIntro) {
-            document.body.style.overflow = 'hidden';
-            const timeout = setTimeout(() => {
-                setIsAnimatingIntro(false);
-                document.body.style.overflow = 'auto';
-                sessionStorage.setItem('introShown', 'true');
-            }, 3500); 
-            return () => {
-                document.body.style.overflow = 'auto';
-                clearTimeout(timeout);
-            };
-        }
+        if (!isAnimatingIntro) return;
+        document.body.style.overflow = 'hidden';
+        const timeout = setTimeout(() => {
+            setIsAnimatingIntro(false);
+            document.body.style.overflow = 'auto';
+            sessionStorage.setItem('introShown', 'true');
+        }, 3500);
+        return () => {
+            document.body.style.overflow = 'auto';
+            clearTimeout(timeout);
+        };
     }, [isAnimatingIntro]);
+
+    if (isLoading) return <section className="h-screen bg-[#0a0a0a]" />;
+    if (isError || slides.length === 0) return null;
+
+    const activeSlide = slides[currentSlide] || slides[0];
 
     const goToSlide = (index: number) => setCurrentSlide(index);
 
@@ -134,19 +143,19 @@ const HeroSection = () => {
             </AnimatePresence>
 
             {/* CINEMATIC BACKGROUND CAROUSEL */}
-            <div className="absolute inset-0 z-0">
+           <div className="absolute inset-0 z-0">
                 <AnimatePresence mode="popLayout">
                     <motion.div
-                        key={currentSlide}
+                        key={activeSlide.id}
                         initial={{ opacity: 0, scale: 1.2 }}
                         animate={{ opacity: 1, scale: 1 }}
                         exit={{ opacity: 0, scale: 0.95 }}
                         transition={{ duration: 2.5, ease: [0.4, 0, 0.2, 1] }}
                         className="relative h-full w-full"
                     >
-                        <img
-                            src={heroImages[currentSlide].src}
-                            alt={heroImages[currentSlide].alt}
+                      <img
+                            src={activeSlide.image_url}
+                            alt="Hero Slide"
                             className="h-full w-full object-cover"
                         />
                         <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/60" />
@@ -243,8 +252,12 @@ const HeroSection = () => {
             {/* CAROUSEL DOTS */}
             <div className="absolute bottom-10 left-12 z-30 hidden md:block">
                 <div className="flex items-center gap-4">
-                    {heroImages.map((_, index) => (
-                        <button key={index} onClick={() => goToSlide(index)} className="group relative">
+                    {Array.isArray(slides) && slides.map((item: any, index: number) => (
+                            <button 
+                                key={item.id || index}
+                                onClick={() => setCurrentSlide(index)} 
+                                className="group relative"
+                            >
                             <div className={`mb-2 text-[10px] font-bold transition-colors ${index === currentSlide ? 'text-teal-400' : 'text-white/40'}`}>
                                 0{index + 1}
                             </div>

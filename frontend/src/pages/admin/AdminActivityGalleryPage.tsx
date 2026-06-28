@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { getAdminActivityGalleries, createActivityGallery, updateActivityGallery, deleteActivityGallery } from '@/services/ActivityGallery';
 
 // Import komponen admin dari folder components
 import PageHeader from '@/components/admin/PageHeader';
@@ -21,10 +22,8 @@ interface ActivityGallery {
 }
 
 export default function AdminActivityGalleryPage() {
-  const [items, setItems] = useState<ActivityGallery[]>([
-    { id: 1, image_url: 'https://placehold.co/300x200/6366f1/fff?text=Coding+Camp', title: 'Workshop Fullstack Web Development', major_code: 'it', activity_date: '2026-05-12', description: 'Kegiatan sinkronisasi kurikulum industri berupa pelatihan coding intensif selama 3 hari bagi siswa kelas XI.', is_featured: true },
-    { id: 2, image_url: 'https://placehold.co/300x200/f59e0b/fff?text=Cooking+Class', title: 'Uji Kompetensi Keahlian (UKK) Pastry', major_code: 'culinary', activity_date: '2026-04-20', description: 'Dokumentasi penilaian pembuatan produk kue kontinental oleh asesor eksternal dari Hotel Bintang 5.', is_featured: false },
-  ]);
+  const [items, setItems] = useState<ActivityGallery[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const [modal, setModal] = useState(false);
   const [editing, setEditing] = useState<ActivityGallery | null>(null);
@@ -61,18 +60,48 @@ export default function AdminActivityGalleryPage() {
     setModal(true);
   };
 
-  // Aksi Simpan (Create / Update)
-  const save = () => {
-    if (editing) {
-      setItems(items.map(i => i.id === editing.id ? { ...i, ...form } : i));
-    } else {
-      setItems([...items, { id: Date.now(), ...form }]);
+  // Fetch data dari API
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+      const data = await getAdminActivityGalleries();
+      setItems(data);
+    } catch (error) {
+      console.error('Gagal memuat data galeri kegiatan:', error);
+    } finally {
+      setLoading(false);
     }
-    setModal(false);
+  };
+
+  useEffect(() => { fetchData(); }, []);
+
+  // Aksi Simpan (Create / Update)
+  const save = async () => {
+    try {
+      if (editing) {
+        await updateActivityGallery(editing.id, form);
+      } else {
+        await createActivityGallery(form);
+      }
+      setModal(false);
+      fetchData();
+    } catch (error) {
+      console.error('Gagal menyimpan data galeri kegiatan:', error);
+      alert('Gagal menyimpan data. Silakan coba lagi.');
+    }
   };
 
   // Aksi Hapus
-  const del = (id: number) => setItems(items.filter(i => i.id !== id));
+  const del = async (id: number) => {
+    if (!confirm('Yakin ingin menghapus dokumentasi ini?')) return;
+    try {
+      await deleteActivityGallery(id);
+      fetchData();
+    } catch (error) {
+      console.error('Gagal menghapus data galeri kegiatan:', error);
+      alert('Gagal menghapus data. Silakan coba lagi.');
+    }
+  };
 
   // Mapping warna badge berdasarkan klaster jurusan kegiatan
   const majorColors: Record<string, string> = {

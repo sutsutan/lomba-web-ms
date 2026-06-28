@@ -15,8 +15,10 @@ return Application::configure(basePath: dirname(__DIR__))
         commands: __DIR__.'/../routes/console.php',
         health: '/up',
     )
-    ->withMiddleware(function (Middleware $middleware): void {
+->withMiddleware(function (Middleware $middleware): void {
         $middleware->encryptCookies(except: ['appearance', 'sidebar_state']);
+
+        $middleware->statefulApi(); 
 
         $middleware->web(append: [
             HandleAppearance::class,
@@ -27,8 +29,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'admin' => AdminMiddleware::class,
         ]);
-
-        $middleware->statefulApi();
     })
+
     ->withExceptions(function (Exceptions $exceptions): void {
     })->create();

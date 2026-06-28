@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { getAdminFacilities, createFacility, updateFacility, deleteFacility } from '@/services/Facility';
 
 // Import komponen admin dari folder components
 import PageHeader from '@/components/admin/PageHeader';
@@ -22,10 +23,8 @@ interface Facility {
 }
 
 export default function AdminFacilityPage() {
-  const [items, setItems] = useState<Facility[]>([
-    { id: 1, image_url: 'https://placehold.co/200x150/6366f1/fff?text=Lab+IT', name: 'Laboratorium Networking & IoT', major_code: 'it', condition: 'Baik', location: 'Gedung B, Lantai 2', description: 'Ruang lab komputer berspesifikasi tinggi yang dilengkapi dengan perangkat router Cisco dan mikrotik untuk praktik jaringan.', is_active: true },
-    { id: 2, image_url: 'https://placehold.co/200x150/f59e0b/fff?text=Kitchen', name: 'Main Kitchen & Pastry Lab', major_code: 'culinary', condition: 'Baik', location: 'Gedung C, Lantai 1', description: 'Dapur standar industri perhotelan untuk praktik memasak hidangan kontinental dan pembuatan kue.', is_active: true },
-  ]);
+  const [items, setItems] = useState<Facility[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const [modal, setModal] = useState(false);
   const [editing, setEditing] = useState<Facility | null>(null);
@@ -63,18 +62,48 @@ export default function AdminFacilityPage() {
     setModal(true);
   };
 
-  // Aksi Simpan (Create / Update)
-  const save = () => {
-    if (editing) {
-      setItems(items.map(i => i.id === editing.id ? { ...i, ...form } : i));
-    } else {
-      setItems([...items, { id: Date.now(), ...form }]);
+  // Fetch data dari API
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+      const data = await getAdminFacilities();
+      setItems(data);
+    } catch (error) {
+      console.error('Gagal memuat data fasilitas:', error);
+    } finally {
+      setLoading(false);
     }
-    setModal(false);
+  };
+
+  useEffect(() => { fetchData(); }, []);
+
+  // Aksi Simpan (Create / Update)
+  const save = async () => {
+    try {
+      if (editing) {
+        await updateFacility(editing.id, form);
+      } else {
+        await createFacility(form);
+      }
+      setModal(false);
+      fetchData();
+    } catch (error) {
+      console.error('Gagal menyimpan data fasilitas:', error);
+      alert('Gagal menyimpan data. Silakan coba lagi.');
+    }
   };
 
   // Aksi Hapus
-  const del = (id: number) => setItems(items.filter(i => i.id !== id));
+  const del = async (id: number) => {
+    if (!confirm('Yakin ingin menghapus fasilitas ini?')) return;
+    try {
+      await deleteFacility(id);
+      fetchData();
+    } catch (error) {
+      console.error('Gagal menghapus data fasilitas:', error);
+      alert('Gagal menghapus data. Silakan coba lagi.');
+    }
+  };
 
   // Mapping warna badge berdasarkan penempatan jurusan
   const majorColors: Record<string, string> = {
