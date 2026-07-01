@@ -31,9 +31,11 @@ const HeroSection = () => {
 
 
    useEffect(() => {
-        if (isAnimatingIntro || slides.length === 0) return;
+        if (isAnimatingIntro) return;
+        const len = slides.length > 0 ? slides.length : 2;
+        if (len <= 1) return;
         const timer = setInterval(() => {
-            setCurrentSlide((prev) => (prev + 1) % slides.length);
+            setCurrentSlide((prev) => (prev + 1) % len);
         }, 7000);
         return () => clearInterval(timer);
     }, [isAnimatingIntro, slides.length]);
@@ -53,9 +55,22 @@ const HeroSection = () => {
     }, [isAnimatingIntro]);
 
     if (isLoading) return <section className="h-screen bg-[#0a0a0a]" />;
-    if (isError || slides.length === 0) return null;
 
-    const activeSlide = slides[currentSlide] || slides[0];
+    // Static fallback slides when DB is empty
+    const fallbackSlides = [
+        {
+            id: 'fallback-1',
+            image_url: 'https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=1920&q=80',
+        },
+        {
+            id: 'fallback-2',
+            image_url: 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=1920&q=80',
+        },
+    ];
+
+    const activeSlides = (isError || slides.length === 0) ? fallbackSlides : slides;
+    const activeSlide = activeSlides[currentSlide] || activeSlides[0];
+
 
     const goToSlide = (index: number) => setCurrentSlide(index);
 
@@ -252,7 +267,7 @@ const HeroSection = () => {
             {/* CAROUSEL DOTS */}
             <div className="absolute bottom-10 left-12 z-30 hidden md:block">
                 <div className="flex items-center gap-4">
-                    {Array.isArray(slides) && slides.map((item: any, index: number) => (
+                    {Array.isArray(activeSlides) && activeSlides.map((item: any, index: number) => (
                             <button 
                                 key={item.id || index}
                                 onClick={() => setCurrentSlide(index)} 

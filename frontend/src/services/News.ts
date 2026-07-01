@@ -11,6 +11,7 @@ export interface NewsData {
   content_id: string;
   excerpt_id?: string;
   slug?: string;
+  gallery_images?: string[];
 }
 
 const ADMIN_PATH = '/admin';

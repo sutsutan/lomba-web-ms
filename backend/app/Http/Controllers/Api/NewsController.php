@@ -22,6 +22,7 @@ class NewsController extends Controller
             'content_id'     => $item->content_id,
             'excerpt_id'     => $item->excerpt_id,
             'slug'           => $item->slug,
+            'gallery_images' => $item->gallery_images ?? [],
         ];
     }
 
@@ -63,6 +64,7 @@ class NewsController extends Controller
             'excerpt_id'   => 'nullable|string', // Pastikan ini ada di validasi
             'is_published' => 'boolean',
             'published_date' => 'nullable|date',
+            'gallery_images' => 'nullable|array',
         ]);
 
         $validated['slug'] = Str::slug($validated['title_id']);
@@ -74,5 +76,31 @@ class NewsController extends Controller
         $news = News::create($validated);
 
         return response()->json($news, 201);
+    }
+
+    public function update(Request $request, News $news)
+    {
+        $validated = $request->validate([
+            'title_id'     => 'required|string',
+            'category'     => 'required|string',
+            'thumbnail'    => 'nullable',
+            'content_id'   => 'required|string',
+            'excerpt_id'   => 'nullable|string',
+            'is_published' => 'boolean',
+            'published_date' => 'nullable|date',
+            'gallery_images' => 'nullable|array',
+        ]);
+
+        $validated['slug'] = Str::slug($validated['title_id']);
+        
+        $news->update($validated);
+
+        return response()->json($news);
+    }
+
+    public function destroy(News $news)
+    {
+        $news->delete();
+        return response()->json(['message' => 'Berita berhasil dihapus']);
     }
 }

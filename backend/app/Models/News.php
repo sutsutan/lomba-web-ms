@@ -13,12 +13,13 @@ class News extends Model
     protected $fillable = [
         'title_id', 'title_en', 'category', 'thumbnail', 
         'content_id', 'content_en', 'excerpt_id', 'excerpt_en', 
-        'is_published', 'published_date', 'slug', 'user_id'
+        'is_published', 'published_date', 'slug', 'user_id', 'gallery_images'
     ];
 
     // Jika Anda ingin format tanggal otomatis
     protected $casts = [
         'is_published' => 'boolean',
+        'gallery_images' => 'array',
     ];
 
     public function toFormattedArray($lang = 'id')
@@ -33,6 +34,7 @@ class News extends Model
         'content_id'     => $this->content_id,
         'excerpt_id'     => $this->excerpt_id,
         'slug'           => $this->slug,
+        'gallery_images' => $this->gallery_images ?? [],
     ];
 }
 }

@@ -14,8 +14,9 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-        NewsSeeder::class,
-    ]);
+            NewsSeeder::class,
+            HeroBackgroundSeeder::class,
+        ]);
 
         User::factory()->create([
             'name' => 'Test User',

@@ -427,7 +427,6 @@ export default {
   'extra.stories.desc1_plus': ' In addition, the extracurricular program has always been a place where leadership skills begin to be honed by giving students direct responsibility for organizing major events and inter-class competitions.',
   'extra.stories.extraDesc1': 'By prioritizing collaboration among fellow members, students learn how to adapt to different characters, practice empathetic communication, and build a solid friendship network from an early age which will be useful in the professional world.',
   'extra.stories.infoBox1': 'Category: Character Development\nSchedule: Flexible and Adaptable\nMain Focus: Collaboration & Talent',
-<<<<<<< HEAD
 
   'extra.stories.title2': 'Strengthen Physical & Mental Health',
   'extra.stories.desc2_plus': ' Sports extracurriculars are specifically designed to train agility, precision, and physical strength, pushing the limits of the students under the guidance of professional and highly experienced coaches.',
@@ -455,35 +454,7 @@ export default {
   'extra.btn.explore_more': 'Explore in Detail',
   'extra.btn.explore_desc': 'View the complete list of 18+ extracurriculars along with their schedules and achievements.',
   'extra.btn.join_online': 'Join Online Now →',
-=======
->>>>>>> 77e4b2f0984310c184a89d5167d3a5f5880b3d3d
 
-  'extra.stories.title2': 'Strengthen Physical & Mental Health',
-  'extra.stories.desc2_plus': ' Sports extracurriculars are specifically designed to train agility, precision, and physical strength, pushing the limits of the students under the guidance of professional and highly experienced coaches.',
-  'extra.stories.extraDesc2': 'Through various regular sparring events, local tournaments, and friendly competitions with other schools, the champion mentality of students is gradually formed. Every drop of sweat on the field is not just about scoring points and winning medals, but also about dedication and upholding high sportsmanship values.',
-  'extra.stories.infoBox2': 'Category: Selected Sports\nSchedule: Weekly Routine (Afternoon)\nMain Focus: Stamina & Tactical Skills',
-
-  'extra.stories.title3': 'Limitless Creativity',
-  'extra.stories.desc3_plus': ' Meanwhile, in the field of arts and creativity, every student is facilitated with the freedom to express themselves, supported by representative props and studios to create their own original masterpieces with aesthetic value.',
-  'extra.stories.extraDesc3': 'Many of our students\' creative projects are then entered into various regional and provincial gallery exhibitions. Not a few of these works have managed to capture the attention of industry professionals due to their unique ideas and mature execution.',
-  'extra.stories.infoBox3': 'Category: Arts & Aesthetics\nSchedule: Scheduled & Flexible Sessions\nMain Focus: Arts, Craft & Innovation',
-
-  'extra.dynamic.desc_part1': ' is one of the highly demanded interest and talent development programs in our school ecosystem. This program is specifically designed with a structured and fun training method aimed primarily at equipping every participant with up-to-date technical understanding and skills. Not only focusing on individual technical capabilities, this in-depth activity also emphasizes the importance of teamwork synergy, sportsmanship integrity, and stimulating limitless creative thinking.',
-  'extra.dynamic.track_record_prefix': 'Various proud achievements have been consistently secured by this extracurricular organization, some of which are: ',
-  'extra.dynamic.track_record_suffix': '. These extraordinary accomplishments serve as the clearest proof of the high dedication, discipline, and hard work of the students as well as the patience of the coaches over the years.',
-  'extra.dynamic.no_track_record_prefix': 'By deciding to join and be active with ',
-  'extra.dynamic.no_track_record_suffix': ', you will not only gain new skills and cross-major friends, but you will also immediately seize golden opportunities to continuously create, prove your capabilities, and start building a proud portfolio from an early age for the future.',
-
-  'extra.dynamic.info_coach': 'Coach Name: ',
-  'extra.dynamic.info_coach_default': 'Professional & Expert Coaching Team',
-  'extra.dynamic.info_schedule': 'Training Schedule: ',
-  'extra.dynamic.info_schedule_default': 'To be determined (Will be informed later)',
-  'extra.dynamic.info_intensity': 'Intensity Level: ',
-  'extra.dynamic.info_intensity_default': 'Continuous Regular',
-
-  'extra.btn.explore_more': 'Explore in Detail',
-  'extra.btn.explore_desc': 'View the complete list of 18+ extracurriculars along with their schedules and achievements.',
-  'extra.btn.join_online': 'Join Online Now →',
   
   // News Page
   'news.hero.title': 'News & Updates',

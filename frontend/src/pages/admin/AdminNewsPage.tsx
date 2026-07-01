@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
+import { Plus, Trash2, Image as ImageIcon } from 'lucide-react';
 
 import PageHeader from '@/components/admin/PageHeader';
 import DataTable from '@/components/admin/DataTable';
@@ -35,16 +36,27 @@ export default function AdminNewsPage() {
   const [editing, setEditing] = useState<NewsData | null>(null);
   const [search, setSearch] = useState('');
   
-  const [form, setForm] = useState({ 
-  title_id: '', 
-  title_en: '',
-  category: 'Kegiatan', 
-  published_date: '', 
-  is_published: false, 
-  thumbnail: '', 
-  content_id: '',
-  content_en: ''
-});
+  const [form, setForm] = useState<{
+    title_id: string;
+    title_en: string;
+    category: string;
+    published_date: string;
+    is_published: boolean;
+    thumbnail: string;
+    content_id: string;
+    content_en: string;
+    gallery_images: string[];
+  }>({ 
+    title_id: '', 
+    title_en: '',
+    category: 'Kegiatan', 
+    published_date: '', 
+    is_published: false, 
+    thumbnail: '', 
+    content_id: '',
+    content_en: '',
+    gallery_images: []
+  });
 
  const loadNews = async () => {
     try {
@@ -69,7 +81,8 @@ export default function AdminNewsPage() {
   setForm({ 
     title_id: '', title_en: '', category: 'Kegiatan', 
     published_date: new Date().toISOString().split('T')[0], 
-    is_published: false, thumbnail: '', content_id: '', content_en: '' 
+    is_published: false, thumbnail: '', content_id: '', content_en: '',
+    gallery_images: []
   }); 
   setModal(true); 
 };
@@ -78,11 +91,14 @@ export default function AdminNewsPage() {
     setEditing(item); 
     setForm({ 
       title_id: item.title_id || '',
+      title_en: item.title_en || '',
       category: item.category || '',
       published_date: item.published_date || '',
       is_published: !!item.is_published,
       thumbnail: item.thumbnail || '',
-      content_id: item.content_id || ''
+      content_id: item.content_id || '',
+      content_en: item.content_en || '',
+      gallery_images: item.gallery_images || []
     }); 
     setModal(true); 
   };
@@ -103,6 +119,7 @@ export default function AdminNewsPage() {
         thumbnail: form.thumbnail,
         content_id: form.content_id,
         excerpt_id: excerpt,
+        gallery_images: form.gallery_images,
       };
 
       if (editing?.id) {
@@ -257,6 +274,58 @@ export default function AdminNewsPage() {
               />
             </div>
           </FormField>
+
+          {/* GALLERY IMAGES SECTION */}
+          <div className="space-y-3 py-2 border-t border-gray-100 mt-2">
+            <div className="flex items-center justify-between">
+              <label className="text-sm font-semibold text-gray-700 flex items-center gap-2">
+                <ImageIcon className="w-4 h-4 text-indigo-500" />
+                Galeri Foto Berita
+              </label>
+              <button 
+                type="button" 
+                onClick={() => setForm({ ...form, gallery_images: [...form.gallery_images, ''] })}
+                className="text-xs font-bold text-indigo-600 hover:text-indigo-700 flex items-center gap-1 bg-indigo-50 px-2 py-1 rounded-lg transition-colors"
+              >
+                <Plus className="w-3 h-3" /> Tambah Foto
+              </button>
+            </div>
+            
+            <div className="grid grid-cols-1 gap-3">
+              {form.gallery_images.map((img, idx) => (
+                <div key={idx} className="flex gap-2 items-start">
+                  <div className="flex-1">
+                    <ImageUploadField 
+                      value={img} 
+                      onChange={(url) => {
+                        const newGallery = [...form.gallery_images];
+                        newGallery[idx] = url;
+                        setForm({ ...form, gallery_images: newGallery });
+                      }} 
+                      label={`Foto Galeri #${idx + 1}`}
+                    />
+                  </div>
+                  <button 
+                    type="button"
+                    onClick={() => {
+                      const newGallery = form.gallery_images.filter((_, i) => i !== idx);
+                      setForm({ ...form, gallery_images: newGallery });
+                    }}
+                    className="mt-8 p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all"
+                    title="Hapus foto ini"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                </div>
+              ))}
+              
+              {form.gallery_images.length === 0 && (
+                <div className="text-center py-6 border-2 border-dashed border-gray-100 rounded-2xl">
+                  <p className="text-xs text-gray-400">Belum ada foto galeri. Klik "Tambah Foto" jika berita ini memiliki dokumentasi tambahan.</p>
+                </div>
+              )}
+            </div>
+          </div>
           
           <div className="flex items-center gap-3 p-3.5 bg-gray-50 rounded-xl border border-gray-100">
             <input 

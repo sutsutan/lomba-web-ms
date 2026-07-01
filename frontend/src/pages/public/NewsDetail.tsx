@@ -3,7 +3,8 @@ import { useParams, Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import MainLayout from '@/layouts/MainLayout';
 import ScrollReveal from '@/components/ScrollReveal';
-import { Calendar, ArrowLeft, Share2 } from 'lucide-react';
+import { Calendar, ArrowLeft, Share2, X, ChevronLeft, ChevronRight, Maximize2 } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useToast } from '@/hooks/use-toast';
 
@@ -18,6 +19,35 @@ const NewsDetail = () => {
   const [currentNews, setCurrentNews] = useState<NewsData | null>(null);
   const [sidebarNews, setSidebarNews] = useState<NewsData[]>([]);
   const [loading, setLoading] = useState(true);
+
+  // Lightbox State
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  const openLightbox = (index: number) => {
+    setCurrentImageIndex(index);
+    setLightboxOpen(true);
+    document.body.style.overflow = 'hidden';
+  };
+
+  const closeLightbox = () => {
+    setLightboxOpen(false);
+    document.body.style.overflow = 'auto';
+  };
+
+  const nextImage = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (currentNews?.gallery_images) {
+      setCurrentImageIndex((prev) => (prev + 1) % currentNews.gallery_images!.length);
+    }
+  };
+
+  const prevImage = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (currentNews?.gallery_images) {
+      setCurrentImageIndex((prev) => (prev - 1 + currentNews.gallery_images!.length) % currentNews.gallery_images!.length);
+    }
+  };
 
   useEffect(() => {
     const loadNewsDetails = async () => {
@@ -126,6 +156,29 @@ const NewsDetail = () => {
                 <div className="prose prose-lg max-w-none text-muted-foreground leading-relaxed">
                   <div className="text-foreground font-normal text-lg mb-6" dangerouslySetInnerHTML={{ __html: currentNews.content_id }} />
                 </div>
+                
+                {/* Photo Gallery Section */}
+                {currentNews.gallery_images && currentNews.gallery_images.length > 0 && (
+                  <div className="mt-12 pt-8 border-t border-border/50">
+                    <h3 className="text-2xl font-bold text-foreground mb-6 flex items-center gap-2">
+                       {language === 'id' ? 'Galeri Foto' : 'Photo Gallery'}
+                    </h3>
+                    <div className="flex gap-4 overflow-x-auto pb-6 snap-x snap-mandatory scrollbar-hide">
+                      {currentNews.gallery_images.map((img, idx) => (
+                        <div 
+                          key={idx} 
+                          onClick={() => openLightbox(idx)}
+                          className="relative flex-none w-64 h-40 sm:w-72 sm:h-48 rounded-2xl overflow-hidden cursor-pointer group snap-center shadow-md border border-border/50"
+                        >
+                          <img src={img} alt={`Gallery ${idx + 1}`} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all duration-300 flex items-center justify-center">
+                            <Maximize2 className="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 w-8 h-8 drop-shadow-md scale-75 group-hover:scale-100" />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </ScrollReveal>
             </main>
 
@@ -166,6 +219,57 @@ const NewsDetail = () => {
           </div>
         </div>
       </section>
+
+      {/* Lightbox Overlay */}
+      <AnimatePresence>
+        {lightboxOpen && currentNews?.gallery_images && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-[9999] bg-black/95 flex items-center justify-center backdrop-blur-md"
+            onClick={closeLightbox}
+          >
+            <button 
+              onClick={closeLightbox}
+              className="absolute top-6 right-6 lg:top-8 lg:right-8 text-white/50 hover:text-white bg-white/5 hover:bg-white/20 p-2 lg:p-3 rounded-full transition-all group z-50"
+            >
+              <X className="w-6 h-6 lg:w-8 lg:h-8 group-hover:scale-110 transition-transform" />
+            </button>
+            
+            <button 
+              onClick={prevImage}
+              className="absolute left-2 sm:left-4 lg:left-8 text-white/50 hover:text-white bg-white/5 hover:bg-white/20 p-2 lg:p-4 rounded-full transition-all group z-50"
+            >
+              <ChevronLeft className="w-6 h-6 lg:w-8 lg:h-8 group-hover:-translate-x-1 transition-transform" />
+            </button>
+
+            <motion.img 
+              key={currentImageIndex}
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              src={currentNews.gallery_images[currentImageIndex]} 
+              alt="Fullscreen view" 
+              className="max-w-[95vw] lg:max-w-[85vw] max-h-[85vh] object-contain rounded-lg shadow-2xl drop-shadow-[0_0_15px_rgba(255,255,255,0.05)] cursor-default"
+              onClick={(e) => e.stopPropagation()}
+            />
+
+            <button 
+              onClick={nextImage}
+              className="absolute right-2 sm:right-4 lg:right-8 text-white/50 hover:text-white bg-white/5 hover:bg-white/20 p-2 lg:p-4 rounded-full transition-all group z-50"
+            >
+              <ChevronRight className="w-6 h-6 lg:w-8 lg:h-8 group-hover:translate-x-1 transition-transform" />
+            </button>
+            
+            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-white/60 text-xs sm:text-sm tracking-widest font-medium bg-white/10 backdrop-blur-md px-4 py-2 rounded-full border border-white/5">
+              {currentImageIndex + 1} / {currentNews.gallery_images.length}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </MainLayout>
   );
 };
