@@ -1,22 +1,56 @@
-import { motion } from 'framer-motion';
+import React, { useState, useEffect } from 'react';
+import { motion} from 'framer-motion';
 import MainLayout from '@/layouts/MainLayout';
 import ScrollReveal from '@/components/ScrollReveal';
 import HeroCarousel from '@/components/HeroCarousel';
 import { MapPin, Phone, Mail, Clock, Send, MessageCircle } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
+import api from '@/lib/api';
 
 const Contact = () => {
-  const { t } = useLanguage();
+   const { t, language } = useLanguage();
+    const [heroSlides, setHeroSlides] = useState<any[]>([]);
+
+     useEffect(() => {
+        const fetchHero = async () => {
+            try {
+                const res = await api.get("/contact");
+
+                const data = Array.isArray(res.data)
+                    ? res.data
+                    : (res.data.data || []);
+
+                const filtered = data.filter(
+                    (item: any) =>
+                        item.category === "contact" &&
+                        item.is_active
+                );
+
+                setHeroSlides(
+                    filtered.map((item: any) => ({
+                        image_url: item.image_url,
+                        title: language === "id" ? item.title_id : item.title_en,
+                        subtitle:
+                            language === "id"
+                                ? item.subtitle_id
+                                : item.subtitle_en,
+                    }))
+                );
+            } catch (err) {
+                console.error("Gagal load hero:", err);
+            }
+        };
+
+        fetchHero();
+    }, [language]);
 
   return (
     <MainLayout>
-      {/* Hero Carousel */}
-      <HeroCarousel
-        title={t('contact.hero.title')}
-        subtitle={t('contact.hero.subtitle')}
-        description={t('contact.hero.desc')}
-        height="h-[60vh] md:h-[70vh]"
-      />
+       <HeroCarousel 
+            category="contact" 
+            lang={language}
+            height="h-[60vh]"
+            />
 
       {/* Contact Content */}
       <section className="py-20 bg-background px-6 md:px-12 lg:px-24">

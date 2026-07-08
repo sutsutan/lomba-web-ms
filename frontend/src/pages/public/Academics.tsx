@@ -1,4 +1,5 @@
-import { motion } from 'framer-motion';
+import React, { useState, useEffect } from 'react';
+import { motion, useScroll, useTransform, useSpring, useMotionValue  } from 'framer-motion';
 import MainLayout from '@/layouts/MainLayout';
 import ScrollReveal from '@/components/ScrollReveal';
 import HeroCarousel from '@/components/HeroCarousel';
@@ -9,9 +10,45 @@ import programIt from '@/assets/program-it.webp';
 import programCulinary from '@/assets/program-culinary.webp';
 import achievement from '@/assets/achievement-1.jpg';
 import programDkv from '@/assets/program-dkv.jpg';
+import api from '@/lib/api';
 
 const Academics = () => {
-  const { t } = useLanguage();
+   const { t, language } = useLanguage();
+  const [heroSlides, setHeroSlides] = useState<any[]>([]);
+
+   useEffect(() => {
+        const fetchHero = async () => {
+            try {
+                const res = await api.get("/hero-backgrounds");
+
+                const data = Array.isArray(res.data)
+                    ? res.data
+                    : (res.data.data || []);
+
+                const filtered = data.filter(
+                    (item: any) =>
+                        item.category === "our-values" &&
+                        item.is_active
+                );
+
+                setHeroSlides(
+                    filtered.map((item: any) => ({
+                        image_url: item.image_url,
+                        title: language === "id" ? item.title_id : item.title_en,
+                        subtitle:
+                            language === "id"
+                                ? item.subtitle_id
+                                : item.subtitle_en,
+                    }))
+                );
+            } catch (err) {
+                console.error("Gagal load hero:", err);
+            }
+        };
+
+        fetchHero();
+    }, [language]);
+  
 
   const majors = [
     {
@@ -36,6 +73,7 @@ const Academics = () => {
     },
   ];
 
+  
   const timelineItems = [
     { 
       image: programIt,
@@ -72,13 +110,11 @@ const Academics = () => {
 
   return (
     <MainLayout>
-      {/* Hero Carousel */}
-      <HeroCarousel
-        title={t('academics.hero.title')}
-        subtitle={t('academics.hero.subtitle')}
-        description={t('academics.hero.desc')}
-        height="h-[70vh]"
-      />
+      <HeroCarousel 
+            category="academics" 
+            lang={language}
+            height="h-[60vh]"
+            />
 
       {/* Main Content: Two Columns */}
       <section className="section-padding bg-background overflow-hidden px-6 md:px-12">

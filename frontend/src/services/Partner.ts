@@ -11,7 +11,7 @@ export interface PartnerData {
 
 export const fetchPublicPartners = async (): Promise<PartnerData[]> => {
   try {
-    const response = await api.get('/api/partners');
+    const response = await api.get('/partners');
     const data = response.data.data || response.data;
     
     if (Array.isArray(data)) {

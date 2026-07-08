@@ -7,11 +7,46 @@ import MainLayout from '@/layouts/MainLayout';
 import President from '@/assets/darmawan.jpg';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { fetchPublicTeachers, PublicTeacher } from '@/services/Teacher';
+import api from '@/lib/api';
 
 const Teachers = () => {
-    const { t } = useLanguage();
+    const { t, language} = useLanguage();
     const [activeDept, setActiveDept] = useState<string>('pplg');
     const [dynamicDepartments, setDynamicDepartments] = useState<Record<string, PublicTeacher[]> | null>(null);
+    const [heroSlides, setHeroSlides] = useState<any[]>([]);
+
+     useEffect(() => {
+        const fetchHero = async () => {
+            try {
+                const res = await api.get("/teachers");
+
+                const data = Array.isArray(res.data)
+                    ? res.data
+                    : (res.data.data || []);
+
+                const filtered = data.filter(
+                    (item: any) =>
+                        item.category === "teachers" &&
+                        item.is_active
+                );
+
+                setHeroSlides(
+                    filtered.map((item: any) => ({
+                        image_url: item.image_url,
+                        title: language === "id" ? item.title_id : item.title_en,
+                        subtitle:
+                            language === "id"
+                                ? item.subtitle_id
+                                : item.subtitle_en,
+                    }))
+                );
+            } catch (err) {
+                console.error("Gagal load hero:", err);
+            }
+        };
+
+        fetchHero();
+    }, [language]);
 
     useEffect(() => {
         fetchPublicTeachers().then(data => {
@@ -74,11 +109,10 @@ const Teachers = () => {
 
     return (
         <MainLayout>
-            <HeroCarousel
-                title={t('teacher.hero.title')}
-                subtitle={t('teacher.hero.subtitle')}
-                description={t('teacher.hero.desc')}
-                height="h-[60vh] md:h-[70vh]"
+             <HeroCarousel 
+            category="teachers" 
+            lang={language}
+            height="h-[60vh]"
             />
 
             <section className="py-24 bg-background overflow-hidden">

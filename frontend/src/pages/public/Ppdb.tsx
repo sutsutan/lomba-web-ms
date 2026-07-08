@@ -1,25 +1,59 @@
+import react, { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
 import MainLayout from '@/layouts/MainLayout';
 import ScrollReveal from '@/components/ScrollReveal';
 import HeroCarousel from '@/components/HeroCarousel';
 import { ArrowRight, ExternalLink } from 'lucide-react';
-import { motion } from 'framer-motion';
 import { useLanguage } from '@/contexts/LanguageContext';
 import logoMetland from '@/assets/metland.png';
 import studentEnrollment from '@/assets/pepleg.webp';
+import api from '@/lib/api';
 
 const Ppdb = () => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
+  const [heroSlides, setHeroSlides] = useState<any[]>([]);
+
+     useEffect(() => {
+        const fetchHero = async () => {
+            try {
+                const res = await api.get("/ppdb");
+
+                const data = Array.isArray(res.data)
+                    ? res.data
+                    : (res.data.data || []);
+
+                const filtered = data.filter(
+                    (item: any) =>
+                        item.category === "ppdb" &&
+                        item.is_active
+                );
+
+                setHeroSlides(
+                    filtered.map((item: any) => ({
+                        image_url: item.image_url,
+                        title: language === "id" ? item.title_id : item.title_en,
+                        subtitle:
+                            language === "id"
+                                ? item.subtitle_id
+                                : item.subtitle_en,
+                    }))
+                );
+            } catch (err) {
+                console.error("Gagal load hero:", err);
+            }
+        };
+
+        fetchHero();
+    }, [language]);
 
 
   return (
     <MainLayout>
-      {/* Hero Carousel */}
-      <HeroCarousel
-        title={t('ppdb.hero.title')}
-        subtitle={t('ppdb.hero.subtitle')}
-        description={t('ppdb.hero.desc')}
-        height="h-[50vh] sm:h-[60vh] md:h-[70vh]"
-      />
+      <HeroCarousel 
+            category="ppdb" 
+            lang={language}
+            height="h-[60vh]"
+            />
 
       {/* Enrollment Journey Section */}
       <section className="section-padding bg-background overflow-hidden">

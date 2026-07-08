@@ -1,9 +1,9 @@
+import { useEffect, useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 import HeroCarousel from '@/components/HeroCarousel';
 import ScrollReveal from '@/components/ScrollReveal';
 import MainLayout from '@/layouts/MainLayout';
-import { AnimatePresence, motion } from 'framer-motion';
 import { ChevronLeft, ChevronRight, Search } from 'lucide-react';
-import { useEffect, useState } from 'react';
 
 import programAccounting from '@/assets/akuntansi.webp';
 import programHospitality from '@/assets/aph.webp';
@@ -11,6 +11,8 @@ import programCulinary from '@/assets/program-culinary.webp';
 import programDkv from '@/assets/program-dkv.jpg';
 import programIt from '@/assets/program-it.webp';
 import { Calculator, Code, Hotel, Palette, Utensils } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
+import api from '@/lib/api';
 
 const categories = [
     {
@@ -300,10 +302,44 @@ const categoryDescriptions: Record<
 };
 
 const StudentWorks = () => {
+    const { t, language } = useLanguage();
     const [currentProjectIndex, setCurrentProjectIndex] = useState(0);
     const [selectedCategory, setSelectedCategory] = useState(categories[0]);
+    const [heroSlides, setHeroSlides] = useState<any[]>([]);
 
-    // Reset index when category changes
+     useEffect(() => {
+        const fetchHero = async () => {
+            try {
+                const res = await api.get("/student-works");
+
+                const data = Array.isArray(res.data)
+                    ? res.data
+                    : (res.data.data || []);
+
+                const filtered = data.filter(
+                    (item: any) =>
+                        item.category === "student-works" &&
+                        item.is_active
+                );
+
+                setHeroSlides(
+                    filtered.map((item: any) => ({
+                        image_url: item.image_url,
+                        title: language === "id" ? item.title_id : item.title_en,
+                        subtitle:
+                            language === "id"
+                                ? item.subtitle_id
+                                : item.subtitle_en,
+                    }))
+                );
+            } catch (err) {
+                console.error("Gagal load hero:", err);
+            }
+        };
+
+        fetchHero();
+    }, [language]);
+
     useEffect(() => {
         setCurrentProjectIndex(0);
     }, [selectedCategory]);
@@ -335,11 +371,10 @@ const StudentWorks = () => {
 
     return (
         <MainLayout>
-            <HeroCarousel
-                title="Student Works"
-                subtitle="SMK Metland School"
-                description="Stay updated with the latest works of creativity and innovation from our school community."
-                height="h-[60vh] md:h-[70vh]"
+            <HeroCarousel 
+            category="student-works" 
+            lang={language}
+            height="h-[60vh]"
             />
 
             <section className="section-padding bg-background py-12 md:py-16 lg:py-20">

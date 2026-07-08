@@ -9,7 +9,7 @@
     };
 
     // --- Auth Routes ---
-    Route::post('/admin/login', [AuthController::class, 'login']);
+    Route::post('/admin', [AuthController::class, 'login']);
     Route::post('/register', [AuthController::class, 'register']);
 
     // --- Public Routes ---

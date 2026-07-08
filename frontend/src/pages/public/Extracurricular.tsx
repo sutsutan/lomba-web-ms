@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { motion} from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import MainLayout from '@/layouts/MainLayout';
@@ -7,14 +8,48 @@ import HeroCarousel from '@/components/HeroCarousel';
 import { useLanguage } from '@/contexts/LanguageContext';
 import StackedCarousel from '@/components/StackedCarousel';
 import { getPublicExtracurriculars, Extracurricular as ExtracurricularType } from '@/services/Extracurricular';
-
 import extracurricularFutsal from '@/assets/extracurricular-futsal.webp';
 import extracurricularBasket from '@/assets/extracurricular-basket.jpg';
 import extracurricularModelling from '@/assets/extracurricular-modelling.webp';
+import api from '@/lib/api';
 
 const Extracurricular = () => {
-  const { t } = useLanguage();
+  const { t, language} = useLanguage();
+  const [heroSlides, setHeroSlides] = useState<any[]>([]);
   const [dynamicEkskul, setDynamicEkskul] = useState<ExtracurricularType[]>([]);
+
+   useEffect(() => {
+        const fetchHero = async () => {
+            try {
+                const res = await api.get("/extracurricular");
+
+                const data = Array.isArray(res.data)
+                    ? res.data
+                    : (res.data.data || []);
+
+                const filtered = data.filter(
+                    (item: any) =>
+                        item.category === "extracurricular" &&
+                        item.is_active
+                );
+
+                setHeroSlides(
+                    filtered.map((item: any) => ({
+                        image_url: item.image_url,
+                        title: language === "id" ? item.title_id : item.title_en,
+                        subtitle:
+                            language === "id"
+                                ? item.subtitle_id
+                                : item.subtitle_en,
+                    }))
+                );
+            } catch (err) {
+                console.error("Gagal load hero:", err);
+            }
+        };
+
+        fetchHero();
+    }, [language]);
 
   useEffect(() => {
     getPublicExtracurriculars().then(data => {
@@ -66,12 +101,11 @@ const Extracurricular = () => {
 
   return (
     <MainLayout>
-      <HeroCarousel
-        title={t('extra.hero.title')}
-        subtitle={t('extra.hero.subtitle')}
-        description={t('extra.hero.desc')}
-        height="h-[50vh] sm:h-[60vh] md:h-[70vh]"
-      />
+      <HeroCarousel 
+            category="extracurricular" 
+            lang={language}
+            height="h-[60vh]"
+            />
 
       {/* Kegiatan Utama Ekstrakurikuler */}
       <section className="pt-24 pb-12 lg:pb-16 bg-background overflow-hidden">

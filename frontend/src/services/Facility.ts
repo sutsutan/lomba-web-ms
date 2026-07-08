@@ -13,7 +13,7 @@ export interface FacilityData {
 
 export const getAdminFacilities = async (): Promise<FacilityData[]> => {
   try {
-    const response = await api.get('/api/facilities');
+    const response = await api.get('/facilities');
     return response.data.data || response.data || [];
   } catch (error) {
     console.error('Gagal mengambil data fasilitas (admin):', error);
@@ -33,13 +33,13 @@ export const getPublicFacilities = async (): Promise<FacilityData[]> => {
 };
 
 export const createFacility = async (data: FormData | Omit<FacilityData, 'id'>) => {
-  return await api.post('/api/internal/sekolah/login/facilities', data);
+  return await api.post('/api/admin/facilities', data);
 };
 
 export const updateFacility = async (id: number, data: FormData | Omit<FacilityData, 'id'>) => {
-  return await api.put(`/api/internal/sekolah/login/facilities/${id}`, data);
+  return await api.put(`/api/admin/facilities/${id}`, data);
 };
 
 export const deleteFacility = async (id: number) => {
-  return await api.delete(`/api/internal/sekolah/login/facilities/${id}`);
+  return await api.delete(`/api/admin/facilities/${id}`);
 };

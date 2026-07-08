@@ -34,7 +34,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       await api.get('/sanctum/csrf-cookie');
       
-      const res = await api.post('/admin/login', { email, password });
+      const res = await api.post('/admin', { email, password });
       
       setUser(res.data.user);
     } catch (error: any) {

@@ -12,16 +12,16 @@ export default function AdminDashboard() {
   const navigate = useNavigate();
 
   const stats = [
-    { label: 'Guru & Staf', value: mockStats.teachers, icon: 'users', color: 'indigo', path: '/dashboard/teachers' },
-    { label: 'Berita', value: mockStats.news, icon: 'newspaper', color: 'blue', path: '/dashboard/news' },
-    { label: 'Alumni', value: mockStats.alumni, icon: 'globe', color: 'emerald', path: '/dashboard/alumni' },
-    { label: 'Karya Siswa', value: mockStats.students_works, icon: 'palette', color: 'violet', path: '/dashboard/student-works' },
-    { label: 'Prestasi', value: mockStats.achievements, icon: 'trophy', color: 'amber', path: '/dashboard/achievements' },
-    { label: 'Organisasi', value: mockStats.organizations, icon: 'flag', color: 'rose', path: '/dashboard/organizations' },
-    { label: 'Ekskul', value: mockStats.extracurriculars, icon: 'sportball', color: 'orange', path: '/dashboard/extracurriculars' },
-    { label: 'Mitra', value: mockStats.partnerships, icon: 'handshake', color: 'teal', path: '/dashboard/partnerships' },
-    { label: 'Manajemen User', value: mockStats.users, icon: 'users', color: 'cyan', path: '/dashboard/manage-user' },
-  ];
+  { label: 'Guru & Staf', value: mockStats.teachers, icon: 'Users', color: 'indigo', path: '/dashboard/teachers' },
+  { label: 'Berita', value: mockStats.news, icon: 'Newspaper', color: 'blue', path: '/dashboard/news' },
+  { label: 'Alumni', value: mockStats.alumni, icon: 'Globe', color: 'emerald', path: '/dashboard/alumni' },
+  { label: 'Karya Siswa', value: mockStats.students_works, icon: 'Palette', color: 'violet', path: '/dashboard/student-works' },
+  { label: 'Prestasi', value: mockStats.achievements, icon: 'Trophy', color: 'amber', path: '/dashboard/achievements' },
+  { label: 'Organisasi', value: mockStats.organizations, icon: 'Flag', color: 'rose', path: '/dashboard/organizations' },
+  { label: 'Ekskul', value: mockStats.extracurriculars, icon: 'GraduationCap', color: 'orange', path: '/dashboard/extracurriculars' },
+  { label: 'Mitra', value: mockStats.partnerships, icon: 'Handshake', color: 'teal', path: '/dashboard/partnerships' },
+  { label: 'Manajemen User', value: mockStats.users, icon: 'UserCog', color: 'cyan', path: '/dashboard/manage-user' },
+];
 
   const colorMap: Record<string, string> = {
     indigo: 'bg-indigo-50 text-indigo-600',

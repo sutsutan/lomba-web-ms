@@ -1,75 +1,80 @@
-import React, { useRef, useState } from 'react';
-import { Upload, X, FileText, Loader2 } from 'lucide-react';
+import React, { useRef, useState, useEffect } from 'react';
+import { Upload, X, FileText, Loader2, } from 'lucide-react';
 import FormField, { inputClass } from './FormField';
-import api from '@/lib/api';
+import api, { sanctum } from "@/lib/api";
+import { newsService } from '@/services/News';
 
 interface ImageUploadFieldProps {
   value: string;
   onChange: (url: string) => void;
   label?: string;
   accept?: string;
-  folder?: string; // folder tujuan di server (default: 'uploads')
+  folder?: string;
 }
 
-export default function ImageUploadField({ 
-  value, 
-  onChange, 
-  label = "Gambar/Dokumen", 
+export default function ImageUploadField({
+  value,
+  onChange,
+  label = "Gambar/Dokumen",
   accept = "image/*,.pdf,.doc,.docx",
-  folder = "uploads"
+  folder = "uploads",
 }: ImageUploadFieldProps) {
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const [fileName, setFileName] = useState<string>('');
-  const [uploading, setUploading] = useState(false);
-  const [error, setError] = useState<string>('');
 
-  // Handler saat user memilih file — upload ke server, simpan URL-nya
-  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const [fileName, setFileName] = useState("");
+  const [uploading, setUploading] = useState(false);
+  const [error, setError] = useState("");
+
+  const safeValue = value ?? "";
+
+  useEffect(() => {
+    console.log("ImageUploadField URL :", safeValue);
+  }, [safeValue]);
+
+  const handleFileChange = async (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+
     const file = e.target.files?.[0];
     if (!file) return;
 
-    setFileName(file.name);
-    setError('');
     setUploading(true);
+    setError("");
+    setFileName(file.name);
 
     try {
-      // Pertama, ambil CSRF cookie dari Sanctum
-      await api.get('/sanctum/csrf-cookie');
 
-      // Upload file ke backend via /admin/upload
+      await api.get("/sanctum/csrf-cookie");
+
       const formData = new FormData();
-      formData.append('file', file);
-      formData.append('folder', folder);
+      formData.append("file", file);
+      formData.append("folder", folder);
 
-      const response = await api.post('/admin/upload', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      });
+    const response = await api.post('/admin/upload', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
 
-      // Backend mengembalikan { url: '/storage/uploads/...', path: '...' }
-      const uploadedUrl = response.data.url;
-      
-      // Buat URL lengkap jika url-nya relatif
-      const fullUrl = uploadedUrl.startsWith('http') || uploadedUrl.startsWith('//')
-        ? uploadedUrl 
-        : `http://127.0.0.1:8000${uploadedUrl.startsWith('/') ? '' : '/'}${uploadedUrl}`;
-      
-      onChange(fullUrl);
-    } catch (err: any) {
-      console.error('Upload gagal:', err);
-      const msg = err.response?.data?.message || err.response?.data?.errors?.file?.[0] || 'Gagal upload file. Pastikan sudah login sebagai admin.';
-      setError(msg);
-      // Fallback: jika upload gagal, tetap pakai base64 agar preview tetap muncul
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        onChange(reader.result as string);
-      };
-      reader.readAsDataURL(file);
-    } finally {
-      setUploading(false);
+    const uploadedUrl = response.data?.url;
+
+    if (!uploadedUrl) {
+      throw new Error("Respon server tidak valid (URL tidak ditemukan).");
     }
-  };
 
-  // Menghapus file/URL yang sudah dipilih
+    const fullUrl = uploadedUrl.startsWith('http') 
+      ? uploadedUrl 
+      : `http://127.0.0.1:8000${uploadedUrl.startsWith('/') ? '' : '/'}${uploadedUrl}`;
+    
+    onChange(fullUrl);
+  } catch (err: any) {
+    console.error('Upload gagal:', err);
+    const msg = err.response?.data?.message || err.message || 'Gagal mengunggah gambar.';
+    setError(msg);
+  } finally {
+    setUploading(false);
+  }
+};
+
   const handleClear = () => {
     setFileName('');
     setError('');
@@ -79,28 +84,26 @@ export default function ImageUploadField({
     }
   };
 
-  // Memeriksa apakah value saat ini merupakan file dokumen (bukan gambar)
-  const isDocument = value.startsWith('data:application/') || value.endsWith('.pdf') || value.endsWith('.docx') || value.endsWith('.doc');
+  const isDocument = safeValue.startsWith('data:application/') || 
+                     safeValue.toLowerCase().endsWith('.pdf') || 
+                     safeValue.toLowerCase().endsWith('.docx') || 
+                     safeValue.toLowerCase().endsWith('.doc');
 
+                     console.log("Image URL:", safeValue);
   return (
     <FormField label={label}>
       <div className="space-y-3">
-        {/* Kontrol Input Gabungan (Text URL + Tombol Upload Lokal) */}
         <div className="flex gap-2">
           <div className="relative flex-1">
             <input
               type="text"
               className={`${inputClass} pr-10`}
-              value={value.startsWith('data:') ? `[File Lokal] ${fileName || 'Berhasil dimuat'}` : value}
-              onChange={e => {
-                if (!value.startsWith('data:')) {
-                  onChange(e.target.value);
-                }
-              }}
-              disabled={value.startsWith('data:') || uploading}
+              value={safeValue}
+              onChange={e => onChange(e.target.value)}
+              disabled={uploading}
               placeholder="Masukkan URL gambar atau gunakan tombol upload..."
             />
-            {value && !uploading && (
+            {safeValue && !uploading && (
               <button
                 type="button"
                 onClick={handleClear}
@@ -112,7 +115,6 @@ export default function ImageUploadField({
             )}
           </div>
 
-          {/* Input File Tersembunyi */}
           <input
             type="file"
             ref={fileInputRef}
@@ -121,7 +123,6 @@ export default function ImageUploadField({
             className="hidden"
           />
 
-          {/* Tombol Trigger File Browser */}
           <button
             type="button"
             onClick={() => fileInputRef.current?.click()}
@@ -142,26 +143,18 @@ export default function ImageUploadField({
           </button>
         </div>
 
-        {/* Error Message */}
-        {error && (
-          <p className="text-xs text-red-500 font-medium">{error}</p>
-        )}
+        {error && <p className="text-xs text-red-500 font-medium">{error}</p>}
 
-        {/* Preview Area Dinamis */}
-        {value && (
+        {safeValue && safeValue.trim() !== '' && (
           <div className="relative w-full rounded-xl overflow-hidden bg-gray-50 border border-gray-200 p-2 flex items-center justify-center min-h-[120px]">
             {isDocument ? (
-              // Tampilan jika yang diunggah adalah dokumen (PDF/Word)
               <div className="flex flex-col items-center gap-2 py-4 text-gray-500">
                 <FileText className="w-12 h-12 text-indigo-500" />
-                <span className="text-xs font-medium max-w-[250px] truncate text-center">
-                  {fileName || 'Dokumen Terunggah'}
-                </span>
+                <span className="text-xs font-medium truncate text-center">Dokumen terpilih</span>
               </div>
             ) : (
-              // Tampilan jika yang diunggah adalah gambar
               <img 
-                src={value} 
+                src={safeValue} 
                 alt="preview" 
                 className="max-h-48 w-auto object-contain rounded-lg" 
                 onError={e => (e.currentTarget.src = 'https://placehold.co/400x200/e2e8f0/94a3b8?text=Preview+Gambar+Rusak')} 
@@ -171,7 +164,7 @@ export default function ImageUploadField({
         )}
         
         <p className="text-[11px] text-gray-400 leading-relaxed">
-          💡 File akan di-upload ke server secara otomatis. Mendukung tautan eksternal (URL) atau upload langsung dari perangkat.
+          💡 File akan di-upload ke server. Harap pastikan file tidak terlalu besar.
         </p>
       </div>
     </FormField>

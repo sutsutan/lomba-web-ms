@@ -16,7 +16,7 @@ export interface Extracurricular {
 
 export const getAdminExtracurriculars = async (): Promise<Extracurricular[]> => {
   try {
-    const response = await api.get('/api/extracurriculars');
+    const response = await api.get('/extracurriculars');
     return response.data.data || response.data || [];
   } catch (error) {
     console.error('Gagal mengambil data ekskul (admin):', error);

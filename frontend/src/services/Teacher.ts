@@ -31,7 +31,7 @@ const divisionMapping: Record<string, string> = {
 
 export const fetchPublicTeachers = async (): Promise<Record<string, PublicTeacher[]> | null> => {
   try {
-    const response = await api.get('/api/teachers');
+    const response = await api.get('/teachers');
     const rawData: BackendTeacher[] = response.data.data || response.data;
 
     if (!Array.isArray(rawData)) return null;
