@@ -12,13 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('hero_backgrounds', function (Blueprint $table) {
-            $table->string('title_id')->nullable()->change();
-            $table->string('title_en')->nullable()->change();
-            $table->string('subtitle_id')->nullable()->change();
-            $table->string('subtitle_en')->nullable()->change();
-            $table->text('description_id')->nullable()->change();
-            $table->text('description_en')->nullable()->change();
-            $table->integer('order')->nullable()->change();
+            if (Schema::hasColumn('hero_backgrounds', 'title_id')) $table->string('title_id')->nullable()->change();
+            if (Schema::hasColumn('hero_backgrounds', 'title_en')) $table->string('title_en')->nullable()->change();
+            if (Schema::hasColumn('hero_backgrounds', 'subtitle_id')) $table->string('subtitle_id')->nullable()->change();
+            if (Schema::hasColumn('hero_backgrounds', 'subtitle_en')) $table->string('subtitle_en')->nullable()->change();
+            if (Schema::hasColumn('hero_backgrounds', 'description_id')) $table->text('description_id')->nullable()->change();
+            if (Schema::hasColumn('hero_backgrounds', 'description_en')) $table->text('description_en')->nullable()->change();
+            if (Schema::hasColumn('hero_backgrounds', 'order')) $table->integer('order')->nullable()->change();
         });
     }
 

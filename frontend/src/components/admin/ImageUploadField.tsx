@@ -36,12 +36,12 @@ export default function ImageUploadField({
       // Pertama, ambil CSRF cookie dari Sanctum
       await api.get('/sanctum/csrf-cookie');
 
-      // Upload file ke backend via /api/internal/sekolah/login/upload
+      // Upload file ke backend via /admin/upload
       const formData = new FormData();
       formData.append('file', file);
       formData.append('folder', folder);
 
-      const response = await api.post('/api/internal/sekolah/login/upload', formData, {
+      const response = await api.post('/admin/upload', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
 
