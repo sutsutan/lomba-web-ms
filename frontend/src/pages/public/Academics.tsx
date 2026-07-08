@@ -1,10 +1,5 @@
-<<<<<<< HEAD
-import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-=======
 import React, { useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, useSpring, useMotionValue  } from 'framer-motion';
->>>>>>> 7466a917489d1a41b5cb26fbafa475a54c2541c5
 import MainLayout from '@/layouts/MainLayout';
 import ScrollReveal from '@/components/ScrollReveal';
 import HeroCarousel from '@/components/HeroCarousel';

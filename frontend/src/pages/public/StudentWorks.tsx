@@ -4,11 +4,7 @@ import HeroCarousel from '@/components/HeroCarousel';
 import ScrollReveal from '@/components/ScrollReveal';
 import MainLayout from '@/layouts/MainLayout';
 import { ChevronLeft, ChevronRight, Search } from 'lucide-react';
-<<<<<<< HEAD
-import { useEffect, useState } from 'react';
 import { getPublicStudentWorks } from '@/services/StudentWork';
-=======
->>>>>>> 7466a917489d1a41b5cb26fbafa475a54c2541c5
 
 import programAccounting from '@/assets/akuntansi.webp';
 import programHospitality from '@/assets/aph.webp';
@@ -310,7 +306,6 @@ const StudentWorks = () => {
     const { t, language } = useLanguage();
     const [currentProjectIndex, setCurrentProjectIndex] = useState(0);
     const [selectedCategory, setSelectedCategory] = useState(categories[0]);
-<<<<<<< HEAD
     const [projects, setProjects] = useState<any[]>([]);
 
     useEffect(() => {
@@ -340,42 +335,6 @@ const StudentWorks = () => {
             }
         });
     }, []);
-=======
-    const [heroSlides, setHeroSlides] = useState<any[]>([]);
-
-     useEffect(() => {
-        const fetchHero = async () => {
-            try {
-                const res = await api.get("/student-works");
-
-                const data = Array.isArray(res.data)
-                    ? res.data
-                    : (res.data.data || []);
-
-                const filtered = data.filter(
-                    (item: any) =>
-                        item.category === "student-works" &&
-                        item.is_active
-                );
-
-                setHeroSlides(
-                    filtered.map((item: any) => ({
-                        image_url: item.image_url,
-                        title: language === "id" ? item.title_id : item.title_en,
-                        subtitle:
-                            language === "id"
-                                ? item.subtitle_id
-                                : item.subtitle_en,
-                    }))
-                );
-            } catch (err) {
-                console.error("Gagal load hero:", err);
-            }
-        };
-
-        fetchHero();
-    }, [language]);
->>>>>>> 7466a917489d1a41b5cb26fbafa475a54c2541c5
 
     useEffect(() => {
         setCurrentProjectIndex(0);
