@@ -6,7 +6,6 @@ import PlaceholderPage from '@/components/admin/PlaceHolderPage';
 
 import Dashboard from './AdminDashboard';
 import HeroPage from './AdminHeroPage';
-import AdminAchievementPage from './AdminAchievementPage';
 import AdminTeachersPage from './AdminTeachersPage';
 import AdminNewsPage from './AdminNewsPage';
 import AdminAlumniPage from './AdminAlumniPage';
@@ -40,7 +39,6 @@ export default function AdminPanel() {
     switch (activePage) {
       case 'dashboard': return <Dashboard />;
       case 'hero': return <HeroPage />;
-      case 'achievements': return <AdminAchievementPage />;
       case 'teachers': return <AdminTeachersPage />;
       case 'news': return <AdminNewsPage />;
       case 'alumni': return <AdminAlumniPage />;

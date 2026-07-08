@@ -39,7 +39,7 @@ export default function AdminTeachersPage() {
       const response = await api.get('/api/teachers');
       // Antisipasi jika Laravel mengirim data langsung atau dibungkus objek pagination
       const data = response.data.data || response.data;
-      setItems(Array.isArray(data) ? data : []);
+      setItems(Array.isArray(data) ? data.filter(Boolean) : []);
     } catch (error) {
       console.error("Gagal memuat data guru di panel admin:", error);
     } finally {
@@ -52,8 +52,8 @@ export default function AdminTeachersPage() {
   }, []);
 
   const filtered = items.filter(i => 
-    (i.name || '').toLowerCase().includes(search.toLowerCase()) || 
-    (i.division || '').toLowerCase().includes(search.toLowerCase())
+    String(i.name || '').toLowerCase().includes(search.toLowerCase()) || 
+    String(i.division || '').toLowerCase().includes(search.toLowerCase())
   );
 
   const openAdd = () => { 

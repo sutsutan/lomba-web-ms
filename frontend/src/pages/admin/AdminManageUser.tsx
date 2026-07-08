@@ -43,8 +43,8 @@ export default function AdminManageUserPage() {
   });
 
   const filtered = items.filter(i =>
-    i.name.toLowerCase().includes(search.toLowerCase()) ||
-    i.email.toLowerCase().includes(search.toLowerCase()) ||
+    StringString(i.name || '').toLowerCase().includes(search.toLowerCase()) ||
+    StringString(i.email || '').toLowerCase().includes(search.toLowerCase()) ||
     i.identity_number.includes(search)
   );
 
@@ -116,7 +116,7 @@ export default function AdminManageUserPage() {
               label: 'Hak Akses (Role)',
               render: (item: UserAccount) => (
                 <Badge color={item.role === 'admin' ? 'red' : 'blue'}>
-                  {item.role.toUpperCase()}
+                  {String(item.role || '').toUpperCase()}
                 </Badge>
               )
             },

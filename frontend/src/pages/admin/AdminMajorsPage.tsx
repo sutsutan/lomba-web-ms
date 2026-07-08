@@ -41,9 +41,9 @@ export default function AdminMajorPage() {
 
   // Filter pencarian berdasarkan nama jurusan atau nama ketua jurusan
   const filtered = items.filter(i =>
-    i.name.toLowerCase().includes(search.toLowerCase()) ||
-    i.head_of_major.toLowerCase().includes(search.toLowerCase()) ||
-    i.code.toLowerCase().includes(search.toLowerCase())
+    StringString(i.name || '').toLowerCase().includes(search.toLowerCase()) ||
+    StringString(i.head_of_major || '').toLowerCase().includes(search.toLowerCase()) ||
+    StringString(i.code || '').toLowerCase().includes(search.toLowerCase())
   );
 
   // Aksi Buka Modal Tambah
@@ -65,7 +65,7 @@ export default function AdminMajorPage() {
     try {
       setLoading(true);
       const data = await getAdminMajors();
-      setItems(data);
+      setItems(Array.isArray(data) ? data.filter(Boolean) : []);
     } catch (error) {
       console.error('Gagal memuat data jurusan:', error);
     } finally {
@@ -128,7 +128,7 @@ export default function AdminMajorPage() {
               label: 'Kode',
               render: (item: Major) => (
                 <Badge color={majorColors[item.code] || 'gray'}>
-                  {item.code.toUpperCase()}
+                  {String(item.code || '').toUpperCase()}
                 </Badge>
               )
             },

@@ -40,7 +40,6 @@ import AdminLayout from './pages/admin/AdminLayout';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import AdminRequireAuth from './pages/admin/AdminRequireAuth';
 import AdminHeroPage from './pages/admin/AdminHeroPage';
-import AdminAchievementsPage from './pages/admin/AdminAchievementPage';
 import AdminPartnershipsPage from './pages/admin/AdminPartnershipPage';
 import AdminTestimoniesPage from './pages/admin/AdminTestimoniesPage';
 import AdminMajorsPage from './pages/admin/AdminMajorsPage';
@@ -54,6 +53,7 @@ import AdminNewsPage from './pages/admin/AdminNewsPage';
 import AdminExploreGalleryPage from './pages/admin/AdminExploreGalleryPage';
 import AdminAlumniPage from './pages/admin/AdminAlumniPage';
 import AdminManageUser from './pages/admin/AdminManageUser';
+import AdminAchievementPage from './pages/admin/AdminAchievementPage';
 
 // Components
 import PpdbPopup from "./components/home/ppdbpopup";
@@ -99,7 +99,7 @@ const App = () => (
                 <Route path="/dashboard" element={<AdminRequireAuth><AdminLayout /></AdminRequireAuth>}>
                   <Route index element={<AdminDashboard />} />
                   <Route path="hero" element={<AdminHeroPage />} />
-                  <Route path="achievements" element={<AdminAchievementsPage />} />
+                  <Route path="achievements" element={<AdminAchievementPage />} />
                   <Route path="partnerships" element={<AdminPartnershipsPage />} />
                   <Route path="testimonies" element={<AdminTestimoniesPage />} />
                   <Route path="majors" element={<AdminMajorsPage />} />

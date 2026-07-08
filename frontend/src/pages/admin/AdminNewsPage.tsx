@@ -62,7 +62,7 @@ export default function AdminNewsPage() {
     try {
       setLoading(true);
       const data = await newsService.getAll(false);
-      setItems(data);
+      setItems(Array.isArray(data) ? data.filter(Boolean) : []);
     } catch (error) {
       console.error(error);
     } finally {

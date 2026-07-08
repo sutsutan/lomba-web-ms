@@ -49,7 +49,7 @@ export default function AdminAlumniPage() {
 
   // Filter pencarian berdasarkan nama alumni
   const filtered = items.filter(i => 
-    i.name.toLowerCase().includes(search.toLowerCase())
+    StringString(i.name || '').toLowerCase().includes(search.toLowerCase())
   );
 
   // Aksi Buka Modal Tambah Alumni
@@ -82,7 +82,7 @@ export default function AdminAlumniPage() {
     try {
       setLoading(true);
       const data = await getAdminAlumni();
-      setItems(data);
+      setItems(Array.isArray(data) ? data.filter(Boolean) : []);
     } catch (error) {
       console.error('Gagal memuat data alumni:', error);
     } finally {

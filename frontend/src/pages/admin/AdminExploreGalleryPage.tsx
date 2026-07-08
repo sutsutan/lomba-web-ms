@@ -43,9 +43,9 @@ export default function AdminExploreGalleryPage() {
 
   // Filter pencarian berdasarkan judul galeri, keterhubungan, atau deskripsi
   const filtered = items.filter(i =>
-    i.title.toLowerCase().includes(search.toLowerCase()) ||
-    i.related_to.toLowerCase().includes(search.toLowerCase()) ||
-    i.description.toLowerCase().includes(search.toLowerCase())
+    StringString(i.title || '').toLowerCase().includes(search.toLowerCase()) ||
+    StringString(i.related_to || '').toLowerCase().includes(search.toLowerCase()) ||
+    StringString(i.description || '').toLowerCase().includes(search.toLowerCase())
   );
 
   // Aksi Buka Modal Tambah
@@ -67,7 +67,7 @@ export default function AdminExploreGalleryPage() {
     try {
       setLoading(true);
       const data = await getAdminExploreGalleries();
-      setItems(data);
+      setItems(Array.isArray(data) ? data.filter(Boolean) : []);
     } catch (error) {
       console.error('Gagal memuat data explore gallery:', error);
     } finally {

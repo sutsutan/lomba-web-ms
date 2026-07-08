@@ -41,9 +41,9 @@ export default function AdminActivityGalleryPage() {
 
   // Filter pencarian berdasarkan judul kegiatan atau deskripsi dokumentasi
   const filtered = items.filter(i =>
-    i.title.toLowerCase().includes(search.toLowerCase()) ||
-    i.description.toLowerCase().includes(search.toLowerCase()) ||
-    i.major_code.toLowerCase().includes(search.toLowerCase())
+    StringString(i.title || '').toLowerCase().includes(search.toLowerCase()) ||
+    StringString(i.description || '').toLowerCase().includes(search.toLowerCase()) ||
+    StringString(i.major_code || '').toLowerCase().includes(search.toLowerCase())
   );
 
   // Aksi Buka Modal Tambah
@@ -65,7 +65,7 @@ export default function AdminActivityGalleryPage() {
     try {
       setLoading(true);
       const data = await getAdminActivityGalleries();
-      setItems(data);
+      setItems(Array.isArray(data) ? data.filter(Boolean) : []);
     } catch (error) {
       console.error('Gagal memuat data galeri kegiatan:', error);
     } finally {
@@ -163,7 +163,7 @@ export default function AdminActivityGalleryPage() {
               label: 'Klaster / Jurusan',
               render: (item: ActivityGallery) => (
                 <Badge color={majorColors[item.major_code] || 'gray'}>
-                  {majorLabels[item.major_code] || item.major_code.toUpperCase()}
+                  {majorLabels[item.major_code] || String(item.major_code || '').toUpperCase()}
                 </Badge>
               )
             },

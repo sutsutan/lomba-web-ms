@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Storage;
 class UploadController extends Controller {
     public function upload(Request $request) {
         $request->validate([
-            'file' => 'required|file|max:10240',
+            'file' => 'required|file|max:51200',
             'folder' => 'nullable|string',
         ]);
 

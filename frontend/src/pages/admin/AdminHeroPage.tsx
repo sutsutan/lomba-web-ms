@@ -107,8 +107,8 @@ export default function AdminHeroPage() {
     }
   };
 
-  const homeItems = items.filter(i => (i.category || '').toLowerCase() === 'home');
-  const universalItems = items.filter(i => (i.category || '').toLowerCase() !== 'home');
+  const homeItems = items.filter(i => String(i.category || '').toLowerCase() === 'home');
+  const universalItems = items.filter(i => String(i.category || '').toLowerCase() !== 'home');
 
   return (
     <div className="p-6 space-y-8">

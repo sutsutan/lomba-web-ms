@@ -40,8 +40,8 @@
 
     // Filter pencarian berdasarkan nama perusahaan atau lokasi
     const filtered = items.filter(i => 
-      i.company_name.toLowerCase().includes(search.toLowerCase()) ||
-      i.location.toLowerCase().includes(search.toLowerCase())
+      StringString(i.company_name || '').toLowerCase().includes(search.toLowerCase()) ||
+      StringString(i.location || '').toLowerCase().includes(search.toLowerCase())
     );
 
     // Aksi Buka Modal Tambah Mitra
