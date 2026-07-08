@@ -30,7 +30,7 @@ export default function AdminAchievementPage() {
   const loadData = async () => {
   try {
     setLoading(true);
-    const res = await api.get('/admin/achievements');
+    const res = await api.get('/api/achievements');
     
     const responseData = res.data.data || res.data;
     

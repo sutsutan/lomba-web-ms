@@ -45,13 +45,13 @@ export default function ImageUploadField({
 
     try {
 
-      await api.get("/sanctum/csrf-cookie");
+      await sanctum.get("/sanctum/csrf-cookie");
 
       const formData = new FormData();
       formData.append("file", file);
       formData.append("folder", folder);
 
-    const response = await api.post('/admin/upload', formData, {
+    const response = await api.post('/api/admin/upload', formData, {
       headers: { 'Content-Type': 'multipart/form-data' },
     });
 
