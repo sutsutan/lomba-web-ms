@@ -47,9 +47,9 @@ export default function AdminTestimonyPage() {
   }, []);
 
   const filtered = items.filter(i => 
-    StringString(i.author_name || '').toLowerCase().includes(search.toLowerCase()) || 
-    StringString(i.message || '').toLowerCase().includes(search.toLowerCase()) ||
-    StringString(i.title_suffix || '').toLowerCase().includes(search.toLowerCase())
+    String(i.author_name || '').toLowerCase().includes(search.toLowerCase()) || 
+    String(i.message || '').toLowerCase().includes(search.toLowerCase()) ||
+    String(i.title_suffix || '').toLowerCase().includes(search.toLowerCase())
   );
 
   const openAdd = () => { 

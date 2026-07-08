@@ -41,9 +41,9 @@ export default function AdminMajorPage() {
 
   // Filter pencarian berdasarkan nama jurusan atau nama ketua jurusan
   const filtered = items.filter(i =>
-    StringString(i.name || '').toLowerCase().includes(search.toLowerCase()) ||
-    StringString(i.head_of_major || '').toLowerCase().includes(search.toLowerCase()) ||
-    StringString(i.code || '').toLowerCase().includes(search.toLowerCase())
+    String(i.name || '').toLowerCase().includes(search.toLowerCase()) ||
+    String(i.head_of_major || '').toLowerCase().includes(search.toLowerCase()) ||
+    String(i.code || '').toLowerCase().includes(search.toLowerCase())
   );
 
   // Aksi Buka Modal Tambah

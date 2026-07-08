@@ -43,9 +43,9 @@ export default function AdminFacilityPage() {
 
   // Filter pencarian berdasarkan nama fasilitas, lokasi, atau deskripsi
   const filtered = items.filter(i =>
-    StringString(i.name || '').toLowerCase().includes(search.toLowerCase()) ||
-    StringString(i.location || '').toLowerCase().includes(search.toLowerCase()) ||
-    StringString(i.description || '').toLowerCase().includes(search.toLowerCase())
+    String(i.name || '').toLowerCase().includes(search.toLowerCase()) ||
+    String(i.location || '').toLowerCase().includes(search.toLowerCase()) ||
+    String(i.description || '').toLowerCase().includes(search.toLowerCase())
   );
 
   // Aksi Buka Modal Tambah

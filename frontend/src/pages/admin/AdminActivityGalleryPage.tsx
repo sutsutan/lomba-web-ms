@@ -41,9 +41,9 @@ export default function AdminActivityGalleryPage() {
 
   // Filter pencarian berdasarkan judul kegiatan atau deskripsi dokumentasi
   const filtered = items.filter(i =>
-    StringString(i.title || '').toLowerCase().includes(search.toLowerCase()) ||
-    StringString(i.description || '').toLowerCase().includes(search.toLowerCase()) ||
-    StringString(i.major_code || '').toLowerCase().includes(search.toLowerCase())
+    String(i.title || '').toLowerCase().includes(search.toLowerCase()) ||
+    String(i.description || '').toLowerCase().includes(search.toLowerCase()) ||
+    String(i.major_code || '').toLowerCase().includes(search.toLowerCase())
   );
 
   // Aksi Buka Modal Tambah

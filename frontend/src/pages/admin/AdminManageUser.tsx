@@ -43,8 +43,8 @@ export default function AdminManageUserPage() {
   });
 
   const filtered = items.filter(i =>
-    StringString(i.name || '').toLowerCase().includes(search.toLowerCase()) ||
-    StringString(i.email || '').toLowerCase().includes(search.toLowerCase()) ||
+    String(i.name || '').toLowerCase().includes(search.toLowerCase()) ||
+    String(i.email || '').toLowerCase().includes(search.toLowerCase()) ||
     i.identity_number.includes(search)
   );
 

@@ -43,9 +43,9 @@ export default function AdminStudentWorkPage() {
 
   // Filter pencarian berdasarkan judul projek, nama pencipta, atau deskripsi produk
   const filtered = items.filter(i =>
-    StringString(i.title || '').toLowerCase().includes(search.toLowerCase()) ||
-    StringString(i.creators || '').toLowerCase().includes(search.toLowerCase()) ||
-    StringString(i.description || '').toLowerCase().includes(search.toLowerCase())
+    String(i.title || '').toLowerCase().includes(search.toLowerCase()) ||
+    String(i.creators || '').toLowerCase().includes(search.toLowerCase()) ||
+    String(i.description || '').toLowerCase().includes(search.toLowerCase())
   );
 
   // Aksi Buka Modal Tambah

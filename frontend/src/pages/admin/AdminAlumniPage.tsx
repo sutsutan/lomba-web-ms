@@ -49,7 +49,7 @@ export default function AdminAlumniPage() {
 
   // Filter pencarian berdasarkan nama alumni
   const filtered = items.filter(i => 
-    StringString(i.name || '').toLowerCase().includes(search.toLowerCase())
+    String(i.name || '').toLowerCase().includes(search.toLowerCase())
   );
 
   // Aksi Buka Modal Tambah Alumni
