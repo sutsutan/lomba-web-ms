@@ -17,8 +17,8 @@ import ScrollReveal from '@/components/ScrollReveal';
 import MainLayout from '@/layouts/MainLayout';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { getPublicExtracurriculars, Extracurricular as ExtracurricularType } from '@/services/Extracurricular';
+import api from '@/lib/api';
 
-// Data bawaan sebagai fallback jika database kosong
 const fallbackExtracurriculars = [
     {
         id: 'basket',
@@ -152,7 +152,6 @@ const fallbackExtracurriculars = [
     }
 ];
 
-// Struktur Interface terpadu untuk UI rendering
 interface UnifiedEkskul {
     id: string;
     name: string;
@@ -167,13 +166,47 @@ interface UnifiedEkskul {
 }
 
 const ExtracurricularPage = () => {
-    const { t } = useLanguage();
+    const { t, language } = useLanguage();
+    const [heroSlides, setHeroSlides] = useState<any[]>([]);
     const [rawEkskul, setRawEkskul] = useState<ExtracurricularType[]>([]);
     const [selectedId, setSelectedId] = useState<string>('');
     const [activeCat, setActiveCat] = useState('All');
     const categories = ['All', 'Sports', 'Arts', 'Specialized'];
 
-    // Ambil data dari API Laravel saat komponen di-mount
+      useEffect(() => {
+        const fetchHero = async () => {
+            try {
+                const res = await api.get("/eskul");
+
+                const data = Array.isArray(res.data)
+                    ? res.data
+                    : (res.data.data || []);
+
+                const filtered = data.filter(
+                    (item: any) =>
+                        item.category === "eskul" &&
+                        item.is_active
+                );
+
+                setHeroSlides(
+                    filtered.map((item: any) => ({
+                        image_url: item.image_url,
+                        title: language === "id" ? item.title_id : item.title_en,
+                        subtitle:
+                            language === "id"
+                                ? item.subtitle_id
+                                : item.subtitle_en,
+                    }))
+                );
+            } catch (err) {
+                console.error("Gagal load hero:", err);
+            }
+        };
+
+        fetchHero();
+    }, [language]);
+
+
     useEffect(() => {
         getPublicExtracurriculars().then((data) => {
             if (data && data.length > 0) {
@@ -187,7 +220,6 @@ const ExtracurricularPage = () => {
         });
     }, []);
 
-    // Normalisasi data: Menyatukan skema API Laravel dengan skema Fallback Statis lokal
     const normalizedItems: UnifiedEkskul[] = useMemo(() => {
         if (rawEkskul.length > 0) {
             return rawEkskul.map((item) => ({
@@ -195,7 +227,7 @@ const ExtracurricularPage = () => {
                 name: item.name,
                 category: item.category,
                 description: item.description || '',
-                detail: item.description || '', // Mengisi detail dengan deskripsi dari panel admin
+                detail: item.description || '',
                 image: item.image_url || 'https://placehold.co/800x450/e2e8f0/94a3b8?text=Ekskul',
                 schedule: item.schedule || 'Jadwal belum ditentukan',
                 intensity: item.intensity || 'Normal',
@@ -204,7 +236,6 @@ const ExtracurricularPage = () => {
             }));
         }
 
-        // Jika API kosong, gunakan data i18n lokal translation
         return fallbackExtracurriculars.map((item) => ({
             id: item.id,
             name: t(item.nameKey),
@@ -219,20 +250,17 @@ const ExtracurricularPage = () => {
         }));
     }, [rawEkskul, t]);
 
-    // Filter item berdasarkan tab kategori aktif
     const filteredItems = useMemo(() => {
         const items = activeCat === 'All' 
             ? normalizedItems 
             : normalizedItems.filter((i) => i.category === activeCat);
 
-        // Proteksi jika tab berpindah dan ID lama tidak ada di kategori baru
         if (items.length > 0 && !items.some(i => i.id === selectedId)) {
             setSelectedId(items[0].id);
         }
         return items;
     }, [activeCat, normalizedItems, selectedId]);
 
-    // Data ekstrakurikuler yang saat ini dipilih untuk ditampilkan detailnya
     const selected = useMemo(() => {
         return normalizedItems.find((i) => i.id === selectedId) || normalizedItems[0];
     }, [selectedId, normalizedItems]);
@@ -240,12 +268,10 @@ const ExtracurricularPage = () => {
     return (
         <MainLayout>
             <div className="min-h-screen bg-white font-sans text-slate-900 selection:bg-teal-100">
-                {/* HERO SECTION */}
-                <HeroCarousel
-                    title={t('career_title')}
-                    subtitle={t('career_subtitle')}
-                    description={t('cert_desc')}
-                    height="h-[50vh]"
+                <HeroCarousel 
+                category="eskul" 
+                lang={language}
+                height="h-[60vh]"
                 />
 
                 {/* NAVIGATION BAR */}

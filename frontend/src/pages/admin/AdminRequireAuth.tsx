@@ -10,7 +10,7 @@ export default function AdminRequireAuth({ children }: { children: React.ReactNo
   }
 
   if (!user || !isAdmin) {
-    return <Navigate to="/internal/sekolah/login" state={{ from: location }} replace />;
+    return <Navigate to="/admin" state={{ from: location }} replace />;
   }
 
   return <>{children}</>;

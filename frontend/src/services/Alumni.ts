@@ -16,7 +16,7 @@ export interface AlumniData {
 
 export const getAdminAlumni = async (): Promise<AlumniData[]> => {
   try {
-    const response = await api.get('/api/alumni');
+    const response = await api.get('/alumni');
     return response.data.data || response.data || [];
   } catch (error) {
     console.error('Gagal mengambil data alumni (admin):', error);

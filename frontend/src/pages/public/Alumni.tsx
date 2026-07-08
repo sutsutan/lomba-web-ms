@@ -1,16 +1,52 @@
+import { useState, useRef, useEffect} from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import MainLayout from '@/layouts/MainLayout';
 import achievement from '@/assets/achievement-1.jpg';
 import HeroCarousel from '@/components/HeroCarousel';
 import ScrollReveal from '@/components/ScrollReveal';
-import MainLayout from '@/layouts/MainLayout';
 import GlobeAlumni from '@/pages/public/GlobeAlumni';
 import { Briefcase, ChevronRight, GraduationCap, MapPin, Target } from 'lucide-react';
-import { useState, useRef } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
+import api from '@/lib/api';
 
 const Alumni = () => {
-    const { t } = useLanguage();
+    const { t, language } = useLanguage();
+    const [heroSlides, setHeroSlides] = useState<any[]>([]);
     const [activeAlumniId, setActiveAlumniId] = useState<number | null>(null);
     const globeSectionRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const fetchHero = async () => {
+            try {
+                const res = await api.get("/alumni");
+
+                const data = Array.isArray(res.data)
+                    ? res.data
+                    : (res.data.data || []);
+
+                const filtered = data.filter(
+                    (item: any) =>
+                        item.category === "alumni" &&
+                        item.is_active
+                );
+
+                setHeroSlides(
+                    filtered.map((item: any) => ({
+                        image_url: item.image_url,
+                        title: language === "id" ? item.title_id : item.title_en,
+                        subtitle:
+                            language === "id"
+                                ? item.subtitle_id
+                                : item.subtitle_en,
+                    }))
+                );
+            } catch (err) {
+                console.error("Gagal load hero:", err);
+            }
+        };
+
+        fetchHero();
+    }, [language]);
 
     const alumniData = [
         {
@@ -68,11 +104,10 @@ const Alumni = () => {
 
     return (
         <MainLayout>
-            <HeroCarousel
-                title={t('alumni.hero.title')}
-                subtitle={t('alumni.hero.subtitle')}
-                description={t('alumni.hero.desc')} 
-                height="h-[60vh] md:h-[70vh]"
+             <HeroCarousel 
+            category="alumni" 
+            lang={language}
+            height="h-[60vh]"
             />
 
             {/* Alumni Cards Grid */}

@@ -13,7 +13,7 @@ export interface StudentWorkData {
 
 export const getAdminStudentWorks = async (): Promise<StudentWorkData[]> => {
   try {
-    const response = await api.get('/api/student-works');
+    const response = await api.get('/student-works');
     return response.data.data || response.data || [];
   } catch (error) {
     console.error('Gagal mengambil data karya siswa (admin):', error);

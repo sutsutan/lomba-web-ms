@@ -13,7 +13,7 @@ export interface FacilityData {
 
 export const getAdminFacilities = async (): Promise<FacilityData[]> => {
   try {
-    const response = await api.get('/api/facilities');
+    const response = await api.get('/facilities');
     return response.data.data || response.data || [];
   } catch (error) {
     console.error('Gagal mengambil data fasilitas (admin):', error);

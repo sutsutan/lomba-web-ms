@@ -13,7 +13,7 @@ export interface ExploreGalleryData {
 
 export const getAdminExploreGalleries = async (): Promise<ExploreGalleryData[]> => {
   try {
-    const response = await api.get('/api/explore-galleries');
+    const response = await api.get('/explore-galleries');
     return response.data.data || response.data || [];
   } catch (error) {
     console.error('Gagal mengambil data explore gallery (admin):', error);

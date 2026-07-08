@@ -12,7 +12,7 @@ export interface ActivityGalleryData {
 
 export const getAdminActivityGalleries = async (): Promise<ActivityGalleryData[]> => {
   try {
-    const response = await api.get('/api/activity-galleries');
+    const response = await api.get('/activity-galleries');
     return response.data.data || response.data || [];
   } catch (error) {
     console.error('Gagal mengambil data galeri kegiatan (admin):', error);

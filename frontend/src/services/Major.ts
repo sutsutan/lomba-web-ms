@@ -14,7 +14,7 @@ export interface MajorData {
 
 export const getAdminMajors = async (): Promise<MajorData[]> => {
   try {
-    const response = await api.get('/api/majors');
+    const response = await api.get('/majors');
     return response.data.data || response.data || [];
   } catch (error) {
     console.error('Gagal mengambil data jurusan (admin):', error);

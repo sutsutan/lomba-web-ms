@@ -8,8 +8,25 @@ import { fetchPublicPartners, PartnerData } from '@/services/Partner';
 const PartnersSection = () => {
   const { t } = useLanguage();
   const [partners, setPartners] = useState<PartnerData[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const loadPartners = async () => {
+        try {
+            const data = await fetchPublicPartners();
+            setPartners(data);
+        } catch (err) {
+            console.error(err);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    loadPartners();
+}, []);
+
+  useEffect(() => {
+    setLoading(true);
     fetchPublicPartners().then((data) => {
       if (data.length > 0) {
         setPartners(data);
