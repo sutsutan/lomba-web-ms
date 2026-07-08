@@ -26,7 +26,6 @@ const GlobeAlumni = ({ targetLocation, alumniData }: GlobeAlumniProps) => {
     const rPhi = useSpring(0, { stiffness: 60, damping: 20, mass: 1 });
     const rTheta = useSpring(0, { stiffness: 60, damping: 20, mass: 1 });
 
-    // Definisi activeAlumni yang reaktif
     const activeAlumni = useMemo(() => {
         return alumniData.find(a => 
             targetLocation && 
@@ -55,16 +54,31 @@ const GlobeAlumni = ({ targetLocation, alumniData }: GlobeAlumniProps) => {
                 location: a.location,
                 size: targetLocation && targetLocation[0] === a.location[0] ? 0.1 : 0.04,
             })),
-            onRender: (state) => {
-                state.phi = phi.current + pointerInteractionMovement.current;
-                state.theta = rTheta.get();
-                phi.current = state.phi;
-            },
         });
 
+        // Loop animasi utama
+        let width = 0;
+        const animate = () => {
+            if (!globeRef.current) return;
+            
+            // Menggabungkan rotasi manual + spring dari target location
+            const currentPhi = phi.current + pointerInteractionMovement.current;
+            const currentTheta = rTheta.get();
+            
+            globeRef.current.set({
+                phi: currentPhi,
+                theta: currentTheta,
+            });
+            
+            requestAnimationFrame(animate);
+        };
+        animate();
+
         return () => globeRef.current?.destroy();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []); 
 
+    // Update markers saat data atau target berubah
     useEffect(() => {
         if (globeRef.current) {
             globeRef.current.set({
@@ -76,19 +90,19 @@ const GlobeAlumni = ({ targetLocation, alumniData }: GlobeAlumniProps) => {
         }
     }, [alumniData, targetLocation]);
 
+    // Sinkronisasi target lokasi ke Spring
     useEffect(() => {
         if (targetLocation) {
             const [lat, lng] = targetLocation;
             rPhi.set((lng * Math.PI) / 180 * -1 + 1.57);
             rTheta.set((lat * Math.PI) / 180 * -1);
             
-            const animate = () => {
-                if (Math.abs(phi.current - rPhi.get()) > 0.01) {
-                    phi.current += (rPhi.get() - phi.current) * 0.1;
-                    requestAnimationFrame(animate);
-                }
+            // Update phi.current agar drag setelah auto-rotate tidak loncat
+            const syncPhi = () => {
+                phi.current = rPhi.get();
+                pointerInteractionMovement.current = 0;
             };
-            animate();
+            syncPhi();
         }
     }, [targetLocation, rPhi, rTheta]);
 
@@ -100,7 +114,7 @@ const GlobeAlumni = ({ targetLocation, alumniData }: GlobeAlumniProps) => {
             {activeAlumni && (
                 <div className="absolute z-30 flex flex-col items-center pointer-events-none -translate-y-4">
                     <div className="relative">
-                        <div className="h-20 w-20 overflow-hidden rounded-full border-4 border-white bg-white shadow-[0_10px_30px_rgba(18,96,106,0.3)] transition-transform duration-500 scale-110">
+                        <div className="h-20 w-20 overflow-hidden rounded-full border-4 border-white bg-white shadow-[0_10px_30px_rgba(18,96,106,0.3)] scale-110">
                             <img src={activeAlumni.image} className="h-full w-full object-cover" alt={activeAlumni.name} />
                         </div>
                         <div className="absolute inset-0 h-20 w-20 animate-ping rounded-full bg-[#12606A]/10" />
@@ -116,11 +130,11 @@ const GlobeAlumni = ({ targetLocation, alumniData }: GlobeAlumniProps) => {
                 ref={canvasRef}
                 onPointerDown={(e) => {
                     pointerInteracting.current = e.clientX - pointerInteractionMovement.current;
-                    canvasRef.current!.style.cursor = "grabbing";
+                    if (canvasRef.current) canvasRef.current.style.cursor = "grabbing";
                 }}
                 onPointerUp={() => {
                     pointerInteracting.current = null;
-                    canvasRef.current!.style.cursor = "grab";
+                    if (canvasRef.current) canvasRef.current.style.cursor = "grab";
                 }}
                 onPointerMove={(e) => {
                     if (pointerInteracting.current !== null) {
