@@ -4,6 +4,7 @@ import MainLayout from '@/layouts/MainLayout';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ChevronLeft, ChevronRight, Search } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { getPublicStudentWorks } from '@/services/StudentWork';
 
 import programAccounting from '@/assets/akuntansi.webp';
 import programHospitality from '@/assets/aph.webp';
@@ -302,6 +303,35 @@ const categoryDescriptions: Record<
 const StudentWorks = () => {
     const [currentProjectIndex, setCurrentProjectIndex] = useState(0);
     const [selectedCategory, setSelectedCategory] = useState(categories[0]);
+    const [projects, setProjects] = useState<any[]>([]);
+
+    useEffect(() => {
+        getPublicStudentWorks().then(apiData => {
+            if (apiData && apiData.length > 0) {
+                const categoryMap: Record<string, string> = {
+                    it: 'Information Technology',
+                    vcd: 'Design Communication Visual',
+                    culinary: 'Culinary',
+                    hospitality: 'Hospitality',
+                    accounting: 'Accounting'
+                };
+                const mapped = apiData.map(item => ({
+                    id: item.id,
+                    category: categoryMap[item.major_code] || item.major_code,
+                    student: item.creators,
+                    class: 'Umum',
+                    title: item.title,
+                    description: item.description,
+                    image: item.preview_url,
+                    githubUrl: item.project_url || '#',
+                    profileImage: item.preview_url,
+                }));
+                setProjects(mapped);
+            } else {
+                setProjects(galleryProjects);
+            }
+        });
+    }, []);
 
     // Reset index when category changes
     useEffect(() => {
@@ -309,7 +339,7 @@ const StudentWorks = () => {
     }, [selectedCategory]);
 
     // Filter projects based on selected category
-    const filteredProjects = galleryProjects.filter(
+    const filteredProjects = projects.filter(
         (project) => project.category === selectedCategory.name,
     );
 
@@ -518,7 +548,7 @@ const StudentWorks = () => {
                                             >
                                                 Total Works:{' '}
                                                 {
-                                                    galleryProjects.filter(
+                                                    projects.filter(
                                                         (p) =>
                                                             p.category ===
                                                             cat.name,

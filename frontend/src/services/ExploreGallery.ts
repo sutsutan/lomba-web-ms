@@ -33,13 +33,13 @@ export const getPublicExploreGalleries = async (): Promise<ExploreGalleryData[]>
 };
 
 export const createExploreGallery = async (data: FormData | Omit<ExploreGalleryData, 'id'>) => {
-  return await api.post('/api/internal/sekolah/login/explore-galleries', data);
+  return await api.post('/api/admin/explore-galleries', data);
 };
 
 export const updateExploreGallery = async (id: number, data: FormData | Omit<ExploreGalleryData, 'id'>) => {
-  return await api.put(`/api/internal/sekolah/login/explore-galleries/${id}`, data);
+  return await api.put(`/api/admin/explore-galleries/${id}`, data);
 };
 
 export const deleteExploreGallery = async (id: number) => {
-  return await api.delete(`/api/internal/sekolah/login/explore-galleries/${id}`);
+  return await api.delete(`/api/admin/explore-galleries/${id}`);
 };

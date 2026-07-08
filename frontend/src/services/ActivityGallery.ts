@@ -32,13 +32,13 @@ export const getPublicActivityGalleries = async (): Promise<ActivityGalleryData[
 };
 
 export const createActivityGallery = async (data: FormData | Omit<ActivityGalleryData, 'id'>) => {
-  return await api.post('/api/internal/sekolah/login/activity-galleries', data);
+  return await api.post('/api/admin/activity-galleries', data);
 };
 
 export const updateActivityGallery = async (id: number, data: FormData | Omit<ActivityGalleryData, 'id'>) => {
-  return await api.put(`/api/internal/sekolah/login/activity-galleries/${id}`, data);
+  return await api.put(`/api/admin/activity-galleries/${id}`, data);
 };
 
 export const deleteActivityGallery = async (id: number) => {
-  return await api.delete(`/api/internal/sekolah/login/activity-galleries/${id}`);
+  return await api.delete(`/api/admin/activity-galleries/${id}`);
 };

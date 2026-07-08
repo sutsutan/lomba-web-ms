@@ -33,13 +33,13 @@ export const getPublicStudentWorks = async (): Promise<StudentWorkData[]> => {
 };
 
 export const createStudentWork = async (data: FormData | Omit<StudentWorkData, 'id'>) => {
-  return await api.post('/api/internal/sekolah/login/student-works', data);
+  return await api.post('/api/admin/student-works', data);
 };
 
 export const updateStudentWork = async (id: number, data: FormData | Omit<StudentWorkData, 'id'>) => {
-  return await api.put(`/api/internal/sekolah/login/student-works/${id}`, data);
+  return await api.put(`/api/admin/student-works/${id}`, data);
 };
 
 export const deleteStudentWork = async (id: number) => {
-  return await api.delete(`/api/internal/sekolah/login/student-works/${id}`);
+  return await api.delete(`/api/admin/student-works/${id}`);
 };

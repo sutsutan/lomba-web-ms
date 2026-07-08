@@ -40,7 +40,7 @@ const GlobeAlumni = ({ targetLocation, alumniData }: GlobeAlumniProps) => {
                 location: a.location,
                 size: targetLocation && targetLocation[0] === a.location[0] ? 0.1 : 0.04,
             })),
-            onRender: (state) => {
+            onRender: (state: Record<string, any>) => {
                 if (canvasRef.current) {
                     const width = canvasRef.current.offsetWidth;
                     state.width = width * 2;
@@ -50,7 +50,7 @@ const GlobeAlumni = ({ targetLocation, alumniData }: GlobeAlumniProps) => {
                 state.phi = rPhi.get() + pointerInteractionMovement.current;
                 state.theta = rTheta.get();
             },
-        });
+        } as any);
 
         return globe;
     }, [alumniData, targetLocation, rPhi, rTheta]);

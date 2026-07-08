@@ -36,13 +36,13 @@ export const getPublicAlumni = async (): Promise<AlumniData[]> => {
 };
 
 export const createAlumni = async (data: FormData | Omit<AlumniData, 'id'>) => {
-  return await api.post('/api/internal/sekolah/login/alumni', data);
+  return await api.post('/api/admin/alumni', data);
 };
 
 export const updateAlumni = async (id: number, data: FormData | Omit<AlumniData, 'id'>) => {
-  return await api.put(`/api/internal/sekolah/login/alumni/${id}`, data);
+  return await api.put(`/api/admin/alumni/${id}`, data);
 };
 
 export const deleteAlumni = async (id: number) => {
-  return await api.delete(`/api/internal/sekolah/login/alumni/${id}`);
+  return await api.delete(`/api/admin/alumni/${id}`);
 };

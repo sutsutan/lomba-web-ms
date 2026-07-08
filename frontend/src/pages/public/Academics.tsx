@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import MainLayout from '@/layouts/MainLayout';
 import ScrollReveal from '@/components/ScrollReveal';
@@ -5,6 +6,7 @@ import HeroCarousel from '@/components/HeroCarousel';
 import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { getPublicStudentWorks } from '@/services/StudentWork';
 import programIt from '@/assets/program-it.webp';
 import programCulinary from '@/assets/program-culinary.webp';
 import achievement from '@/assets/achievement-1.jpg';
@@ -63,12 +65,36 @@ const Academics = () => {
     }, 
   ];
 
-  const studentWorks = [
+  const fallbackWorks = [
     { title: t('academics.works.1.title'), tag: t('academics.works.1.tag'), desc: t('academics.works.1.desc'), image: programIt },
     { title: t('academics.works.2.title'), tag: t('academics.works.2.tag'), desc: t('academics.works.2.desc'), image: programCulinary },
     { title: t('academics.works.3.title'), tag: t('academics.works.3.tag'), desc: t('academics.works.3.desc'), image: programDkv },
     { title: t('academics.works.4.title'), tag: t('academics.works.4.tag'), desc: t('academics.works.4.desc'), image: achievement },
   ];
+
+  const [studentWorks, setStudentWorks] = useState<any[]>(fallbackWorks);
+
+  useEffect(() => {
+    getPublicStudentWorks().then(apiData => {
+      if (apiData && apiData.length > 0) {
+        const categoryMap: Record<string, string> = {
+          it: 'IT',
+          vcd: 'DKV',
+          culinary: 'Culinary',
+          hospitality: 'Hospitality',
+          accounting: 'Accounting'
+        };
+        const apiWorks = apiData.map(item => ({
+          title: item.title,
+          tag: categoryMap[item.major_code] || item.major_code.toUpperCase(),
+          desc: item.description,
+          image: item.preview_url
+        }));
+        const combined = [...apiWorks, ...fallbackWorks].slice(0, 4);
+        setStudentWorks(combined);
+      }
+    });
+  }, [t]);
 
   return (
     <MainLayout>

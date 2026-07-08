@@ -73,10 +73,10 @@ export default function AdminTeachersPage() {
     try {
       if (editing) {
         // Mode Edit: Kirim request PUT / PATCH ke Laravel
-        await api.put(`/api/teachers/${editing.id}`, form);
+        await api.put(`/api/admin/teachers/${editing.id}`, form);
       } else {
         // Mode Tambah: Kirim request POST ke Laravel
-        await api.post('/api/teachers', form);
+        await api.post('/api/admin/teachers', form);
       }
       setModal(false);
       loadTeachers(); // Refresh tabel setelah berhasil menyimpan data
@@ -90,7 +90,7 @@ export default function AdminTeachersPage() {
   const del = async (id: number) => {
     if (!confirm("Apakah Anda yakin ingin menghapus data guru ini?")) return;
     try {
-      await api.delete(`/api/teachers/${id}`);
+      await api.delete(`/api/admin/teachers/${id}`);
       loadTeachers(); // Refresh tabel setelah data terhapus
     } catch (error) {
       console.error("Gagal menghapus data guru:", error);

@@ -44,13 +44,13 @@ export const getPublicMajorBySlug = async (slug: string): Promise<MajorData | nu
 };
 
 export const createMajor = async (data: FormData | Omit<MajorData, 'id'>) => {
-  return await api.post('/api/internal/sekolah/login/majors', data);
+  return await api.post('/api/admin/majors', data);
 };
 
 export const updateMajor = async (id: number, data: FormData | Omit<MajorData, 'id'>) => {
-  return await api.put(`/api/internal/sekolah/login/majors/${id}`, data);
+  return await api.put(`/api/admin/majors/${id}`, data);
 };
 
 export const deleteMajor = async (id: number) => {
-  return await api.delete(`/api/internal/sekolah/login/majors/${id}`);
+  return await api.delete(`/api/admin/majors/${id}`);
 };

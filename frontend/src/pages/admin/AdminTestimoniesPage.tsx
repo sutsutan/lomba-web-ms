@@ -75,9 +75,9 @@ export default function AdminTestimonyPage() {
   const save = async () => {
     try {
       if (editing) {
-        await api.put(`/api/testimonies/${editing.id}`, form);
+        await api.put(`/api/admin/testimonies/${editing.id}`, form);
       } else {
-        await api.post('/api/testimonies', form);
+        await api.post('/api/admin/testimonies', form);
       }
       setModal(false);
       loadTestimonies();
@@ -90,7 +90,7 @@ export default function AdminTestimonyPage() {
   const del = async (id: number) => {
     if (confirm("Apakah Anda yakin ingin menghapus data testimoni ini?")) {
       try {
-        await api.delete(`/api/testimonies/${id}`);
+        await api.delete(`/api/admin/testimonies/${id}`);
         loadTestimonies();
       } catch (err) {
         console.error("Gagal menghapus testimoni:", err);

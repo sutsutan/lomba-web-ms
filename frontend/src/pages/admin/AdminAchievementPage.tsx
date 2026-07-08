@@ -71,9 +71,9 @@ export default function AdminAchievementPage() {
   const save = async () => {
     try {
       if (editing) {
-        await api.put(`/api/achievements/${editing.id}`, form);
+        await api.put(`/api/admin/achievements/${editing.id}`, form);
       } else {
-        await api.post('/api/achievements', form);
+        await api.post('/api/admin/achievements', form);
       }
       setModal(false);
       loadData();
@@ -86,7 +86,7 @@ export default function AdminAchievementPage() {
   const del = async (id: number) => {
     if (!confirm('Apakah Anda yakin ingin menghapus prestasi ini?')) return;
     try {
-      await api.delete(`/api/achievements/${id}`);
+      await api.delete(`/api/admin/achievements/${id}`);
       loadData();
     } catch (err) {
       console.error('Gagal menghapus data prestasi:', err);
