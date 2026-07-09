@@ -104,9 +104,9 @@ export default {
   'sw.project.18.desc': 'Corporate budget planning and forecasting project.',
 
   // Hero Section
-  'hero.tagline': 'SMK Metland School — Vocational Excellence',
-  'hero.title_part1': 'From School',
-  'hero.title_part2': 'to Career',
+  'hero.tagline': 'SMK Pariwisata Metland School',
+  'hero.title_part1': 'The High Standard',
+  'hero.title_part2': 'of Vocational Education',
   'hero.description': 'We prepare students with industry-ready skills, character development, and real-world experience for successful careers.',
   'hero.learn_more': 'Learn More',
   'hero.scroll_explore': 'Scroll to explore',
@@ -152,6 +152,9 @@ export default {
   'achievements.3.title': 'National Debate Championship',
   'achievements.3.desc': 'Champion in the National English Debate Competition representing West Java.',
   'achievements.3.cat': 'Academic',
+
+  // more Achievements
+  'more.achievements.title': 'Achievement',
 
   // Partners
   'partners.desc1': 'We collaborate with trusted industry partners, businesses, and academic institutions at both national and international levels to ensure our learning remains relevant and future-ready.',

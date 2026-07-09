@@ -31,7 +31,7 @@ export default function AdminPartnershipPage() {
     try {
       setLoading(true);
 
-      const res = await api.get('/api/admin/partnerships');
+      const res = await api.get('/admin/partnerships');
 
       const data = res.data.data || res.data;
 
@@ -87,9 +87,9 @@ export default function AdminPartnershipPage() {
   const save = async () => {
     try {
       if (editing) {
-        await api.put(`/api/admin/partnerships/${editing.id}`, form);
+        await api.put(`/admin/partnerships/${editing.id}`, form);
       } else {
-        await api.post('/api/admin/partnerships', form);
+        await api.post('/admin/partnerships', form);
       }
 
       setModal(false);
@@ -110,7 +110,7 @@ export default function AdminPartnershipPage() {
     if (!confirm('Apakah yakin ingin menghapus data?')) return;
 
     try {
-      await api.delete(`/api/admin/partnerships/${id}`);
+      await api.delete(`/admin/partnerships/${id}`);
       loadData();
     } catch (err) {
       console.error(err);

@@ -106,9 +106,9 @@ export default {
   'sw.project.18.desc': 'Proyek perencanaan anggaran dan peramalan perusahaan.',
 
   // Hero Section
-  'hero.tagline': 'SMK Metland School — Keunggulan Vokasi',
-  'hero.title_part1': 'Dari Sekolah',
-  'hero.title_part2': 'ke Karir',
+  'hero.tagline': 'SMK Pariwisata Metland School',
+  'hero.title_part1': 'Standar Tinggi',
+  'hero.title_part2': 'Pendidikan Vokasi',
   'hero.description': 'Kami mempersiapkan siswa dengan keterampilan siap industri, pengembangan karakter, dan pengalaman dunia nyata untuk karir yang sukses.',
   'hero.learn_more': 'Pelajari Lebih Lanjut',
   'hero.scroll_explore': 'Gulir untuk menjelajah',
@@ -154,6 +154,9 @@ export default {
   'achievements.3.title': 'Kejuaraan Debat Nasional',
   'achievements.3.desc': 'Juara dalam Kompetisi Debat Bahasa Inggris Nasional mewakili Jawa Barat.',
   'achievements.3.cat': 'Akademik',
+
+    // more Achievements
+  'more.achievements.title': 'Prestasi',
 
   // Partners
   'partners.desc1': 'Kami berkolaborasi dengan mitra industri terpercaya, bisnis, dan institusi akademik di tingkat nasional maupun internasional untuk memastikan pembelajaran kami tetap relevan dan siap masa depan.',

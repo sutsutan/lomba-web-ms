@@ -33,21 +33,6 @@ const ProgramTabs = () => {
     const navigate = useNavigate();
 
     const tabData: Record<string, TabContent> = {
-        extracurricular: {
-            title: t('program.extracurricular.title'),
-            description: t('program.extracurricular.desc'),
-            images: [
-                extracurricularFutsal,
-                extracurricularBasket,
-                extracurricularBadminton,
-                extracurricularModelling,
-            ],
-        },
-        organization: {
-            title: t('program.organization.title'),
-            description: t('program.organization.desc'),
-            images: [Itec, LogoOsis, Kkr, Mahes, Msp, Mpk],
-        },
         major: {
             title: t('program.major.title'),
             description: t('program.major.desc'),
@@ -59,10 +44,25 @@ const ProgramTabs = () => {
                 programAkuntansi,
             ],
         },
+        organization: {
+            title: t('program.organization.title'),
+            description: t('program.organization.desc'),
+            images: [Itec, LogoOsis, Kkr, Mahes, Msp, Mpk],
+        },
+        extracurricular: {
+            title: t('program.extracurricular.title'),
+            description: t('program.extracurricular.desc'),
+            images: [
+                extracurricularFutsal,
+                extracurricularBasket,
+                extracurricularBadminton,
+                extracurricularModelling,
+            ],
+        },
     };
 
     const [activeTab, setActiveTab] =
-        useState<keyof typeof tabData>('extracurricular');
+        useState<keyof typeof tabData>('major');
     const [activeImageIndex, setActiveImageIndex] = useState(0);
     const [windowWidth, setWindowWidth] = useState(
         typeof window !== 'undefined' ? window.innerWidth : 1200,

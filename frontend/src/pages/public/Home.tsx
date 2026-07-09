@@ -8,6 +8,7 @@ import PartnersSection from '@/components/home/PartnersSection';
 import AdmissionSteps from '@/components/home/AdmissionSteps';
 import TestimonialVideo from "@/components/home/Testimony";
 import ButtonCorner from '@/components/home/Button';
+import MoreAchievement from '@/components/home/MoreAchievement';
 
 const Home = () => {
   return (
@@ -16,6 +17,7 @@ const Home = () => {
       <AboutPreview />
       <ProgramTabs />
       <VisionMission />
+      <MoreAchievement />
       <AchievementsSlider />
       <PartnersSection />
       <TestimonialVideo />

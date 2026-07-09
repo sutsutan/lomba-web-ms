@@ -99,8 +99,6 @@ const OurValues = () => {
                     <div className="mb-48">
                         <ScrollReveal>
                             <div className="flex flex-col items-center mb-20">
-                                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#0F5F58]/5 border border-[#0F5F58]/10 text-[#0F5F58] font-bold text-sm mb-6 uppercase tracking-widest">
-                                </div>
                                 <h2 className="text-3xl sm:text-5xl md:text-7xl font-black text-[#0F5F58] text-center">
                                     {t('values.core.title_prefix')} <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0F5F58] to-[#2D8B82]">{t('values.core.title_suffix')}</span>
                                 </h2>
