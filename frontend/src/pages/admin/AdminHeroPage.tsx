@@ -50,7 +50,7 @@ export default function AdminHeroPage() {
   const fetchData = async () => {
     try {
       setLoading(true);
-      const response = await api.get('/admin/hero-backgrounds');
+      const response = await api.get('/api/admin/hero-backgrounds');
       const items = response.data.data || response.data || [];
       setItems(items); 
     } catch (error) {
@@ -83,10 +83,10 @@ export default function AdminHeroPage() {
 
     try {
       if (editing) {
-        await api.put(`/admin/hero-backgrounds/${editing.id}`, payload);
+        await api.put(`/api/admin/hero-backgrounds/${editing.id}`, payload);
         toast({ title: "Berhasil", description: "Data berhasil diperbarui" });
       } else {
-        await api.post('/admin/hero-backgrounds', payload);
+        await api.post('/api/admin/hero-backgrounds', payload);
         toast({ title: "Berhasil", description: "Data berhasil ditambahkan" });
       }
       await fetchData(); 
@@ -99,7 +99,7 @@ export default function AdminHeroPage() {
   const del = async (id: number) => {
     if (!confirm("Yakin ingin menghapus?")) return;
     try {
-      await api.delete(`/admin/hero-backgrounds/${id}`);
+      await api.delete(`/api/admin/hero-backgrounds/${id}`);
       await fetchData();
       toast({ title: "Berhasil", description: "Data dihapus" });
     } catch (error) {

@@ -17,14 +17,14 @@ export const fetchPublicPartners = async (): Promise<PartnerData[]> => {
 
 // ADMIN
 export const fetchAdminPartners = async (): Promise<PartnerData[]> => {
-  const res = await api.get('/admin/partnerships');
+  const res = await api.get('/api/admin/partnerships');
   return Array.isArray(res.data.data) ? res.data.data : [];
 };
 
 export const createPartner = async (
   data: Omit<PartnerData, 'id'>
 ) => {
-  const res = await api.post('/admin/partnerships', data);
+  const res = await api.post('/api/admin/partnerships', data);
   return res.data;
 };
 
@@ -32,11 +32,11 @@ export const updatePartner = async (
   id: number,
   data: Omit<PartnerData, 'id'>
 ) => {
-  const res = await api.put(`/admin/partnerships/${id}`, data);
+  const res = await api.put(`/api/admin/partnerships/${id}`, data);
   return res.data;
 };
 
 export const deletePartner = async (id: number) => {
-  const res = await api.delete(`/admin/partnerships/${id}`);
+  const res = await api.delete(`/api/admin/partnerships/${id}`);
   return res.data;
 };

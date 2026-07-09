@@ -10,12 +10,12 @@ class StudentWorkController extends BaseResourceController
     protected $model = Student_Work::class;
     
     protected $validationRules = [
-        'image_url'    => 'required|string|max:255',
-        'student_name' => 'required|string|max:255',
+        'preview_url'  => 'required|string',
         'title'        => 'required|string|max:255',
-        'description'  => 'nullable|string',
-        'class'        => 'required|string|max:255',
-        'major_id'     => 'nullable|exists:majors,id',
+        'creators'     => 'required|string|max:255',
+        'major_code'   => 'required|string|max:100',
+        'project_url'  => 'nullable|string|max:255',
+        'description'  => 'required|string',
         'is_active'    => 'nullable|boolean',
     ];
 

@@ -30,7 +30,7 @@ export default function AdminAchievementPage() {
   const loadData = async () => {
   try {
     setLoading(true);
-    const res = await api.get('/admin/achievements');
+    const res = await api.get('/api/achievements');
     
     const responseData = res.data.data || res.data;
     
@@ -67,28 +67,27 @@ export default function AdminAchievementPage() {
   };
 
   const save = async () => {
-  try {
-    if (editing) {
-      await api.put(`/admin/achievements/${editing.id}`, form);
-    } else { 
-      await api.post('/admin/achievements', form);
+    try {
+      if (editing) {
+        await api.put(`/api/admin/achievements/${editing.id}`, form);
+      } else {
+        await api.post('/api/admin/achievements', form);
+      }
+      setModal(false);
+      loadData();
+    } catch (err) {
+      console.error('Gagal menyimpan data prestasi:', err);
+      alert('Gagal menyimpan data. Pastikan semua field terisi dengan benar.');
     }
-    setModal(false);
-    loadData(); 
-  } catch (err) {
-    console.error("Gagal menyimpan data:", err);
-    alert("Terjadi kesalahan saat menyimpan data");
-  }
-};
+  };
 
   const del = async (id: number) => {
-    if (confirm("Apakah Anda yakin ingin menghapus data prestasi ini?")) {
-      try {
-        await api.delete(`/admin/achievements/${id}`);
-        loadData();
-      } catch (err) {
-        console.error("Gagal menghapus data:", err);
-      }
+    if (!confirm('Apakah Anda yakin ingin menghapus prestasi ini?')) return;
+    try {
+      await api.delete(`/api/admin/achievements/${id}`);
+      loadData();
+    } catch (err) {
+      console.error('Gagal menghapus data prestasi:', err);
     }
   };
 

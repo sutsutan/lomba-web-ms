@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import { useMemo, useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { getPublicMajors } from '@/services/Major';
 
 // Assets
 import accounting from '@/assets/akuntansi.webp';
@@ -142,6 +143,7 @@ const Major = () => {
     const { t } = useLanguage();
     const [selectedImg, setSelectedImg] = useState<string | null>(null);
     const location = useLocation();
+    const [dynamicStats, setDynamicStats] = useState<Record<string, { students: string, head: string }> | null>(null);
 
     const majorIdToIndex = useMemo(() => ({
         hospitality: 0,
@@ -153,6 +155,23 @@ const Major = () => {
     }), []);
 
     useEffect(() => {
+        getPublicMajors().then(apiData => {
+            if (apiData && apiData.length > 0) {
+                const statsMap: Record<string, { students: string, head: string }> = {};
+                apiData.forEach(item => {
+                    const key = item.code || item.slug || '';
+                    const normalizedKey = key === 'it' ? 'pplg' : key;
+                    statsMap[normalizedKey] = {
+                        students: item.total_students ? `${item.total_students}+` : '0+',
+                        head: item.head_of_major || ''
+                    };
+                });
+                setDynamicStats(statsMap);
+            }
+        });
+    }, []);
+
+    useEffect(() => {
         const params = new URLSearchParams(location.search);
         const type = params.get('type');
         if (type && type in majorIdToIndex) {
@@ -162,6 +181,8 @@ const Major = () => {
 
     const currentStatic = (majorsData as any)[index];
     const id = currentStatic.id;
+    const currentStudents = dynamicStats?.[id]?.students || currentStatic.stats.students;
+    const currentHead = dynamicStats?.[id]?.head || '';
 
     const getList = (key: string) =>
         t(key)
@@ -311,10 +332,7 @@ const Major = () => {
                                             <Users className="h-5 w-5 opacity-60" />
                                             <div>
                                                 <p className="text-2xl font-black leading-none">
-                                                    {
-                                                        majorsData[index].stats
-                                                            .students
-                                                    }
+                                                    {currentStudents}
                                                 </p>
                                                 <p className="text-[10px] uppercase tracking-widest opacity-60">
                                                     {t('label_students')}
@@ -349,6 +367,11 @@ const Major = () => {
                                     <h3 className="text-3xl sm:text-4xl font-black uppercase leading-none tracking-tighter text-[#12606A] md:text-7xl">
                                         {t(`${majorsData[index].id}_title`)}
                                     </h3>
+                                    {currentHead && (
+                                        <p className="text-sm font-semibold text-teal-600 uppercase tracking-widest">
+                                            Kakomli / Kaprog: {currentHead}
+                                        </p>
+                                    )}
                                     <p className="border-l-4 border-neutral-100 pl-6 text-justify text-lg italic leading-relaxed text-[#12606A]/80">
                                         "{t(`${majorsData[index].id}_detailed`)}
                                         "

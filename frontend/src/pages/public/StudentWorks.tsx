@@ -4,6 +4,7 @@ import HeroCarousel from '@/components/HeroCarousel';
 import ScrollReveal from '@/components/ScrollReveal';
 import MainLayout from '@/layouts/MainLayout';
 import { ChevronLeft, ChevronRight, Search } from 'lucide-react';
+import { getPublicStudentWorks } from '@/services/StudentWork';
 
 import programAccounting from '@/assets/akuntansi.webp';
 import programHospitality from '@/assets/aph.webp';
@@ -305,47 +306,42 @@ const StudentWorks = () => {
     const { t, language } = useLanguage();
     const [currentProjectIndex, setCurrentProjectIndex] = useState(0);
     const [selectedCategory, setSelectedCategory] = useState(categories[0]);
-    const [heroSlides, setHeroSlides] = useState<any[]>([]);
+    const [projects, setProjects] = useState<any[]>([]);
 
-     useEffect(() => {
-        const fetchHero = async () => {
-            try {
-                const res = await api.get("/student-works");
-
-                const data = Array.isArray(res.data)
-                    ? res.data
-                    : (res.data.data || []);
-
-                const filtered = data.filter(
-                    (item: any) =>
-                        item.category === "student-works" &&
-                        item.is_active
-                );
-
-                setHeroSlides(
-                    filtered.map((item: any) => ({
-                        image_url: item.image_url,
-                        title: language === "id" ? item.title_id : item.title_en,
-                        subtitle:
-                            language === "id"
-                                ? item.subtitle_id
-                                : item.subtitle_en,
-                    }))
-                );
-            } catch (err) {
-                console.error("Gagal load hero:", err);
+    useEffect(() => {
+        getPublicStudentWorks().then(apiData => {
+            if (apiData && apiData.length > 0) {
+                const categoryMap: Record<string, string> = {
+                    it: 'Information Technology',
+                    vcd: 'Design Communication Visual',
+                    culinary: 'Culinary',
+                    hospitality: 'Hospitality',
+                    accounting: 'Accounting'
+                };
+                const mapped = apiData.map(item => ({
+                    id: item.id,
+                    category: categoryMap[item.major_code] || item.major_code,
+                    student: item.creators,
+                    class: 'Umum',
+                    title: item.title,
+                    description: item.description,
+                    image: item.preview_url,
+                    githubUrl: item.project_url || '#',
+                    profileImage: item.preview_url,
+                }));
+                setProjects(mapped);
+            } else {
+                setProjects(galleryProjects);
             }
-        };
-
-        fetchHero();
-    }, [language]);
+        });
+    }, []);
 
     useEffect(() => {
         setCurrentProjectIndex(0);
     }, [selectedCategory]);
 
     // Filter projects based on selected category
-    const filteredProjects = galleryProjects.filter(
+    const filteredProjects = projects.filter(
         (project) => project.category === selectedCategory.name,
     );
 
@@ -553,7 +549,7 @@ const StudentWorks = () => {
                                             >
                                                 Total Works:{' '}
                                                 {
-                                                    galleryProjects.filter(
+                                                    projects.filter(
                                                         (p) =>
                                                             p.category ===
                                                             cat.name,

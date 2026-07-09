@@ -54,25 +54,17 @@ const GlobeAlumni = ({ targetLocation, alumniData }: GlobeAlumniProps) => {
                 location: a.location,
                 size: targetLocation && targetLocation[0] === a.location[0] ? 0.1 : 0.04,
             })),
-        });
-
-        // Loop animasi utama
-        let width = 0;
-        const animate = () => {
-            if (!globeRef.current) return;
-            
-            // Menggabungkan rotasi manual + spring dari target location
-            const currentPhi = phi.current + pointerInteractionMovement.current;
-            const currentTheta = rTheta.get();
-            
-            globeRef.current.set({
-                phi: currentPhi,
-                theta: currentTheta,
-            });
-            
-            requestAnimationFrame(animate);
-        };
-        animate();
+            onRender: (state: Record<string, any>) => {
+                if (canvasRef.current) {
+                    const width = canvasRef.current.offsetWidth;
+                    state.width = width * 2;
+                    state.height = width * 2;
+                }
+                // Phi adalah rotasi horizontal, Theta adalah vertikal
+                state.phi = rPhi.get() + pointerInteractionMovement.current;
+                state.theta = rTheta.get();
+            },
+        } as any);
 
         return () => globeRef.current?.destroy();
         // eslint-disable-next-line react-hooks/exhaustive-deps
