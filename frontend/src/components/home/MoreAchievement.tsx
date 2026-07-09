@@ -28,24 +28,24 @@ const MoreAchievement = () => {
                 className="w-full h-auto rounded-lg shadow-xl"
               />
               <div className="mt-6">
-                <p className="text-[#0F5F58] font-bold text-sm mb-2">{t('partners.news_date')}</p>
+                <p className="text-[#0F5F58] font-bold text-sm mb-2">{t('more.achievements.date')}</p>
                 <p className="text-muted-foreground text-xs leading-relaxed max-w-md">
-                  {t('partners.news_caption')}
+                  {t('more.achievements.caption')}
                 </p>
               </div>
             </div>
 
             <div className="space-y-6">
               <p className="text-[#0F5F58] font-medium italic">
-                {t('partners.news_subtitle')}
+                {t('more.achievements.subtitle')}
               </p>
               <h3 className="text-2xl md:text-3xl font-bold text-[#0F5F58] leading-tight">
-                {t('partners.news_title')}
+                {t('more.achievements.title')}
               </h3>
               <div className="space-y-4 text-muted-foreground leading-relaxed">
-                <p>{t('partners.news_desc1')}</p>
-                <p>{t('partners.news_desc2')}</p>
-                <p>{t('partners.news_desc3')}</p>
+                <p>{t('more.achievements.desc1')}</p>
+                <p>{t('more.achievements.desc2')}</p>
+                <p>{t('more.achievements.desc3')}</p>
               </div>
               <div className="pt-4">
                 <Link 

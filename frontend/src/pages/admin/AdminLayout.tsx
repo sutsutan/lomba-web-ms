@@ -15,6 +15,7 @@ export default function AdminLayout() {
   { path: '/dashboard', label: 'Dashboard', icon: 'LayoutDashboard' },
   { path: '/dashboard/hero', label: 'Hero Background', icon: 'Image' },
   { path: '/dashboard/achievements', label: 'Prestasi', icon: 'Trophy' },
+  { path: '#', label: 'Prestasi', icon: 'Trophy' },
   { path: '/dashboard/partnerships', label: 'Kemitraan', icon: 'Handshake' },
   { path: '/dashboard/testimonies', label: 'Testimoni', icon: 'Star' },
   { path: '/dashboard/majors', label: 'Jurusan', icon: 'BookOpen' },
