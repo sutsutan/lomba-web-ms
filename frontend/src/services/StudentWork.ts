@@ -13,7 +13,7 @@ export interface StudentWorkData {
 
 export const getAdminStudentWorks = async (): Promise<StudentWorkData[]> => {
   try {
-    const response = await api.get('/student-works');
+    const response = await api.get('/admin/student-works');
     return response.data.data || response.data || [];
   } catch (error) {
     console.error('Gagal mengambil data karya siswa (admin):', error);
@@ -23,7 +23,7 @@ export const getAdminStudentWorks = async (): Promise<StudentWorkData[]> => {
 
 export const getPublicStudentWorks = async (): Promise<StudentWorkData[]> => {
   try {
-    const response = await api.get('/api/student-works');
+    const response = await api.get('/student-works');
     const data: StudentWorkData[] = response.data.data || response.data || [];
     return Array.isArray(data) ? data.filter(item => item.is_active) : [];
   } catch (error) {
@@ -33,13 +33,13 @@ export const getPublicStudentWorks = async (): Promise<StudentWorkData[]> => {
 };
 
 export const createStudentWork = async (data: FormData | Omit<StudentWorkData, 'id'>) => {
-  return await api.post('/api/admin/student-works', data);
+  return await api.post('/admin/student-works', data);
 };
 
 export const updateStudentWork = async (id: number, data: FormData | Omit<StudentWorkData, 'id'>) => {
-  return await api.put(`/api/admin/student-works/${id}`, data);
+  return await api.put(`/admin/student-works/${id}`, data);
 };
 
 export const deleteStudentWork = async (id: number) => {
-  return await api.delete(`/api/admin/student-works/${id}`);
+  return await api.delete(`/admin/student-works/${id}`);
 };
