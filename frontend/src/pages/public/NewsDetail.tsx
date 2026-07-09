@@ -5,15 +5,17 @@ import MainLayout from '@/layouts/MainLayout';
 import ScrollReveal from '@/components/ScrollReveal';
 import { Calendar, ArrowLeft, Share2, X, ChevronLeft, ChevronRight, Maximize2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import HeroCarousel from '@/components/HeroCarousel';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useToast } from '@/hooks/use-toast';
+import api from '@/lib/api';
 
 import { newsService, NewsData } from '@/services/News';
 
 const NewsDetail = () => {
-  // Menggunakan 'id' sebagai slug/id penentu di URL
   const { id } = useParams();
   const { t, language } = useLanguage();
+   const [heroSlides, setHeroSlides] = useState<any[]>([]);
   const { toast } = useToast();
 
   const [currentNews, setCurrentNews] = useState<NewsData | null>(null);
@@ -23,6 +25,39 @@ const NewsDetail = () => {
   // Lightbox State
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+   useEffect(() => {
+        const fetchHero = async () => {
+            try {
+                const res = await api.get("/contact");
+
+                const data = Array.isArray(res.data)
+                    ? res.data
+                    : (res.data.data || []);
+
+                const filtered = data.filter(
+                    (item: any) =>
+                        item.category === "contact" &&
+                        item.is_active
+                );
+
+                setHeroSlides(
+                    filtered.map((item: any) => ({
+                        image_url: item.image_url,
+                        title: language === "id" ? item.title_id : item.title_en,
+                        subtitle:
+                            language === "id"
+                                ? item.subtitle_id
+                                : item.subtitle_en,
+                    }))
+                );
+            } catch (err) {
+                console.error("Gagal load hero:", err);
+            }
+        };
+
+        fetchHero();
+    }, [language]);
 
   const openLightbox = (index: number) => {
     setCurrentImageIndex(index);
@@ -110,6 +145,12 @@ const NewsDetail = () => {
   if (!currentNews) {
     return (
       <MainLayout>
+         <HeroCarousel 
+            category="contact" 
+            lang={language}
+            height="h-[60vh]"
+            />
+
         <div className="text-center py-40 text-destructive font-medium">
           <p className="mb-4">Berita tidak ditemukan atau telah dihapus.</p>
           <Link to="/news-archive" className="text-primary hover:underline">Kembali ke Arsip</Link>

@@ -21,10 +21,8 @@ const NewsArchive = () => {
     const fetchNews = async () => {
       try {
         setLoading(true);
-        // Mengambil hanya berita yang sudah di-publish
         const data = await newsService.getAll(true);
         
-        // Sorting berdasarkan published_date
         const sortedData = [...data].sort((a, b) => 
           new Date(b.published_date).getTime() - new Date(a.published_date).getTime()
         );
@@ -53,7 +51,7 @@ const NewsArchive = () => {
 
   return (
     <MainLayout>
-      <HeroCarousel
+       <HeroCarousel
         title={t('news.hero.title')}
         subtitle={t('news.hero.subtitle')}
         description={t('news.hero.desc')}
