@@ -153,15 +153,15 @@ export default {
   'achievements.3.desc': 'Champion in the National English Debate Competition representing West Java.',
   'achievements.3.cat': 'Academic',
 
-  // more Achievements
-  'more.achievements.title': 'Achievement',
-  'more.achievements.subtitle': 'Celebrating our students\' global excellence',
-  'more.achievements.learn_more': 'Learn More',
-  'more.achievements.date': 'Nov, 12 - 15 - 2025',
-  'more.achievements.caption': 'The achievement at SIAL Interfood 2025 also marks a proud milestone for the school and reinforces the wide career opportunities available to vocational school graduates within the global culinary industry.',
-  'more.achievements.desc1': 'The international culinary scene was once again impressed by Indonesia\'s young talents. A student from SMK Pariwisata Metland School, Yoel Ivander Theophilus, achieved an outstanding accomplishment by winning 1st Place (Gold Medal) at the prestigious La Cuisine Competition, held during SIAL Interfood 2025 at JIExpo Kemayoran, Jakarta.',
-  'more.achievements.desc2': 'This achievement stands as clear evidence of the strength of vocational education in Indonesia, particularly in the fields of hospitality and culinary arts, proving its ability to compete at a professional and international level.',
-  'more.achievements.desc3': 'With this Gold Medal victory, SMK Pariwisata Metland School further strengthens its position as a leading tourism and hospitality school, consistently producing skilled, job-ready, and high-achieving graduates.',
+  // preview news home
+  'more.news.title': 'Latest News',
+  'more.news.subtitle': 'Stay updated with our latest announcements and events',
+  'more.news.learn_more': 'Learn More',
+  'more.news.date': 'Nov, 12 - 15 - 2025',
+  'more.news.caption': 'The achievement at SIAL Interfood 2025 also marks a proud milestone for the school and reinforces the wide career opportunities available to vocational school graduates within the global culinary industry.',
+  'more.news.desc1': 'The international culinary scene was once again impressed by Indonesia\'s young talents. A student from SMK Pariwisata Metland School, Yoel Ivander Theophilus, achieved an outstanding accomplishment by winning 1st Place (Gold Medal) at the prestigious La Cuisine Competition, held during SIAL Interfood 2025 at JIExpo Kemayoran, Jakarta.',
+  'more.news.desc2': 'This achievement stands as clear evidence of the strength of vocational education in Indonesia, particularly in the fields of hospitality and culinary arts, proving its ability to compete at a professional and international level.',
+  'more.news.desc3': 'With this Gold Medal victory, SMK Pariwisata Metland School further strengthens its position as a leading tourism and hospitality school, consistently producing skilled, job-ready, and high-achieving graduates.',
 
   // Partners
   'partners.desc1': 'We collaborate with trusted industry partners, businesses, and academic institutions at both national and international levels to ensure our learning remains relevant and future-ready.',
