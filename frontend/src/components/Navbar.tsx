@@ -41,6 +41,7 @@ const Navbar = () => {
       children: [
         { label: t('nav.extracurricular'), href: '/extracurricular' },
         { label: t('nav.organization'), href: '/organization' },
+        { label: t('nav.achievement'), href: '/achievement' },
       ],
     },
     { label: t('nav.news'), href: '/news' },

@@ -3,9 +3,36 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\News;
 
-class achievement extends Model
+class Achievement extends Model
 {
-    protected $fillable = ['image_url', 'category', 'holder_name', 'description', 'year', 'is_active'];
-    protected $casts = ['is_active' => 'boolean'];
+    protected $fillable = [
+        'image_url',
+        'title',
+        'category',
+        'competition',
+        'level',
+        'organizer',
+        'location',
+        'achievement_date',
+        'holder_name',
+        'description',
+        'content',
+        'year',
+        'medal',
+        'certificate_url',
+        'news_id',
+        'is_active',
+    ];
+
+    protected $casts = [
+        'achievement_date' => 'date',
+        'is_active' => 'boolean',
+    ];
+
+    public function news()
+    {
+        return $this->belongsTo(News::class);
+    }
 }

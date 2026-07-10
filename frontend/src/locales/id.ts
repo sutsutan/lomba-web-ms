@@ -14,6 +14,7 @@ export default {
   'nav.activity': 'Aktivitas',
   'nav.extracurricular': 'Ekstrakurikuler',
   'nav.organization': 'Organisasi',
+  'nav.Achievement': 'Prestasi',
   'nav.news': 'Berita',
   'nav.alumni': 'Alumni',
   'nav.ppdb': 'PPDB',

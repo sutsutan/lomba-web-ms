@@ -204,7 +204,7 @@ const latestNews = useMemo(() => {
         </div>
       </section>
 
-      {/* ================= All News ================= */}
+      {/* news */}
 
       <section className="section-padding bg-section">
         <div className="container mx-auto px-4">

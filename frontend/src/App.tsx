@@ -31,6 +31,8 @@ import MoreOrg from "./pages/public/MoreOrg";
 import MissionVision from "./pages/public/MissionVission";
 import NewsArchive from "./pages/public/NewsArchive";
 import NewsDetail from "./pages/public/NewsDetail";
+import Achievement from "./pages/public/Achievement"
+import AchievementDetail from "./pages/public/AchievementDetail"
 
 
 
@@ -93,6 +95,8 @@ const App = () => (
                 <Route path="/news-archive" element={<NewsArchive />} />
                 <Route path="/more-news" element={<NewsDetail />} />  
                 <Route path="/more-news/:id" element={<NewsDetail />} />  
+                <Route path="/achievement" element={<Achievement />} />  
+                <Route path="/achievement-detail/:id"element={<AchievementDetail />}/>
 
                
                 {/* Admin Routes */}
