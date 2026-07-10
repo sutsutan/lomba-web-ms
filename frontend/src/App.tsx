@@ -97,6 +97,7 @@ const App = () => (
                 <Route path="/more-news/:id" element={<NewsDetail />} />  
                 <Route path="/achievement" element={<Achievement />} />  
                 <Route path="/achievement-detail/:id"element={<AchievementDetail />}/>
+                
 
                
                 {/* Admin Routes */}
