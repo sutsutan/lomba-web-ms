@@ -11,6 +11,10 @@ class MajorController extends BaseResourceController {
         'head_of_major' => 'required|string|max:255',
         'description'   => 'required|string',
         'total_students'=> 'nullable|integer',
+        'total_partners'=> 'nullable|integer',
+        'lab_image'     => 'nullable|string',
+        'activity_image'=> 'nullable|string',
+        'curriculum_image'=> 'nullable|string',
         'is_active'     => 'nullable|boolean',
     ];
 

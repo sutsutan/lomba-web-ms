@@ -9,7 +9,7 @@ use App\Models\student_work;
 use App\Models\alumni;
 class Major extends Model
 {
-     protected $fillable = ['name', 'slug', 'icon', 'description', 'cover_image', 'is_active', 'code', 'head_of_major', 'total_students'];
+     protected $fillable = ['name', 'slug', 'icon', 'description', 'cover_image', 'is_active', 'code', 'head_of_major', 'total_students', 'total_partners', 'lab_image', 'activity_image', 'curriculum_image'];
     protected $casts = ['is_active' => 'boolean'];
 
     public function facilities() { return $this->hasMany(Facility::class); }

@@ -13,6 +13,7 @@ interface DataTableProps<T> {
   onEdit: (item: T) => void;
   onDelete: (id: number) => void;
   onToggleActive?: (item: T) => void;
+  extraActions?: (item: T) => React.ReactNode;
 }
 
 export default function DataTable<T extends { id: number }>({
@@ -21,6 +22,7 @@ export default function DataTable<T extends { id: number }>({
   onEdit,
   onDelete,
   onToggleActive,
+  extraActions,
 }: DataTableProps<T>) {
   return (
     <div className="overflow-x-auto">
@@ -98,6 +100,8 @@ export default function DataTable<T extends { id: number }>({
                     >
                       <Trash2 className="w-4 h-4 text-red-600" />
                     </button>
+
+                    {extraActions && extraActions(item)}
 
                   </div>
                 </td>
