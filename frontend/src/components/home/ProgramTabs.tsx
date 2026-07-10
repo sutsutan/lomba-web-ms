@@ -3,6 +3,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ChevronLeft, ChevronRight, Link, ArrowRight } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import programAkuntansi from '@/assets/akuntansi.webp';
 import programPerhotelan from '@/assets/aph.webp';
@@ -29,23 +30,9 @@ interface TabContent {
 
 const ProgramTabs = () => {
     const { t } = useLanguage();
+    const navigate = useNavigate();
 
     const tabData: Record<string, TabContent> = {
-        extracurricular: {
-            title: t('program.extracurricular.title'),
-            description: t('program.extracurricular.desc'),
-            images: [
-                extracurricularFutsal,
-                extracurricularBasket,
-                extracurricularBadminton,
-                extracurricularModelling,
-            ],
-        },
-        organization: {
-            title: t('program.organization.title'),
-            description: t('program.organization.desc'),
-            images: [Itec, LogoOsis, Kkr, Mahes, Msp, Mpk],
-        },
         major: {
             title: t('program.major.title'),
             description: t('program.major.desc'),
@@ -57,10 +44,25 @@ const ProgramTabs = () => {
                 programAkuntansi,
             ],
         },
+        organization: {
+            title: t('program.organization.title'),
+            description: t('program.organization.desc'),
+            images: [Itec, LogoOsis, Kkr, Mahes, Msp, Mpk],
+        },
+        extracurricular: {
+            title: t('program.extracurricular.title'),
+            description: t('program.extracurricular.desc'),
+            images: [
+                extracurricularFutsal,
+                extracurricularBasket,
+                extracurricularBadminton,
+                extracurricularModelling,
+            ],
+        },
     };
 
     const [activeTab, setActiveTab] =
-        useState<keyof typeof tabData>('extracurricular');
+        useState<keyof typeof tabData>('major');
     const [activeImageIndex, setActiveImageIndex] = useState(0);
     const [windowWidth, setWindowWidth] = useState(
         typeof window !== 'undefined' ? window.innerWidth : 1200,
@@ -225,15 +227,15 @@ const ProgramTabs = () => {
                                     </div>
 
                                     <div className="relative pt-4">
-                                        <motion.button
+                                       <motion.button
                                             whileHover={{ scale: 1.05 }}
                                             whileTap={{ scale: 0.95 }}
+                                            onClick={() => navigate('/organization')}
                                             className="btn-outline mt-4 inline-flex items-center gap-2"
                                         >
                                             Discover All Organizations
                                             <ChevronRight className="h-4 w-4" />
                                         </motion.button>
-
                                         {/* Tooltip kecil di bawah tombol */}
                                         <p className="text-muted-foreground absolute -bottom-6 left-1/2 w-max -translate-x-1/2 text-[11px] italic lg:left-0 lg:translate-x-0"></p>
                                     </div>

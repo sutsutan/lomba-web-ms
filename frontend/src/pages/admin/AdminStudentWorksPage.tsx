@@ -43,9 +43,9 @@ export default function AdminStudentWorkPage() {
 
   // Filter pencarian berdasarkan judul projek, nama pencipta, atau deskripsi produk
   const filtered = items.filter(i =>
-    i.title.toLowerCase().includes(search.toLowerCase()) ||
-    i.creators.toLowerCase().includes(search.toLowerCase()) ||
-    i.description.toLowerCase().includes(search.toLowerCase())
+    String(i.title || '').toLowerCase().includes(search.toLowerCase()) ||
+    String(i.creators || '').toLowerCase().includes(search.toLowerCase()) ||
+    String(i.description || '').toLowerCase().includes(search.toLowerCase())
   );
 
   // Aksi Buka Modal Tambah
@@ -67,7 +67,7 @@ export default function AdminStudentWorkPage() {
     try {
       setLoading(true);
       const data = await getAdminStudentWorks();
-      setItems(data);
+      setItems(Array.isArray(data) ? data.filter(Boolean) : []);
     } catch (error) {
       console.error('Gagal memuat data karya siswa:', error);
     } finally {
@@ -161,7 +161,7 @@ export default function AdminStudentWorkPage() {
               label: 'Asal Jurusan',
               render: (item: StudentWork) => (
                 <Badge color={majorColors[item.major_code] || 'gray'}>
-                  {majorLabels[item.major_code] || item.major_code.toUpperCase()}
+                  {majorLabels[item.major_code] || String(item.major_code || '').toUpperCase()}
                 </Badge>
               )
             },

@@ -12,28 +12,29 @@ export default function AdminLayout() {
   const navigate = useNavigate();
 
   const navItems = [
-    { path: '/dashboard', label: 'Dashboard', icon: 'dashboard' },
-    { path: '/dashboard/hero', label: 'Hero Background', icon: 'image' },
-    { path: '/dashboard/achievements', label: 'Prestasi', icon: 'trophy' },
-    { path: '/dashboard/partnerships', label: 'Kemitraan', icon: 'handshake' },
-    { path: '/dashboard/testimonies', label: 'Testimoni', icon: 'star' },
-    { path: '/dashboard/majors', label: 'Jurusan', icon: 'book' },
-    { path: '/dashboard/facilities', label: 'Fasilitas', icon: 'building' },
-    { path: '/dashboard/activity-gallery', label: 'Galeri Kegiatan', icon: 'camera' },
-    { path: '/dashboard/student-works', label: 'Karya Siswa', icon: 'palette' },
-    { path: '/dashboard/teachers', label: 'Guru & Staf', icon: 'users' },
-    { path: '/dashboard/extracurriculars', label: 'Ekskul', icon: 'sportball' },
-    { path: '/dashboard/organizations', label: 'Organisasi', icon: 'flag' },
-    { path: '/dashboard/news', label: 'Berita', icon: 'newspaper' },
-    { path: '/dashboard/explore-gallery', label: 'Galeri Eksplorasi', icon: 'camera' },
-    { path: '/dashboard/alumni', label: 'Alumni', icon: 'globe' },
-    { path: '/dashboard/manage-user', label: 'Manajemen User', icon: 'users' },
-  ];
+  { path: '/dashboard', label: 'Dashboard', icon: 'LayoutDashboard' },
+  { path: '/dashboard/hero', label: 'Hero Background', icon: 'Image' },
+  { path: '/dashboard/achievements', label: 'Prestasi', icon: 'Trophy' },
+  { path: '#', label: 'Preview News', icon: 'Trophy' },
+  { path: '/dashboard/partnerships', label: 'Kemitraan', icon: 'Handshake' },
+  { path: '/dashboard/testimonies', label: 'Testimoni', icon: 'Star' },
+  { path: '/dashboard/majors', label: 'Jurusan', icon: 'BookOpen' },
+  { path: '/dashboard/facilities', label: 'Fasilitas', icon: 'Building2' },
+  { path: '/dashboard/activity-gallery', label: 'Galeri Kegiatan', icon: 'Camera' },
+  { path: '/dashboard/student-works', label: 'Karya Siswa', icon: 'Palette' },
+  { path: '/dashboard/teachers', label: 'Guru & Staf', icon: 'Users' },
+  { path: '/dashboard/extracurriculars', label: 'Ekskul', icon: 'GraduationCap' },
+  { path: '/dashboard/organizations', label: 'Organisasi', icon: 'Flag' },
+  { path: '/dashboard/news', label: 'Berita', icon: 'Newspaper' },
+  { path: '/dashboard/explore-gallery', label: 'Galeri Eksplorasi', icon: 'ImagePlus' },
+  { path: '/dashboard/alumni', label: 'Alumni', icon: 'Globe' },
+  { path: '/dashboard/manage-user', label: 'Manajemen User', icon: 'UserCog' },
+];
 
   const handleLogoutClick = async () => {
     if (confirm('Apakah Anda yakin ingin keluar dari sistem admin?')) {
       await logout();
-      navigate('/internal/sekolah/login');
+      navigate('/admin');
     }
   };
 
@@ -48,7 +49,7 @@ export default function AdminLayout() {
           {!sidebarCollapsed && <span className="font-bold text-white tracking-wide">PANEL ADMIN</span>}
           <img src={metland} alt="Logo Metland" className="w-8 h-8 object-contain" />
           <button onClick={() => setSidebarCollapsed(!sidebarCollapsed)} className="p-1.5 hover:bg-teal-800 rounded-xl">
-            <Icon name="menu" className="w-5 h-5 text-white" />
+            <Icon name="Menu" className="w-5 h-5 text-white" />
           </button>
         </div>
         
@@ -80,7 +81,7 @@ export default function AdminLayout() {
             </div>
           )}
           <button onClick={handleLogoutClick} className="p-2 hover:bg-red-900/40 text-slate-400 hover:text-red-400 rounded-xl transition-colors" title="Keluar">
-            <Icon name="logout" className="w-5 h-5" />
+            <Icon name="LogOut" className="w-5 h-5" />
           </button>
         </div>
       </aside>

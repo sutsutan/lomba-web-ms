@@ -55,16 +55,14 @@ const HeroCarousel = ({
 
   const activeSlide = heroSlides[currentSlide];
 
-  // Logic untuk menampilkan konten berdasarkan lang
   const displayTitle = staticTitle || (activeSlide 
     ? (lang === 'en' ? (activeSlide.title_en || activeSlide.title_id) : activeSlide.title_id) 
-    : 'SMK Nusantara Jaya');
+    : 'SMK Pariwisata Metland');
 
   const displaySubtitle = staticSubtitle || (activeSlide 
     ? (lang === 'en' ? (activeSlide.subtitle_en || activeSlide.subtitle_id) : activeSlide.subtitle_id) 
     : '');
 
-  // Logika pengambilan deskripsi dari API atau prop statis
   const displayDescription = staticDescription || (activeSlide 
     ? (lang === 'en' ? (activeSlide.description_en || activeSlide.description_id) : activeSlide.description_id) 
     : '');

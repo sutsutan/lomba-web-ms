@@ -4,20 +4,16 @@ import { Pause, Play, MessageCircle, UserPlus, Plus } from 'lucide-react';
 import marsMetland from '@/assets/mars-metland.mp3';
 
 const ButtonCorner: React.FC = () => {
-  // 1. State utama: apakah user mengizinkan musik menyala secara umum?
   const [isUserEnabled, setIsUserEnabled] = useState<boolean>(true);
   
-  // 2. State interupsi: apakah ada video yang sedang mem-pause musik kita?
   const [isInterrupted, setIsInterrupted] = useState<boolean>(false);
   
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  // Listen ke event dari video testimonial
   useEffect(() => {
     const handleSync = (e: any) => {
       const shouldMusicPlay = e.detail;
-      // Jika shouldMusicPlay = false, artinya video sedang main, maka kita set interrupted = true
       setIsInterrupted(!shouldMusicPlay);
     };
 
@@ -25,14 +21,12 @@ const ButtonCorner: React.FC = () => {
     return () => window.removeEventListener('sync-metland-music', handleSync);
   }, []);
 
-  // Logika Play/Pause yang sebenarnya
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
 
     audio.volume = 0.4;
 
-    // Musik HANYA berbunyi jika: User mengizinkan DAN tidak sedang diinterupsi video
     if (isUserEnabled && !isInterrupted) {
       audio.play().catch(() => {
         console.log("Autoplay dicegah browser");
@@ -43,7 +37,6 @@ const ButtonCorner: React.FC = () => {
     }
   }, [isUserEnabled, isInterrupted]);
 
-  // Handler klik tombol music
   const toggleMusic = () => {
     setIsUserEnabled(!isUserEnabled);
   };

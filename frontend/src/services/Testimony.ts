@@ -31,7 +31,7 @@ export const fetchPublicTestimonies = async (): Promise<Record<string, Testimoni
   };
 
   try {
-    const response = await api.get('/api/testimonies');
+    const response = await api.get('/testimonies');
     const data: TestimonyBackend[] = response.data.data || response.data;
 
     if (!Array.isArray(data)) return initialStructure;

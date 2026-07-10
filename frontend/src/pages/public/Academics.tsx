@@ -1,17 +1,55 @@
-import { motion } from 'framer-motion';
+import React, { useState, useEffect } from 'react';
+import { motion, useScroll, useTransform, useSpring, useMotionValue  } from 'framer-motion';
 import MainLayout from '@/layouts/MainLayout';
 import ScrollReveal from '@/components/ScrollReveal';
 import HeroCarousel from '@/components/HeroCarousel';
 import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { getPublicStudentWorks } from '@/services/StudentWork';
 import programIt from '@/assets/program-it.webp';
 import programCulinary from '@/assets/program-culinary.webp';
 import achievement from '@/assets/achievement-1.jpg';
 import programDkv from '@/assets/program-dkv.jpg';
+import api from '@/lib/api';
 
 const Academics = () => {
-  const { t } = useLanguage();
+   const { t, language } = useLanguage();
+  const [heroSlides, setHeroSlides] = useState<any[]>([]);
+
+   useEffect(() => {
+        const fetchHero = async () => {
+            try {
+                const res = await api.get("/hero-backgrounds");
+
+                const data = Array.isArray(res.data)
+                    ? res.data
+                    : (res.data.data || []);
+
+                const filtered = data.filter(
+                    (item: any) =>
+                        item.category === "our-values" &&
+                        item.is_active
+                );
+
+                setHeroSlides(
+                    filtered.map((item: any) => ({
+                        image_url: item.image_url,
+                        title: language === "id" ? item.title_id : item.title_en,
+                        subtitle:
+                            language === "id"
+                                ? item.subtitle_id
+                                : item.subtitle_en,
+                    }))
+                );
+            } catch (err) {
+                console.error("Gagal load hero:", err);
+            }
+        };
+
+        fetchHero();
+    }, [language]);
+  
 
   const majors = [
     {
@@ -36,6 +74,7 @@ const Academics = () => {
     },
   ];
 
+  
   const timelineItems = [
     { 
       image: programIt,
@@ -63,22 +102,44 @@ const Academics = () => {
     }, 
   ];
 
-  const studentWorks = [
+  const fallbackWorks = [
     { title: t('academics.works.1.title'), tag: t('academics.works.1.tag'), desc: t('academics.works.1.desc'), image: programIt },
     { title: t('academics.works.2.title'), tag: t('academics.works.2.tag'), desc: t('academics.works.2.desc'), image: programCulinary },
     { title: t('academics.works.3.title'), tag: t('academics.works.3.tag'), desc: t('academics.works.3.desc'), image: programDkv },
     { title: t('academics.works.4.title'), tag: t('academics.works.4.tag'), desc: t('academics.works.4.desc'), image: achievement },
   ];
 
+  const [studentWorks, setStudentWorks] = useState<any[]>(fallbackWorks);
+
+  useEffect(() => {
+    getPublicStudentWorks().then(apiData => {
+      if (apiData && apiData.length > 0) {
+        const categoryMap: Record<string, string> = {
+          it: 'IT',
+          vcd: 'DKV',
+          culinary: 'Culinary',
+          hospitality: 'Hospitality',
+          accounting: 'Accounting'
+        };
+        const apiWorks = apiData.map(item => ({
+          title: item.title,
+          tag: categoryMap[item.major_code] || item.major_code.toUpperCase(),
+          desc: item.description,
+          image: item.preview_url
+        }));
+        const combined = [...apiWorks, ...fallbackWorks].slice(0, 4);
+        setStudentWorks(combined);
+      }
+    });
+  }, [t]);
+
   return (
     <MainLayout>
-      {/* Hero Carousel */}
-      <HeroCarousel
-        title={t('academics.hero.title')}
-        subtitle={t('academics.hero.subtitle')}
-        description={t('academics.hero.desc')}
-        height="h-[70vh]"
-      />
+      <HeroCarousel 
+            category="academics" 
+            lang={language}
+            height="h-[60vh]"
+            />
 
       {/* Main Content: Two Columns */}
       <section className="section-padding bg-background overflow-hidden px-6 md:px-12">

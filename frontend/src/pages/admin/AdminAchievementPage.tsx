@@ -27,27 +27,32 @@ export default function AdminAchievementPage() {
     is_active: true 
   });
 
-  // ➕ Ambil data dari server Laravel
   const loadData = async () => {
-    try {
-      setLoading(true);
-      const res = await api.get('/api/achievements');
-      setItems(res.data.data || res.data);
-    } catch (err) {
-      console.error("Gagal memuat data admin:", err);
-    } finally {
-      setLoading(false);
-    }
-  };
+  try {
+    setLoading(true);
+    const res = await api.get('/admin/achievements');
+    
+    const responseData = res.data.data || res.data;
+    
+    setItems(Array.isArray(responseData) ? responseData : []);
+  } catch (err) {
+    console.error("Gagal memuat data admin:", err);
+    setItems([]);
+  } finally {
+    setLoading(false);
+  }
+};
 
   useEffect(() => {
     loadData();
   }, []);
 
-  const filtered = items.filter(i => 
-    i.holder_name.toLowerCase().includes(search.toLowerCase()) || 
-    i.description.toLowerCase().includes(search.toLowerCase())
-  );
+  const filtered = Array.isArray(items) 
+  ? items.filter(i => 
+      i.holder_name?.toLowerCase().includes(search.toLowerCase()) || 
+      i.description?.toLowerCase().includes(search.toLowerCase())
+    ) 
+  : [];
 
   const openAdd = () => { 
     setEditing(null); 
@@ -61,29 +66,25 @@ export default function AdminAchievementPage() {
     setModal(true); 
   };
 
-  // ➕ Simpan data ke server Laravel lewat API
   const save = async () => {
-    try {
-      if (editing) {
-        // Mode Edit: PUT / PATCH
-        await api.put(`/api/achievements/${editing.id}`, form);
-      } {
-        // Mode Tambah: POST
-        await api.post('/api/achievements', form);
-      }
-      setModal(false);
-      loadData(); // Refresh list data dari database
-    } catch (err) {
-      console.error("Gagal menyimpan data:", err);
-      alert("Terjadi kesalahan saat menyimpan data");
+  try {
+    if (editing) {
+      await api.put(`/admin/achievements/${editing.id}`, form);
+    } else { 
+      await api.post('/admin/achievements', form);
     }
-  };
+    setModal(false);
+    loadData(); 
+  } catch (err) {
+    console.error("Gagal menyimpan data:", err);
+    alert("Terjadi kesalahan saat menyimpan data");
+  }
+};
 
-  // ➕ Hapus data dari server Laravel
   const del = async (id: number) => {
     if (confirm("Apakah Anda yakin ingin menghapus data prestasi ini?")) {
       try {
-        await api.delete(`/api/achievements/${id}`);
+        await api.delete(`/admin/achievements/${id}`);
         loadData();
       } catch (err) {
         console.error("Gagal menghapus data:", err);

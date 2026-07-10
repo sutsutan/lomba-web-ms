@@ -1,5 +1,5 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useEffect } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import MainLayout from '@/layouts/MainLayout';
 import HeroCarousel from '@/components/HeroCarousel';
 import ScrollReveal from '@/components/ScrollReveal';
@@ -7,47 +7,87 @@ import { ShieldCheck, CheckCircle2, Heart, Sparkles, Trophy, Lightbulb } from 'l
 import { useLanguage } from '@/contexts/LanguageContext';
 import gcp from '@/assets/gcp.png';
 import logoMetland from '@/assets/metland.png';
+import api from '@/lib/api';
 
 const OurValues = () => {
-    const { t } = useLanguage();
+    const { t, language } = useLanguage();
 
-    const cintaPoints = ['1', '2', '3', '4', '5', '6', '7', '8'];
+    const [heroSlides, setHeroSlides] = useState<any[]>([]);
 
-    const prestasiPoints = ['1', '2', '3', '4', '5', '6', '7', '8'];
+    const { scrollYProgress } = useScroll();
+    const yRange = useTransform(scrollYProgress, [0, 1], [0, -50]);
 
-    const goldenRules = ['1', '2', '3', '4', '5', '6', '7', '8'];
+    const cintaPoints = ['1','2','3','4','5','6','7','8'];
+
+    const prestasiPoints = ['1','2','3','4','5','6','7','8'];
+
+    const goldenRules = ['1','2','3','4','5','6','7','8'];
 
     const teachersValues = [
         {
-            word: "METLAND", list: [
-                { l: "M", t: t('values.teachers.metland.m') }, 
+            word: "METLAND",
+            list: [
+                { l: "M", t: t('values.teachers.metland.m') },
                 { l: "E", t: t('values.teachers.metland.e') },
-                { l: "T", t: t('values.teachers.metland.t') }, 
+                { l: "T", t: t('values.teachers.metland.t') },
                 { l: "L", t: t('values.teachers.metland.l') },
-                { l: "A", t: t('values.teachers.metland.a') }, 
+                { l: "A", t: t('values.teachers.metland.a') },
                 { l: "N", t: t('values.teachers.metland.n') },
-                { l: "D", t: t('values.teachers.metland.d') }
-            ]
+                { l: "D", t: t('values.teachers.metland.d') },
+            ],
         },
         {
-            word: "SCHOOL", list: [
-                { l: "S", t: t('values.teachers.school.s') }, 
+            word: "SCHOOL",
+            list: [
+                { l: "S", t: t('values.teachers.school.s') },
                 { l: "C", t: t('values.teachers.school.c') },
-                { l: "H", t: t('values.teachers.school.h') }, 
+                { l: "H", t: t('values.teachers.school.h') },
                 { l: "O", t: t('values.teachers.school.o1') },
-                { l: "O", t: t('values.teachers.school.o2') }, 
-                { l: "L", t: t('values.teachers.school.l') }
-            ]
-        }
+                { l: "O", t: t('values.teachers.school.o2') },
+                { l: "L", t: t('values.teachers.school.l') },
+            ],
+        },
     ];
+
+    useEffect(() => {
+        const fetchHero = async () => {
+            try {
+                const res = await api.get("/hero-backgrounds");
+
+                const data = Array.isArray(res.data)
+                    ? res.data
+                    : (res.data.data || []);
+
+                const filtered = data.filter(
+                    (item: any) =>
+                        item.category === "our-values" &&
+                        item.is_active
+                );
+
+                setHeroSlides(
+                    filtered.map((item: any) => ({
+                        image_url: item.image_url,
+                        title: language === "id" ? item.title_id : item.title_en,
+                        subtitle:
+                            language === "id"
+                                ? item.subtitle_id
+                                : item.subtitle_en,
+                    }))
+                );
+            } catch (err) {
+                console.error("Gagal load hero:", err);
+            }
+        };
+
+        fetchHero();
+    }, [language]);
 
     return (
         <MainLayout>
-            <HeroCarousel
-                title={t('values.hero.title')}
-                subtitle={t('values.hero.subtitle')}
-                description={t('values.hero.desc')}
-                height="h-[70vh]"
+             <HeroCarousel 
+            category="our-values" 
+            lang={language}
+            height="h-[60vh]"
             />
 
             <section className="bg-[#fcfcfc] py-24 relative overflow-hidden">
@@ -59,8 +99,6 @@ const OurValues = () => {
                     <div className="mb-48">
                         <ScrollReveal>
                             <div className="flex flex-col items-center mb-20">
-                                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#0F5F58]/5 border border-[#0F5F58]/10 text-[#0F5F58] font-bold text-sm mb-6 uppercase tracking-widest">
-                                </div>
                                 <h2 className="text-3xl sm:text-5xl md:text-7xl font-black text-[#0F5F58] text-center">
                                     {t('values.core.title_prefix')} <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0F5F58] to-[#2D8B82]">{t('values.core.title_suffix')}</span>
                                 </h2>
@@ -221,7 +259,6 @@ const OurValues = () => {
                             ))}
                         </div>
                     </div>
-
                 </div>
             </section>
         </MainLayout>

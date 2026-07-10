@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             NewsSeeder::class,
             HeroBackgroundSeeder::class,
+            MajorAndStudentWorkSeeder::class,
         ]);
 
         User::factory()->create([

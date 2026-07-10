@@ -12,6 +12,7 @@ import MainLayout from '@/layouts/MainLayout';
 import HeroCarousel from '@/components/HeroCarousel';
 import ScrollReveal from '@/components/ScrollReveal';
 import { useLanguage } from '@/contexts/LanguageContext';
+import api from '@/lib/api';
 
 interface OrganizationCategory {
   id: number;
@@ -62,9 +63,43 @@ const categoryDescriptions: Record<string, { introKey: string }> = {
 };
 
 const MoreOrg = () => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
+  const [heroSlides, setHeroSlides] = useState<any[]>([]);
   const [selectedCategory, setSelectedCategory] = useState(categories[0]);
   const [currentProjectIndex, setCurrentProjectIndex] = useState(0);
+
+   useEffect(() => {
+        const fetchHero = async () => {
+            try {
+                const res = await api.get("/contact");
+
+                const data = Array.isArray(res.data)
+                    ? res.data
+                    : (res.data.data || []);
+
+                const filtered = data.filter(
+                    (item: any) =>
+                        item.category === "contact" &&
+                        item.is_active
+                );
+
+                setHeroSlides(
+                    filtered.map((item: any) => ({
+                        image_url: item.image_url,
+                        title: language === "id" ? item.title_id : item.title_en,
+                        subtitle:
+                            language === "id"
+                                ? item.subtitle_id
+                                : item.subtitle_en,
+                    }))
+                );
+            } catch (err) {
+                console.error("Gagal load hero:", err);
+            }
+        };
+
+        fetchHero();
+    }, [language]);
 
   useEffect(() => {
     setCurrentProjectIndex(0);
@@ -83,12 +118,11 @@ const MoreOrg = () => {
 
   return (
     <MainLayout>
-      <HeroCarousel
-        title={t('org_hero_title')}
-        subtitle={t('org_hero_subtitle')}
-        description={t('org_hero_desc')}
-        height="h-[60vh] md:h-[70vh]"
-      />
+      <HeroCarousel 
+            category="moreorg" 
+            lang={language}
+            height="h-[60vh]"
+            />
 
       {/* SECTION 1: HIGHLIGHTED ACTIVITY */}
       <section className="bg-background py-12 md:py-16">

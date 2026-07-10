@@ -38,14 +38,11 @@ const TestimonialVideo = () => {
   const videoRefs = useRef<Map<number, HTMLIFrameElement>>(new Map());
   const categories = Object.keys(testimonialData);
 
-  // Fetch data dari database Laravel
   useEffect(() => {
     fetchPublicTestimonies().then((data) => {
-      // Jika data dari backend kosong, gunakan fallback default agar web tidak blank
       const hasData = Object.values(data).some(arr => arr.length > 0);
       if (hasData) {
         setTestimonialData(data);
-        // Set tab aktif pertama yang memiliki data
         const firstActive = Object.keys(data).find(key => data[key].length > 0);
         if (firstActive) setActiveTab(firstActive);
       } else {

@@ -15,7 +15,6 @@ const HeroSection = () => {
     const [currentSlide, setCurrentSlide] = useState(0);
     const [isAnimatingIntro, setIsAnimatingIntro] = useState(() => !sessionStorage.getItem('introShown'));
 
-    // 1. Hook useQuery tetap di atas
     const { data: slides = [], isLoading, isError } = useQuery({
         queryKey: ['hero-home'],
         queryFn: async () => {
@@ -56,7 +55,6 @@ const HeroSection = () => {
 
     if (isLoading) return <section className="h-screen bg-[#0a0a0a]" />;
 
-    // Static fallback slides when DB is empty
     const fallbackSlides = [
         {
             id: 'fallback-1',
@@ -173,7 +171,7 @@ const HeroSection = () => {
                             alt="Hero Slide"
                             className="h-full w-full object-cover"
                         />
-                        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/60" />
+                        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/100" />
                         <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/20 to-transparent" />
                     </motion.div>
                 </AnimatePresence>

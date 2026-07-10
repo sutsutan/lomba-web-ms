@@ -29,7 +29,7 @@ export default function AdminExtracurricularPage() {
     try {
       setLoading(true);
       const data = await getAdminExtracurriculars();
-      setItems(data);
+      setItems(Array.isArray(data) ? data.filter(Boolean) : []);
     } catch (error) {
       console.error(error);
     } finally {
@@ -42,8 +42,8 @@ export default function AdminExtracurricularPage() {
   }, []);
 
   const filtered = items.filter(i => 
-    (i.name || '').toLowerCase().includes(search.toLowerCase()) ||
-    (i.coach_name || '').toLowerCase().includes(search.toLowerCase())
+    String(i?.name || '').toLowerCase().includes(search.toLowerCase()) ||
+    String(i?.coach_name || '').toLowerCase().includes(search.toLowerCase())
   );
 
   const openAdd = () => { 

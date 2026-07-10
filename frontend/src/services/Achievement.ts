@@ -13,7 +13,7 @@ export interface AchievementData {
 
 export const fetchPublicAchievements = async (): Promise<AchievementData[]> => {
   try {
-    const response = await api.get('/api/achievements');
+    const response = await api.get('/achievements');
     const data = response.data.data || response.data;
     
     if (Array.isArray(data)) {

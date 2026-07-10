@@ -106,9 +106,9 @@ export default {
   'sw.project.18.desc': 'Proyek perencanaan anggaran dan peramalan perusahaan.',
 
   // Hero Section
-  'hero.tagline': 'SMK Metland School — Keunggulan Vokasi',
-  'hero.title_part1': 'Dari Sekolah',
-  'hero.title_part2': 'ke Karir',
+  'hero.tagline': 'SMK Pariwisata Metland School',
+  'hero.title_part1': 'Standar Tinggi',
+  'hero.title_part2': 'Pendidikan Vokasi',
   'hero.description': 'Kami mempersiapkan siswa dengan keterampilan siap industri, pengembangan karakter, dan pengalaman dunia nyata untuk karir yang sukses.',
   'hero.learn_more': 'Pelajari Lebih Lanjut',
   'hero.scroll_explore': 'Gulir untuk menjelajah',
@@ -154,6 +154,16 @@ export default {
   'achievements.3.title': 'Kejuaraan Debat Nasional',
   'achievements.3.desc': 'Juara dalam Kompetisi Debat Bahasa Inggris Nasional mewakili Jawa Barat.',
   'achievements.3.cat': 'Akademik',
+
+    // preview news home
+  'more.news.title': 'Berita Terbaru',
+  'more.news.subtitle': 'tetap terinformasi dengan pencapaian dan kegiatan terbaru kami',
+  'more.news.learn_more': 'Pelajari Lebih Lanjut',
+  'more.news.date': 'Nov, 12 - 15 - 2025',
+  'more.news.caption': 'penghargaan di SIAL Interfood 2025 juga menandai tonggak sejarah yang membanggakan bagi sekolah dan memperkuat peluang karir luas yang tersedia bagi lulusan sekolah kejuruan di industri kuliner global.',
+  'more.news.desc1': 'dunia kuliner internasional kembali dikejutkan oleh talenta muda Indonesia. Seorang siswa dari SMK Pariwisata Metland School, Yoel Ivander Theophilus, meraih prestasi luar biasa dengan memenangkan Juara 1 (Medali Emas) pada Kompetisi Bergengsi La Cuisine, yang diadakan selama SIAL Interfood 2025 di JIExpo Kemayoran, Jakarta.',
+  'more.news.desc2': 'pencapaian ini menjadi bukti jelas kekuatan pendidikan vokasi di Indonesia, khususnya di bidang perhotelan dan tata boga, membuktikan kemampuannya bersaing di tingkat profesional dan internasional.',
+  'more.news.desc3': 'Dengan kemenangan Medali Emas ini, SMK Pariwisata Metland School semakin memperkuat posisinya sebagai sekolah pariwisata dan perhotelan terkemuka, yang secara konsisten menghasilkan lulusan yang terampil, siap kerja, dan berprestasi tinggi.',
 
   // Partners
   'partners.desc1': 'Kami berkolaborasi dengan mitra industri terpercaya, bisnis, dan institusi akademik di tingkat nasional maupun internasional untuk memastikan pembelajaran kami tetap relevan dan siap masa depan.',

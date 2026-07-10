@@ -76,8 +76,8 @@ export default function AdminHeroPage() {
         title_en: isHome ? null : form.title_en,
         subtitle_id: isHome ? null : form.subtitle_id,
         subtitle_en: isHome ? null : form.subtitle_en,
-        description_id: isHome ? null : form.description_id, // Added
-        description_en: isHome ? null : form.description_en, // Added
+        description_id: isHome ? null : form.description_id,
+        description_en: isHome ? null : form.description_en,
         order: isHome ? form.order : 0
     };
 
@@ -107,8 +107,8 @@ export default function AdminHeroPage() {
     }
   };
 
-  const homeItems = items.filter(i => (i.category || '').toLowerCase() === 'home');
-  const universalItems = items.filter(i => (i.category || '').toLowerCase() !== 'home');
+  const homeItems = items.filter(i => String(i.category || '').toLowerCase() === 'home');
+  const universalItems = items.filter(i => String(i.category || '').toLowerCase() !== 'home');
 
   return (
     <div className="p-6 space-y-8">
@@ -180,6 +180,14 @@ export default function AdminHeroPage() {
               <option value="contact">Contact</option>
               <option value="about">About</option>
               <option value="academics">Academics</option>
+              <option value="student-works">Student Works</option>
+              <option value="teachers">Teachers</option>
+              <option value="extracurricular">Extracurricular</option>
+              <option value="organization">Organization</option>
+              <option value="alumni">Alumni</option>
+              <option value="eskul">MoreEskul</option>
+              <option value="moreorg">MoreOrg</option>
+              <option value="ppdb">Ppdb</option>
             </select>
           </FormField>
 

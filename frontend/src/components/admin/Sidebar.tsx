@@ -3,9 +3,9 @@ import { Icon } from './Icons';
 
 // Ditambahkan tipe 'manage-user' ke dalam ActivePage union
 export type ActivePage = 
-  | 'dashboard' | 'hero' | 'achievements' | 'partnerships' | 'teachers' | 'news' | 'alumni' 
+  | 'dashboard' | 'hero' | 'partnerships' | 'teachers' | 'news' | 'alumni' 
   | 'extracurriculars' | 'testimonies' | 'majors' | 'facilities' | 'activity-gallery' 
-  | 'student-works' | 'organizations' | 'explore-gallery' | 'manage-user';
+  | 'student-works' | 'organizations' | 'explore-gallery' | 'manage-user' | 'achievements';
 
 interface NavItem {
   key: ActivePage;
@@ -17,10 +17,10 @@ interface NavItem {
 export const navItems: NavItem[] = [
   { key: 'dashboard', label: 'Dashboard', icon: 'layout-dashboard' },
   { key: 'hero', label: 'Hero Banner', icon: 'image' },
-  { key: 'achievements', label: 'Prestasi Siswa', icon: 'trophy' },
   { key: 'teachers', label: 'Guru & Staf', icon: 'users' },
   { key: 'news', label: 'Berita & Artikel', icon: 'newspaper' },
   { key: 'alumni', label: 'Tracer Alumni', icon: 'graduation-cap' },
+  { key: 'achievements', label: 'Prestasi Siswa', icon: 'trophy' },
   { key: 'partnerships', label: 'Mitra Industri', icon: 'briefcase' },
   { key: 'extracurriculars', label: 'Ekstrakurikuler', icon: 'heart' },
   { key: 'testimonies', label: 'Testimoni', icon: 'message-square' },

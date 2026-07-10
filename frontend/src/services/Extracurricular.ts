@@ -16,7 +16,7 @@ export interface Extracurricular {
 
 export const getAdminExtracurriculars = async (): Promise<Extracurricular[]> => {
   try {
-    const response = await api.get('/api/extracurriculars');
+    const response = await api.get('/extracurriculars');
     return response.data.data || response.data || [];
   } catch (error) {
     console.error('Gagal mengambil data ekskul (admin):', error);
@@ -36,13 +36,13 @@ export const getPublicExtracurriculars = async (): Promise<Extracurricular[]> =>
 };
 
 export const createExtracurricular = async (data: Omit<Extracurricular, 'id'>) => {
-  return await api.post('/api/extracurriculars', data);
+  return await api.post('/api/admin/extracurriculars', data);
 };
 
 export const updateExtracurricular = async (id: number, data: Omit<Extracurricular, 'id'>) => {
-  return await api.put(`/api/extracurriculars/${id}`, data);
+  return await api.put(`/api/admin/extracurriculars/${id}`, data);
 };
 
 export const deleteExtracurricular = async (id: number) => {
-  return await api.delete(`/api/extracurriculars/${id}`);
+  return await api.delete(`/api/admin/extracurriculars/${id}`);
 };

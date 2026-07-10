@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getAdminActivityGalleries, createActivityGallery, updateActivityGallery, deleteActivityGallery } from '@/services/ActivityGallery';
+import { getAdminActivityGalleries, createActivityGallery, updateActivityGallery, deleteActivityGallery, archiveActivityGallery, unarchiveActivityGallery } from '@/services/ActivityGallery';
 
 // Import komponen admin dari folder components
 import PageHeader from '@/components/admin/PageHeader';
@@ -19,6 +19,7 @@ interface ActivityGallery {
   activity_date: string;  // Tanggal Pelaksanaan Kegiatan
   description: string;    // Keterangan singkat foto Dokumentasi
   is_featured: boolean;   // Tampil di highlight beranda utama
+  is_archived?: boolean;  // Apakah masuk ke arsip
 }
 
 export default function AdminActivityGalleryPage() {
@@ -36,27 +37,32 @@ export default function AdminActivityGalleryPage() {
     major_code: 'it',
     activity_date: new Date().toISOString().split('T')[0],
     description: '',
-    is_featured: false
+    is_featured: false,
+    is_archived: false
   });
 
-  // Filter pencarian berdasarkan judul kegiatan atau deskripsi dokumentasi
-  const filtered = items.filter(i =>
-    i.title.toLowerCase().includes(search.toLowerCase()) ||
-    i.description.toLowerCase().includes(search.toLowerCase()) ||
-    i.major_code.toLowerCase().includes(search.toLowerCase())
-  );
+  const [viewMode, setViewMode] = useState<'active' | 'archived'>('active');
+
+  // Filter pencarian + arsip
+  const filtered = items.filter(i => {
+    const matchSearch = String(i.title || '').toLowerCase().includes(search.toLowerCase()) ||
+      String(i.description || '').toLowerCase().includes(search.toLowerCase()) ||
+      String(i.major_code || '').toLowerCase().includes(search.toLowerCase());
+    const matchArchive = viewMode === 'archived' ? i.is_archived : !i.is_archived;
+    return matchSearch && matchArchive;
+  });
 
   // Aksi Buka Modal Tambah
   const openAdd = () => {
     setEditing(null);
-    setForm({ image_url: '', title: '', major_code: 'it', activity_date: new Date().toISOString().split('T')[0], description: '', is_featured: false });
+    setForm({ image_url: '', title: '', major_code: 'it', activity_date: new Date().toISOString().split('T')[0], description: '', is_featured: false, is_archived: false });
     setModal(true);
   };
 
   // Aksi Buka Modal Edit
   const openEdit = (item: ActivityGallery) => {
     setEditing(item);
-    setForm({ image_url: item.image_url, title: item.title, major_code: item.major_code, activity_date: item.activity_date, description: item.description, is_featured: item.is_featured });
+    setForm({ image_url: item.image_url, title: item.title, major_code: item.major_code, activity_date: item.activity_date, description: item.description, is_featured: item.is_featured, is_archived: item.is_archived || false });
     setModal(true);
   };
 
@@ -65,7 +71,7 @@ export default function AdminActivityGalleryPage() {
     try {
       setLoading(true);
       const data = await getAdminActivityGalleries();
-      setItems(data);
+      setItems(Array.isArray(data) ? data.filter(Boolean) : []);
     } catch (error) {
       console.error('Gagal memuat data galeri kegiatan:', error);
     } finally {
@@ -103,6 +109,21 @@ export default function AdminActivityGalleryPage() {
     }
   };
 
+  // Aksi Arsipkan / Kembalikan
+  const toggleArchive = async (item: ActivityGallery) => {
+    try {
+      if (item.is_archived) {
+        await unarchiveActivityGallery(item.id);
+      } else {
+        await archiveActivityGallery(item.id);
+      }
+      fetchData();
+    } catch (error) {
+      console.error('Gagal mengubah status arsip:', error);
+      alert('Gagal mengubah status arsip. Silakan coba lagi.');
+    }
+  };
+
   // Mapping warna badge berdasarkan klaster jurusan kegiatan
   const majorColors: Record<string, string> = {
     it: 'blue',
@@ -128,7 +149,23 @@ export default function AdminActivityGalleryPage() {
       <PageHeader title="Galeri Kegiatan" subtitle="Dokumentasi foto dan publikasi album kegiatan praktik per jurusan" onAdd={openAdd} />
 
       <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-        <div className="p-4 border-b border-gray-100 bg-gray-50/50">
+        <div className="p-4 border-b border-gray-100 bg-gray-50/50 space-y-3">
+          <div className="flex gap-2">
+            <button
+              type="button"
+              onClick={() => setViewMode('active')}
+              className={`px-4 py-2 rounded-xl text-sm font-semibold transition-colors ${viewMode === 'active' ? 'bg-indigo-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
+            >
+              Aktif ({items.filter(i => !i.is_archived).length})
+            </button>
+            <button
+              type="button"
+              onClick={() => setViewMode('archived')}
+              className={`px-4 py-2 rounded-xl text-sm font-semibold transition-colors ${viewMode === 'archived' ? 'bg-amber-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
+            >
+              📦 Arsip ({items.filter(i => i.is_archived).length})
+            </button>
+          </div>
           <SearchBar value={search} onChange={setSearch} placeholder="Cari judul kegiatan atau isi dokumentasi..." />
         </div>
 
@@ -163,7 +200,7 @@ export default function AdminActivityGalleryPage() {
               label: 'Klaster / Jurusan',
               render: (item: ActivityGallery) => (
                 <Badge color={majorColors[item.major_code] || 'gray'}>
-                  {majorLabels[item.major_code] || item.major_code.toUpperCase()}
+                  {majorLabels[item.major_code] || String(item.major_code || '').toUpperCase()}
                 </Badge>
               )
             },
@@ -189,6 +226,20 @@ export default function AdminActivityGalleryPage() {
           data={filtered}
           onEdit={openEdit}
           onDelete={del}
+          extraActions={(item: ActivityGallery) => (
+            <button
+              type="button"
+              onClick={() => toggleArchive(item)}
+              title={item.is_archived ? 'Kembalikan dari Arsip' : 'Arsipkan'}
+              className={`px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-colors ${
+                item.is_archived 
+                  ? 'bg-green-50 text-green-600 hover:bg-green-100 border border-green-200' 
+                  : 'bg-amber-50 text-amber-600 hover:bg-amber-100 border border-amber-200'
+              }`}
+            >
+              {item.is_archived ? '↩ Pulihkan' : '📦 Arsipkan'}
+            </button>
+          )}
         />
       </div>
 

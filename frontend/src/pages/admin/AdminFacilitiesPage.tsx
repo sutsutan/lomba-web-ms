@@ -43,9 +43,9 @@ export default function AdminFacilityPage() {
 
   // Filter pencarian berdasarkan nama fasilitas, lokasi, atau deskripsi
   const filtered = items.filter(i =>
-    i.name.toLowerCase().includes(search.toLowerCase()) ||
-    i.location.toLowerCase().includes(search.toLowerCase()) ||
-    i.description.toLowerCase().includes(search.toLowerCase())
+    String(i.name || '').toLowerCase().includes(search.toLowerCase()) ||
+    String(i.location || '').toLowerCase().includes(search.toLowerCase()) ||
+    String(i.description || '').toLowerCase().includes(search.toLowerCase())
   );
 
   // Aksi Buka Modal Tambah
@@ -67,7 +67,7 @@ export default function AdminFacilityPage() {
     try {
       setLoading(true);
       const data = await getAdminFacilities();
-      setItems(data);
+      setItems(Array.isArray(data) ? data.filter(Boolean) : []);
     } catch (error) {
       console.error('Gagal memuat data fasilitas:', error);
     } finally {
@@ -170,7 +170,7 @@ export default function AdminFacilityPage() {
               label: 'Kepemilikan Jurusan',
               render: (item: Facility) => (
                 <Badge color={majorColors[item.major_code] || 'gray'}>
-                  {majorLabels[item.major_code] || item.major_code.toUpperCase()}
+                  {majorLabels[item.major_code] || String(item.major_code || '').toUpperCase()}
                 </Badge>
               )
             },

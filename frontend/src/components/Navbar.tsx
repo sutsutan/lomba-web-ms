@@ -41,9 +41,9 @@ const Navbar = () => {
       children: [
         { label: t('nav.extracurricular'), href: '/extracurricular' },
         { label: t('nav.organization'), href: '/organization' },
-        { label: t('nav.news'), href: '/news' },
       ],
     },
+    { label: t('nav.news'), href: '/news' },
     { label: t('nav.alumni'), href: '/alumni' },
   ];
   const [isScrolled, setIsScrolled] = useState(false);
@@ -100,7 +100,7 @@ const Navbar = () => {
               <span className={`font-bold text-lg tracking-tight transition-colors duration-500 ${
                 isScrolled ? 'text-slate-900' : 'text-white'
               }`}>
-                Metland
+                SMK Pariwisata Metland
               </span>
               <span className={`text-[9px] uppercase tracking-widest font-light transition-colors duration-500 ${
                 isScrolled ? 'text-slate-600' : 'text-white/80'

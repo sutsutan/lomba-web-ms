@@ -1,5 +1,5 @@
 // src/services/News.ts
-import api from '@/lib/api';
+import api from "@/lib/api";
 
 export interface NewsData {
   id?: number;
@@ -14,36 +14,84 @@ export interface NewsData {
   gallery_images?: string[];
 }
 
-const ADMIN_PATH = '/admin';
+const ADMIN_PATH = "/admin";
 
-// Helper untuk konsistensi data
-const extractData = (response: any) => {
-  return response.data?.data || response.data;
+// Helper untuk konsistensi response
+const extractData = <T>(response: any): T => {
+  return response.data?.data ?? response.data;
 };
 
 export const newsService = {
-  // --- Public Routes ---
+  /**
+   * Mengambil seluruh berita.
+   * @param onlyPublished Jika true hanya mengambil berita yang dipublikasikan.
+   */
   getAll: async (onlyPublished = false): Promise<NewsData[]> => {
-    const response = await api.get('/news', {
-      params: onlyPublished ? { published: true } : {}
+    const response = await api.get("/news", {
+      params: onlyPublished ? { published: true } : {},
     });
-    return extractData(response);
+
+    const news = extractData<NewsData[]>(response);
+
+    // Urutkan dari berita terbaru
+    return news.sort(
+      (a, b) =>
+        new Date(b.published_date).getTime() -
+        new Date(a.published_date).getTime()
+    );
   },
 
-  getById: async (identifier: number | string): Promise<NewsData> => {
+  /**
+   * Mengambil berita utama (berita terbaru).
+   */
+  getFeatured: async (): Promise<NewsData | null> => {
+    const news = await newsService.getAll(true);
+
+    if (!news.length) return null;
+
+    return news[0];
+  },
+
+  /**
+   * Mengambil beberapa berita terbaru.
+   */
+  getLatest: async (limit = 3): Promise<NewsData[]> => {
+    const news = await newsService.getAll(true);
+
+    return news.slice(0, limit);
+  },
+
+  /**
+   * Mengambil detail berita berdasarkan id atau slug.
+   */
+  getById: async (
+    identifier: number | string
+  ): Promise<NewsData> => {
     const response = await api.get(`/news/${identifier}`);
-    return response.data;
+
+    return extractData<NewsData>(response);
   },
 
-  // --- Admin Routes ---
+  // =========================
+  // ADMIN
+  // =========================
+
   create: async (data: NewsData): Promise<NewsData> => {
     const response = await api.post(`${ADMIN_PATH}/news`, data);
-    return response.data;
+
+    return extractData<NewsData>(response);
   },
 
-  update: async (id: number | string, data: NewsData): Promise<NewsData> => {
-    const response = await api.put(`${ADMIN_PATH}/news/${id}`, data);
-    return response.data;
+  update: async (
+    id: number | string,
+    data: NewsData
+  ): Promise<NewsData> => {
+    const response = await api.put(
+      `${ADMIN_PATH}/news/${id}`,
+      data
+    );
+
+    return extractData<NewsData>(response);
   },
 
   delete: async (id: number | string): Promise<void> => {

@@ -1,9 +1,10 @@
+import { useEffect, useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 import HeroCarousel from '@/components/HeroCarousel';
 import ScrollReveal from '@/components/ScrollReveal';
 import MainLayout from '@/layouts/MainLayout';
-import { AnimatePresence, motion } from 'framer-motion';
 import { ChevronLeft, ChevronRight, Search } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { getPublicStudentWorks } from '@/services/StudentWork';
 
 import programAccounting from '@/assets/akuntansi.webp';
 import programHospitality from '@/assets/aph.webp';
@@ -11,6 +12,8 @@ import programCulinary from '@/assets/program-culinary.webp';
 import programDkv from '@/assets/program-dkv.jpg';
 import programIt from '@/assets/program-it.webp';
 import { Calculator, Code, Hotel, Palette, Utensils } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
+import api from '@/lib/api';
 
 const categories = [
     {
@@ -300,16 +303,45 @@ const categoryDescriptions: Record<
 };
 
 const StudentWorks = () => {
+    const { t, language } = useLanguage();
     const [currentProjectIndex, setCurrentProjectIndex] = useState(0);
     const [selectedCategory, setSelectedCategory] = useState(categories[0]);
+    const [projects, setProjects] = useState<any[]>([]);
 
-    // Reset index when category changes
+    useEffect(() => {
+        getPublicStudentWorks().then(apiData => {
+            if (apiData && apiData.length > 0) {
+                const categoryMap: Record<string, string> = {
+                    it: 'Information Technology',
+                    vcd: 'Design Communication Visual',
+                    culinary: 'Culinary',
+                    hospitality: 'Hospitality',
+                    accounting: 'Accounting'
+                };
+                const mapped = apiData.map(item => ({
+                    id: item.id,
+                    category: categoryMap[item.major_code] || item.major_code,
+                    student: item.creators,
+                    class: 'Umum',
+                    title: item.title,
+                    description: item.description,
+                    image: item.preview_url,
+                    githubUrl: item.project_url || '#',
+                    profileImage: item.preview_url,
+                }));
+                setProjects(mapped);
+            } else {
+                setProjects(galleryProjects);
+            }
+        });
+    }, []);
+
     useEffect(() => {
         setCurrentProjectIndex(0);
     }, [selectedCategory]);
 
     // Filter projects based on selected category
-    const filteredProjects = galleryProjects.filter(
+    const filteredProjects = projects.filter(
         (project) => project.category === selectedCategory.name,
     );
 
@@ -335,11 +367,10 @@ const StudentWorks = () => {
 
     return (
         <MainLayout>
-            <HeroCarousel
-                title="Student Works"
-                subtitle="SMK Metland School"
-                description="Stay updated with the latest works of creativity and innovation from our school community."
-                height="h-[60vh] md:h-[70vh]"
+            <HeroCarousel 
+            category="student-works" 
+            lang={language}
+            height="h-[60vh]"
             />
 
             <section className="section-padding bg-background py-12 md:py-16 lg:py-20">
@@ -518,7 +549,7 @@ const StudentWorks = () => {
                                             >
                                                 Total Works:{' '}
                                                 {
-                                                    galleryProjects.filter(
+                                                    projects.filter(
                                                         (p) =>
                                                             p.category ===
                                                             cat.name,

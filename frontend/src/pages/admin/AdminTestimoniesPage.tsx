@@ -33,7 +33,8 @@ export default function AdminTestimonyPage() {
     try {
       setLoading(true);
       const res = await api.get('/api/testimonies');
-      setItems(res.data.data || res.data);
+      const data = res.data.data || res.data;
+      setItems(Array.isArray(data) ? data.filter(Boolean) : []);
     } catch (err) {
       console.error("Gagal mengambil data testimoni:", err);
     } finally {
@@ -46,9 +47,9 @@ export default function AdminTestimonyPage() {
   }, []);
 
   const filtered = items.filter(i => 
-    i.author_name.toLowerCase().includes(search.toLowerCase()) || 
-    i.message.toLowerCase().includes(search.toLowerCase()) ||
-    i.title_suffix.toLowerCase().includes(search.toLowerCase())
+    String(i.author_name || '').toLowerCase().includes(search.toLowerCase()) || 
+    String(i.message || '').toLowerCase().includes(search.toLowerCase()) ||
+    String(i.title_suffix || '').toLowerCase().includes(search.toLowerCase())
   );
 
   const openAdd = () => { 
@@ -74,9 +75,9 @@ export default function AdminTestimonyPage() {
   const save = async () => {
     try {
       if (editing) {
-        await api.put(`/api/testimonies/${editing.id}`, form);
+        await api.put(`/api/admin/testimonies/${editing.id}`, form);
       } else {
-        await api.post('/api/testimonies', form);
+        await api.post('/api/admin/testimonies', form);
       }
       setModal(false);
       loadTestimonies();
@@ -89,7 +90,7 @@ export default function AdminTestimonyPage() {
   const del = async (id: number) => {
     if (confirm("Apakah Anda yakin ingin menghapus data testimoni ini?")) {
       try {
-        await api.delete(`/api/testimonies/${id}`);
+        await api.delete(`/api/admin/testimonies/${id}`);
         loadTestimonies();
       } catch (err) {
         console.error("Gagal menghapus testimoni:", err);
@@ -154,7 +155,7 @@ export default function AdminTestimonyPage() {
                 label: 'Kategori', 
                 render: (item: TestimonyBackend) => (
                   <Badge color={roleColors[item.role_category] || 'gray'}>
-                    {roleLabels[item.role_category] || item.role_category.toUpperCase()}
+                    {roleLabels[item.role_category] || String(item.role_category || '').toUpperCase()}
                   </Badge>
                 ) 
               },
