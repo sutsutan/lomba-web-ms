@@ -40,7 +40,18 @@ class NewsController extends Controller
 
             $lang = $request->header('Accept-Language', 'id');
 
-            $news = News::latest()->get();
+            $query = News::query();
+
+                if ($request->boolean('published_only')) {
+
+                    $query->where('is_published', true)
+                        ->whereDate('published_date', '<=', now());
+
+                }
+
+                $news = $query
+                        ->orderByDesc('published_date')
+                        ->get();
 
             $formattedNews = $news->map(fn($item) => $this->formatNews($item, $lang));
 
@@ -98,6 +109,7 @@ class NewsController extends Controller
         ]);
 
         $validated['slug'] = Str::slug($validated['title_id']);
+        $validated['published_date'] ??= now();
 
         if (Auth::check()) {
             $validated['user_id'] = Auth::id();
@@ -140,6 +152,7 @@ class NewsController extends Controller
         ]);
 
         $validated['slug'] = Str::slug($validated['title_id']);
+        $validated['published_date'] ??= now();
 
         DB::transaction(function () use ($validated, $news) {
 

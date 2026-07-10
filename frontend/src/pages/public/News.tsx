@@ -16,29 +16,38 @@ const News = () => {
   const [newsItems, setNewsItems] = useState<NewsData[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
+ useEffect(() => {
     const fetchPublicNews = async () => {
-      try {
-        setLoading(true);
+        try {
 
-        const data = await newsService.getAll(true);
+            setLoading(true);
+            const data = await newsService.getAll(true);
+            const now = new Date();
+            const publishedNews = data.filter((news) => {
 
-        const sorted = [...data].sort(
-          (a, b) =>
-            new Date(b.published_date).getTime() -
-            new Date(a.published_date).getTime()
-        );
+                return (
+                    news.is_published &&
+                    new Date(news.published_date) <= now
+                );
+            });
 
-        setNewsItems(sorted);
-      } catch (error) {
-        console.error("Gagal mendapatkan berita publik:", error);
-      } finally {
-        setLoading(false);
-      }
+            const sorted = publishedNews.sort(
+                (a, b) =>
+                    new Date(b.published_date).getTime() -
+                    new Date(a.published_date).getTime()
+            );
+            setNewsItems(sorted);
+        }
+        catch (err) {
+            console.error(err);
+        }
+        finally {
+            setLoading(false);
+        }
+
     };
-
     fetchPublicNews();
-  }, []);
+}, []);
 
   const formatDate = (dateString: string) => {
     if (!dateString) return "";
@@ -54,30 +63,29 @@ const News = () => {
   };
 
   const featuredNews = useMemo(() => {
-    if (newsItems.length === 0) return null;
-
+    if (newsItems.length === 0)
+        return null;
     const headline = newsItems.find(
-      (item) => item.is_headline === true
+        news => news.is_headline
     );
-
     return headline ?? newsItems[0];
-  }, [newsItems]);
+}, [newsItems]);
 
   const remainingNews = useMemo(() => {
-    if (!featuredNews) return [];
-
+    if (!featuredNews)
+        return [];
     return newsItems.filter(
-      (item) => item.id !== featuredNews.id
+        news => news.id !== featuredNews.id
     );
-  }, [newsItems, featuredNews]);
+}, [featuredNews, newsItems]);
 
-  const latestNews = useMemo(() => {
+const latestNews = useMemo(() => {
     return remainingNews.slice(0, 3);
   }, [remainingNews]);
 
   const allNews = useMemo(() => {
-    return remainingNews;
-  }, [remainingNews]);
+     return remainingNews;
+}, [remainingNews]);
 
   if (loading) {
     return (
@@ -161,7 +169,7 @@ const News = () => {
                 {latestNews.map((news) => (
                   <Link
                     key={news.id}
-                    to={`/more-news/${news.id}`}
+                    to={`/more-news/${news.slug || news.id}`}
                     className="card-hover flex gap-4 p-4"
                   >
                     <img
@@ -266,7 +274,7 @@ const News = () => {
                     </div>
 
                     <Link
-                      to={`/more-news/${news.id}`}
+                      to={`/more-news/${news.slug || news.id}`}
                       className="mt-6 inline-flex items-center gap-1 text-sm font-medium text-primary transition-all hover:gap-2"
                     >
                       {t('news.all.read_more')}
