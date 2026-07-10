@@ -43,6 +43,7 @@ export default function AdminNewsPage() {
     published_date: string;
     is_published: boolean;
     thumbnail: string;
+    is_headline?: boolean;
     content_id: string;
     content_en: string;
     gallery_images: string[];
@@ -53,6 +54,7 @@ export default function AdminNewsPage() {
     published_date: '', 
     is_published: false, 
     thumbnail: '', 
+    is_headline: false,
     content_id: '',
     content_en: '',
     gallery_images: []
@@ -82,7 +84,7 @@ export default function AdminNewsPage() {
     title_id: '', title_en: '', category: 'Kegiatan', 
     published_date: new Date().toISOString().split('T')[0], 
     is_published: false, thumbnail: '', content_id: '', content_en: '',
-    gallery_images: []
+    gallery_images: [], is_headline: false
   }); 
   setModal(true); 
 };
@@ -96,6 +98,7 @@ export default function AdminNewsPage() {
       published_date: item.published_date || '',
       is_published: !!item.is_published,
       thumbnail: item.thumbnail || '',
+      is_headline: !!item.is_headline,
       content_id: item.content_id || '',
       content_en: item.content_en || '',
       gallery_images: item.gallery_images || []
@@ -117,6 +120,7 @@ export default function AdminNewsPage() {
         published_date: form.published_date || new Date().toISOString().split('T')[0],
         is_published: form.is_published,
         thumbnail: form.thumbnail,
+        is_headline: form.is_headline,
         content_id: form.content_id,
         excerpt_id: excerpt,
         gallery_images: form.gallery_images,
@@ -215,6 +219,15 @@ export default function AdminNewsPage() {
                     {item.is_published ? 'Published' : 'Draft'}
                   </Badge>
                 ) 
+              },
+              {
+                key: 'is_headline',
+                label: 'Headline',
+                render: (item: any) => (
+                  <Badge color={item.is_headline ? 'blue' : 'gray'}>
+                    {item.is_headline ? 'Headline' : '-'}
+                  </Badge>
+                ),
               },
             ]}
             data={filtered}
@@ -337,6 +350,32 @@ export default function AdminNewsPage() {
             />
             <label htmlFor="news-published" className="text-sm font-medium text-gray-700 select-none">Publikasikan sekarang (tampil di modul berita utama website)</label>
           </div>
+
+            <div className="flex items-center gap-3 p-3.5 bg-blue-50 rounded-xl border border-blue-100">
+                <input
+                  id="headline-news"
+                  type="checkbox"
+                  checked={form.is_headline}
+                  onChange={(e) =>
+                    setForm({
+                      ...form,
+                      is_headline: e.target.checked,
+                    })
+                  }
+                  className="w-4 h-4 accent-blue-600"
+                />
+
+                <label
+                  htmlFor="headline-news"
+                  className="text-sm font-medium text-gray-700"
+                >
+                  Jadikan sebagai Headline Berita
+                  <p className="text-xs text-gray-500 mt-1">
+                    Hanya satu berita yang akan tampil sebagai berita utama di halaman News.
+                    Jika dipilih, headline sebelumnya akan otomatis diganti.
+                  </p>
+                </label>
+            </div>
           
           <div className="flex gap-3 pt-2">
             <button type="button" onClick={() => setModal(false)} className="flex-1 py-2.5 border border-gray-200 rounded-xl text-sm font-medium text-gray-600 hover:bg-gray-50 transition-colors">Batal</button>

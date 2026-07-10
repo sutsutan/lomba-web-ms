@@ -23,7 +23,6 @@ const News = () => {
 
         const data = await newsService.getAll(true);
 
-        // jangan mutate array dari API
         const sorted = [...data].sort(
           (a, b) =>
             new Date(b.published_date).getTime() -
@@ -32,7 +31,7 @@ const News = () => {
 
         setNewsItems(sorted);
       } catch (error) {
-        console.error('Gagal mendapatkan berita publik:', error);
+        console.error("Gagal mendapatkan berita publik:", error);
       } finally {
         setLoading(false);
       }
@@ -42,29 +41,43 @@ const News = () => {
   }, []);
 
   const formatDate = (dateString: string) => {
-    if (!dateString) return '';
+    if (!dateString) return "";
 
     return new Date(dateString).toLocaleDateString(
-      t('nav.lang_code') === 'ID' ? 'id-ID' : 'en-US',
+      t("nav.lang_code") === "ID" ? "id-ID" : "en-US",
       {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
+        year: "numeric",
+        month: "long",
+        day: "numeric",
       }
     );
   };
 
   const featuredNews = useMemo(() => {
-    return newsItems.length > 0 ? newsItems[0] : null;
+    if (newsItems.length === 0) return null;
+
+    const headline = newsItems.find(
+      (item) => item.is_headline === true
+    );
+
+    return headline ?? newsItems[0];
   }, [newsItems]);
+
+  const remainingNews = useMemo(() => {
+    if (!featuredNews) return [];
+
+    return newsItems.filter(
+      (item) => item.id !== featuredNews.id
+    );
+  }, [newsItems, featuredNews]);
 
   const latestNews = useMemo(() => {
-    return newsItems.slice(1, 4);
-  }, [newsItems]);
+    return remainingNews.slice(0, 3);
+  }, [remainingNews]);
 
   const allNews = useMemo(() => {
-    return newsItems.slice(1);
-  }, [newsItems]);
+    return remainingNews;
+  }, [remainingNews]);
 
   if (loading) {
     return (

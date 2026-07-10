@@ -11,8 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('organizations', function (Blueprint $table) {
-            $table->text('description_en')->nullable();
+        Schema::table('news', function (Blueprint $table) {
+            $table->boolean('is_headline')
+                  ->default(false)
+                  ->after('is_published');
         });
     }
 
@@ -21,8 +23,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('organizations', function (Blueprint $table) {
-            $table->dropColumn('description_en');
+         Schema::table('news', function (Blueprint $table) {
+            $table->dropColumn('is_headline');
         });
     }
 };
