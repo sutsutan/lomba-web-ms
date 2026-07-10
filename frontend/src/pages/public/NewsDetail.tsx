@@ -156,12 +156,6 @@ const NewsDetail = () => {
   if (!currentNews) {
     return (
       <MainLayout>
-         <HeroCarousel 
-            category="contact" 
-            lang={language}
-            height="h-[60vh]"
-            />
-
         <div className="text-center py-40 text-destructive font-medium">
           <p className="mb-4">Berita tidak ditemukan atau telah dihapus.</p>
           <Link to="/news-archive" className="text-primary hover:underline">Kembali ke Arsip</Link>
@@ -172,6 +166,13 @@ const NewsDetail = () => {
 
   return (
     <MainLayout>
+       <HeroCarousel
+          title={t('news.hero.title')}
+          subtitle={t('news.hero.subtitle')}
+          description={t('news.hero.desc')}
+          height="h-[40vh]"
+        />
+        
       <section className="pt-32 pb-20 bg-background">
         <div className="container mx-auto px-4">
           <Link to="/news-archive" className="inline-flex items-center gap-2 text-primary font-medium mb-8 hover:gap-3 transition-all">
