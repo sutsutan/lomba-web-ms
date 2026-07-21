@@ -19,6 +19,7 @@ import Extracurricular from "./pages/public/Extracurricular";
 import Organization from "./pages/public/Organization";
 import News from "./pages/public/News";
 import Alumni from "./pages/public/Alumni";
+import AlumniDirectory from "./pages/public/AlumniDirectory";
 import Contact from "./pages/public/Contact";
 import NotFound from "./pages/public/NotFound";
 import Major from './pages/public/Major';
@@ -83,6 +84,7 @@ const App = () => (
                 <Route path="/organization" element={<Organization />} />
                 <Route path="/news" element={<News />} />
                 <Route path="/alumni" element={<Alumni />} />
+                <Route path="/alumni-directory" element={<AlumniDirectory />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/major" element={<Major />} />
                 <Route path="/student-works" element={<StudentWorks />} />

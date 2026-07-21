@@ -21,7 +21,15 @@ class AlumniController extends BaseResourceController {
 
     public function index(\Illuminate\Http\Request $request) {
         $query = Alumni::with('major');
-        if ($request->has('search')) $query->where('name', 'like', "%{$request->search}%");
+
+        if ($request->has('search')) {
+            $query->where('name', 'like', "%{$request->search}%");
+        }
+
+        if ($request->has('year') && $request->year !== 'all') {
+            $query->where('grad_year', $request->year);
+        }
+
         return response()->json($query->latest()->paginate($request->get('per_page', 20)));
     }
 }
