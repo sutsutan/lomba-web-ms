@@ -1,19 +1,28 @@
-import React, { useEffect, useState } from 'react';
 import HeroCarousel from '@/components/HeroCarousel';
 import ScrollReveal from '@/components/ScrollReveal';
-import { Link } from 'react-router-dom';
 import MainLayout from '@/layouts/MainLayout';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
-import { ArrowRight } from 'lucide-react';
-import { useLanguage } from '@/contexts/LanguageContext';
+import {
+    ArrowRight,
+    HeartPulse,
+    Palette,
+    ShieldCheck,
+    Star,
+    Zap,
+} from 'lucide-react';
 
-import { organizationService, OrganizationData } from '@/services/Organization';
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { organizationService, OrganizationData } from "@/services/Organization";
+import api from '@/lib/api';
+
 
 const TiltCard = ({ image }: { image: string }) => {
     const x = useMotionValue(0);
     const y = useMotionValue(0);
-    const mouseXSpring = useSpring(x, { stiffness: 300, damping: 30 });
-    const mouseYSpring = useSpring(y, { stiffness: 300, damping: 30 });
+    const mouseXSpring = useSpring(x);
+    const mouseYSpring = useSpring(y);
     const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ['10deg', '-10deg']);
     const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ['-10deg', '10deg']);
 
@@ -30,7 +39,7 @@ const TiltCard = ({ image }: { image: string }) => {
             style={{ rotateY, rotateX, transformStyle: 'preserve-3d' }}
             className="group relative mx-auto w-full max-w-[280px] cursor-pointer"
         >
-            <div style={{ transform: 'translateZ(50px)', transformStyle: 'preserve-3d' }} className="relative aspect-square transition-all duration-50">
+            <div style={{ transform: 'translateZ(50px)', transformStyle: 'preserve-3d' }} className="relative aspect-square transition-all duration-500">
                 <img src={image} alt="Logo" className="h-full w-full object-contain drop-shadow-[0_20px_30px_rgba(0,0,0,0.15)] filter group-hover:scale-105 group-hover:drop-shadow-[0_30px_50px_rgba(0,0,0,0.25)]" />
             </div>
             <div className="absolute inset-0 -z-10 flex items-center justify-center opacity-0 transition-opacity duration-700 group-hover:opacity-100">
@@ -41,58 +50,100 @@ const TiltCard = ({ image }: { image: string }) => {
 };
 
 const OrganizationPage = () => {
-    // 1. Perbaikan: Ambil 'language' sesuai dengan context Anda
-    const { t, language } = useLanguage(); 
-    
-    const [organizations, setOrganizations] = useState<Record<string, OrganizationData[]>>({
+    const { t, language } = useLanguage();
+    const [heroSlides, setHeroSlides] = useState<any[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    const [organizations, setOrganizations] = useState<
+        Record<string, OrganizationData[]>
+    >({
         leadership: [],
         creative: [],
         discipline: [],
-        wellness: []
+        wellness: [],
     });
-    const [loading, setLoading] = useState(true);
 
-    // 2. Perbaikan: Fungsi helper untuk memilih bahasa
     const getDescription = (org: OrganizationData) => {
-        if (language === 'en' && org.description_en) {
-            return org.description_en;
+        if (language === "en") {
+            return org.description_en || org.description_id;
         }
-        return org.description_id || 'Deskripsi tidak tersedia';
+
+        return org.description_id || org.description_en;
     };
 
     useEffect(() => {
-        const loadOrganizations = async () => {
+        const loadData = async () => {
             try {
                 setLoading(true);
-                const data = await organizationService.getAll();
-                
-                if (!Array.isArray(data)) throw new Error("Format data tidak valid");
 
-                const grouped = data.reduce((acc, item) => {
-                    if (item.is_active) {
-                        const category = item.category.toLowerCase().trim();
-                        if (acc.hasOwnProperty(category)) {
-                            acc[category].push(item);
-                        }
+                const data = await organizationService.getAll();
+
+                const grouped = {
+                    leadership: [] as OrganizationData[],
+                    creative: [] as OrganizationData[],
+                    discipline: [] as OrganizationData[],
+                    wellness: [] as OrganizationData[],
+                };
+
+                data.forEach((item) => {
+                    if (!item.is_active) return;
+
+                    const category = item.category.toLowerCase();
+
+                    if (category in grouped) {
+                        grouped[
+                            category as keyof typeof grouped
+                        ].push(item);
                     }
-                    return acc;
-                }, { leadership: [], creative: [], discipline: [], wellness: [] } as Record<string, OrganizationData[]>);
+                });
 
                 setOrganizations(grouped);
-            } catch (error) {
-                console.error("Gagal memuat data organisasi:", error);
             } finally {
                 setLoading(false);
             }
         };
-        loadOrganizations();
+
+        loadData();
     }, []);
+
+     useEffect(() => {
+        const fetchHero = async () => {
+            try {
+                const res = await api.get("/organization");
+
+                const data = Array.isArray(res.data)
+                    ? res.data
+                    : (res.data.data || []);
+
+                const filtered = data.filter(
+                    (item: any) =>
+                        item.category === "contact" &&
+                        item.is_active
+                );
+
+                setHeroSlides(
+                    filtered.map((item: any) => ({
+                        image_url: item.image_url,
+                        title: language === "id" ? item.title_id : item.title_en,
+                        subtitle:
+                            language === "id"
+                                ? item.subtitle_id
+                                : item.subtitle_en,
+                    }))
+                );
+            } catch (err) {
+                console.error("Gagal load hero:", err);
+            }
+        };
+
+        fetchHero();
+    }, [language]);
 
     if (loading) {
         return (
             <MainLayout>
-                <div className="flex h-screen items-center justify-center bg-white">
-                    <p className="text-lg font-semibold text-teal-600 animate-pulse">Memuat data organisasi...</p>
+                <div className="flex h-screen items-center justify-center">
+                    Memuat organisasi...
                 </div>
             </MainLayout>
         );
@@ -100,55 +151,193 @@ const OrganizationPage = () => {
 
     return (
         <MainLayout>
-            <HeroCarousel
-                title={t('organization.hero.title')}
-                subtitle={t('organization.hero.subtitle')}
-                description={t('organization.hero.desc')}
-                height="h-[70vh]"
+          <HeroCarousel 
+            category="organization" 
+            lang={language}
+            height="h-[60vh]"
             />
 
             <div className="bg-slate-50/30">
                 {/* SECTION 1: LEADERSHIP */}
                 {organizations.leadership.length > 0 && (
-                    <section className="overflow-hidden bg-white py-24">
-                        <div className="container mx-auto px-6">
-                            <ScrollReveal>
-                                <div className="mb-20 flex flex-col items-center text-center">
-                                    <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-slate-100 px-4 py-2 text-[10px] font-bold uppercase tracking-[0.3em] text-slate-500">
-                                         {t('organization.leadership.pill')}
-                                    </div>
-                                    <h2 className="text-4xl font-black uppercase tracking-tighter text-[#0F5F58] md:text-6xl">
-                                        {t('organization.leadership.title')}
-                                    </h2>
+                <section className="overflow-hidden bg-white py-24">
+                    <div className="container mx-auto px-6">
+                        <ScrollReveal>
+                            <div className="mb-20 flex flex-col items-center text-center">
+                                <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-slate-100 px-4 py-2 text-[10px] font-bold uppercase tracking-[0.3em] text-slate-500">
+                                  <Star className="h-3 w-3 text-teal-600" />
+                                    {t("organization.leadership.pill")}
                                 </div>
-                            </ScrollReveal>
-
-                            <div className="mx-auto grid max-w-4xl gap-16 lg:grid-cols-2 lg:gap-24">
-                                {organizations.leadership.map((org, index) => (
-                                    <ScrollReveal key={org.name} delay={index * 0.2}>
-                                        <div className="flex flex-col items-center text-center lg:items-start lg:text-left">
-                                            <div style={{ perspective: '1200px' }} className="mb-8">
-                                                <TiltCard image={org.logo_url} />
-                                            </div>
-                                            <div className="space-y-4">
-                                                <span className="text-[10px] font-black uppercase tracking-[0.4em] text-teal-600">{t('category.leadership')}</span>
-                                                <h3 className="text-3xl font-black tracking-tight text-slate-900">{org.name}</h3>
-                                                <p className="text-xs text-slate-400 font-semibold -mt-2">Pembina: {org.advisor_name} | Ketua: {org.leader_name}</p>
-                                                {/* Menggunakan fungsi helper */}
-                                                <p className="max-w-sm text-base font-medium leading-relaxed text-slate-500">{getDescription(org)}</p>
-                                            </div>
-                                        </div>
-                                    </ScrollReveal>
-                                ))}
+                                {/* Heading with Underline Decoration */}
+                                <div className="relative inline-block">
+                                    <h2 className="text-4xl font-black uppercase tracking-tighter text-[#0F5F58] md:text-6xl">
+                                       {t("organization.leadership.title")}
+                                    </h2>
+                                    <div className="absolute -bottom-2 left-0 h-1.5 w-full rounded-full bg-[#0F5F58]/20" />
+                                    <div className="absolute -bottom-2 left-0 h-1.5 w-1/3 rounded-full bg-[#0F5F58]" />
+                                </div>
                             </div>
+                        </ScrollReveal>
+
+                        <div className="mx-auto grid max-w-4xl gap-16 lg:grid-cols-2 lg:gap-24">
+                            {organizations.leadership.map((org, index) => (
+                                <ScrollReveal key={org.id ?? index} delay={index * 0.2}>
+                                    <div className="flex flex-col items-center text-center lg:items-start lg:text-left">
+                                        <div style={{ perspective: '1200px' }} className="mb-8">
+                                           <TiltCard image={org.logo_url} />
+                                        </div>
+                                        <div className="space-y-4">
+                                            <span className="text-[10px] font-black uppercase tracking-[0.4em] text-teal-600">
+                                                {t(`category.${org.category}`)}
+                                            </span>
+                                            <h3 className="text-3xl font-black tracking-tight text-slate-900">{org.name}</h3>
+                                            <p className="text-xs text-slate-400">
+                                                Pembina : {org.advisor_name}
+                                            </p>
+
+                                            <p className="text-xs text-slate-400">
+                                                Ketua : {org.leader_name}
+                                            </p>
+
+                                            <p className="max-w-sm text-base font-medium leading-relaxed text-slate-500">
+                                                {getDescription(org)}
+                                            </p>
+
+                                            <Link
+                                                to={`/organization/${org.id}`}
+                                                className="inline-flex items-center gap-2 pt-3 font-semibold text-teal-700 hover:text-teal-500"
+                                            >
+                                                {t("common.readMore")}
+                                                <ArrowRight className="h-4 w-4" />
+                                            </Link>
+                                        </div>
+                                    </div>
+                                </ScrollReveal>
+                            ))}
                         </div>
-                    </section>
+                    </div>
+                </section>
                 )}
 
-                {/* Sisa section lainnya mengikuti pola yang sama untuk getDescription(org) */}
-                {/* (Section Creative, Discipline, Wellness silakan gunakan pola getDescription(org) di atas) */}
-                
-                {/* ... (Layout lainnya tetap sama seperti kode asli Anda) ... */}
+                {/* SECTION 2: CREATIVE */}
+                {organizations.creative.length > 0 && (
+                <section className="border-y border-slate-100 bg-white py-24">
+                    <div className="container mx-auto px-6">
+                        <ScrollReveal>
+                            <div className="mb-16 flex items-center gap-6">
+                                {/* Side Line Decoration */}
+                                <div className="h-[2px] w-12 bg-[#0F5F58]" />
+                                <div>
+                                    <div className="mb-1 flex items-center gap-2">
+                                        <Palette className="h-4 w-4 text-[#0F5F58]" />
+                                        <h3 className="text-xs font-bold uppercase tracking-widest text-[#0F5F58]">Creative Hub</h3>
+                                    </div>
+                                    <h2 className="text-4xl font-black tracking-tight text-[#0F5F58]">Arts & Performances</h2>
+                                </div>
+                            </div>
+                        </ScrollReveal>
+
+                        <div className="grid gap-8 lg:grid-cols-2">
+                            {organizations.creative.map((org, index) => (
+                                <ScrollReveal key={org.id ?? index} delay={index * 0.1}>
+                                    <div className="group flex flex-col gap-8 rounded-3xl border border-transparent bg-slate-50 p-8 transition-all duration-500 hover:border-[#0F5F58] hover:bg-white hover:shadow-2xl hover:shadow-[#0F5F58]/5 sm:flex-row">
+                                        <div className="h-44 w-full shrink-0 overflow-hidden rounded-2xl shadow-md sm:w-44">
+                                            <img src={org.logo_url} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" alt={org.name} />
+                                        </div>
+                                        <div className="flex flex-col justify-center">
+                                            <h4 className="mb-3 text-2xl font-bold italic text-slate-900 transition-colors group-hover:text-[#0F5F58]">{org.name}</h4>
+                                            <p className="mb-6 text-sm leading-relaxed text-slate-500">{getDescription(org)}</p>
+                                            <Link
+                                                to={`/organization/${org.id}`}
+                                                className="group/btn flex items-center gap-2 text-xs font-black uppercase tracking-widest text-[#0F5F58]"
+                                            >
+                                                Explore Gallery <ArrowRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-2" />
+                                            </Link>
+                                        </div>
+                                    </div>
+                                </ScrollReveal>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+                )}
+
+                {/* SECTION 3: DISCIPLINE */}
+                {organizations.discipline.length > 0 && (
+                <section className="relative overflow-hidden bg-slate-900 py-24 text-white">
+                    <div className="container relative z-10 mx-auto px-6">
+                        <ScrollReveal>
+                            <div className="mb-16 flex flex-col items-center md:items-start">
+                                <div className="mb-4 flex items-center gap-3">
+                                    <ShieldCheck className="h-6 w-6  text-teal-500" />
+                                    <span className="text-sm font-bold uppercase tracking-[0.3em]  text-teal-500">Elite Discipline</span>
+                                </div>
+                                {/* Elegant Double Line Heading */}
+                                <div className="flex items-center gap-4">
+                                    <h2 className="text-4xl font-black tracking-tight md:text-5xl">Character & Honor</h2>
+                                    <div className="hidden h-[2px] flex-1 bg-gradient-to-r from-[#0F5F58]/50 to-transparent md:block" />
+                                </div>
+                            </div>
+                        </ScrollReveal>
+
+                        <div className="grid gap-8 md:grid-cols-2">
+                            {organizations.discipline.map((org, index) => (
+                                <ScrollReveal key={org.id ?? index} delay={index * 0.1}>
+                                    <div className="group flex flex-col gap-8 rounded-[2.5rem] border border-white/10 bg-white/5 p-10 backdrop-blur-md transition-all duration-500 hover:border-teal-500/30 hover:bg-white/10 md:flex-row">
+                                        <div className="mx-auto flex h-24 w-24 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-white/10 bg-teal-500/20 md:mx-0">
+                                            <img src={org.logo_url} className="h-full w-full object-cover opacity-60 transition-opacity group-hover:opacity-100" alt={org.name} />
+                                        </div>
+                                        <div className="text-center md:text-left">
+                                            <h4 className="mb-3 text-2xl font-bold tracking-wide transition-colors group-hover:text-teal-400">{org.name}</h4>
+                                            <p className="leading-relaxed text-slate-400">{getDescription(org)}</p>
+                                        </div>
+                                    </div>
+                                </ScrollReveal>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+                )}
+
+                {/* SECTION 4: WELLNESS */}
+                {organizations.wellness.length > 0 && (
+                <section className="bg-slate-50/50 py-24">
+                    <div className="container mx-auto px-6">
+                        <ScrollReveal>
+                            <div className="mb-16 text-center">
+                                <div className="mx-auto mb-6 w-fit rounded-2xl bg-white p-4 shadow-sm">
+                                    <Zap className="h-8 w-8 fill-[#0F5F58] text-[#0F5F58]" />
+                                </div>
+                                {/* Centered Heading with Symmetrical Lines */}
+                                <div className="flex items-center justify-center gap-6">
+                                    <div className="hidden h-[1px] w-20 bg-[#0F5F58] md:block" />
+                                    <h2 className="text-4xl font-black tracking-tight text-[#0F5F58]">Innovation & Wellbeing</h2>
+                                    <div className="hidden h-[1px] w-20 bg-[#0F5F58] md:block" />
+                                </div>
+                                <p className="mt-4 text-lg text-slate-500">Nurturing the mind, soul, and future skills.</p>
+                            </div>
+                        </ScrollReveal>
+
+                        <div className="grid gap-8 lg:grid-cols-3">
+                            {organizations.wellness.map((org, index) => (
+                                <ScrollReveal key={org.id ?? index} delay={index * 0.1}>
+                                    <div className="group flex h-full flex-col rounded-[3rem] border border-slate-100 bg-white p-10 shadow-sm transition-all duration-500 hover:border-teal-100 hover:shadow-2xl hover:shadow-teal-900/5">
+                                        <div className="mb-8 flex h-16 w-16 items-center justify-center overflow-hidden rounded-2xl border border-slate-100 bg-slate-50 transition-colors group-hover:border-teal-500/30">
+                                            <img src={org.logo_url} alt={org.name} className="h-full w-full scale-110 object-cover" />
+                                        </div>
+                                        <h4 className="mb-4 text-2xl font-black text-slate-900 transition-colors group-hover:text-[#0F5F58]">{org.name}</h4>
+                                        <p className="mb-8 flex-1 leading-relaxed text-slate-500">{getDescription(org)}</p>
+                                        <div className="flex items-center justify-between border-t border-slate-50 pt-6">
+                                            <span className="text-[10px] font-black uppercase tracking-[0.25em] text-slate-400">{org.category}</span>
+                                            <HeartPulse className="h-5 w-5 text-teal-600 opacity-0 transition-opacity group-hover:opacity-100" />
+                                        </div>
+                                    </div>
+                                </ScrollReveal>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+                )}
             </div>
         </MainLayout>
     );

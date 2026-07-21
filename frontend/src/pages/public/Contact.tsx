@@ -5,10 +5,25 @@ import ScrollReveal from '@/components/ScrollReveal';
 import HeroCarousel from '@/components/HeroCarousel';
 import { MapPin, Phone, Mail, Clock, Send, MessageCircle } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
+import {
+  MapContainer,
+  TileLayer,
+  Marker,
+  Popup,
+  Circle,
+  ZoomControl,
+} from "react-leaflet";
+
+import "leaflet/dist/leaflet.css";
 import api from '@/lib/api';
+import "@/lib/leaflet";
 
 const Contact = () => {
    const { t, language } = useLanguage();
+   const schoolPosition: [number, number] = [
+ -6.4033441,
+  106.9756046,
+];
     const [heroSlides, setHeroSlides] = useState<any[]>([]);
 
      useEffect(() => {
@@ -210,29 +225,127 @@ const Contact = () => {
         </div>
       </section>
 
-      {/* Map Section */}
+        {/* map with leaflet */}
       <section className="py-20 bg-slate-50">
-        <div className="container mx-auto px-6 text-center">
-          <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-white shadow-xl mb-6">
-            <MapPin className="w-10 h-10 text-teal-600" />
-          </div>
-          <h3 className="text-3xl font-bold text-foreground mb-4">{t('contact.map.title')}</h3>
-          <p className="text-muted-foreground text-lg">
-            {t('contact.map.desc')}
-          </p>
-        </div>
+      <section className="py-24 bg-gradient-to-b from-slate-50 to-white">
+    <div className="container mx-auto px-6">
+        <ScrollReveal>
+            <div className="text-center mb-14">
+                <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-white shadow-lg mb-6">
+                    <MapPin className="w-10 h-10 text-teal-600" />
+                </div>
+                <h2 className="text-4xl font-bold text-foreground mb-4">
+                    {t("contact.map.title")}
+                </h2>
+                <p className="text-muted-foreground text-lg max-w-3xl mx-auto">
+                    {t("contact.map.desc")}
+                </p>
+            </div>
+        </ScrollReveal>
+        <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: .6 }}
+            className="relative"
+        >
+            <div className="overflow-hidden rounded-3xl border border-slate-200 shadow-2xl">
+                <MapContainer
+                    center={schoolPosition}
+                    zoom={17}
+                    zoomControl={false}
+                    scrollWheelZoom={false}
+                    className="w-full h-[650px]"
+                >
+                    <ZoomControl position="bottomright" />
+                    <TileLayer
+                        attribution="&copy; OpenStreetMap contributors"
+                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    />
+                    <Circle
+                        center={schoolPosition}
+                        radius={120}
+                        pathOptions={{
+                            color: "#0d9488",
+                            fillColor: "#14b8a6",
+                            fillOpacity: .2,
+                            weight: 2,
+                        }}
+                    />
+                    <Marker position={schoolPosition}>
+                        <Popup>
+                            <div className="space-y-2">
+                                <h3 className="font-bold text-base">
+                                    SMK Metland School
+                                </h3>
+                                <p className="text-sm">
+                                    Jl. Kota Taman Metropolitan,
+                                    Cileungsi Kidul,
+                                    Kabupaten Bogor,
+                                    Jawa Barat
+                                </p>
+                                <a
+                                    href="https://www.google.com/maps/dir/?api=1&destination=-6.4033441,106.9756046"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-block mt-2 text-teal-600 font-semibold hover:underline"
+                                >
+                                    Open Google Maps →
+                                </a>
+                            </div>
+                        </Popup>
+                    </Marker>
+                </MapContainer>
+            </div>
 
-        {/* The Actual Iframe */}
-        <iframe 
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3965.234674720188!2d106.99446487503893!3d-6.363659493626374!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e699416560370ad%3A0x67907575791726a8!2sSMK%20Metland%20School!5e0!3m2!1sid!2sid!4v1709192461011!5m2!1sid!2sid" 
-          width="100%" 
-          height="100%" 
-          style={{ border: 0 }} 
-          allowFullScreen 
-          loading="lazy" 
-          referrerPolicy="no-referrer-when-downgrade"
-          className="grayscale-[20%] contrast-[1.1] hover:grayscale-0 transition-all duration-700"
-        />
+            {/* Floating Card */}
+            <motion.div
+                initial={{ opacity: 0, x: -40 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: .3 }}
+                className="absolute left-8 bottom-8 max-w-sm bg-white rounded-3xl shadow-2xl p-7 hidden lg:block"
+            >
+                <div className="flex items-center gap-3 mb-5">
+                    <div className="w-12 h-12 rounded-xl bg-teal-100 flex items-center justify-center">
+                        <MapPin className="text-teal-600" />
+                    </div>
+                    <div>
+                        <h3 className="font-bold text-lg">
+                            SMK Metland School
+                        </h3>
+                        <p className="text-sm text-slate-500">
+                            Kabupaten Bogor
+                        </p>
+                    </div>
+                </div>
+                <p className="text-slate-600 leading-relaxed mb-5">
+                    Jl. Kota Taman Metropolitan,
+                    Cileungsi Kidul,
+                    Kecamatan Cileungsi,
+                    Kabupaten Bogor,
+                    Jawa Barat 16820
+                </p>
+                <div className="space-y-3">
+                    <a
+                        href="https://www.google.com/maps/dir/?api=1&destination=-6.363659,106.997040"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex justify-center items-center w-full bg-teal-600 hover:bg-teal-700 text-white rounded-xl py-3 font-semibold transition"
+                    >
+                        📍 Open Google Maps
+                    </a>
+                    <a
+                        href="tel:+622182496976"
+                        className="flex justify-center items-center w-full border rounded-xl py-3 font-semibold hover:bg-slate-50 transition"
+                    >
+                        📞 Call School
+                    </a>
+                </div>
+            </motion.div>
+        </motion.div>
+    </div>
+      </section>
       </section>
     </MainLayout>
   );

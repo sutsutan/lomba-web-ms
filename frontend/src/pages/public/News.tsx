@@ -16,55 +16,76 @@ const News = () => {
   const [newsItems, setNewsItems] = useState<NewsData[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
+ useEffect(() => {
     const fetchPublicNews = async () => {
-      try {
-        setLoading(true);
+        try {
 
-        const data = await newsService.getAll(true);
+            setLoading(true);
+            const data = await newsService.getAll(true);
+            const now = new Date();
+            const publishedNews = data.filter((news) => {
 
-        // jangan mutate array dari API
-        const sorted = [...data].sort(
-          (a, b) =>
-            new Date(b.published_date).getTime() -
-            new Date(a.published_date).getTime()
-        );
+                return (
+                    news.is_published &&
+                    new Date(news.published_date) <= now
+                );
+            });
 
-        setNewsItems(sorted);
-      } catch (error) {
-        console.error('Gagal mendapatkan berita publik:', error);
-      } finally {
-        setLoading(false);
-      }
+            const sorted = publishedNews.sort(
+                (a, b) =>
+                    new Date(b.published_date).getTime() -
+                    new Date(a.published_date).getTime()
+            );
+            setNewsItems(sorted);
+        }
+        catch (err) {
+            console.error(err);
+        }
+        finally {
+            setLoading(false);
+        }
+
     };
-
     fetchPublicNews();
-  }, []);
+}, []);
 
   const formatDate = (dateString: string) => {
-    if (!dateString) return '';
+    if (!dateString) return "";
 
     return new Date(dateString).toLocaleDateString(
-      t('nav.lang_code') === 'ID' ? 'id-ID' : 'en-US',
+      t("nav.lang_code") === "ID" ? "id-ID" : "en-US",
       {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
+        year: "numeric",
+        month: "long",
+        day: "numeric",
       }
     );
   };
 
   const featuredNews = useMemo(() => {
-    return newsItems.length > 0 ? newsItems[0] : null;
-  }, [newsItems]);
+    if (newsItems.length === 0)
+        return null;
+    const headline = newsItems.find(
+        news => news.is_headline
+    );
+    return headline ?? newsItems[0];
+}, [newsItems]);
 
-  const latestNews = useMemo(() => {
-    return newsItems.slice(1, 4);
-  }, [newsItems]);
+  const remainingNews = useMemo(() => {
+    if (!featuredNews)
+        return [];
+    return newsItems.filter(
+        news => news.id !== featuredNews.id
+    );
+}, [featuredNews, newsItems]);
+
+const latestNews = useMemo(() => {
+    return remainingNews.slice(0, 3);
+  }, [remainingNews]);
 
   const allNews = useMemo(() => {
-    return newsItems.slice(1);
-  }, [newsItems]);
+     return remainingNews;
+}, [remainingNews]);
 
   if (loading) {
     return (
@@ -148,7 +169,7 @@ const News = () => {
                 {latestNews.map((news) => (
                   <Link
                     key={news.id}
-                    to={`/more-news/${news.id}`}
+                    to={`/more-news/${news.slug || news.id}`}
                     className="card-hover flex gap-4 p-4"
                   >
                     <img
@@ -183,7 +204,7 @@ const News = () => {
         </div>
       </section>
 
-      {/* ================= All News ================= */}
+      {/* news */}
 
       <section className="section-padding bg-section">
         <div className="container mx-auto px-4">
@@ -253,7 +274,7 @@ const News = () => {
                     </div>
 
                     <Link
-                      to={`/more-news/${news.id}`}
+                      to={`/more-news/${news.slug || news.id}`}
                       className="mt-6 inline-flex items-center gap-1 text-sm font-medium text-primary transition-all hover:gap-2"
                     >
                       {t('news.all.read_more')}

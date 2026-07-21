@@ -134,13 +134,18 @@ const AchievementsSlider = () => {
                                                 </p>
 
                                                 {/* Detail/News Link */}
-                                                <Link 
-                                                    to={item.news_id ? `/more-news/${item.news_id}` : '#'} 
-                                                    className={`group mt-2 inline-flex items-center justify-center gap-3 rounded-full bg-[#0F4C5C] px-8 py-3.5 text-sm font-bold text-white shadow-xl transition-all hover:bg-[#0a3844] hover:shadow-2xl active:scale-95 md:mt-4 md:px-10 md:py-4 md:text-base ${!item.news_id && 'pointer-events-none opacity-60'}`}
-                                                >
-                                                    <Trophy className="h-4 w-4 md:h-5 md:w-5" />
-                                                    {t('achievements.learn_more')}
-                                                </Link>
+                                               <Link 
+                                                to={item.news_id ? `/achievement-detail/${item.news_id}` : '#'} 
+                                                className={`group mt-2 inline-flex items-center justify-center gap-3 rounded-full bg-[#0F4C5C] px-8 py-3.5 text-sm font-bold text-white shadow-xl transition-all hover:bg-[#0a3844] hover:shadow-2xl active:scale-95 md:mt-4 md:px-10 md:py-4 md:text-base ${!item.news_id ? 'cursor-not-allowed opacity-60' : 'cursor-pointer'}`}
+                                                onClick={(e) => {
+                                                    if (!item.news_id) {
+                                                        e.preventDefault();
+                                                    }
+                                                }}
+                                            >
+                                                <Trophy className="h-4 w-4 md:h-5 md:w-5" />
+                                                {t('achievements.learn_more')}
+                                            </Link>
                                             </div>
 
                                             {/* Right Image - Circle */}

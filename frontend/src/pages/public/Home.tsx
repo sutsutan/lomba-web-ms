@@ -8,7 +8,7 @@ import PartnersSection from '@/components/home/PartnersSection';
 import AdmissionSteps from '@/components/home/AdmissionSteps';
 import TestimonialVideo from "@/components/home/Testimony";
 import ButtonCorner from '@/components/home/Button';
-import NewsPreview from '@/components/home/newspreview';
+import NewsPreview from '@/components/home/NewsPreview';
 
 const Home = () => {
   return (

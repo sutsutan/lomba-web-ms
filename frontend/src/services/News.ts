@@ -10,6 +10,7 @@ export interface NewsData {
   thumbnail: string;
   content_id: string;
   excerpt_id?: string;
+  is_headline?: boolean;
   slug?: string;
   gallery_images?: string[];
 }

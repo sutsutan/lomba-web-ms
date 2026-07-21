@@ -12,6 +12,7 @@ export default {
   'nav.activity': 'Activity',
   'nav.extracurricular': 'Extracurricular',
   'nav.organization': 'Organization',
+  'nav.achievement': 'Achievement',
   'nav.news': 'News',
   'nav.alumni': 'Alumni',
   'nav.ppdb': 'PPDB',

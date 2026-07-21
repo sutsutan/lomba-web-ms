@@ -43,19 +43,21 @@ export default function AdminNewsPage() {
     published_date: string;
     is_published: boolean;
     thumbnail: string;
+    is_headline?: boolean;
     content_id: string;
     content_en: string;
     gallery_images: string[];
   }>({ 
-    title_id: '', 
-    title_en: '',
-    category: 'Kegiatan', 
-    published_date: '', 
-    is_published: false, 
-    thumbnail: '', 
-    content_id: '',
-    content_en: '',
-    gallery_images: []
+      title_id: "",
+      title_en: "",
+      category: "Kegiatan",
+      published_date: new Date().toISOString().slice(0, 16),
+      is_published: false,
+      is_headline: false,
+      thumbnail: "",
+      content_id: "",
+      content_en: "",
+      gallery_images: [] as string[],
   });
 
  const loadNews = async () => {
@@ -79,10 +81,16 @@ export default function AdminNewsPage() {
   const openAdd = () => { 
   setEditing(null); 
   setForm({ 
-    title_id: '', title_en: '', category: 'Kegiatan', 
-    published_date: new Date().toISOString().split('T')[0], 
-    is_published: false, thumbnail: '', content_id: '', content_en: '',
-    gallery_images: []
+    title_id: "",
+    title_en: "",
+    category: "Kegiatan",
+    published_date: new Date().toISOString().slice(0, 16),
+    is_published: false,
+    is_headline: false,
+    thumbnail: "",
+    content_id: "",
+    content_en: "",
+    gallery_images: [],
   }); 
   setModal(true); 
 };
@@ -93,9 +101,12 @@ export default function AdminNewsPage() {
       title_id: item.title_id || '',
       title_en: item.title_en || '',
       category: item.category || '',
-      published_date: item.published_date || '',
+      published_date: item.published_date
+    ? item.published_date.slice(0,16)
+    : new Date().toISOString().slice(0,16),
       is_published: !!item.is_published,
       thumbnail: item.thumbnail || '',
+      is_headline: !!item.is_headline,
       content_id: item.content_id || '',
       content_en: item.content_en || '',
       gallery_images: item.gallery_images || []
@@ -111,12 +122,18 @@ export default function AdminNewsPage() {
       const textContent = tempDiv.textContent || tempDiv.innerText || "";
       const excerpt = textContent.substring(0, 120) + (textContent.length > 120 ? '...' : '');
       
+      if (form.is_headline && !form.is_published) {
+    alert("Headline harus dipublikasikan terlebih dahulu.");
+    return;
+}
+
       const payload: NewsData = {
         title_id: form.title_id,
         category: form.category,
-        published_date: form.published_date || new Date().toISOString().split('T')[0],
+        published_date: form.published_date,
         is_published: form.is_published,
         thumbnail: form.thumbnail,
+        is_headline: form.is_headline,
         content_id: form.content_id,
         excerpt_id: excerpt,
         gallery_images: form.gallery_images,
@@ -210,11 +227,36 @@ export default function AdminNewsPage() {
               { 
                 key: 'is_published', 
                 label: 'Status', 
+                render: (item) => {
+
+                    const publishDate = new Date(item.published_date);
+
+                    const now = new Date();
+
+                    if (!item.is_published) {
+
+                        return <Badge color="yellow">Draft</Badge>;
+
+                    }
+
+                    if (publishDate > now) {
+
+                        return <Badge color="blue">Scheduled</Badge>;
+
+                    }
+
+                    return <Badge color="green">Published</Badge>;
+
+                }
+              },
+              {
+                key: 'is_headline',
+                label: 'Headline',
                 render: (item: any) => (
-                  <Badge color={item.is_published ? 'green' : 'yellow'}>
-                    {item.is_published ? 'Published' : 'Draft'}
+                  <Badge color={item.is_headline ? 'blue' : 'gray'}>
+                    {item.is_headline ? 'Headline' : '-'}
                   </Badge>
-                ) 
+                ),
               },
             ]}
             data={filtered}
@@ -246,11 +288,15 @@ export default function AdminNewsPage() {
             </FormField>
             <FormField label="Tanggal Publish" required>
               <input 
-                type="date" 
+                type="datetime-local" 
                 className={inputClass} 
                 value={form.published_date} 
                 onChange={e => setForm({ ...form, published_date: e.target.value })} 
               />
+               <p className="text-xs text-gray-500 mt-1">
+                  Jika tanggal di masa depan dan status Published aktif,
+                  berita akan otomatis menjadi Scheduled.
+              </p>
             </FormField>
           </div>
           
@@ -327,15 +373,96 @@ export default function AdminNewsPage() {
             </div>
           </div>
           
-          <div className="flex items-center gap-3 p-3.5 bg-gray-50 rounded-xl border border-gray-100">
-            <input 
-              type="checkbox" 
-              id="news-published" 
-              checked={form.is_published} 
-              onChange={e => setForm({ ...form, is_published: e.target.checked })} 
-              className="w-4 h-4 rounded accent-indigo-600" 
-            />
-            <label htmlFor="news-published" className="text-sm font-medium text-gray-700 select-none">Publikasikan sekarang (tampil di modul berita utama website)</label>
+         <div className="rounded-xl border bg-gray-50 p-4">
+
+          <div className="flex items-start gap-3">
+
+              <input
+                  id="news-published"
+                  type="checkbox"
+                  checked={form.is_published}
+                  onChange={(e)=>{
+
+                      const published = e.target.checked;
+
+                      setForm({
+                          ...form,
+                          is_published: published,
+
+                          is_headline:
+                              published
+                                  ? form.is_headline
+                                  : false,
+                      });
+
+                  }}
+                  className="mt-1 w-4 h-4 accent-indigo-600"
+              />
+
+              <label htmlFor="news-published">
+
+                  <div className="font-medium">
+                      Publish Berita
+                  </div>
+
+                  <div className="text-xs text-gray-500 mt-1">
+
+                      Tidak dicentang = Draft
+
+                      <br/>
+
+                      Dicentang + tanggal hari ini = Published
+
+                      <br/>
+
+                      Dicentang + tanggal masa depan = Scheduled
+
+                  </div>
+
+              </label>
+
+          </div>
+
+        </div>
+
+           <div className="rounded-xl border border-blue-100 bg-blue-50 p-4">
+
+              <div className="flex items-start gap-3">
+
+                  <input
+                      id="headline-news"
+                      type="checkbox"
+                      disabled={!form.is_published}
+                      checked={form.is_headline}
+                      onChange={(e)=>
+                          setForm({
+                              ...form,
+                              is_headline:e.target.checked
+                          })
+                      }
+                      className="mt-1 w-4 h-4 accent-blue-600 disabled:opacity-40"
+                  />
+
+                  <label htmlFor="headline-news">
+
+                      <div className="font-medium">
+
+                          Jadikan Headline
+
+                      </div>
+
+                      <div className="text-xs text-gray-500 mt-1">
+
+                          Hanya berita Published yang dapat menjadi Headline.
+
+                          Headline lama akan otomatis diganti.
+
+                      </div>
+
+                  </label>
+
+              </div>
+
           </div>
           
           <div className="flex gap-3 pt-2">

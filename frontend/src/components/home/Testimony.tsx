@@ -109,6 +109,22 @@ const TestimonialVideo = () => {
     };
   };
 
+  const getYoutubeEmbedUrl = (url: string) => {
+  let videoId = '';
+
+  if (url.includes('youtu.be/')) {
+    videoId = url.split('youtu.be/')[1].split('?')[0];
+  } else if (url.includes('watch?v=')) {
+    videoId = url.split('watch?v=')[1].split('&')[0];
+  } else if (url.includes('/embed/')) {
+    videoId = url.split('/embed/')[1].split('?')[0];
+  }
+
+  if (!videoId) return url;
+
+  return `https://www.youtube.com/embed/${videoId}?enablejsapi=1&autoplay=0&controls=0&loop=1&playlist=${videoId}&playsinline=1&rel=0&modestbranding=1`;
+};
+
   return (
     <section className="overflow-hidden bg-white py-16 sm:py-24">
       <div className="container mx-auto px-6 lg:px-24">
@@ -232,7 +248,7 @@ const TestimonialVideo = () => {
                             if (el) videoRefs.current.set(item.id, el);
                             else videoRefs.current.delete(item.id);
                           }}
-                          src={item.videoUrl}
+                         src={getYoutubeEmbedUrl(item.videoUrl)}
                           className={`h-full w-full object-cover transition-all duration-700 ${
                             isFront ? 'opacity-100 grayscale-0' : 'opacity-40 grayscale'
                           }`}

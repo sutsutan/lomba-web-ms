@@ -17,6 +17,7 @@
     Route::get('/majors', [MajorController::class, 'index']);
     Route::get('/majors/{slug}', [MajorController::class, 'show']);
     Route::get('/achievements', [AchievementController::class, 'index']);
+    Route::get('/achievements/{id}', [AchievementController::class, 'show']);
     Route::get('/partnerships', [PartnershipController::class, 'index']);
     Route::get('/testimonies', [TestimonyController::class, 'index']);
     Route::get('/facilities', [FacilityController::class, 'index']);
