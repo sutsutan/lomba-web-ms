@@ -670,6 +670,13 @@ export default {
   'ppdb.step4.desc': 'After the assessment stage is completed, parents will receive the admission result through official school communication channels. If accepted, the student will move forward to the enrollment confirmation stage. We aim to deliver results quickly so families can plan with confidence.',
   'ppdb.step4.date': '21 May 2026',
 
+  'ppdb.cta.badge': 'Ready to Step Forward With Us?',
+  'ppdb.cta.title': 'Start a Bright Future at',
+  'ppdb.cta.title_highlight': 'SMK Pariwisata Metland School',
+  'ppdb.cta.desc': 'Join thousands of students who have successfully built their professional careers. Click the button below to register online now.',
+  'ppdb.cta.btn': 'Register Now',
+  'ppdb.cta.status': 'Metland School Online Registration is Now Open',
+
   // NotFound Page
   'notfound.title': 'Oops! Page not found',
   'notfound.desc': 'Sorry, the page you are looking for does not exist or has been moved.',

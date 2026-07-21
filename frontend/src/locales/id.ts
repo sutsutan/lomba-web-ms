@@ -679,6 +679,13 @@ export default {
   'ppdb.step4.desc': 'Setelah tahap asesmen selesai, orang tua akan menerima hasil pendaftaran melalui saluran komunikasi resmi sekolah. Jika diterima, siswa akan melanjutkan ke tahap konfirmasi pendaftaran. Kami bertujuan untuk memberikan hasil dengan cepat sehingga keluarga dapat merencanakan dengan percaya diri.',
   'ppdb.step4.date': '21 Mei 2026',
 
+  'ppdb.cta.badge': 'Siap Melangkah Bersama Kami?',
+  'ppdb.cta.title': 'Mulai Masa Depan Gemilang di',
+  'ppdb.cta.title_highlight': 'SMK Pariwisata Metland School',
+  'ppdb.cta.desc': 'Bergabunglah dengan ribuan siswa yang telah sukses membangun karir profesional mereka. Klik tombol di bawah untuk mendaftar sekarang secara online.',
+  'ppdb.cta.btn': 'Daftar Sekarang',
+  'ppdb.cta.status': 'Pendaftaran Online SMK Metland School Sedang Dibuka',
+
   // NotFound Page
   'notfound.title': 'Ups! Halaman tidak ditemukan',
   'notfound.desc': 'Maaf, halaman yang Anda cari tidak ada atau telah dipindahkan.',

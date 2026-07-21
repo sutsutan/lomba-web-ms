@@ -7,6 +7,7 @@ import ScrollReveal from '@/components/ScrollReveal';
 import GlobeAlumni from '@/pages/public/GlobeAlumni';
 import { Briefcase, ChevronRight, GraduationCap, MapPin, Target } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { Link } from 'react-router-dom';
 import api from '@/lib/api';
 
 const Alumni = () => {
@@ -191,6 +192,21 @@ const Alumni = () => {
                             );
                         })}
                     </div>
+
+                    {/* More Alumni Button */}
+                    <div className="mt-12 md:mt-16 text-center flex justify-center">
+                        <Link 
+                            to="/alumni-directory"
+                            className="group relative flex items-center justify-center gap-3 overflow-hidden rounded-full bg-[#12606A] px-8 py-4 font-bold text-white shadow-xl transition-all hover:bg-teal-700 hover:shadow-2xl hover:-translate-y-1"
+                        >
+                            <span className="relative z-10 text-sm md:text-base">Lihat Lebih Banyak Alumni</span>
+                            <div className="relative z-10 flex h-8 w-8 items-center justify-center rounded-full bg-white/20 transition-transform group-hover:translate-x-1">
+                                <ChevronRight size={18} />
+                            </div>
+                            <div className="absolute inset-0 z-0 bg-gradient-to-r from-teal-600 to-[#12606A] opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                        </Link>
+                    </div>
+
                 </div>
             </section>
 

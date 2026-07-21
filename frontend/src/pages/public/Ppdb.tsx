@@ -216,16 +216,16 @@ const Ppdb = () => {
           <ScrollReveal>
             <div className="max-w-4xl mx-auto space-y-8">
               <div className="inline-block px-4 py-1.5 rounded-full bg-teal-50 text-teal-700 text-xs font-bold uppercase tracking-widest mb-4">
-                Siap Melangkah Bersama Kami?
+                {t('ppdb.cta.badge')}
               </div>
               
               <h2 className="text-3xl md:text-5xl lg:text-5xl font-black text-[#12606A] leading-[1.1] tracking-tight">
-                Mulai Masa Depan Gemilang di <br />
-                <span className="text-teal-600">SMK Pariwisata Metland School</span>
+                {t('ppdb.cta.title')} <br />
+                <span className="text-teal-600">{t('ppdb.cta.title_highlight')}</span>
               </h2>
               
               <p className="text-[#12606A]/70 text-lg md:text-xl font-medium max-w-2xl mx-auto leading-relaxed">
-                Bergabunglah dengan ribuan siswa yang telah sukses membangun karir profesional mereka. Klik tombol di bawah untuk mendaftar sekarang secara online.
+                {t('ppdb.cta.desc')}
               </p>
 
               <div className="pt-8">
@@ -241,7 +241,7 @@ const Ppdb = () => {
                   <div className="absolute inset-0 bg-gradient-to-r from-teal-400/20 to-emerald-400/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 ease-in-out" />
                   
                   <span className="relative z-10 flex items-center gap-3">
-                    Daftar Sekarang
+                    {t('ppdb.cta.btn')}
                     <ExternalLink className="w-6 h-6 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
                   </span>
                   
@@ -251,7 +251,7 @@ const Ppdb = () => {
                 
                 <p className="mt-8 text-sm text-slate-400 font-medium flex items-center justify-center gap-2">
                   <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-                  Pendaftaran Online SMK Metland School Sedang Dibuka
+                  {t('ppdb.cta.status')}
                 </p>
               </div>
             </div>
