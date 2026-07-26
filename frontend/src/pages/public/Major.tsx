@@ -44,7 +44,7 @@ const majorsData = [
         themeColor: '#12606A',
         bgGradient: 'from-teal-600 to-emerald-700',
         icon: <Hotel className="h-6 w-6" />,
-        stats: { students: '450+', partners: '30+', duration: '3' },
+        stats: { students: '450', partners: '30', duration: '3' },
         gallery: [
             {
                 image: '/images/gallery/hospitality-1.jpg',
@@ -66,7 +66,7 @@ const majorsData = [
         themeColor: '#12606A',
         bgGradient: 'from-orange-500 to-amber-600',
         icon: <Utensils className="h-6 w-6" />,
-        stats: { students: '410+', partners: '20+', duration: '3' },
+        stats: { students: '410', partners: '20', duration: '3' },
         gallery: [
             {
                 image: '/images/gallery/culinary-1.jpg',
@@ -82,7 +82,7 @@ const majorsData = [
         themeColor: '#12606A',
         bgGradient: 'from-blue-600 to-indigo-700',
         icon: <Calculator className="h-6 w-6" />,
-        stats: { students: '350+', partners: '25+', duration: '3' },
+        stats: { students: '350', partners: '25', duration: '3' },
         gallery: [
             {
                 image: '/images/gallery/accounting-1.jpg',
@@ -95,7 +95,7 @@ const majorsData = [
         themeColor: '#12606A',
         bgGradient: 'from-pink-600 to-rose-700',
         icon: <Palette className="h-6 w-6" />,
-        stats: { students: '480+', partners: '35+', duration: '3' },
+        stats: { students: '480', partners: '35', duration: '3' },
         gallery: [
             {
                 image: '/images/gallery/dkv-1.jpg',
@@ -108,7 +108,7 @@ const majorsData = [
         themeColor: '#12606A',
         bgGradient: 'from-purple-600 to-violet-700',
         icon: <Code className="h-6 w-6" />,
-        stats: { students: '520+', partners: '40+', duration: '3' },
+        stats: { students: '520', partners: '40', duration: '3' },
         gallery: [
                {
                 image: pameran,
@@ -167,8 +167,8 @@ const Major = () => {
                     const key = item.code || item.slug || '';
                     const normalizedKey = key === 'it' ? 'pplg' : key;
                     statsMap[normalizedKey] = {
-                        students: item.total_students ? `${item.total_students}+` : '0+',
-                        partners: item.total_partners ? `${item.total_partners}+` : '0+',
+                        students: item.total_students ? `${item.total_students}` : '0',
+                        partners: item.total_partners ? `${item.total_partners}` : '0',
                         head: item.head_of_major || '',
                         lab_image: item.lab_image || '',
                         activity_image: item.activity_image || '',
