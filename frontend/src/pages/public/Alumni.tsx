@@ -1,114 +1,85 @@
-import { useState, useRef, useEffect} from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { useState, useRef, useEffect } from 'react';
 import MainLayout from '@/layouts/MainLayout';
-import achievement from '@/assets/achievement-1.jpg';
 import HeroCarousel from '@/components/HeroCarousel';
 import ScrollReveal from '@/components/ScrollReveal';
 import GlobeAlumni from '@/pages/public/GlobeAlumni';
 import { Briefcase, ChevronRight, GraduationCap, MapPin, Target } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Link } from 'react-router-dom';
-import api from '@/lib/api';
+import { getPublicAlumni, AlumniData } from '@/services/Alumni';
+
+interface AlumniDisplay {
+    id: number;
+    name: string;
+    year: string;
+    company: string;
+    location: [number, number] | null;
+    position: string;
+    image: string;
+    quote: string;
+}
+
+const mapToDisplay = (item: AlumniData): AlumniDisplay => {
+    const lat = parseFloat(item.latitude);
+    const lng = parseFloat(item.longitude);
+    const hasCoords = !isNaN(lat) && !isNaN(lng);
+
+    return {
+        id: item.id,
+        name: item.name,
+        year: String(item.grad_year),
+        company: item.location_name || '-',
+        location: hasCoords ? [lat, lng] : null,
+        position: item.role || 'Alumni',
+        image: item.profile_picture
+            ? (item.profile_picture.startsWith('http')
+                ? item.profile_picture
+                : `${import.meta.env.VITE_API_URL}/storage/${item.profile_picture}`)
+            : `https://ui-avatars.com/api/?name=${encodeURIComponent(item.name)}&background=12606A&color=fff`,
+        quote: item.testimony || '',
+    };
+};
+
+// Type predicate: menyempitkan location dari `[number, number] | null`
+// menjadi `[number, number]` secara aman di level TypeScript.
+const isLocated = (
+    a: AlumniDisplay
+): a is AlumniDisplay & { location: [number, number] } => a.location !== null;
 
 const Alumni = () => {
     const { t, language } = useLanguage();
-    const [heroSlides, setHeroSlides] = useState<any[]>([]);
+    const [alumniData, setAlumniData] = useState<AlumniDisplay[]>([]);
+    const [loading, setLoading] = useState(true);
     const [activeAlumniId, setActiveAlumniId] = useState<number | null>(null);
     const globeSectionRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        const fetchHero = async () => {
-            try {
-                const res = await api.get("/alumni");
-
-                const data = Array.isArray(res.data)
-                    ? res.data
-                    : (res.data.data || []);
-
-                const filtered = data.filter(
-                    (item: any) =>
-                        item.category === "alumni" &&
-                        item.is_active
-                );
-
-                setHeroSlides(
-                    filtered.map((item: any) => ({
-                        image_url: item.image_url,
-                        title: language === "id" ? item.title_id : item.title_en,
-                        subtitle:
-                            language === "id"
-                                ? item.subtitle_id
-                                : item.subtitle_en,
-                    }))
-                );
-            } catch (err) {
-                console.error("Gagal load hero:", err);
-            }
-        };
-
-        fetchHero();
-    }, [language]);
-
-    const alumniData = [
-        {
-            id: 1,
-            name: 'Ahmad Rizky',
-            year: '2020',
-            major: t('category.it'),
-            company: 'Tokopedia',
-            location: [-6.1751, 106.8272] as [number, number],
-            position: 'Software Engineer',
-            image: achievement,
-            quote: t('alumni.quote.1'),
-        },
-        {
-            id: 2,
-            name: 'Siti Nurhaliza',
-            year: '2019',
-            major: t('category.culinary'),
-            location: [35.6762, 139.6503] as [number, number],
-            company: 'Marriott Hotels',
-            position: 'Executive Chef',
-            image: achievement,
-            quote: t('alumni.quote.2'),
-        },
-        {
-            id: 3,
-            name: 'Budi Santoso',
-            year: '2021',
-            major: t('category.accounting'),
-            location: [1.3521, 103.8198] as [number, number],
-            company: 'Bank Mandiri',
-            position: 'Financial Analyst',
-            image: achievement,
-            quote: t('alumni.quote.3'),
-        },
-        {
-            id: 4,
-            name: 'Dewi Lestari',
-            year: '2020',
-            major: t('category.dkv'),
-            location: [-37.8136, 144.9631] as [number, number],
-            company: 'Gojek',
-            position: 'UI/UX Designer',
-            image: achievement,
-            quote: t('alumni.quote.4'),
-        },
-    ];
+        getPublicAlumni().then(data => {
+            // Tampilkan sorotan alumni di homepage (maksimal 4), data lengkap ada di /alumni-directory
+            setAlumniData(data.slice(0, 4).map(mapToDisplay));
+            setLoading(false);
+        });
+    }, []);
 
     const activeAlumni = alumniData.find((a) => a.id === activeAlumniId);
 
-    const handleAlumniClick = (alumni: typeof alumniData[0]) => {
+    const handleAlumniClick = (alumni: AlumniDisplay) => {
+        if (!alumni.location) return; // tidak ada koordinat, tidak bisa ditampilkan di globe
         setActiveAlumniId(alumni.id);
         globeSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     };
 
+    // Data untuk Globe hanya alumni yang punya koordinat valid.
+    // isLocated() bertindak sebagai type predicate sehingga TypeScript
+    // tahu location di sini pasti [number, number], bukan null.
+    const globeAlumniData = alumniData.filter(isLocated);
+
     return (
         <MainLayout>
-             <HeroCarousel 
-            category="alumni" 
-            lang={language}
-            height="h-[60vh]"
+            <HeroCarousel
+                category="alumni"
+                lang={language}
+                height="h-[60vh]"
             />
 
             {/* Alumni Cards Grid */}
@@ -131,71 +102,86 @@ const Alumni = () => {
                         </div>
                     </div>
 
-                    <div className="grid gap-6 md:gap-8 lg:grid-cols-2 lg:gap-10">
-                        {alumniData.map((alumni, index) => {
-                            const isActive = activeAlumniId === alumni.id;
-                            return (
-                                <ScrollReveal key={alumni.id} delay={index * 0.1}>
-                                    <div
-                                        onClick={() => handleAlumniClick(alumni)}
-                                        className={`group relative flex cursor-pointer flex-col overflow-hidden rounded-[2.5rem] md:rounded-[3rem] border-2 p-2 md:p-3 transition-all duration-500 ${isActive
-                                            ? 'border-[#12606A] bg-teal-50/30 ring-4 md:ring-8 ring-[#12606A]/5 scale-[1.01] md:scale-[1.02]'
-                                            : 'border-slate-100 bg-white hover:border-teal-200 hover:shadow-xl'
-                                            }`}
-                                    >
-                                        <div className="flex flex-col gap-4 p-4 lg:flex-row lg:items-center md:gap-8">
-                                            {/* Profile Image */}
-                                            <div className="relative mx-auto h-24 w-24 sm:h-32 sm:w-32 shrink-0 md:h-40 md:w-40 lg:mx-0">
-                                                <div className={`absolute inset-0 rounded-full border-2 border-dashed border-[#12606A]/30 transition-transform duration-[3000ms] group-hover:rotate-180 ${isActive ? 'animate-spin' : ''}`} style={{ animationDuration: '10s' }} />
-                                                <div className="absolute inset-2 overflow-hidden rounded-full shadow-inner bg-slate-50">
-                                                    <img src={alumni.image} alt={alumni.name} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" />
-                                                </div>
-                                                <div className="absolute bottom-1 right-1 md:bottom-2 md:right-2 flex h-8 w-8 md:h-10 md:w-10 items-center justify-center rounded-full bg-[#12606A] text-white shadow-xl ring-4 ring-white">
-                                                    <GraduationCap size={16} className="md:size-5" />
-                                                </div>
-                                            </div>
-
-                                            <div className="flex-1 text-center lg:text-left">
-                                                <div className="flex items-start justify-between">
-                                                    <div className="w-full">
-                                                        <h3 className="text-xl md:text-2xl font-black text-slate-800 transition-colors group-hover:text-[#12606A]">
-                                                            {alumni.name}
-                                                        </h3>
-                                                        <p className="mt-1 flex items-center justify-center lg:justify-start gap-2 text-xs md:text-base font-bold text-teal-600">
-                                                            <Briefcase size={16} /> {alumni.position}
-                                                        </p>
+                    {loading ? (
+                        <div className="flex justify-center py-20">
+                            <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-[#12606A]" />
+                        </div>
+                    ) : alumniData.length === 0 ? (
+                        <div className="text-center py-16 text-slate-400">
+                            Belum ada data alumni yang tersedia.
+                        </div>
+                    ) : (
+                        <div className="grid gap-6 md:gap-8 lg:grid-cols-2 lg:gap-10">
+                            {alumniData.map((alumni, index) => {
+                                const isActive = activeAlumniId === alumni.id;
+                                return (
+                                    <ScrollReveal key={alumni.id} delay={index * 0.1}>
+                                        <div
+                                            onClick={() => handleAlumniClick(alumni)}
+                                            className={`group relative flex ${alumni.location ? 'cursor-pointer' : 'cursor-default'} flex-col overflow-hidden rounded-[2.5rem] md:rounded-[3rem] border-2 p-2 md:p-3 transition-all duration-500 ${isActive
+                                                ? 'border-[#12606A] bg-teal-50/30 ring-4 md:ring-8 ring-[#12606A]/5 scale-[1.01] md:scale-[1.02]'
+                                                : 'border-slate-100 bg-white hover:border-teal-200 hover:shadow-xl'
+                                                }`}
+                                        >
+                                            <div className="flex flex-col gap-4 p-4 lg:flex-row lg:items-center md:gap-8">
+                                                <div className="relative mx-auto h-24 w-24 sm:h-32 sm:w-32 shrink-0 md:h-40 md:w-40 lg:mx-0">
+                                                    <div className={`absolute inset-0 rounded-full border-2 border-dashed border-[#12606A]/30 transition-transform duration-[3000ms] group-hover:rotate-180 ${isActive ? 'animate-spin' : ''}`} style={{ animationDuration: '10s' }} />
+                                                    <div className="absolute inset-2 overflow-hidden rounded-full shadow-inner bg-slate-50">
+                                                        <img
+                                                            src={alumni.image}
+                                                            alt={alumni.name}
+                                                            className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                                            onError={(e) => { e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(alumni.name)}&background=12606A&color=fff` }}
+                                                        />
+                                                    </div>
+                                                    <div className="absolute bottom-1 right-1 md:bottom-2 md:right-2 flex h-8 w-8 md:h-10 md:w-10 items-center justify-center rounded-full bg-[#12606A] text-white shadow-xl ring-4 ring-white">
+                                                        <GraduationCap size={16} className="md:size-5" />
                                                     </div>
                                                 </div>
 
-                                                <div className="mt-4 flex flex-wrap justify-center lg:justify-start gap-2 md:gap-3">
-                                                    <span className="flex items-center gap-2 rounded-lg md:rounded-xl bg-slate-100 px-3 py-1.5 md:px-4 md:py-2 text-[10px] md:text-xs font-bold text-slate-600">
-                                                        <MapPin size={12} /> {alumni.company}
-                                                    </span>
-                                                    <span className="rounded-lg md:rounded-xl bg-teal-50 px-3 py-1.5 md:px-4 md:py-2 text-[10px] md:text-xs font-bold text-[#12606A]">
-                                                        {t('alumni.card.class_of')} {alumni.year}
-                                                    </span>
+                                                <div className="flex-1 text-center lg:text-left">
+                                                    <div className="flex items-start justify-between">
+                                                        <div className="w-full">
+                                                            <h3 className="text-xl md:text-2xl font-black text-slate-800 transition-colors group-hover:text-[#12606A]">
+                                                                {alumni.name}
+                                                            </h3>
+                                                            <p className="mt-1 flex items-center justify-center lg:justify-start gap-2 text-xs md:text-base font-bold text-teal-600">
+                                                                <Briefcase size={16} /> {alumni.position}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+
+                                                    <div className="mt-4 flex flex-wrap justify-center lg:justify-start gap-2 md:gap-3">
+                                                        <span className="flex items-center gap-2 rounded-lg md:rounded-xl bg-slate-100 px-3 py-1.5 md:px-4 md:py-2 text-[10px] md:text-xs font-bold text-slate-600">
+                                                            <MapPin size={12} /> {alumni.company}
+                                                        </span>
+                                                        <span className="rounded-lg md:rounded-xl bg-teal-50 px-3 py-1.5 md:px-4 md:py-2 text-[10px] md:text-xs font-bold text-[#12606A]">
+                                                            {t('alumni.card.class_of')} {alumni.year}
+                                                        </span>
+                                                    </div>
+
+                                                    {alumni.quote && (
+                                                        <blockquote className="relative mt-4 md:mt-6 italic text-slate-500">
+                                                            <p className="relative z-10 line-clamp-2 leading-relaxed text-xs md:text-sm">
+                                                                "{alumni.quote}"
+                                                            </p>
+                                                        </blockquote>
+                                                    )}
                                                 </div>
 
-                                                <blockquote className="relative mt-4 md:mt-6 italic text-slate-500">
-                                                    <p className="relative z-10 line-clamp-2 leading-relaxed text-xs md:text-sm">
-                                                        "{alumni.quote}"
-                                                    </p>
-                                                </blockquote>
-                                            </div>
-
-                                            <div className={`hidden h-12 w-12 items-center justify-center rounded-full bg-[#12606A] text-white shadow-lg transition-all duration-300 lg:flex ${isActive ? 'scale-100 opacity-100' : 'translate-x-4 opacity-0 group-hover:translate-x-0 group-hover:opacity-100'}`}>
-                                                <ChevronRight />
+                                                <div className={`hidden h-12 w-12 items-center justify-center rounded-full bg-[#12606A] text-white shadow-lg transition-all duration-300 lg:flex ${isActive ? 'scale-100 opacity-100' : 'translate-x-4 opacity-0 group-hover:translate-x-0 group-hover:opacity-100'}`}>
+                                                    <ChevronRight />
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </ScrollReveal>
-                            );
-                        })}
-                    </div>
+                                    </ScrollReveal>
+                                );
+                            })}
+                        </div>
+                    )}
 
-                    {/* More Alumni Button */}
                     <div className="mt-12 md:mt-16 text-center flex justify-center">
-                        <Link 
+                        <Link
                             to="/alumni-directory"
                             className="group relative flex items-center justify-center gap-3 overflow-hidden rounded-full bg-[#12606A] px-8 py-4 font-bold text-white shadow-xl transition-all hover:bg-teal-700 hover:shadow-2xl hover:-translate-y-1"
                         >
@@ -236,11 +222,10 @@ const Alumni = () => {
                             </div>
                         </ScrollReveal>
 
-                        {/* Globe Display Container */}
                         <div className="relative w-full max-w-5xl rounded-[2.5rem] md:rounded-[4rem] border border-white/40 bg-white/30 p-2 md:p-8 shadow-2xl backdrop-blur-md">
                             <div className="relative overflow-hidden rounded-[2.2rem] md:rounded-[3.5rem] bg-[#12606A] shadow-2xl">
 
-                                {activeAlumni && (
+                                {activeAlumni && activeAlumni.location && (
                                     <div className="absolute left-4 top-4 z-40 animate-in fade-in zoom-in duration-500 md:left-10 md:top-10">
                                         <div className="overflow-hidden rounded-xl border border-white bg-white/90 shadow-2xl backdrop-blur-md md:rounded-2xl">
                                             <div className="bg-[#12606A] px-3 py-1.5 md:px-4 md:py-2 text-[8px] md:text-[10px] font-bold uppercase tracking-widest text-white">
@@ -263,8 +248,9 @@ const Alumni = () => {
 
                                 <div className="flex h-[400px] w-full items-center justify-center md:h-[650px]">
                                     <GlobeAlumni
+                                        targetId={activeAlumni?.id ?? null}
                                         targetLocation={activeAlumni?.location || null}
-                                        alumniData={alumniData}
+                                        alumniData={globeAlumniData}
                                     />
                                 </div>
                             </div>

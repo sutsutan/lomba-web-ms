@@ -15,15 +15,12 @@ import SearchBar from '@/components/admin/SearchBar';
 // Interface Data Jurusan
 interface Major {
   id: number;
-  code: string; // 'it' | 'culinary' | 'vcd' | 'hospitality' | 'accounting'
-  name: string; // Nama Lengkap Jurusan
-  head_of_major: string; // Ketua Kompetensi Keahlian (Kakomli)
+  code: string;
+  name: string;
+  head_of_major: string;
   description: string;
   total_students: number;
   total_partners: number;
-  lab_image?: string;
-  lab_title?: string;
-  activity_image?: string;
   curriculum_image?: string;
   is_active: boolean;
 }
@@ -44,18 +41,15 @@ export default function AdminMajorPage() {
 
   // Inisialisasi form default
   const [form, setForm] = useState({
-    code: 'it',
-    name: '',
-    head_of_major: '',
-    description: '',
-    total_students: 0,
-    total_partners: 0,
-    lab_image: '',
-    lab_title: '',
-    activity_image: '',
-    curriculum_image: '',
-    is_active: true
-  });
+  code: 'it',
+  name: '',
+  head_of_major: '',
+  description: '',
+  total_students: 0,
+  total_partners: 0,
+  curriculum_image: '',
+  is_active: true
+});
 
   // Filter pencarian berdasarkan nama jurusan atau nama ketua jurusan
   const filtered = items.filter(i =>
@@ -65,16 +59,28 @@ export default function AdminMajorPage() {
   );
 
   const openAdd = () => {
-    setEditing(null);
-    setForm({ code: 'it', name: '', head_of_major: '', description: '', total_students: 0, total_partners: 0, lab_image: '', lab_title: '', activity_image: '', curriculum_image: '', is_active: true });
-    setModal(true);
-  };
+  setEditing(null);
+  setForm({
+    code: 'it', name: '', head_of_major: '', description: '',
+    total_students: 0, total_partners: 0, curriculum_image: '', is_active: true
+  });
+  setModal(true);
+};
 
-  const openEdit = (item: Major) => {
-    setEditing(item);
-    setForm({ code: item.code, name: item.name, head_of_major: item.head_of_major, description: item.description, total_students: item.total_students, total_partners: item.total_partners || 0, lab_image: item.lab_image || '', lab_title: item.lab_title || '', activity_image: item.activity_image || '', curriculum_image: item.curriculum_image || '', is_active: item.is_active });
-    setModal(true);
-  };
+ const openEdit = (item: Major) => {
+  setEditing(item);
+  setForm({
+    code: item.code,
+    name: item.name,
+    head_of_major: item.head_of_major,
+    description: item.description || '',
+    total_students: item.total_students,
+    total_partners: item.total_partners || 0,
+    curriculum_image: item.curriculum_image || '',
+    is_active: item.is_active
+  });
+  setModal(true);
+};
 
   // Fetch data dari API
   const fetchData = async () => {
@@ -142,7 +148,7 @@ export default function AdminMajorPage() {
   const majorColors: Record<string, string> = {
     it: 'blue',
     culinary: 'amber',
-    vcd: 'purple',
+    dkv: 'purple',
     hospitality: 'green',
     accounting: 'gray'
   };
@@ -207,13 +213,13 @@ export default function AdminMajorPage() {
 
       <Modal isOpen={modal} onClose={() => setModal(false)} title={editing ? 'Edit Informasi Jurusan' : 'Tambah Jurusan Baru'}>
         <div className="space-y-4">
-          
+
           <div className="grid grid-cols-2 gap-4">
             <FormField label="Identifikasi Kode" required>
               <select className={selectClass} value={form.code} onChange={e => setForm({ ...form, code: e.target.value })}>
                 <option value="it">IT (Information Technology)</option>
                 <option value="culinary">Culinary (Tata Boga)</option>
-                <option value="vcd">VCD (Visual Communication Design)</option>
+                <option value="dkv">DKV (Desain Komunikasi Visual)</option>
                 <option value="hospitality">Hospitality (Perhotelan)</option>
                 <option value="accounting">Accounting (Akuntansi)</option>
               </select>
@@ -236,39 +242,23 @@ export default function AdminMajorPage() {
             <input className={inputClass} value={form.head_of_major} onChange={e => setForm({ ...form, head_of_major: e.target.value })} placeholder="Nama Guru beserta gelar..." />
           </FormField>
 
-          <div className="flex flex-col gap-2">
-            <ImageUploadField 
-              label="Gambar Practical Lab Facilities" 
-              value={form.lab_image} 
-              onChange={(url) => setForm({ ...form, lab_image: url })} 
-              folder="majors" 
-            />
-            {form.lab_image && (
-              <button 
-                type="button" 
-                onClick={() => setForm({ ...form, lab_image: '' })} 
-                className="self-start text-xs font-semibold text-red-600 hover:text-red-700 bg-red-50 px-3 py-1.5 rounded-lg border border-red-200 transition-colors"
-              >
-                Hapus Gambar Practical Lab Facilities
-              </button>
-            )}
-          </div>
+          <div className="rounded-xl border border-blue-100 bg-blue-50 px-4 py-3 text-xs text-blue-700">
+          💡 Untuk mengelola foto <strong>Practical Lab Facilities</strong> jurusan ini, silakan buka menu{' '}
+          <strong>Fasilitas Sekolah</strong> dan pilih jurusan yang sesuai.
+        </div>
 
-          <FormField label="Title Ruangan (Practical Lab Facilities)">
-            <input className={inputClass} value={form.lab_title} onChange={e => setForm({ ...form, lab_title: e.target.value })} placeholder="Contoh: Lab Komputer Jaringan..." />
-          </FormField>
-
+          {/* SINGLE IMAGE: Curriculum Focus (tetap seperti semula) */}
           <div className="flex flex-col gap-2">
-            <ImageUploadField 
-              label="Gambar Curriculum Focus" 
-              value={form.curriculum_image} 
-              onChange={(url) => setForm({ ...form, curriculum_image: url })} 
-              folder="majors" 
+            <ImageUploadField
+              label="Gambar Curriculum Focus"
+              value={form.curriculum_image}
+              onChange={(url) => setForm({ ...form, curriculum_image: url })}
+              folder="majors"
             />
             {form.curriculum_image && (
-              <button 
-                type="button" 
-                onClick={() => setForm({ ...form, curriculum_image: '' })} 
+              <button
+                type="button"
+                onClick={() => setForm({ ...form, curriculum_image: '' })}
                 className="self-start text-xs font-semibold text-red-600 hover:text-red-700 bg-red-50 px-3 py-1.5 rounded-lg border border-red-200 transition-colors"
               >
                 Hapus Gambar Curriculum Focus
@@ -276,23 +266,10 @@ export default function AdminMajorPage() {
             )}
           </div>
 
-          <div className="flex flex-col gap-2">
-            <ImageUploadField 
-              label="Gambar Activity Gallery" 
-              value={form.activity_image} 
-              onChange={(url) => setForm({ ...form, activity_image: url })} 
-              folder="majors" 
-            />
-            {form.activity_image && (
-              <button 
-                type="button" 
-                onClick={() => setForm({ ...form, activity_image: '' })} 
-                className="self-start text-xs font-semibold text-red-600 hover:text-red-700 bg-red-50 px-3 py-1.5 rounded-lg border border-red-200 transition-colors"
-              >
-                Hapus Gambar Activity Gallery
-              </button>
-            )}
-          </div>
+            <div className="rounded-xl border border-blue-100 bg-blue-50 px-4 py-3 text-xs text-blue-700">
+              💡 Untuk mengelola foto <strong>Activity Gallery</strong> (dokumentasi kegiatan) jurusan ini, silakan buka menu{' '}
+              <strong>Galeri Kegiatan</strong> dan pilih jurusan yang sesuai.
+            </div>
 
           <div className="flex items-center gap-3 py-1">
             <input type="checkbox" id="major-active" checked={form.is_active} onChange={e => setForm({ ...form, is_active: e.target.checked })} className="w-4 h-4 rounded accent-indigo-600" />

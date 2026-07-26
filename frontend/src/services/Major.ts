@@ -9,13 +9,12 @@ export interface MajorData {
   description: string;
   total_students: number;
   total_partners: number;
-  lab_image: string;
-  lab_title?: string;
-  activity_image: string;
   curriculum_image: string;
   is_active: boolean;
   image_url?: string;
 }
+
+export type MajorPayload = Omit<MajorData, 'id' | 'slug' | 'image_url'>;
 
 export const getAdminMajors = async (): Promise<MajorData[]> => {
   try {
@@ -48,11 +47,11 @@ export const getPublicMajorBySlug = async (slug: string): Promise<MajorData | nu
   }
 };
 
-export const createMajor = async (data: FormData | Omit<MajorData, 'id'>) => {
+export const createMajor = async (data: MajorPayload) => {
   return await api.post('/admin/majors', data);
 };
 
-export const updateMajor = async (id: number, data: FormData | Omit<MajorData, 'id'>) => {
+export const updateMajor = async (id: number, data: MajorPayload) => {
   return await api.put(`/admin/majors/${id}`, data);
 };
 

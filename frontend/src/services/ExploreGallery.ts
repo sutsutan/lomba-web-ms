@@ -23,7 +23,7 @@ export const getAdminExploreGalleries = async (): Promise<ExploreGalleryData[]> 
 
 export const getPublicExploreGalleries = async (): Promise<ExploreGalleryData[]> => {
   try {
-    const response = await api.get('/api/explore-galleries');
+    const response = await api.get('/explore-galleries');
     const data: ExploreGalleryData[] = response.data.data || response.data || [];
     return Array.isArray(data) ? data.filter(item => item.is_active) : [];
   } catch (error) {
@@ -33,13 +33,13 @@ export const getPublicExploreGalleries = async (): Promise<ExploreGalleryData[]>
 };
 
 export const createExploreGallery = async (data: FormData | Omit<ExploreGalleryData, 'id'>) => {
-  return await api.post('/api/admin/explore-galleries', data);
+  return await api.post('/admin/explore-galleries', data);
 };
 
 export const updateExploreGallery = async (id: number, data: FormData | Omit<ExploreGalleryData, 'id'>) => {
-  return await api.put(`/api/admin/explore-galleries/${id}`, data);
+  return await api.put(`/admin/explore-galleries/${id}`, data);
 };
 
 export const deleteExploreGallery = async (id: number) => {
-  return await api.delete(`/api/admin/explore-galleries/${id}`);
+  return await api.delete(`/admin/explore-galleries/${id}`);
 };

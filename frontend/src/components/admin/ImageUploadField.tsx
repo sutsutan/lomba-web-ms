@@ -51,7 +51,7 @@ export default function ImageUploadField({
       // Buat URL lengkap jika url-nya relatif
       const fullUrl = uploadedUrl.startsWith('http') || uploadedUrl.startsWith('//')
         ? uploadedUrl 
-        : `http://127.0.0.1:8000${uploadedUrl.startsWith('/') ? '' : '/'}${uploadedUrl}`;
+        : `http://localhost:8000${uploadedUrl.startsWith('/') ? '' : '/'}${uploadedUrl}`;
       
       onChange(fullUrl);
     } catch (err: any) {

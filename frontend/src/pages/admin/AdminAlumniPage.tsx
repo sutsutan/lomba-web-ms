@@ -9,6 +9,7 @@ import Modal from '@/components/admin/Modal';
 import FormField, { inputClass, textareaClass } from '@/components/admin/FormField';
 import ImageUploadField from '@/components/admin/ImageUploadField';
 import SearchBar from '@/components/admin/SearchBar';
+import LocationPickerMap from '@/components/admin/LocationPickerMap';
 
 // Interface Data Alumni Lengkap
 interface AlumniItem { 
@@ -200,17 +201,23 @@ export default function AdminAlumniPage() {
             <input type="number" className={inputClass} value={form.grad_year} onChange={e => setForm({ ...form, grad_year: Number(e.target.value) })} />
           </FormField>
           
-          <FormField label="Nama Lokasi Wilayah" hint="Contoh: Jakarta, Indonesia">
-            <input className={inputClass} value={form.location_name} onChange={e => setForm({ ...form, location_name: e.target.value })} placeholder="Nama kota atau negara" />
-          </FormField>
-          
-          <FormField label="Latitude" hint="Koordinat Smart Globe">
-            <input type="number" step="any" className={inputClass} value={form.latitude} onChange={e => setForm({ ...form, latitude: e.target.value })} placeholder="-6.2088" />
-          </FormField>
-          
-          <FormField label="Longitude" hint="Koordinat Smart Globe">
-            <input type="number" step="any" className={inputClass} value={form.longitude} onChange={e => setForm({ ...form, longitude: e.target.value })} placeholder="106.8456" />
-          </FormField>
+          <div className="col-span-2">
+            <FormField label="Lokasi & Koordinat Smart Globe" hint="Cari lokasi atau klik langsung di peta">
+              <LocationPickerMap
+                latitude={form.latitude}
+                longitude={form.longitude}
+                locationName={form.location_name}
+                onChange={(lat, lng, name) =>
+                  setForm(prev => ({
+                    ...prev,
+                    latitude: lat,
+                    longitude: lng,
+                    location_name: name ?? prev.location_name,
+                  }))
+                }
+              />
+            </FormField>
+          </div>
           
           <div className="col-span-2">
             <FormField label="Tags Kluster Alumni" hint="Pisahkan dengan koma untuk pemetaan kelompok">

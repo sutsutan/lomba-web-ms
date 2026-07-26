@@ -192,7 +192,7 @@ const HeroSection = () => {
                 </svg>
             </div>
 
-            {/* MAIN CONTENT (Desain Tetap Sama) */}
+            {/* MAIN CONTENT */}
             <div className="container relative z-20 mx-auto flex h-full items-center px-4 md:px-8 lg:px-24">
                 <div className="max-w-4xl">
                     <div className="mb-4 overflow-hidden">
@@ -205,8 +205,8 @@ const HeroSection = () => {
                             <div className="h-[1px] w-8 bg-teal-400" />
                             <span className="text-xs font-bold uppercase tracking-[0.3em] text-teal-400 md:text-sm">
                                 {t('hero.tagline')}
-                            </span>
-                        </motion.div>
+                            </span> 
+                        </motion.div>  
                     </div>
 
                     <div className="mb-8">

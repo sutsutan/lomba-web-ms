@@ -39,7 +39,7 @@ export const organizationService = {
   },
 
   create: async (data: OrganizationData): Promise<OrganizationData> => {
-    // Hasil: http://127.0.0.1:8000/api/admin/organizations
+    // Hasil: http://localhost:8000/api/admin/organizations
     const response = await api.post(`${ADMIN_PATH}/organizations`, data);
     return response.data;
   },

@@ -13,45 +13,51 @@ class User extends Authenticatable
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, HasApiTokens, Notifiable, TwoFactorAuthenticatable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
     protected $fillable = [
-        'name', 
-        'email', 
-        'password', 
+        'name',
+        'email',
+        'password',
         'role',
+        'internal_type',
+        'identity_number',
+        'is_approved',
+        'avatar_url',
     ];
 
-    /**
-     *
-     * @var list<string>
-     */
     protected $hidden = [
-        'password', 
+        'password',
         'remember_token',
         'two_factor_recovery_codes',
         'two_factor_secret',
     ];
 
-    /**
-     */
-    public function isAdmin(): bool 
+    public function isAdmin(): bool
     {
         return $this->role === 'admin';
     }
 
-    /**
-     * @return array<string, string>
-     */
+    public function isMarketing(): bool
+    {
+        return $this->role === 'marketing';
+    }
+
+    public function isUser(): bool
+    {
+        return $this->role === 'user';
+    }
+
+    public function isApproved(): bool
+    {
+        return $this->role !== 'user' || $this->is_approved;
+    }
+
     protected function casts(): array
-{
-    return [
-        'email_verified_at' => 'datetime',
-        'two_factor_confirmed_at' => 'datetime',
-        'password' => 'hashed',
-    ];
+    {
+        return [
+            'email_verified_at' => 'datetime',
+            'two_factor_confirmed_at' => 'datetime',
+            'password' => 'hashed',
+            'is_approved' => 'boolean',
+        ];
     }
 }

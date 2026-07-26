@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { getAdminFacilities, createFacility, updateFacility, deleteFacility } from '@/services/Facility';
+import { getAdminFacilities, createFacility, updateFacility, deleteFacility, FacilityData } from '@/services/Facility';
+import { getAdminMajors, MajorData } from '@/services/Major';
 
-// Import komponen admin dari folder components
 import PageHeader from '@/components/admin/PageHeader';
 import DataTable from '@/components/admin/DataTable';
 import Badge from '@/components/admin/Badge';
@@ -10,64 +10,68 @@ import FormField, { inputClass, selectClass, textareaClass } from '@/components/
 import ImageUploadField from '@/components/admin/ImageUploadField';
 import SearchBar from '@/components/admin/SearchBar';
 
-// Interface Data Fasilitas Jurusan
-interface Facility {
-  id: number;
-  image_url: string;
-  name: string;          // Nama Fasilitas (misal: Lab Komputer A, Kitchen Utama)
-  major_code: string;    // 'it' | 'culinary' | 'vcd' | 'hospitality' | 'accounting' | 'general'
-  condition: string;     // 'Baik' | 'Perbaikan' | 'Rusak'
-  location: string;      // Gedung / Ruang
-  description: string;
-  is_active: boolean;
-}
-
 export default function AdminFacilityPage() {
-  const [items, setItems] = useState<Facility[]>([]);
+  const [items, setItems] = useState<FacilityData[]>([]);
+  const [majors, setMajors] = useState<MajorData[]>([]);
   const [loading, setLoading] = useState(true);
 
   const [modal, setModal] = useState(false);
-  const [editing, setEditing] = useState<Facility | null>(null);
+  const [editing, setEditing] = useState<FacilityData | null>(null);
   const [search, setSearch] = useState('');
 
-  // Inisialisasi form default
   const [form, setForm] = useState({
     image_url: '',
     name: '',
-    major_code: 'it',
+    major_id: null as number | null,
     condition: 'Baik',
     location: '',
     description: '',
     is_active: true
   });
 
-  // Filter pencarian berdasarkan nama fasilitas, lokasi, atau deskripsi
   const filtered = items.filter(i =>
     String(i.name || '').toLowerCase().includes(search.toLowerCase()) ||
     String(i.location || '').toLowerCase().includes(search.toLowerCase()) ||
     String(i.description || '').toLowerCase().includes(search.toLowerCase())
   );
 
-  // Aksi Buka Modal Tambah
   const openAdd = () => {
     setEditing(null);
-    setForm({ image_url: '', name: '', major_code: 'it', condition: 'Baik', location: '', description: '', is_active: true });
+    setForm({
+      image_url: '',
+      name: '',
+      major_id: majors[0]?.id ?? null,
+      condition: 'Baik',
+      location: '',
+      description: '',
+      is_active: true
+    });
     setModal(true);
   };
 
-  // Aksi Buka Modal Edit
-  const openEdit = (item: Facility) => {
+  const openEdit = (item: FacilityData) => {
     setEditing(item);
-    setForm({ image_url: item.image_url, name: item.name, major_code: item.major_code, condition: item.condition, location: item.location, description: item.description, is_active: item.is_active });
+    setForm({
+      image_url: item.image_url,
+      name: item.name,
+      major_id: item.major_id,
+      condition: item.condition || 'Baik',
+      location: item.location || '',
+      description: item.description || '',
+      is_active: item.is_active
+    });
     setModal(true);
   };
 
-  // Fetch data dari API
   const fetchData = async () => {
     try {
       setLoading(true);
-      const data = await getAdminFacilities();
-      setItems(Array.isArray(data) ? data.filter(Boolean) : []);
+      const [facilityData, majorData] = await Promise.all([
+        getAdminFacilities(),
+        getAdminMajors(),
+      ]);
+      setItems(Array.isArray(facilityData) ? facilityData.filter(Boolean) : []);
+      setMajors(Array.isArray(majorData) ? majorData.filter(Boolean) : []);
     } catch (error) {
       console.error('Gagal memuat data fasilitas:', error);
     } finally {
@@ -77,8 +81,11 @@ export default function AdminFacilityPage() {
 
   useEffect(() => { fetchData(); }, []);
 
-  // Aksi Simpan (Create / Update)
   const save = async () => {
+    if (!form.name || !form.major_id) {
+      alert('Mohon lengkapi field Nama Fasilitas dan Jurusan (*).');
+      return;
+    }
     try {
       if (editing) {
         await updateFacility(editing.id, form);
@@ -87,13 +94,12 @@ export default function AdminFacilityPage() {
       }
       setModal(false);
       fetchData();
-    } catch (error) {
+    } catch (error: any) {
       console.error('Gagal menyimpan data fasilitas:', error);
-      alert('Gagal menyimpan data. Silakan coba lagi.');
+      alert(error.response?.data?.message || 'Gagal menyimpan data. Silakan coba lagi.');
     }
   };
 
-  // Aksi Hapus
   const del = async (id: number) => {
     if (!confirm('Yakin ingin menghapus fasilitas ini?')) return;
     try {
@@ -105,36 +111,26 @@ export default function AdminFacilityPage() {
     }
   };
 
-  // Mapping warna badge berdasarkan penempatan jurusan
   const majorColors: Record<string, string> = {
     it: 'blue',
     culinary: 'amber',
-    vcd: 'purple',
+    dkv: 'purple',
     hospitality: 'green',
-    accounting: 'gray',
-    general: 'indigo'
+    accounting: 'gray'
   };
 
-  // Mapping teks label untuk jurusan
-  const majorLabels: Record<string, string> = {
-    it: 'IT',
-    culinary: 'Culinary',
-    vcd: 'VCD',
-    hospitality: 'Hospitality',
-    accounting: 'Accounting',
-    general: 'Umum / Bersama'
-  };
-
-  // Mapping warna untuk kondisi barang/fasilitas
   const conditionColors: Record<string, string> = {
     'Baik': 'green',
     'Perbaikan': 'yellow',
     'Rusak': 'red'
   };
 
+  // Cari data jurusan by id, untuk ditampilkan sebagai badge di tabel
+  const getMajorById = (majorId: number | null) => majors.find(m => m.id === majorId);
+
   return (
     <div className="p-6 space-y-6">
-      <PageHeader title="Fasilitas Sekolah" subtitle="Kelola sarana prasarana dan ruang praktik penunjang per jurusan" onAdd={openAdd} />
+      <PageHeader title="Fasilitas Sekolah (Practical Lab Facilities)" subtitle="Kelola sarana prasarana dan ruang praktik penunjang per jurusan" onAdd={openAdd} />
 
       <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
         <div className="p-4 border-b border-gray-100 bg-gray-50/50">
@@ -146,19 +142,19 @@ export default function AdminFacilityPage() {
             {
               key: 'image_url',
               label: 'Foto Sarana',
-              render: (item: Facility) => (
-                <img 
-                  src={item.image_url} 
-                  className="w-16 h-10 object-cover rounded-lg border border-gray-100 shadow-sm" 
-                  alt="" 
-                  onError={e => (e.currentTarget.src = 'https://placehold.co/64x40/e2e8f0/94a3b8?text=Fasilitas')} 
+              render: (item: FacilityData) => (
+                <img
+                  src={item.image_url}
+                  className="w-16 h-10 object-cover rounded-lg border border-gray-100 shadow-sm"
+                  alt=""
+                  onError={e => (e.currentTarget.src = 'https://placehold.co/64x40/e2e8f0/94a3b8?text=Fasilitas')}
                 />
               )
             },
             {
               key: 'name',
               label: 'Nama Fasilitas & Lokasi',
-              render: (item: Facility) => (
+              render: (item: FacilityData) => (
                 <div>
                   <span className="font-semibold text-gray-900 block">{item.name}</span>
                   <span className="text-gray-400 text-[11px] block">{item.location}</span>
@@ -166,18 +162,21 @@ export default function AdminFacilityPage() {
               )
             },
             {
-              key: 'major_code',
+              key: 'major_id',
               label: 'Kepemilikan Jurusan',
-              render: (item: Facility) => (
-                <Badge color={majorColors[item.major_code] || 'gray'}>
-                  {majorLabels[item.major_code] || String(item.major_code || '').toUpperCase()}
-                </Badge>
-              )
+              render: (item: FacilityData) => {
+                const major = getMajorById(item.major_id);
+                return (
+                  <Badge color={majorColors[major?.code || ''] || 'gray'}>
+                    {major ? major.name : 'Tidak diketahui'}
+                  </Badge>
+                );
+              }
             },
             {
               key: 'condition',
               label: 'Kondisi',
-              render: (item: Facility) => (
+              render: (item: FacilityData) => (
                 <Badge color={conditionColors[item.condition] || 'gray'}>
                   {item.condition}
                 </Badge>
@@ -186,7 +185,7 @@ export default function AdminFacilityPage() {
             {
               key: 'is_active',
               label: 'Katalog',
-              render: (item: Facility) => (
+              render: (item: FacilityData) => (
                 <Badge color={item.is_active ? 'green' : 'gray'}>
                   {item.is_active ? 'Tampil' : 'Sembunyi'}
                 </Badge>
@@ -201,7 +200,7 @@ export default function AdminFacilityPage() {
 
       <Modal isOpen={modal} onClose={() => setModal(false)} title={editing ? 'Edit Data Fasilitas' : 'Tambah Fasilitas Baru'}>
         <div className="space-y-4">
-          <ImageUploadField value={form.image_url} onChange={url => setForm({ ...form, image_url: url })} label="Foto Ruang / Alat Fasilitas" />
+          <ImageUploadField value={form.image_url} onChange={url => setForm({ ...form, image_url: url })} label="Foto Ruang / Alat Fasilitas (Practical Lab)" folder="facilities" />
 
           <FormField label="Nama Fasilitas / Sarana" required>
             <input className={inputClass} value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} placeholder="Contoh: Studio Foto Digital, Lab Akuntansi Komputer" />
@@ -209,13 +208,15 @@ export default function AdminFacilityPage() {
 
           <div className="grid grid-cols-2 gap-4">
             <FormField label="Pengguna / Jurusan" required>
-              <select className={selectClass} value={form.major_code} onChange={e => setForm({ ...form, major_code: e.target.value })}>
-                <option value="it">IT (Informatika)</option>
-                <option value="culinary">Culinary (Tata Boga)</option>
-                <option value="vcd">VCD (DKV)</option>
-                <option value="hospitality">Hospitality (Perhotelan)</option>
-                <option value="accounting">Accounting (Akuntansi)</option>
-                <option value="general">Fasilitas Umum (Bersama)</option>
+              <select
+                className={selectClass}
+                value={form.major_id ?? ''}
+                onChange={e => setForm({ ...form, major_id: e.target.value ? Number(e.target.value) : null })}
+              >
+                <option value="" disabled>Pilih Jurusan...</option>
+                {majors.map(m => (
+                  <option key={m.id} value={m.id}>{m.name} ({m.code.toUpperCase()})</option>
+                ))}
               </select>
             </FormField>
 
@@ -228,7 +229,7 @@ export default function AdminFacilityPage() {
             </FormField>
           </div>
 
-          <FormField label="Lokasi Spesifik / Letak Ruang" required>
+          <FormField label="Lokasi Spesifik / Letak Ruang">
             <input className={inputClass} value={form.location} onChange={e => setForm({ ...form, location: e.target.value })} placeholder="Contoh: Gedung A, Ruang 203 Lantai 2" />
           </FormField>
 

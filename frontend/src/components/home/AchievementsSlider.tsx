@@ -46,7 +46,7 @@ const AchievementsSlider = () => {
     return (
         <section className="section-padding bg-section overflow-hidden">
             <div className="container mx-auto px-4 md:px-8">
-                {/* Header Section dengan Tombol Navigasi di Kanan Atas */}
+                {/* Header Section */}
                 <div className="mb-8 flex flex-col justify-between px-2 md:mb-16 md:flex-row md:items-end md:px-12 lg:mb-24">
                     <ScrollReveal>
                         <div className="text-left">

@@ -6,8 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class activity_gallery extends Model
 {
-    protected $fillable = ['image_url', 'caption', 'title', 'description', 'major_id', 'activity_date', 'is_active', 'is_featured'];
-    protected $casts = ['is_active' => 'boolean', 'is_featured' => 'boolean', 'activity_date' => 'date'];
+     protected $fillable = [
+        'image_url', 'caption', 'title', 'description', 'major_id',
+        'activity_date', 'is_active', 'is_featured', 'is_archived'
+    ];
+     protected $casts = [
+        'is_active'     => 'boolean',
+        'is_featured'   => 'boolean',
+        'is_archived'   => 'boolean',
+        'activity_date' => 'date',
+    ];
     protected $appends = ['major_code'];
 
     public function major() { return $this->belongsTo(Major::class); }
