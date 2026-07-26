@@ -71,7 +71,7 @@ class VarDumper
         $dumper = match ($format) {
             'html' => new HtmlDumper(),
             'cli' => new CliDumper(),
-            'server' => self::selectDumperForAccept($_SERVER['VAR_DUMPER_SERVER'] ?? '127.0.0.1:9912'),
+            'server' => self::selectDumperForAccept($_SERVER['VAR_DUMPER_SERVER'] ?? 'localhost:9912'),
             default => self::selectDumperForAccept(
                 $format && 'tcp' === parse_url($format, \PHP_URL_SCHEME) ? $format : null,
             ),

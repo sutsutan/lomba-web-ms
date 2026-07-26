@@ -3,17 +3,20 @@ import createGlobe, { Globe } from "cobe";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 interface Alumni {
+    id: number;
     location: [number, number];
     name: string;
     image: string;
 }
 
 interface GlobeAlumniProps {
+    targetId?: number | null;
     targetLocation?: [number, number] | null;
     alumniData: Alumni[];
 }
 
 export default function GlobeAlumni({
+    targetId,
     targetLocation,
     alumniData,
 }: GlobeAlumniProps) {
@@ -31,67 +34,60 @@ export default function GlobeAlumni({
     const animation = useRef<number | null>(null);
 
     const activeAlumni = useMemo(() => {
-        if (!targetLocation) return null;
+        if (targetId == null) return null;
+        return alumniData.find((a) => a.id === targetId) ?? null;
+    }, [targetId, alumniData]);
 
-        return alumniData.find(
-            (a) =>
-                a.location[0] === targetLocation[0] &&
-                a.location[1] === targetLocation[1]
-        );
-    }, [targetLocation, alumniData]);
+   useEffect(() => {
+    if (!canvasRef.current) return;
 
-    useEffect(() => {
-        if (!canvasRef.current) return;
+    const canvas = canvasRef.current;
+    const width = canvas.offsetWidth;
 
-        const canvas = canvasRef.current;
+    let destroyed = false;
+    let frameId: number;
 
-        const width = canvas.offsetWidth;
+    const globe = createGlobe(canvas, {
+        devicePixelRatio: Math.min(window.devicePixelRatio, 2),
+        width: width * 2,
+        height: width * 2,
+        phi: phi.current,
+        theta: theta.current,
+        dark: 0,
+        diffuse: 1.2,
+        mapSamples: 16000,
+        mapBrightness: 6,
+        baseColor: [1, 1, 1],
+        markerColor: [18 / 255, 96 / 255, 106 / 255],
+        glowColor: [0.92, 0.95, 0.95],
+        markers: [],
+    });
 
-        const globe = createGlobe(canvas, {
-            devicePixelRatio: Math.min(window.devicePixelRatio, 2),
+    globeRef.current = globe;
 
-            width: width * 2,
-            height: width * 2,
-
+    const animate = () => {
+        if (destroyed) return;
+        if (!dragging.current) {
+            phi.current += 0.002;
+        }
+        globe.update({
             phi: phi.current,
             theta: theta.current,
-
-            dark: 0,
-
-            diffuse: 1.2,
-
-            mapSamples: 16000,
-            mapBrightness: 6,
-
-            baseColor: [1, 1, 1],
-            markerColor: [18 / 255, 96 / 255, 106 / 255],
-            glowColor: [0.92, 0.95, 0.95],
-
-            markers: [],
         });
+        frameId = requestAnimationFrame(animate);
+    };
 
-        globeRef.current = globe;
+    frameId = requestAnimationFrame(animate);
 
-        const animate = () => {
-            if (!dragging.current) {
-                phi.current += 0.002;
-            }
-
-            globe.update({
-                phi: phi.current,
-                theta: theta.current,
-            });
-
-            animation.current = requestAnimationFrame(animate);
-        };
-
-        animate();
-
-        return () => {
-            cancelAnimationFrame(animation.current!);
-            globe.destroy();
-        };
-    }, []);
+    return () => {
+        destroyed = true;
+        cancelAnimationFrame(frameId);
+        globe.destroy();
+        if (globeRef.current === globe) {
+            globeRef.current = null;
+        }
+    };
+}, []);
 
     // ==========================
     // Update Markers
@@ -103,15 +99,10 @@ export default function GlobeAlumni({
         globeRef.current.update({
             markers: alumniData.map((a) => ({
                 location: a.location,
-                size:
-                    targetLocation &&
-                    targetLocation[0] === a.location[0] &&
-                    targetLocation[1] === a.location[1]
-                        ? 0.12
-                        : 0.05,
+                size: a.id === targetId ? 0.12 : 0.05,
             })),
         });
-    }, [alumniData, targetLocation]);
+    }, [alumniData, targetId]);
 
     // ==========================
     // Focus Selected Alumni
@@ -161,7 +152,7 @@ export default function GlobeAlumni({
 
             <div className="absolute h-full w-full max-h-[420px] max-w-[420px] rounded-full border border-[#12606A]/5" />
 
-            {activeAlumni && (
+            {activeAlumni && activeAlumni.image && (
                 <div className="absolute z-20 flex flex-col items-center -translate-y-4 pointer-events-none">
 
                     <div className="relative">

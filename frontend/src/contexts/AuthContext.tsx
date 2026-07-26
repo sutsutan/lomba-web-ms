@@ -1,16 +1,20 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import api from '../lib/api';
+import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import axios from 'axios';
+import api, { BACKEND_ROOT } from '../lib/api';
 
-interface User { 
-  id: number; 
-  name: string; 
-  email: string; 
-  role: 'admin' | 'user'; 
+interface User {
+  id: number;
+  name: string;
+  email: string;
+  role: 'admin' | 'user' | 'marketing';
+  internal_type?: 'student' | 'teacher' | 'staff' | 'alumni' | 'none';
+  is_approved?: boolean;
 }
 
 interface AuthContextType {
   user: User | null;
   isAdmin: boolean;
+  isMarketing: boolean;
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
   loading: boolean;
@@ -18,30 +22,38 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 
-export function AuthProvider({ children }: { children: React.ReactNode }) {
+export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Mengecek sesi user yang sedang login
-    api.get('/me')
-      .then(res => setUser(res.data))
-      .catch(() => setUser(null))
-      .finally(() => setLoading(false));
+    const checkAuth = async () => {
+      try {
+        const res = await api.get('/me');
+        setUser(res.data.user);
+      } catch {
+        setUser(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+    checkAuth();
   }, []);
 
   const login = async (email: string, password: string): Promise<void> => {
     try {
-      await api.get('/sanctum/csrf-cookie');
-      
+      await axios.get(`${BACKEND_ROOT}/sanctum/csrf-cookie`, {
+        withCredentials: true,
+      });
+
       const res = await api.post('/admin', { email, password });
-      
+
       setUser(res.data.user);
     } catch (error: any) {
       if (error.response?.status === 419) {
-        console.error("CSRF Token Mismatch: Periksa SESSION_DOMAIN di .env Laravel!");
+        console.error('CSRF Token Mismatch: Periksa SESSION_DOMAIN / SANCTUM_STATEFUL_DOMAINS di .env Laravel!');
       } else if (error.response?.status === 422) {
-        console.log("Validasi gagal:", error.response.data.errors);
+        console.log('Validasi gagal:', error.response.data.errors);
       }
       throw error;
     }
@@ -56,16 +68,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ 
-      user, 
-      isAdmin: user?.role === 'admin',
-      login, 
-      logout, 
-      loading 
-    }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        isAdmin: user?.role === 'admin',
+        isMarketing: user?.role === 'marketing',
+        login,
+        logout,
+        loading,
+      }}
+    >
       {children}
     </AuthContext.Provider>
-  );
+);
 }
 
 export const useAuth = () => useContext(AuthContext);

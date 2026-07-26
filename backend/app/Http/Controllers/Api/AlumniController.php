@@ -1,6 +1,8 @@
 <?php
 namespace App\Http\Controllers\Api;
+
 use App\Models\Alumni;
+use Illuminate\Http\Request;
 
 class AlumniController extends BaseResourceController {
     protected $model = Alumni::class;
@@ -19,17 +21,36 @@ class AlumniController extends BaseResourceController {
         'is_active'       => 'nullable|boolean',
     ];
 
-    public function index(\Illuminate\Http\Request $request) {
-        $query = Alumni::with('major');
+   public function index(Request $request) {
+    $query = Alumni::with('major');
 
-        if ($request->has('search')) {
-            $query->where('name', 'like', "%{$request->search}%");
-        }
+    if (!$request->user()) {
+        $query->where('is_active', true);
+    }
 
-        if ($request->has('year') && $request->year !== 'all') {
-            $query->where('grad_year', $request->year);
-        }
+    if ($request->filled('search')) {
+        $query->where('name', 'like', "%{$request->search}%");
+    }
+    if ($request->filled('year') && $request->year !== 'all') {
+        $query->where('grad_year', $request->year);
+    }
 
-        return response()->json($query->latest()->paginate($request->get('per_page', 20)));
+    $query->latest();
+
+    if ($request->user()) {
+        return response()->json($query->get());
+    }
+
+    return response()->json($query->paginate($request->get('per_page', 20)));
+}
+
+    public function years() {
+        $years = Alumni::where('is_active', true)
+            ->whereNotNull('grad_year')
+            ->distinct()
+            ->orderByDesc('grad_year')
+            ->pluck('grad_year');
+
+        return response()->json($years);
     }
 }

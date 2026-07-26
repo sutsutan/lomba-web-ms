@@ -21,6 +21,7 @@ import { useMemo, useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { getPublicMajors } from '@/services/Major';
 import { getPublicActivityGalleriesByMajor, ActivityGalleryData } from '@/services/ActivityGallery';
+import { getPublicFacilities, FacilityData } from '@/services/Facility';
 
 // Assets
 import accounting from '@/assets/akuntansi.webp';
@@ -46,18 +47,10 @@ const majorsData = [
         icon: <Hotel className="h-6 w-6" />,
         stats: { students: '450', partners: '30', duration: '3' },
         gallery: [
-            {
-                image: '/images/gallery/hospitality-1.jpg',
-            },
-            {
-                image: '/images/gallery/hospitality-1.jpg',
-            },
-            {
-                image: '/images/gallery/hospitality-1.jpg',
-            },
-            {
-                image: '/images/gallery/hospitality-1.jpg',
-            },
+            { image: '/images/gallery/hospitality-1.jpg' },
+            { image: '/images/gallery/hospitality-1.jpg' },
+            { image: '/images/gallery/hospitality-1.jpg' },
+            { image: '/images/gallery/hospitality-1.jpg' },
         ],
     },
     {
@@ -68,12 +61,8 @@ const majorsData = [
         icon: <Utensils className="h-6 w-6" />,
         stats: { students: '410', partners: '20', duration: '3' },
         gallery: [
-            {
-                image: '/images/gallery/culinary-1.jpg',
-            },
-            {
-                image: '/images/gallery/culinary-2.jpg',
-            },
+            { image: '/images/gallery/culinary-1.jpg' },
+            { image: '/images/gallery/culinary-2.jpg' },
         ],
     },
     {
@@ -84,9 +73,7 @@ const majorsData = [
         icon: <Calculator className="h-6 w-6" />,
         stats: { students: '350', partners: '25', duration: '3' },
         gallery: [
-            {
-                image: '/images/gallery/accounting-1.jpg',
-            },
+            { image: '/images/gallery/accounting-1.jpg' },
         ],
     },
     {
@@ -97,9 +84,7 @@ const majorsData = [
         icon: <Palette className="h-6 w-6" />,
         stats: { students: '480', partners: '35', duration: '3' },
         gallery: [
-            {
-                image: '/images/gallery/dkv-1.jpg',
-            },
+            { image: '/images/gallery/dkv-1.jpg' },
         ],
     },
     {
@@ -110,21 +95,11 @@ const majorsData = [
         icon: <Code className="h-6 w-6" />,
         stats: { students: '520', partners: '40', duration: '3' },
         gallery: [
-               {
-                image: pameran,
-            },
-            {
-                image: pengurus,
-            },
-            {
-                image: pubspik,
-            },
-            {
-                image: juara1,
-            },
-            {
-                image: presentasi,
-            },
+            { image: pameran },
+            { image: pengurus },
+            { image: pubspik },
+            { image: juara1 },
+            { image: presentasi },
         ],
         facilities: [{ image: labit }, { image: rukref }],
     },
@@ -134,10 +109,18 @@ interface FacilityItem {
     image: string;
 }
 
-interface MajorData {
+interface MajorStaticData {
     id: string;
     facilities: FacilityItem[];
     bgGradient: string;
+}
+
+// Bentuk data dinamis per-jurusan yang datang dari Admin Panel (backend)
+interface DynamicMajorStats {
+    students: string;
+    partners: string;
+    head: string;
+    curriculum_image: string;
 }
 
 const Major = () => {
@@ -145,10 +128,12 @@ const Major = () => {
     const { t } = useLanguage();
     const [selectedImg, setSelectedImg] = useState<string | null>(null);
     const location = useLocation();
-    const [dynamicStats, setDynamicStats] = useState<Record<string, { students: string, partners: string, head: string, lab_image: string, activity_image: string, curriculum_image: string }> | null>(null);
+    const [dynamicStats, setDynamicStats] = useState<Record<string, DynamicMajorStats> | null>(null);
     const [archivedGallery, setArchivedGallery] = useState<ActivityGalleryData[]>([]);
     const [activeGallery, setActiveGallery] = useState<ActivityGalleryData[]>([]);
     const [showArchive, setShowArchive] = useState(false);
+    const [labFacilities, setLabFacilities] = useState<FacilityData[]>([]);
+    const [majorNumericIds, setMajorNumericIds] = useState<Record<string, number>>({});
 
     const majorIdToIndex = useMemo(() => ({
         hospitality: 0,
@@ -159,26 +144,31 @@ const Major = () => {
         it: 4,
     }), []);
 
-    useEffect(() => {
-        getPublicMajors().then(apiData => {
-            if (apiData && apiData.length > 0) {
-                const statsMap: Record<string, { students: string, partners: string, head: string, lab_image: string, activity_image: string, curriculum_image: string }> = {};
-                apiData.forEach(item => {
-                    const key = item.code || item.slug || '';
-                    const normalizedKey = key === 'it' ? 'pplg' : key;
-                    statsMap[normalizedKey] = {
-                        students: item.total_students ? `${item.total_students}` : '0',
-                        partners: item.total_partners ? `${item.total_partners}` : '0',
-                        head: item.head_of_major || '',
-                        lab_image: item.lab_image || '',
-                        activity_image: item.activity_image || '',
-                        curriculum_image: item.curriculum_image || ''
-                    };
-                });
-                setDynamicStats(statsMap);
-            }
-        });
-    }, []);
+   useEffect(() => {
+    getPublicMajors().then(apiData => {
+        if (apiData && apiData.length > 0) {
+            const statsMap: Record<string, DynamicMajorStats> = {};
+            const idMap: Record<string, number> = {};
+            apiData.forEach(item => {
+                const key = item.code || item.slug || '';
+                const normalizedKey = key === 'it' ? 'pplg' : key;
+                statsMap[normalizedKey] = {
+                    students: item.total_students ? `${item.total_students}` : '0',
+                    partners: item.total_partners ? `${item.total_partners}` : '0',
+                    head: item.head_of_major || '',
+                    curriculum_image: item.curriculum_image || ''
+                };
+                idMap[normalizedKey] = item.id;
+            });
+            setDynamicStats(statsMap);
+            setMajorNumericIds(idMap);
+        }
+    });
+}, []);
+
+useEffect(() => {
+    getPublicFacilities().then(setLabFacilities);
+}, []);
 
     useEffect(() => {
         const params = new URLSearchParams(location.search);
@@ -196,12 +186,9 @@ const Major = () => {
             getPublicActivityGalleriesByMajor(code).then(data => {
                 const fetchedArchived = data.filter(item => item.is_archived);
                 const fetchedActive = data.filter(item => !item.is_archived);
-                
-                // Keep max 4 active for the small boxes
-                setActiveGallery(fetchedActive.slice(0, 4));
-                
-                // The rest automatically go to archive
-                setArchivedGallery([...fetchedActive.slice(4), ...fetchedArchived]);
+
+                setActiveGallery(fetchedActive);
+                setArchivedGallery(fetchedArchived);
             });
         } else {
             setArchivedGallery([]);
@@ -210,7 +197,7 @@ const Major = () => {
         setShowArchive(false);
     }, [index]);
 
-    const currentStatic = (majorsData as any)[index];
+    const currentStatic = (majorsData as any)[index] as MajorStaticData & typeof majorsData[number];
     const id = currentStatic.id;
     const currentStudents = dynamicStats?.[id]?.students || currentStatic.stats.students;
     const currentPartners = dynamicStats?.[id]?.partners || currentStatic.stats.partners;
@@ -291,7 +278,6 @@ const Major = () => {
                                     index === i ? 'z-10' : 'hover:opacity-100'
                                 }`}
                             >
-                                {/* Icon Container */}
                                 <div
                                     className={`rounded-2xl border bg-black/60 p-4 backdrop-blur-xl transition-all duration-500 ${
                                         index === i
@@ -306,7 +292,6 @@ const Major = () => {
                                     {m.icon}
                                 </div>
 
-                                {/* Label Text - Multi Line */}
                                 <div className="mt-3 hidden h-10 w-24 items-start justify-center md:flex">
                                     <span
                                         className={`whitespace-normal text-center text-[9px] font-bold uppercase leading-tight tracking-[0.1em] text-white transition-all duration-300 lg:text-[10px] ${index === i ? 'font-black text-teal-400 opacity-100' : 'opacity-50'} `}
@@ -407,7 +392,6 @@ const Major = () => {
                                     </p>
                                 </div>
 
-                                {/* Render Competencies as Array */}
                                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                                     {t(`${majorsData[index].id}_comp`)
                                         .split(',')
@@ -447,7 +431,6 @@ const Major = () => {
                     <div className="mx-auto max-w-5xl">
                         <ScrollReveal>
                             <motion.div className="group relative overflow-hidden rounded-[3rem] border border-neutral-100 bg-white p-8 shadow-xl md:p-16">
-                                {/* Decorative Background Blur */}
                                 <div className="absolute -right-24 -top-24 h-64 w-64 rounded-full bg-[#12606A]/5 blur-3xl transition-colors duration-500 group-hover:bg-[#12606A]/10" />
 
                                 <div
@@ -487,7 +470,6 @@ const Major = () => {
                                     </div>
                                 </div>
 
-                                {/* Bottom Accent */}
                                 <div className="absolute bottom-0 left-0 right-0 h-2 bg-gradient-to-r from-transparent via-[#12606A]/20 to-transparent" />
                             </motion.div>
                         </ScrollReveal>
@@ -496,7 +478,6 @@ const Major = () => {
             </section>
 
             <section className="relative overflow-hidden bg-white py-24">
-                {/* Background Watermark Text */}
                 <div className="pointer-events-none absolute left-1/2 top-1/2 w-full -translate-x-1/2 -translate-y-1/2 select-none overflow-hidden opacity-[0.03]">
                     <h2 className="whitespace-nowrap text-[20vw] font-black uppercase leading-none">
                         Future Leader • Metland • Future Leader • Metland
@@ -505,7 +486,6 @@ const Major = () => {
 
                 <div className="container relative z-10 mx-auto px-6">
                     <div className="grid items-center gap-12 lg:grid-cols-12 lg:gap-20">
-                        {/* LEFT: CAREER PATHWAYS */}
                         <div className="lg:col-span-7">
                             <ScrollReveal>
                                 <div className="space-y-12">
@@ -524,7 +504,6 @@ const Major = () => {
                                     </div>
 
                                     <div className="relative ml-10 mt-16">
-                                        {/* Animated Vertical Line */}
                                         <motion.div
                                             initial={{ height: 0 }}
                                             whileInView={{ height: '100%' }}
@@ -582,7 +561,6 @@ const Major = () => {
                             </ScrollReveal>
                         </div>
 
-                        {/* RIGHT: PARTNERSHIP & CERTIFICATION */}
                         <div className="relative lg:col-span-6 xl:col-span-5">
                             <div className="absolute -inset-4 -z-10 hidden rounded-[4rem] border border-neutral-100 lg:block" />
                             <div className="absolute -inset-8 -z-20 hidden rounded-[5rem] border border-neutral-50 lg:block" />
@@ -591,7 +569,6 @@ const Major = () => {
                                 <div
                                     className={`relative flex min-h-[650px] flex-col justify-between overflow-hidden rounded-[3.5rem] bg-gradient-to-br p-10 text-white md:p-14 ${majorsData[index].bgGradient} shadow-[0_40px_80px_-15px_rgba(18,96,106,0.3)] transition-all duration-500 hover:shadow-2xl`}
                                 >
-                                    {/* Overlay Pattern */}
                                     <div
                                         className="pointer-events-none absolute inset-0 opacity-[0.15]"
                                         style={{
@@ -632,7 +609,6 @@ const Major = () => {
                                         </div>
                                     </div>
 
-                                    {/* Background Branding (Watermark) */}
                                     <div className="pointer-events-none absolute -bottom-16 -right-16 rotate-[-12deg] opacity-[0.08] transition-transform duration-700 group-hover:scale-110">
                                         <img
                                             src={LogoMetland}
@@ -647,7 +623,7 @@ const Major = () => {
                 </div>
             </section>
 
-            {/* CORE COMPETENCIES & FACILITIES */}
+           {/* CORE COMPETENCIES & FACILITIES */}
             <section className="bg-neutral-50 py-24">
                 <div className="container mx-auto px-6">
                     <div className="mb-12 flex flex-col items-center">
@@ -658,53 +634,58 @@ const Major = () => {
                     </div>
 
                     <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                        {/* Iiteration from currentData.facilities (Array String) */}
-                        {currentData.facilities?.map(
-                            (facName: string, idx: number) => {
-                                const facilityImage =
-                                    (idx === 0 && dynamicStats?.[id]?.lab_image) ? dynamicStats[id].lab_image :
-                                    currentStatic.facilities?.[idx]?.image ||
-                                    '/images/placeholder-lab.jpg';
+                        {(() => {
+                            const currentMajorId = majorNumericIds[id];
+                            const facilitiesForMajor = labFacilities.filter(f => f.major_id === currentMajorId);
 
-                                return (
-                                    <motion.div
-                                        key={`${currentData.id}-fac-${idx}`}
-                                        initial={{ opacity: 0, y: 20 }}
-                                        whileInView={{ opacity: 1, y: 0 }}
-                                        transition={{ delay: idx * 0.1 }}
-                                        viewport={{ once: true }}
-                                        onClick={() =>
-                                            setSelectedImg(facilityImage)
-                                        }
-                                        className="group relative h-72 cursor-pointer overflow-hidden rounded-3xl bg-[#12606A] shadow-lg transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl"
-                                    >
-                                        <img
-                                            src={facilityImage}
-                                            alt={facName}
-                                            className="absolute inset-0 h-full w-full object-cover opacity-60 transition-transform duration-700 group-hover:scale-110 group-hover:opacity-90"
-                                        />
+                            // Fallback ke data statis lama kalau backend belum ada data fasilitas untuk jurusan ini
+                            const displayFacilities = facilitiesForMajor.length > 0
+                                ? facilitiesForMajor
+                                : (currentStatic.facilities || []).map((f: FacilityItem, idx: number) => ({
+                                    id: idx,
+                                    image_url: f.image,
+                                    name: currentData.facilities?.[idx] || 'Fasilitas',
+                                    location: '',
+                                    condition: 'Baik',
+                                    description: '',
+                                    is_active: true,
+                                    major_id: null,
+                                }));
 
-                                        <div className="absolute inset-0 bg-gradient-to-t from-[#12606A]/90 via-transparent to-transparent opacity-80" />
-
-                                        <div className="absolute bottom-0 left-0 w-full p-8">
-                                            <p className="transform text-xl font-bold uppercase tracking-tight text-white transition-transform duration-500 group-hover:translate-x-2">
-                                                {facName}
-                                            </p>
-                                            <div className="mt-2 h-1 w-0 bg-teal-400 transition-all duration-500 group-hover:w-16" />
+                            return displayFacilities.map((fac, idx) => (
+                                <motion.div
+                                    key={`${id}-fac-${fac.id}-${idx}`}
+                                    initial={{ opacity: 0, y: 20 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: idx * 0.1 }}
+                                    viewport={{ once: true }}
+                                    onClick={() => setSelectedImg(fac.image_url)}
+                                    className="group relative h-72 cursor-pointer overflow-hidden rounded-3xl bg-[#12606A] shadow-lg transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl"
+                                >
+                                    <img
+                                        src={fac.image_url}
+                                        alt={fac.name}
+                                        className="absolute inset-0 h-full w-full object-cover opacity-60 transition-transform duration-700 group-hover:scale-110 group-hover:opacity-90"
+                                        onError={e => (e.currentTarget.src = '/images/placeholder-lab.jpg')}
+                                    />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-[#12606A]/90 via-transparent to-transparent opacity-80" />
+                                    <div className="absolute bottom-0 left-0 w-full p-8">
+                                        <p className="transform text-xl font-bold uppercase tracking-tight text-white transition-transform duration-500 group-hover:translate-x-2">
+                                            {fac.name}
+                                        </p>
+                                        {fac.location && (
+                                            <p className="mt-1 text-xs font-medium text-white/60">{fac.location}</p>
+                                        )}
+                                        <div className="mt-2 h-1 w-0 bg-teal-400 transition-all duration-500 group-hover:w-16" />
+                                    </div>
+                                    <div className="absolute right-5 top-5 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                                        <div className="rounded-full bg-white/20 p-2 backdrop-blur-md">
+                                            <Maximize2 size={20} className="text-white" />
                                         </div>
-
-                                        <div className="absolute right-5 top-5 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                                            <div className="rounded-full bg-white/20 p-2 backdrop-blur-md">
-                                                <Maximize2
-                                                    size={20}
-                                                    className="text-white"
-                                                />
-                                            </div>
-                                        </div>
-                                    </motion.div>
-                                );
-                            },
-                        )}
+                                    </div>
+                                </motion.div>
+                            ));
+                        })()}
                     </div>
                 </div>
 
@@ -754,85 +735,86 @@ const Major = () => {
                                 {currentData.galleryTitle}
                             </h2>
                         </div>
-                        {archivedGallery.length > 0 && (
-                            <button
-                                onClick={() => setShowArchive(true)}
-                                className="group flex items-center gap-2 rounded-full border border-[#12606A]/20 bg-[#12606A]/5 px-5 py-2.5 text-sm font-bold text-[#12606A] transition-all hover:bg-[#12606A] hover:text-white"
-                            >
-                                <Archive size={16} />
-                                View All Archive
-                                <span className="rounded-full bg-[#12606A]/20 px-2 py-0.5 text-xs group-hover:bg-white/20">
-                                    {archivedGallery.length}
-                                </span>
-                            </button>
-                        )}
                     </div>
 
-                    {/* Bento Grid Gallery — Mix of Admin Majors (Big) & Admin Activity Gallery (Small) */}
+                    {/* Bento Grid Gallery — activeGallery (Admin Activity Gallery API) + fallback statis */}
                     <div className="grid h-auto min-h-[600px] grid-cols-1 gap-4 md:grid-cols-4 md:grid-rows-2">
                         {(() => {
-                            // 1. Big Item (index 0) -> from dynamicStats (Admin Majors Page) or static fallback
-                            const bigItem = {
-                                id: 'big-0',
-                                image: dynamicStats?.[id]?.activity_image || currentStatic.gallery?.[0]?.image || '/images/placeholder.jpg',
-                                title: currentStatic.gallery?.[0]?.title || 'Activity Highlight',
-                                category: currentStatic.gallery?.[0]?.category || 'Highlight'
-                            };
+                        const apiItems = activeGallery.map(item => ({
+                            id: `api-${item.id}`,
+                            image: item.image_url || '/images/placeholder.jpg',
+                            title: item.title,
+                            category: 'Activity',
+                            sourceDate: item.activity_date,
+                        }));
 
-                            // 2. Small Items -> from activeGallery (API) up to 4 items
-                            const apiSmallItems = activeGallery.map(item => ({
-                                id: `api-${item.id}`,
-                                image: item.image_url || '/images/placeholder.jpg',
-                                title: item.title,
-                                category: 'Activity'
+                        const finalPool = apiItems.length > 0
+                            ? apiItems
+                            : (currentStatic.gallery || []).map((g: any, idx: number) => ({
+                                id: `static-${idx}`,
+                                image: g.image,
+                                title: g.title || 'Activity Highlight',
+                                category: g.category || 'Activity',
+                                sourceDate: undefined,
                             }));
 
-                            // 3. Fill the rest with static items if API items < 4
-                            const needed = 4 - apiSmallItems.length;
-                            const staticSmallItems = (currentStatic.gallery || []).slice(1, 1 + needed).map((item: any, idx: number) => ({
-                                id: `static-${idx + 1}`,
-                                image: item.image || '/images/placeholder.jpg',
-                                title: item.title,
-                                category: item.category || 'Activity'
-                            }));
+                            const displayGallery = finalPool.slice(0, 5);
+                            const overflowGallery = finalPool.slice(5);
 
-                            // Combine exactly 5 items
-                            const displayGallery = [bigItem, ...apiSmallItems, ...staticSmallItems];
+                            return (
+                                <>
+                                    {displayGallery.map((item, idx) => (
+                                        <motion.div
+                                            key={`${id}-gallery-${item.id}-${idx}`}
+                                            initial={{ opacity: 0, scale: 0.95 }}
+                                            whileInView={{ opacity: 1, scale: 1 }}
+                                            transition={{ delay: idx * 0.1 }}
+                                            viewport={{ once: true }}
+                                            onClick={() => setSelectedImg(item.image)}
+                                            className={`group relative cursor-pointer overflow-hidden rounded-3xl bg-neutral-200 shadow-lg transition-all duration-500 hover:shadow-2xl ${
+                                                idx === 0
+                                                    ? 'h-[400px] md:col-span-2 md:row-span-2 md:h-full'
+                                                    : 'h-[250px] md:h-full'
+                                            }`}
+                                        >
+                                            <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-60 transition-opacity duration-500 group-hover:opacity-80" />
+                                            <img
+                                                src={item.image}
+                                                alt={item.title}
+                                                className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                                onError={e => (e.currentTarget.src = 'https://placehold.co/600x400/e2e8f0/94a3b8?text=No+Image')}
+                                            />
+                                            <div className="absolute bottom-0 left-0 z-20 w-full translate-y-4 transform p-6 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+                                                <span className="mb-2 inline-block rounded-full bg-teal-500/20 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-teal-400 backdrop-blur-md">
+                                                    {item.category}
+                                                </span>
+                                                <h4 className="text-xl font-bold leading-tight text-white">
+                                                    {item.title}
+                                                </h4>
+                                            </div>
+                                            <div className="absolute right-6 top-6 z-20 rounded-full bg-white/10 p-2 opacity-0 backdrop-blur-md transition-opacity duration-300 group-hover:opacity-100">
+                                                <Maximize2 className="text-white" size={20} />
+                                            </div>
+                                        </motion.div>
+                                    ))}
 
-                            return displayGallery.map((item, idx) => (
-                                <motion.div
-                                    key={`${id}-gallery-${item.id}-${idx}`}
-                                    initial={{ opacity: 0, scale: 0.95 }}
-                                    whileInView={{ opacity: 1, scale: 1 }}
-                                    transition={{ delay: idx * 0.1 }}
-                                    viewport={{ once: true }}
-                                    onClick={() => setSelectedImg(item.image)}
-                                    className={`group relative cursor-pointer overflow-hidden rounded-3xl bg-neutral-200 shadow-lg transition-all duration-500 hover:shadow-2xl ${
-                                        idx === 0
-                                            ? 'h-[400px] md:col-span-2 md:row-span-2 md:h-full'
-                                            : 'h-[250px] md:h-full'
-                                    }`}
-                                >
-                                    <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-60 transition-opacity duration-500 group-hover:opacity-80" />
-                                    <img
-                                        src={item.image}
-                                        alt={item.title}
-                                        className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
-                                        onError={e => (e.currentTarget.src = 'https://placehold.co/600x400/e2e8f0/94a3b8?text=No+Image')}
-                                    />
-                                    <div className="absolute bottom-0 left-0 z-20 w-full translate-y-4 transform p-6 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
-                                        <span className="mb-2 inline-block rounded-full bg-teal-500/20 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-teal-400 backdrop-blur-md">
-                                            {item.category}
-                                        </span>
-                                        <h4 className="text-xl font-bold leading-tight text-white">
-                                            {item.title}
-                                        </h4>
-                                    </div>
-                                    <div className="absolute right-6 top-6 z-20 rounded-full bg-white/10 p-2 opacity-0 backdrop-blur-md transition-opacity duration-300 group-hover:opacity-100">
-                                        <Maximize2 className="text-white" size={20} />
-                                    </div>
-                                </motion.div>
-                            ));
+                                    {/* Tombol arsip — muncul kalau ada overflow gallery ATAU sudah ada archivedGallery dari API */}
+                                    {(overflowGallery.length > 0 || archivedGallery.length > 0) && (
+                                        <button
+                                            onClick={() => setShowArchive(true)}
+                                            className="group col-span-1 flex h-[250px] flex-col items-center justify-center gap-3 rounded-3xl border-2 border-dashed border-[#12606A]/20 bg-[#12606A]/5 text-[#12606A] transition-all hover:bg-[#12606A] hover:text-white md:h-full"
+                                        >
+                                            <Archive size={28} />
+                                            <span className="text-sm font-bold uppercase tracking-widest">
+                                                Lihat Semua Arsip
+                                            </span>
+                                            <span className="rounded-full bg-[#12606A]/20 px-3 py-1 text-xs font-bold group-hover:bg-white/20">
+                                                {overflowGallery.length + archivedGallery.length} Foto
+                                            </span>
+                                        </button>
+                                    )}
+                                </>
+                            );
                         })()}
                     </div>
                 </div>
@@ -840,84 +822,102 @@ const Major = () => {
 
             {/* ARCHIVE MODAL OVERLAY */}
             <AnimatePresence>
-                {showArchive && (
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        className="fixed inset-0 z-[200] flex flex-col bg-neutral-950/98 backdrop-blur-sm"
-                    >
-                        {/* Modal Header */}
-                        <div className="flex items-center justify-between border-b border-white/10 px-6 py-5 md:px-12">
-                            <div className="flex items-center gap-4">
-                                <div className="rounded-xl bg-amber-500/20 p-3">
-                                    <Archive size={22} className="text-amber-400" />
-                                </div>
-                                <div>
-                                    <h2 className="text-xl font-black uppercase tracking-tight text-white md:text-2xl">
-                                        Activity Archive
-                                    </h2>
-                                    <p className="text-sm font-medium text-white/40">
-                                        {currentData.title} &mdash; {archivedGallery.length} archived moment{archivedGallery.length !== 1 ? 's' : ''}
-                                    </p>
-                                </div>
-                            </div>
-                            <button
-                                onClick={() => setShowArchive(false)}
-                                className="rounded-full bg-white/10 p-3 text-white transition-colors hover:bg-white/20"
-                            >
-                                <X size={22} />
-                            </button>
-                        </div>
+                {showArchive && (() => {
+                    const apiItems = activeGallery.map(item => ({
+                        id: `api-${item.id}`,
+                        image: item.image_url || '/images/placeholder.jpg',
+                        title: item.title,
+                        activity_date: item.activity_date,
+                    }));
+                    const overflow = apiItems.slice(5);
 
-                        {/* Modal Body — Scrollable Grid */}
-                        <div className="flex-1 overflow-y-auto px-6 py-8 md:px-12">
-                            {archivedGallery.length === 0 ? (
-                                <div className="flex h-full flex-col items-center justify-center gap-4 text-white/30">
-                                    <Archive size={48} />
-                                    <p className="text-lg font-semibold">Belum ada foto di arsip</p>
+                    const allArchived = [
+                        ...overflow,
+                        ...archivedGallery.map(item => ({
+                            id: `archived-${item.id}`,
+                            image: item.image_url || '/images/placeholder.jpg',
+                            title: item.title,
+                            activity_date: item.activity_date,
+                        })),
+                    ];
+
+                    return (
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            className="fixed inset-0 z-[200] flex flex-col bg-neutral-950/98 backdrop-blur-sm"
+                        >
+                            <div className="flex items-center justify-between border-b border-white/10 px-6 py-5 md:px-12">
+                                <div className="flex items-center gap-4">
+                                    <div className="rounded-xl bg-amber-500/20 p-3">
+                                        <Archive size={22} className="text-amber-400" />
+                                    </div>
+                                    <div>
+                                        <h2 className="text-xl font-black uppercase tracking-tight text-white md:text-2xl">
+                                            Activity Archive
+                                        </h2>
+                                        <p className="text-sm font-medium text-white/40">
+                                            {currentData.title} &mdash; {allArchived.length} archived moment{allArchived.length !== 1 ? 's' : ''}
+                                        </p>
+                                    </div>
                                 </div>
-                            ) : (
-                                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                                    {archivedGallery.map((item, idx) => (
-                                        <motion.div
-                                            key={`arch-modal-${item.id}`}
-                                            initial={{ opacity: 0, y: 20 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            transition={{ delay: idx * 0.05 }}
-                                            onClick={() => setSelectedImg(item.image_url)}
-                                            className="group relative h-64 cursor-pointer overflow-hidden rounded-2xl bg-neutral-800 shadow-md transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl"
-                                        >
-                                            <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/80 via-black/10 to-transparent opacity-50 transition-opacity group-hover:opacity-80" />
-                                            <img
-                                                src={item.image_url || '/images/placeholder.jpg'}
-                                                alt={item.title}
-                                                className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
-                                                onError={e => (e.currentTarget.src = 'https://placehold.co/400x300/27272a/71717a?text=Archived')}
-                                            />
-                                            <div className="absolute left-3 top-3 z-20">
-                                                <span className="inline-block rounded-full bg-amber-500/30 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-amber-300 backdrop-blur-md">
-                                                    Archive
-                                                </span>
-                                            </div>
-                                            <div className="absolute bottom-0 left-0 z-20 w-full p-5 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                                                <h4 className="text-sm font-bold leading-tight text-white">{item.title}</h4>
-                                                {item.activity_date && (
-                                                    <p className="mt-1 text-[11px] font-medium text-white/50">
-                                                        {new Date(item.activity_date).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}
-                                                    </p>
-                                                )}
-                                            </div>
-                                            <div className="absolute right-3 top-3 z-20 rounded-full bg-white/10 p-2 opacity-0 backdrop-blur-md transition-opacity group-hover:opacity-100">
-                                                <Maximize2 className="text-white" size={16} />
-                                            </div>
-                                        </motion.div>
-                                    ))}
-                                </div>
-                            )}
-                        </div>
-                    </motion.div>
-                )}
+                                <button
+                                    onClick={() => setShowArchive(false)}
+                                    className="rounded-full bg-white/10 p-3 text-white transition-colors hover:bg-white/20"
+                                >
+                                    <X size={22} />
+                                </button>
+                            </div>
+
+                            <div className="flex-1 overflow-y-auto px-6 py-8 md:px-12">
+                                {allArchived.length === 0 ? (
+                                    <div className="flex h-full flex-col items-center justify-center gap-4 text-white/30">
+                                        <Archive size={48} />
+                                        <p className="text-lg font-semibold">Belum ada foto di arsip</p>
+                                    </div>
+                                ) : (
+                                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                                        {allArchived.map((item, idx) => (
+                                            <motion.div
+                                                key={`arch-modal-${item.id}`}
+                                                initial={{ opacity: 0, y: 20 }}
+                                                animate={{ opacity: 1, y: 0 }}
+                                                transition={{ delay: idx * 0.05 }}
+                                                onClick={() => setSelectedImg(item.image)}
+                                                className="group relative h-64 cursor-pointer overflow-hidden rounded-2xl bg-neutral-800 shadow-md transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl"
+                                            >
+                                                <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/80 via-black/10 to-transparent opacity-50 transition-opacity group-hover:opacity-80" />
+                                                <img
+                                                    src={item.image}
+                                                    alt={item.title}
+                                                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                                    onError={e => (e.currentTarget.src = 'https://placehold.co/400x300/27272a/71717a?text=Archived')}
+                                                />
+                                                <div className="absolute left-3 top-3 z-20">
+                                                    <span className="inline-block rounded-full bg-amber-500/30 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-amber-300 backdrop-blur-md">
+                                                        Archive
+                                                    </span>
+                                                </div>
+                                                <div className="absolute bottom-0 left-0 z-20 w-full p-5 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                                                    <h4 className="text-sm font-bold leading-tight text-white">{item.title}</h4>
+                                                    {item.activity_date && (
+                                                        <p className="mt-1 text-[11px] font-medium text-white/50">
+                                                            {new Date(item.activity_date).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}
+                                                        </p>
+                                                    )}
+                                                </div>
+                                                <div className="absolute right-3 top-3 z-20 rounded-full bg-white/10 p-2 opacity-0 backdrop-blur-md transition-opacity group-hover:opacity-100">
+                                                    <Maximize2 className="text-white" size={16} />
+                                                </div>
+                                            </motion.div>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+                        </motion.div>
+                    );
+                })()}
             </AnimatePresence>
         </MainLayout>
     );

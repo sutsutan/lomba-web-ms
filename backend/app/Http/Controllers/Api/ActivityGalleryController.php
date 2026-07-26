@@ -10,15 +10,17 @@ class ActivityGalleryController extends BaseResourceController
 {
     protected $model = Activity_Gallery::class;
     
-    protected $validationRules = [
-        'image_url'     => 'required|string|max:2048',
-        'title'         => 'required|string|max:255',
-        'major_code'    => 'nullable|string|max:50',
-        'activity_date' => 'nullable|date',
-        'description'   => 'nullable|string',
-        'is_featured'   => 'nullable|boolean',
-        'is_active'     => 'nullable|boolean',
-    ];
+   // Controller
+protected $validationRules = [
+    'image_url'     => 'required|string',
+    'title'         => 'required|string|max:255',
+    'major_code'    => 'nullable|string|max:50',
+    'activity_date' => 'nullable|date',
+    'description'   => 'nullable|string',
+    'is_featured'   => 'nullable|boolean',
+    'is_archived'   => 'nullable|boolean',
+    'is_active'     => 'nullable|boolean',
+];
 
     public function index(Request $request)
     {

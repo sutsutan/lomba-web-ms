@@ -9,10 +9,12 @@ class FacilityController extends BaseResourceController
 {
     protected $model = Facility::class;
     
-    protected $validationRules = [
+     protected $validationRules = [
         'name'        => 'required|string|max:255',
         'description' => 'nullable|string',
         'image_url'   => 'nullable|string|max:255',
+        'location'    => 'nullable|string|max:255',
+        'condition'   => 'nullable|string|in:Baik,Perbaikan,Rusak',
         'major_id'    => 'nullable|exists:majors,id',
         'is_active'   => 'nullable|boolean',
     ];

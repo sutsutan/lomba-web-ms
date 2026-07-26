@@ -4,13 +4,19 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use App\Models\student_work;
 use App\Models\alumni;
+
 class Major extends Model
 {
-     protected $fillable = ['name', 'slug', 'icon', 'description', 'cover_image', 'is_active', 'code', 'head_of_major', 'total_students', 'total_partners', 'lab_image', 'activity_image', 'curriculum_image'];
-    protected $casts = ['is_active' => 'boolean'];
+    protected $fillable = [
+    'name', 'slug', 'icon', 'description', 'cover_image', 'is_active',
+    'code', 'head_of_major', 'total_students', 'total_partners',
+    'curriculum_image'
+];
+    protected $casts = [
+        'is_active'      => 'boolean',
+    ];
 
     public function facilities() { return $this->hasMany(Facility::class); }
     public function activityGalleries() { return $this->hasMany(Activity_Gallery::class); }

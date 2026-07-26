@@ -11,7 +11,6 @@ interface NavItem {
   children?: NavItem[];
 }
 
-
 const Navbar = () => {
   const { t, language, toggleLanguage } = useLanguage();
   
@@ -83,7 +82,6 @@ const Navbar = () => {
         
         {/*SECTION LOGO*/}
         <Link to="/" className="flex items-center gap-3 group z-10">
-          {/* Logo Pill Wrapper scroll*/}
           <div className={`flex items-center gap-3 px-4 py-2 rounded-full transition-all duration-500 ${
             isScrolled 
               ? 'bg-white/80 backdrop-blur-md shadow-lg border border-white/20' 
@@ -112,77 +110,80 @@ const Navbar = () => {
           </div>
         </Link>
 
-        {/*NAV PILL SECTION*/}
-        <nav
-          className={`hidden lg:flex items-center gap-1 p-1.5 rounded-full border border-white/20 transition-all duration-500 ${
-            isScrolled 
-              ? 'bg-black/20 backdrop-blur-xl shadow-2xl' 
-              : 'bg-white/10 backdrop-blur-md shadow-lg'
-          }`}
-        >
-          {navItems.map((item) => (
-            <div
-              key={item.label}
-              className="relative"
-              onMouseEnter={() => item.children && setOpenDropdown(item.label)}
-              onMouseLeave={() => setOpenDropdown(null)}
-            >
-              <Link
-                to={item.href}
-                className={`flex items-center gap-1 px-5 py-2.5 text-sm font-semibold rounded-full transition-all duration-300 ${
-                  isActive(item.href)
-                    ? 'bg-white text-teal-700 shadow-md' 
-                    : 'text-white hover:bg-white/20'
-                }`}
+        {/*NAV PILL SECTION & RIGHT ACTION CONTAINER*/}
+        <div className="hidden lg:flex items-center gap-3">
+          {/*NAV PILL SECTION (WITH LANGUAGE TOGGLE INSIDE)*/}
+          <nav
+            className={`flex items-center gap-1 p-1.5 rounded-full border border-white/20 transition-all duration-500 ${
+              isScrolled 
+                ? 'bg-black/20 backdrop-blur-xl shadow-2xl' 
+                : 'bg-white/10 backdrop-blur-md shadow-lg'
+            }`}
+          >
+            {navItems.map((item) => (
+              <div
+                key={item.label}
+                className="relative"
+                onMouseEnter={() => item.children && setOpenDropdown(item.label)}
+                onMouseLeave={() => setOpenDropdown(null)}
               >
-                {item.label}
-                {item.children && (
-                  <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${
-                    openDropdown === item.label ? 'rotate-180' : ''
-                  }`} />
-                )}
-              </Link>
+                <Link
+                  to={item.href}
+                  className={`flex items-center gap-1 px-5 py-2.5 text-sm font-semibold rounded-full transition-all duration-300 ${
+                    isActive(item.href)
+                      ? 'bg-white text-teal-700 shadow-md' 
+                      : 'text-white hover:bg-white/20'
+                  }`}
+                >
+                  {item.label}
+                  {item.children && (
+                    <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${
+                      openDropdown === item.label ? 'rotate-180' : ''
+                    }`} />
+                  )}
+                </Link>
 
-              <AnimatePresence>
-                {item.children && openDropdown === item.label && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 15, scale: 0.95 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: 15, scale: 0.95 }}
-                    className="absolute top-[120%] left-0 min-w-[200px] bg-white/95 backdrop-blur-lg rounded-2xl shadow-2xl py-2 border border-white/20 overflow-hidden"
-                  >
-                    {item.children.map((child) => (
-                      <Link
-                        key={child.href}
-                        to={child.href}
-                        className="block px-5 py-3 text-sm text-slate-700 hover:bg-teal-500 hover:text-white transition-colors font-medium"
-                      >
-                        {child.label}
-                      </Link>
-                    ))}
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-          ))}
+                <AnimatePresence>
+                  {item.children && openDropdown === item.label && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 15, scale: 0.95 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 15, scale: 0.95 }}
+                      className="absolute top-[120%] left-0 min-w-[200px] bg-white/95 backdrop-blur-lg rounded-2xl shadow-2xl py-2 border border-white/20 overflow-hidden"
+                    >
+                      {item.children.map((child) => (
+                        <Link
+                          key={child.href}
+                          to={child.href}
+                          className="block px-5 py-3 text-sm text-slate-700 hover:bg-teal-500 hover:text-white transition-colors font-medium"
+                        >
+                          {child.label}
+                        </Link>
+                      ))}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            ))}
 
-          {/* PPDB Button */}
+            {/* Language Toggle inside the pill */}
+            <button
+              onClick={toggleLanguage}
+              className="flex items-center gap-1 px-4 py-2.5 ml-1 text-sm font-semibold text-white rounded-full hover:bg-white/25 transition-all duration-300"
+            >
+              <Globe className="w-4 h-4" />
+              <span>{language === 'en' ? 'ID' : 'EN'}</span>
+            </button>
+          </nav>
+
+          {/* PPDB BUTTON OUTSIDE THE NAV PILL */}
           <Link
             to="/ppdb"
-            className="flex items-center gap-2 px-5 py-2.5 ml-2 text-sm font-bold text-white bg-teal-600 rounded-full hover:bg-teal-700 shadow-md transition-all duration-300 hover:scale-105 active:scale-95"
+            className="flex items-center gap-2 px-5 py-2.5 text-sm font-bold text-white bg-teal-600 rounded-full hover:bg-teal-700 shadow-lg transition-all duration-300 hover:scale-105 active:scale-95"
           >
             {t('nav.ppdb')}
           </Link>
-
-          {/* Language Toggle */}
-          <button
-            onClick={toggleLanguage}
-            className="flex items-center gap-1 px-4 py-2.5 ml-1 text-sm font-semibold text-white rounded-full hover:bg-white/20 transition-all duration-300"
-          >
-            <Globe className="w-4 h-4" />
-            <span>{language === 'en' ? 'ID' : 'EN'}</span>
-          </button>
-        </nav>
+        </div>
 
         {/*MOBILE BUTTON*/}
         <button
@@ -199,62 +200,62 @@ const Navbar = () => {
       </div>
 
       {/*MOBILE MENU OVERLAY*/}
-  <AnimatePresence>
-    {isMobileMenuOpen && (
-      <div className="fixed inset-x-0 top-[80px] px-6">
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -20 }}
-          className="lg:hidden bg-white/95 backdrop-blur-2xl rounded-3xl shadow-2xl border border-white/20 overflow-hidden max-h-[70vh] overflow-y-auto"
-        >
-          <div className="p-4 flex flex-col gap-2">
-            {navItems.map((item) => (
-              <div key={item.label} className="w-full">
-                <Link
-                  to={item.href}
-                  className={`block w-full px-5 py-3 rounded-2xl font-bold transition-colors ${
-                    isActive(item.href) ? 'bg-teal-600 text-white' : 'text-slate-800 hover:bg-slate-100'
-                  }`}
-                >
-                  {item.label}
-                </Link>
-                {item.children && (
-                  <div className="mt-2 ml-4 pl-4 border-l-2 border-slate-200 space-y-1">
-                    {item.children.map((child) => (
-                      <Link 
-                        key={child.href} 
-                        to={child.href} 
-                        className="block px-4 py-2.5 text-sm text-slate-600 hover:text-teal-600 hover:bg-slate-50 rounded-lg font-medium transition-colors"
-                      >
-                        {child.label}
-                      </Link>
-                    ))}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <div className="fixed inset-x-0 top-[80px] px-6">
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="lg:hidden bg-white/95 backdrop-blur-2xl rounded-3xl shadow-2xl border border-white/20 overflow-hidden max-h-[70vh] overflow-y-auto"
+            >
+              <div className="p-4 flex flex-col gap-2">
+                {navItems.map((item) => (
+                  <div key={item.label} className="w-full">
+                    <Link
+                      to={item.href}
+                      className={`block w-full px-5 py-3 rounded-2xl font-bold transition-colors ${
+                        isActive(item.href) ? 'bg-teal-600 text-white' : 'text-slate-800 hover:bg-slate-100'
+                      }`}
+                    >
+                      {item.label}
+                    </Link>
+                    {item.children && (
+                      <div className="mt-2 ml-4 pl-4 border-l-2 border-slate-200 space-y-1">
+                        {item.children.map((child) => (
+                          <Link 
+                            key={child.href} 
+                            to={child.href} 
+                            className="block px-4 py-2.5 text-sm text-slate-600 hover:text-teal-600 hover:bg-slate-50 rounded-lg font-medium transition-colors"
+                          >
+                            {child.label}
+                          </Link>
+                        ))}
+                      </div>
+                    )}
                   </div>
-                )}
-              </div>
-            ))}
-            
-            <Link
-              to="/ppdb"
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="w-full flex items-center justify-center gap-2 px-5 py-3 mt-2 rounded-2xl bg-teal-600 text-white font-bold hover:bg-teal-700 transition-colors shadow-md"
-            >
-              Daftar PPDB
-            </Link>
+                ))}
+                
+                <Link
+                  to="/ppdb"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="w-full flex items-center justify-center gap-2 px-5 py-3 mt-2 rounded-2xl bg-teal-600 text-white font-bold hover:bg-teal-700 transition-colors shadow-md"
+                >
+                  {t('nav.ppdb')}
+                </Link>
 
-            <button
-              onClick={toggleLanguage}
-              className="w-full flex items-center justify-center gap-2 px-5 py-3 mt-4 rounded-2xl bg-slate-100 text-slate-800 font-bold hover:bg-slate-200 transition-colors"
-            >
-              <Globe className="w-5 h-5" />
-              <span>Switch to {language === 'en' ? 'Indonesian' : 'English'}</span>
-            </button>
+                <button
+                  onClick={toggleLanguage}
+                  className="w-full flex items-center justify-center gap-2 px-5 py-3 mt-2 rounded-2xl bg-slate-100 text-slate-800 font-bold hover:bg-slate-200 transition-colors"
+                >
+                  <Globe className="w-5 h-5" />
+                  <span>Switch to {language === 'en' ? 'Indonesian' : 'English'}</span>
+                </button>
+              </div>
+            </motion.div>
           </div>
-        </motion.div>
-      </div>
-    )}
-  </AnimatePresence>
+        )}
+      </AnimatePresence>
     </motion.header>
   );
 };

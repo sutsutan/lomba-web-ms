@@ -14,9 +14,11 @@ export interface AlumniData {
   profile_picture: string;
 }
 
+export type AlumniPayload = Omit<AlumniData, 'id'>;
+
 export const getAdminAlumni = async (): Promise<AlumniData[]> => {
   try {
-    const response = await api.get('/alumni');
+    const response = await api.get('/admin/alumni');
     return response.data.data || response.data || [];
   } catch (error) {
     console.error('Gagal mengambil data alumni (admin):', error);
@@ -26,7 +28,7 @@ export const getAdminAlumni = async (): Promise<AlumniData[]> => {
 
 export const getPublicAlumni = async (): Promise<AlumniData[]> => {
   try {
-    const response = await api.get('/api/alumni');
+    const response = await api.get('/alumni');
     const data: AlumniData[] = response.data.data || response.data || [];
     return Array.isArray(data) ? data.filter(item => item.is_active) : [];
   } catch (error) {
@@ -35,14 +37,25 @@ export const getPublicAlumni = async (): Promise<AlumniData[]> => {
   }
 };
 
-export const createAlumni = async (data: FormData | Omit<AlumniData, 'id'>) => {
-  return await api.post('/api/admin/alumni', data);
+export const getPublicAlumniYears = async (): Promise<number[]> => {
+  try {
+    const response = await api.get('/alumni/years');
+    const data = response.data || [];
+    return Array.isArray(data) ? data : [];
+  } catch (error) {
+    console.error('Gagal mengambil daftar tahun alumni:', error);
+    return [];
+  }
 };
 
-export const updateAlumni = async (id: number, data: FormData | Omit<AlumniData, 'id'>) => {
-  return await api.put(`/api/admin/alumni/${id}`, data);
+export const createAlumni = async (data: AlumniPayload) => {
+  return await api.post('/admin/alumni', data);
+};
+
+export const updateAlumni = async (id: number, data: AlumniPayload) => {
+  return await api.put(`/admin/alumni/${id}`, data);
 };
 
 export const deleteAlumni = async (id: number) => {
-  return await api.delete(`/api/admin/alumni/${id}`);
+  return await api.delete(`/admin/alumni/${id}`);
 };

@@ -1,29 +1,31 @@
 import { useState, useEffect } from 'react';
 import MainLayout from '@/layouts/MainLayout';
 import ScrollReveal from '@/components/ScrollReveal';
-import { Briefcase, MapPin, Search, GraduationCap } from 'lucide-react';
+import { Briefcase, MapPin, Search, GraduationCap, ChevronDown } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Link } from 'react-router-dom';
 import api from '@/lib/api';
+import { getPublicAlumniYears } from '@/services/Alumni';
 
 const AlumniDirectory = () => {
     const { t } = useLanguage();
     const [alumni, setAlumni] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [yearFilter, setYearFilter] = useState<string>('all');
+    const [availableYears, setAvailableYears] = useState<number[]>([]);
     const [searchQuery, setSearchQuery] = useState('');
     const [page, setPage] = useState(1);
     const [hasMore, setHasMore] = useState(false);
 
-    // List of years for the filter (e.g. from 2018 to current year)
-    const currentYear = new Date().getFullYear();
-    const years = ['all', ...Array.from({ length: 15 }, (_, i) => (currentYear - i).toString())];
+    // Ambil daftar tahun yang benar-benar tersedia di database
+    useEffect(() => {
+        getPublicAlumniYears().then(setAvailableYears);
+    }, []);
 
     useEffect(() => {
         const fetchAlumni = async () => {
             try {
                 setLoading(true);
-                // Adjust query params
                 const params = new URLSearchParams({
                     page: page.toString(),
                     ...(yearFilter !== 'all' && { year: yearFilter }),
@@ -32,14 +34,13 @@ const AlumniDirectory = () => {
 
                 const res = await api.get(`/alumni?${params.toString()}`);
                 const responseData = res.data.data || res.data;
-                
+
                 if (page === 1) {
                     setAlumni(responseData);
                 } else {
                     setAlumni(prev => [...prev, ...responseData]);
                 }
-                
-                // Check if there are more pages
+
                 setHasMore(res.data.current_page < res.data.last_page);
             } catch (err) {
                 console.error("Gagal load alumni:", err);
@@ -50,20 +51,14 @@ const AlumniDirectory = () => {
 
         const timeoutId = setTimeout(() => {
             fetchAlumni();
-        }, 500); // Debounce search
+        }, 500);
 
         return () => clearTimeout(timeoutId);
     }, [yearFilter, page, searchQuery]);
 
-    // Reset pagination when filter changes
-    useEffect(() => {
-        setPage(1);
-    }, [yearFilter, searchQuery]);
-
     return (
         <MainLayout>
             <div className="bg-slate-50 min-h-screen">
-                {/* Custom dark header background so white navbar is visible */}
                 <div className="bg-[#12606A] pt-40 pb-24 px-4 text-center rounded-b-[3rem] relative overflow-hidden mb-[-4rem]">
                     <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '40px 40px' }} />
                     <ScrollReveal>
@@ -83,34 +78,32 @@ const AlumniDirectory = () => {
                     {/* Filter Section */}
                     <div className="max-w-5xl mx-auto mb-12">
                         <div className="flex flex-col md:flex-row gap-4 justify-between items-center bg-white p-4 rounded-2xl shadow-sm border border-slate-100">
-                            
+
                             {/* Search */}
                             <div className="relative w-full md:w-96 flex-shrink-0">
                                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
-                                <input 
-                                    type="text" 
-                                    placeholder="Cari nama alumni..." 
+                                <input
+                                    type="text"
+                                    placeholder="Cari nama alumni..."
                                     value={searchQuery}
-                                    onChange={(e) => setSearchQuery(e.target.value)}
+                                    onChange={(e) => { setSearchQuery(e.target.value); setPage(1); }}
                                     className="w-full bg-slate-50 border-none rounded-xl pl-12 pr-4 py-3 text-sm focus:ring-2 focus:ring-[#12606A]/20 transition-all"
                                 />
                             </div>
 
-                            {/* Year Filter Pills */}
-                            <div className="flex gap-2 overflow-x-auto w-full pb-2 md:pb-0 hide-scrollbar">
-                                {years.slice(0, 8).map(year => (
-                                    <button
-                                        key={year}
-                                        onClick={() => setYearFilter(year)}
-                                        className={`px-6 py-2.5 rounded-xl text-sm font-bold whitespace-nowrap transition-all duration-300 ${
-                                            yearFilter === year 
-                                            ? 'bg-[#12606A] text-white shadow-md shadow-[#12606A]/20' 
-                                            : 'bg-slate-50 text-slate-500 hover:bg-slate-100'
-                                        }`}
-                                    >
-                                        {year === 'all' ? 'Semua Tahun' : year}
-                                    </button>
-                                ))}
+                            {/* Year Filter Dropdown — hanya tahun yang ada datanya */}
+                            <div className="relative w-full md:w-56 flex-shrink-0">
+                                <select
+                                    value={yearFilter}
+                                    onChange={(e) => { setYearFilter(e.target.value); setPage(1); }}
+                                    className="w-full appearance-none bg-slate-50 border-none rounded-xl pl-4 pr-10 py-3 text-sm font-bold text-slate-700 focus:ring-2 focus:ring-[#12606A]/20 transition-all cursor-pointer"
+                                >
+                                    <option value="all">Semua Tahun</option>
+                                    {availableYears.map(year => (
+                                        <option key={year} value={year}>Angkatan {year}</option>
+                                    ))}
+                                </select>
+                                <ChevronDown className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
                             </div>
                         </div>
                     </div>
@@ -137,10 +130,10 @@ const AlumniDirectory = () => {
                                             <div className="relative h-20 w-20 shrink-0">
                                                 <div className="absolute inset-0 rounded-full border-2 border-dashed border-[#12606A]/30 transition-transform duration-[3000ms] group-hover:rotate-180" style={{ animationDuration: '10s' }} />
                                                 <div className="absolute inset-1 overflow-hidden rounded-full bg-slate-50 shadow-inner">
-                                                    <img 
-                                                        src={item.profile_picture ? (item.profile_picture.startsWith('http') ? item.profile_picture : `${import.meta.env.VITE_API_URL}/storage/${item.profile_picture}`) : 'https://ui-avatars.com/api/?name=' + item.name + '&background=12606A&color=fff'} 
-                                                        alt={item.name} 
-                                                        className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" 
+                                                    <img
+                                                        src={item.profile_picture ? (item.profile_picture.startsWith('http') ? item.profile_picture : `${import.meta.env.VITE_API_URL}/storage/${item.profile_picture}`) : 'https://ui-avatars.com/api/?name=' + item.name + '&background=12606A&color=fff'}
+                                                        alt={item.name}
+                                                        className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
                                                         onError={(e) => { e.currentTarget.src = `https://ui-avatars.com/api/?name=${item.name}&background=12606A&color=fff` }}
                                                     />
                                                 </div>
@@ -154,7 +147,7 @@ const AlumniDirectory = () => {
                                                 </span>
                                             </div>
                                         </div>
-                                        
+
                                         <div className="space-y-3 flex-grow">
                                             <div className="flex items-center gap-3 text-sm font-medium text-slate-600">
                                                 <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-indigo-50 text-indigo-500 shrink-0">
@@ -162,7 +155,7 @@ const AlumniDirectory = () => {
                                                 </div>
                                                 <span className="line-clamp-2">{item.role || 'Alumni'}</span>
                                             </div>
-                                            
+
                                             {item.location_name && (
                                                 <div className="flex items-center gap-3 text-sm font-medium text-slate-600">
                                                     <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-rose-50 text-rose-500 shrink-0">
@@ -180,8 +173,7 @@ const AlumniDirectory = () => {
                                                 </blockquote>
                                             </div>
                                         )}
-                                        
-                                        {/* Tags */}
+
                                         {item.tags && (
                                             <div className="mt-4 flex flex-wrap gap-2">
                                                 {item.tags.split(',').map((tag: string, idx: number) => (
@@ -197,7 +189,6 @@ const AlumniDirectory = () => {
                         </div>
                     )}
 
-                    {/* Load More Button */}
                     {hasMore && !loading && (
                         <div className="mt-12 text-center">
                             <button
@@ -215,16 +206,6 @@ const AlumniDirectory = () => {
                     )}
                 </div>
             </div>
-            
-            <style>{`
-                .hide-scrollbar::-webkit-scrollbar {
-                    display: none;
-                }
-                .hide-scrollbar {
-                    -ms-overflow-style: none;
-                    scrollbar-width: none;
-                }
-            `}</style>
         </MainLayout>
     );
 };
