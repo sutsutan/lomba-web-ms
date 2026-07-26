@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Pause, Play, MessageCircle, UserPlus, Plus } from 'lucide-react';
+import { Pause, Play, MessageCircle, FileText, Plus } from 'lucide-react';
 import marsMetland from '@/assets/mars-metland.mp3';
 
 const ButtonCorner: React.FC = () => {
@@ -50,7 +50,7 @@ const ButtonCorner: React.FC = () => {
       action: 'music' 
     },
     { id: 'wa', icon: <MessageCircle size={20} />, color: 'bg-green-500', action: 'wa' },
-    { id: 'ppdb', icon: <UserPlus size={20} />, color: 'bg-amber-500', action: 'ppdb' },
+    { id: 'ppdb', icon: <FileText size={20} />, color: 'bg-amber-500', action: 'ppdb' },
   ];
 
   return (

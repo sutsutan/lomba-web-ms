@@ -254,9 +254,6 @@ export default function AdminMajorPage() {
             )}
           </div>
 
-          <FormField label="Title Ruangan (Practical Lab Facilities)">
-            <input className={inputClass} value={form.lab_title} onChange={e => setForm({ ...form, lab_title: e.target.value })} placeholder="Contoh: Lab Komputer Jaringan..." />
-          </FormField>
 
           <div className="flex flex-col gap-2">
             <ImageUploadField 
