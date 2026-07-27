@@ -34,6 +34,7 @@ import NewsArchive from "./pages/public/NewsArchive";
 import NewsDetail from "./pages/public/NewsDetail";
 import Achievement from "./pages/public/Achievement"
 import AchievementDetail from "./pages/public/AchievementDetail"
+import RequireRole from "./components/admin/requireRole"
 
 
 
@@ -56,7 +57,7 @@ import AdminOrganizationsPage from './pages/admin/AdminOrganizationsPage';
 import AdminNewsPage from './pages/admin/AdminNewsPage';
 import AdminExploreGalleryPage from './pages/admin/AdminExploreGalleryPage';
 import AdminAlumniPage from './pages/admin/AdminAlumniPage';
-import AdminManageUser from './pages/admin/AdminManageUser';
+import AdminManageUserPage from './pages/admin/AdminManageUser';
 import AdminAchievementPage from './pages/admin/AdminAchievementPage';
 
 // Components
@@ -106,11 +107,11 @@ const App = () => (
                 <Route path="/admin" element={<AdminLoginPage />} />
                 <Route path="/dashboard" element={<AdminRequireAuth><AdminLayout /></AdminRequireAuth>}>
                   <Route index element={<AdminDashboard />} />
+                  <Route path="majors" element={<AdminMajorsPage />} />
                   <Route path="hero" element={<AdminHeroPage />} />
                   <Route path="achievements" element={<AdminAchievementPage />} />
                   <Route path="partnerships" element={<AdminPartnershipsPage />} />
                   <Route path="testimonies" element={<AdminTestimoniesPage />} />
-                  <Route path="majors" element={<AdminMajorsPage />} />
                   <Route path="facilities" element={<AdminFacilitiesPage />} />
                   <Route path="activity-gallery" element={<AdminActivityGalleryPage />} />
                   <Route path="student-works" element={<AdminStudentWorksPage />} />
@@ -120,7 +121,9 @@ const App = () => (
                   <Route path="news" element={<AdminNewsPage />} />
                   <Route path="explore-gallery" element={<AdminExploreGalleryPage />} />
                   <Route path="alumni" element={<AdminAlumniPage />} />
-                  <Route path="manage-user" element={<AdminManageUser />} />
+                  <Route path="manage-user" element={<AdminManageUserPage />} />
+                  <Route path="manage-user" element={<RequireRole allow={['admin']}><AdminManageUserPage /></RequireRole>} />
+                  <Route path="hero-backgrounds" element={<RequireRole allow={['admin']}><AdminHeroPage /></RequireRole>} />
                 </Route>
 
                 <Route path="*" element={<NotFound />} />

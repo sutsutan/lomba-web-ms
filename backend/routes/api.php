@@ -47,7 +47,6 @@ Route::middleware(['auth:sanctum', 'admin'])->prefix('admin')->group(function ()
 
     // Manajemen user hanya boleh diakses admin.
     Route::apiResource('users', UserController::class);
-    Route::post('/users/{id}/approve', [UserController::class, 'approve']);
 
     Route::apiResources([
         'hero-backgrounds'   => HeroBackgroundController::class,
@@ -70,12 +69,4 @@ Route::middleware(['auth:sanctum', 'admin'])->prefix('admin')->group(function ()
 // --- Marketing Routes (akses terbatas: PPDB + referensi jurusan + dashboard ringkas) ---
 Route::middleware(['auth:sanctum', 'role:admin,marketing'])->prefix('admin')->group(function () {
     Route::get('/marketing-stats', [AuthController::class, 'marketingStats']);
-
-    // Marketing hanya boleh membaca data jurusan (referensi PPDB), tidak boleh CRUD penuh.
-    Route::get('/majors', [MajorController::class, 'index']);
-    Route::get('/majors/{id}', [MajorController::class, 'show']);
-
-    // Ganti dengan controller PPDB kamu yang sebenarnya, contoh:
-    // Route::apiResource('ppdb-registrations', PpdbRegistrationController::class)
-    //     ->except(['destroy']); // marketing tidak boleh hapus data pendaftar
 });

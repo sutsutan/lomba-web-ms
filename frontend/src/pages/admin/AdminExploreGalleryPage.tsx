@@ -1,73 +1,103 @@
 import React, { useState, useEffect } from 'react';
-import { getAdminExploreGalleries, createExploreGallery, updateExploreGallery, deleteExploreGallery } from '@/services/ExploreGallery';
+import {
+  getAdminExploreGalleries,
+  createExploreGallery,
+  updateExploreGallery,
+  deleteExploreGallery,
+  ExploreGalleryData,
+  ExploreGalleryPayload,
+  OrganizationRef,
+  ExtracurricularRef,
+} from '@/services/ExploreGallery';
+import { organizationService } from '@/services/Organization';
+import { getAdminExtracurriculars } from '@/services/Extracurricular';
 
-// Import komponen admin dari folder components
 import PageHeader from '@/components/admin/PageHeader';
 import DataTable from '@/components/admin/DataTable';
 import Badge from '@/components/admin/Badge';
 import Modal from '@/components/admin/Modal';
 import FormField, { inputClass, selectClass, textareaClass } from '@/components/admin/FormField';
-import ImageUploadField from '@/components/admin/ImageUploadField';
 import SearchBar from '@/components/admin/SearchBar';
-
-// Interface Data Explore Gallery
-interface ExploreGallery {
-  id: number;
-  image_url: string;
-  title: string;            // Judul/Keterangan Foto Jelajah
-  relation_type: string;    // 'organization' | 'news'
-  related_to: string;       // Menghubungkan ke kelompok organisasi (leadership, arts, dll) atau judul berita
-  publish_date: string;     // Tanggal publikasi galeri
-  description: string;      // Detail narasi/konten pelengkap
-  is_active: boolean;
-}
+import MultiImageUploadField from '@/components/admin/MultiImageUploadField';
+type RelationType = 'organization' | 'extracurricular';
 
 export default function AdminExploreGalleryPage() {
-  const [items, setItems] = useState<ExploreGallery[]>([]);
+  const [items, setItems] = useState<ExploreGalleryData[]>([]);
+  const [organizations, setOrganizations] = useState<OrganizationRef[]>([]);
+  const [extracurriculars, setExtracurriculars] = useState<ExtracurricularRef[]>([]);
   const [loading, setLoading] = useState(true);
 
   const [modal, setModal] = useState(false);
-  const [editing, setEditing] = useState<ExploreGallery | null>(null);
+  const [editing, setEditing] = useState<ExploreGalleryData | null>(null);
   const [search, setSearch] = useState('');
 
-  // Inisialisasi form default
-  const [form, setForm] = useState({
-    image_url: '',
-    title: '',
-    relation_type: 'organization',
-    related_to: 'leadership',
-    publish_date: new Date().toISOString().split('T')[0],
-    description: '',
-    is_active: true
-  });
+  const [relationType, setRelationType] = useState<RelationType>('organization');
+  const [form, setForm] = useState<ExploreGalleryPayload>({
+    organization_id: null,
+    extracurricular_id: null,
+    news_id: null,
+    event_name: '',
+    traits_achievement: '',
+    documentation_urls: [],
+    year: new Date().getFullYear(),
+    is_active: true,
+});
 
-  // Filter pencarian berdasarkan judul galeri, keterhubungan, atau deskripsi
   const filtered = items.filter(i =>
-    String(i.title || '').toLowerCase().includes(search.toLowerCase()) ||
-    String(i.related_to || '').toLowerCase().includes(search.toLowerCase()) ||
-    String(i.description || '').toLowerCase().includes(search.toLowerCase())
+    String(i.event_name || '').toLowerCase().includes(search.toLowerCase()) ||
+    String(i.traits_achievement || '').toLowerCase().includes(search.toLowerCase())
   );
 
-  // Aksi Buka Modal Tambah
+  const resetForm = () => {
+    setRelationType('organization');
+    setForm({
+      organization_id: organizations[0]?.id ?? null,
+      extracurricular_id: null,
+      news_id: null,
+      event_name: '',
+      traits_achievement: '',
+      documentation_urls: [],
+      year: new Date().getFullYear(),
+      is_active: true,
+    });
+};
+
   const openAdd = () => {
     setEditing(null);
-    setForm({ image_url: '', title: '', relation_type: 'organization', related_to: 'leadership', publish_date: new Date().toISOString().split('T')[0], description: '', is_active: true });
+    resetForm();
     setModal(true);
   };
 
-  // Aksi Buka Modal Edit
-  const openEdit = (item: ExploreGallery) => {
+  const openEdit = (item: ExploreGalleryData) => {
     setEditing(item);
-    setForm({ image_url: item.image_url, title: item.title, relation_type: item.relation_type, related_to: item.related_to, publish_date: item.publish_date, description: item.description, is_active: item.is_active });
+    const type: RelationType = item.extracurricular_id ? 'extracurricular' : 'organization';
+    setRelationType(type);
+    setForm({
+      organization_id: item.organization_id,
+      extracurricular_id: item.extracurricular_id,
+      news_id: item.news_id,
+      event_name: item.event_name,
+      traits_achievement: item.traits_achievement || '',
+      documentation_urls: Array.isArray(item.documentation_urls) && item.documentation_urls.length > 0
+        ? item.documentation_urls
+        : (item.documentation_url ? [item.documentation_url] : []),
+      year: item.year,
+      is_active: item.is_active,
+    });
     setModal(true);
-  };
+};
 
-  // Fetch data dari API
   const fetchData = async () => {
     try {
       setLoading(true);
-      const data = await getAdminExploreGalleries();
-      setItems(Array.isArray(data) ? data.filter(Boolean) : []);
+      const [galleryData, orgData, ekskulData] = await Promise.all([
+        getAdminExploreGalleries(),
+        organizationService.getAll(),
+        getAdminExtracurriculars(),
+      ]);
+      setItems(Array.isArray(galleryData) ? galleryData.filter(Boolean) : []);
+      setOrganizations(Array.isArray(orgData) ? (orgData as any) : []);
+      setExtracurriculars(Array.isArray(ekskulData) ? (ekskulData as any) : []);
     } catch (error) {
       console.error('Gagal memuat data explore gallery:', error);
     } finally {
@@ -77,8 +107,24 @@ export default function AdminExploreGalleryPage() {
 
   useEffect(() => { fetchData(); }, []);
 
-  // Aksi Simpan (Create / Update)
-  const save = async () => {
+  const handleRelationTypeChange = (type: RelationType) => {
+    setRelationType(type);
+    setForm({
+      ...form,
+      organization_id: type === 'organization' ? (organizations[0]?.id ?? null) : null,
+      extracurricular_id: type === 'extracurricular' ? (extracurriculars[0]?.id ?? null) : null,
+    });
+  };
+
+ const save = async () => {
+    if (!form.event_name || (!form.organization_id && !form.extracurricular_id)) {
+      alert('Mohon lengkapi Nama Kegiatan dan pilih Organisasi/Ekskul terkait.');
+      return;
+    }
+    if (!form.documentation_urls || form.documentation_urls.length === 0) {
+      alert('Minimal unggah 1 foto dokumentasi.');
+      return;
+    }
     try {
       if (editing) {
         await updateExploreGallery(editing.id, form);
@@ -87,13 +133,12 @@ export default function AdminExploreGalleryPage() {
       }
       setModal(false);
       fetchData();
-    } catch (error) {
+    } catch (error: any) {
       console.error('Gagal menyimpan data explore gallery:', error);
-      alert('Gagal menyimpan data. Silakan coba lagi.');
+      alert(error?.response?.data?.message || 'Gagal menyimpan data. Silakan coba lagi.');
     }
-  };
+};
 
-  // Aksi Hapus
   const del = async (id: number) => {
     if (!confirm('Yakin ingin menghapus item galeri ini?')) return;
     try {
@@ -105,75 +150,87 @@ export default function AdminExploreGalleryPage() {
     }
   };
 
-  // Warna badge pembeda tipe keterhubungan
   const typeColors: Record<string, string> = {
     organization: 'blue',
-    news: 'purple'
+    extracurricular: 'green',
   };
 
-  // Label konversi tipe keterhubungan
-  const typeLabels: Record<string, string> = {
-    organization: '🔗 Organisasi Siswa',
-    news: '📰 Berita & Artikel'
+  const getRelatedLabel = (item: ExploreGalleryData) => {
+    if (item.extracurricular_id) return item.extracurricular?.name || `Ekskul #${item.extracurricular_id}`;
+    if (item.organization_id) return item.organization?.name || `Organisasi #${item.organization_id}`;
+    return '-';
   };
+
+  const getRelationTypeLabel = (item: ExploreGalleryData) =>
+    item.extracurricular_id ? '🏅 Ekstrakurikuler' : '🔗 Organisasi';
 
   return (
     <div className="p-6 space-y-6">
-      <PageHeader title="Jelajah Galeri" subtitle="Kelola dokumentasi visual interaktif yang terhubung langsung dengan Organisasi dan Berita" onAdd={openAdd} />
+      <PageHeader title="Jelajah Galeri" subtitle="Kelola dokumentasi kegiatan & prestasi Organisasi dan Ekstrakurikuler" onAdd={openAdd} />
 
       <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
         <div className="p-4 border-b border-gray-100 bg-gray-50/50">
-          <SearchBar value={search} onChange={setSearch} placeholder="Cari judul galeri, nama berita/organisasi terkait..." />
+          <SearchBar value={search} onChange={setSearch} placeholder="Cari nama kegiatan atau prestasi..." />
         </div>
 
         <DataTable
           columns={[
+           {
+            key: 'documentation_url',
+            label: 'Dokumentasi',
+            render: (item: ExploreGalleryData) => {
+              const photos = Array.isArray(item.documentation_urls) && item.documentation_urls.length > 0
+                ? item.documentation_urls
+                : (item.documentation_url ? [item.documentation_url] : []);
+              return (
+                <div className="relative w-20 h-12">
+                  <img
+                    src={photos[0]}
+                    className="w-20 h-12 object-cover rounded-xl border border-gray-100 shadow-sm bg-gray-50"
+                    alt=""
+                    onError={e => (e.currentTarget.src = 'https://placehold.co/80x48/e2e8f0/94a3b8?text=No+Media')}
+                  />
+                  {photos.length > 1 && (
+                    <span className="absolute -bottom-1 -right-1 bg-indigo-600 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full shadow">
+                      +{photos.length - 1}
+                    </span>
+                  )}
+                </div>
+              );
+            }
+          },
             {
-              key: 'image_url',
-              label: 'Foto Media',
-              render: (item: ExploreGallery) => (
-                <img 
-                  src={item.image_url} 
-                  className="w-20 h-12 object-cover rounded-xl border border-gray-100 shadow-sm bg-gray-50" 
-                  alt="" 
-                  onError={e => (e.currentTarget.src = 'https://placehold.co/80x48/e2e8f0/94a3b8?text=No+Media')} 
-                />
-              )
-            },
-            {
-              key: 'title',
-              label: 'Judul Galeri & Tanggal',
-              render: (item: ExploreGallery) => (
+              key: 'event_name',
+              label: 'Nama Kegiatan & Tahun',
+              render: (item: ExploreGalleryData) => (
                 <div>
-                  <span className="font-semibold text-gray-900 block leading-tight mb-0.5">{item.title}</span>
-                  <span className="text-gray-400 text-[11px] block font-normal">
-                    Dipublikasikan: {new Date(item.publish_date).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}
-                  </span>
+                  <span className="font-semibold text-gray-900 block leading-tight mb-0.5">{item.event_name}</span>
+                  <span className="text-gray-400 text-[11px] block font-normal">Tahun {item.year}</span>
                 </div>
               )
             },
             {
-              key: 'relation_type',
+              key: 'relation',
               label: 'Sumber Terhubung',
-              render: (item: ExploreGallery) => (
-                <Badge color={typeColors[item.relation_type] || 'gray'}>
-                  {typeLabels[item.relation_type] || item.relation_type}
+              render: (item: ExploreGalleryData) => (
+                <Badge color={typeColors[item.extracurricular_id ? 'extracurricular' : 'organization']}>
+                  {getRelationTypeLabel(item)}
                 </Badge>
               )
             },
             {
               key: 'related_to',
-              label: 'Nama Relasi / Target',
-              render: (item: ExploreGallery) => (
-                <span className="text-xs font-medium text-gray-700 capitalize bg-gray-100 px-2 py-1 rounded-md inline-block max-w-[180px] truncate">
-                  {item.related_to}
+              label: 'Nama Relasi',
+              render: (item: ExploreGalleryData) => (
+                <span className="text-xs font-medium text-gray-700 bg-gray-100 px-2 py-1 rounded-md inline-block max-w-[180px] truncate">
+                  {getRelatedLabel(item)}
                 </span>
               )
             },
             {
               key: 'is_active',
               label: 'Visibilitas',
-              render: (item: ExploreGallery) => (
+              render: (item: ExploreGalleryData) => (
                 <Badge color={item.is_active ? 'green' : 'gray'}>
                   {item.is_active ? 'Tampil' : 'Arsip'}
                 </Badge>
@@ -186,54 +243,105 @@ export default function AdminExploreGalleryPage() {
         />
       </div>
 
-      <Modal isOpen={modal} onClose={() => setModal(false)} title={editing ? 'Edit Galeri Jelajah' : 'Unggah Konten Galeri Jelajah'}>
+      <Modal isOpen={modal} onClose={() => setModal(false)} title={editing ? 'Edit Galeri Jelajah' : 'Tambah Galeri Jelajah'}>
         <div className="space-y-4">
-          <ImageUploadField value={form.image_url} onChange={url => setForm({ ...form, image_url: url })} label="File Gambar/Foto Galeri" />
+          <MultiImageUploadField
+              values={form.documentation_urls}
+              onChange={documentation_urls => setForm({ ...form, documentation_urls })}
+              label="Foto Dokumentasi Kegiatan"
+              folder="explore-galleries"
+              maxImages={10}
+          />
 
-          <FormField label="Judul / Keterangan Singkat Foto" required>
-            <input className={inputClass} value={form.title} onChange={e => setForm({ ...form, title: e.target.value })} placeholder="Contoh: Penampilan Band Sekolah di Pensi, Liputan Upacara 17 Agustus" />
+          <FormField label="Nama Kegiatan / Event" required>
+            <input className={inputClass} value={form.event_name} onChange={e => setForm({ ...form, event_name: e.target.value })} placeholder="Contoh: Latihan Gabungan Paskibra, Pentas Seni Tahunan" />
           </FormField>
 
           <div className="grid grid-cols-2 gap-4">
             <FormField label="Hubungkan Konten Ke" required>
-              <select className={selectClass} value={form.relation_type} onChange={e => setForm({ ...form, relation_type: e.target.value, related_to: e.target.value === 'organization' ? 'leadership' : '' })}>
-                <option value="organization">Organisasi & Ekstrakurikuler</option>
-                <option value="news">Berita Utama / Artikel Sekolah</option>
+              <select
+                className={selectClass}
+                value={relationType}
+                onChange={e => handleRelationTypeChange(e.target.value as RelationType)}
+              >
+                <option value="organization">Organisasi & Kepengurusan</option>
+                <option value="extracurricular">Ekstrakurikuler</option>
               </select>
             </FormField>
 
-            {form.relation_type === 'organization' ? (
-              <FormField label="Rumpun Organisasi Target" required>
-                <select className={selectClass} value={form.related_to} onChange={e => setForm({ ...form, related_to: e.target.value })}>
-                  <option value="leadership">Leadership (OSIS/MPK)</option>
-                  <option value="arts">Arts (Media/Desain/Seni Rupa)</option>
-                  <option value="performance">Performance (Musik/Teater/Tari)</option>
-                  <option value="character">Character (Pramuka/PMR/Paskib)</option>
-                </select>
-              </FormField>
-            ) : (
-              <FormField label="Kata Kunci / Judul Berita Terkait" required>
-                <input className={inputClass} value={form.related_to} onChange={e => setForm({ ...form, related_to: e.target.value })} placeholder="Masukkan judul berita terkait..." />
-              </FormField>
-            )}
+           {relationType === 'organization' ? (
+            <FormField label="Pilih Organisasi" required>
+              <select
+                className={selectClass}
+                value={form.organization_id ?? ''}
+                onChange={e => setForm({ ...form, organization_id: e.target.value ? Number(e.target.value) : null })}
+              >
+                <option value="" disabled>Pilih Organisasi...</option>
+                {organizations.map(org => (
+                  <option key={org.id} value={org.id}>{org.name} ({org.category})</option>
+                ))}
+              </select>
+              {organizations.length === 0 && (
+                <p className="mt-1 text-[11px] text-amber-600">Belum ada data organisasi. Tambahkan dulu di menu Organisasi.</p>
+              )}
+              {form.organization_id && (
+                <p className="mt-1 text-[11px] text-teal-600">
+                  Item ini akan tampil di section <strong>{organizations.find(o => o.id === form.organization_id)?.category}</strong> pada halaman MoreOrg.
+                </p>
+              )}
+            </FormField>
+          ) : (
+            <FormField label="Pilih Ekstrakurikuler" required>
+              <select
+                className={selectClass}
+                value={form.extracurricular_id ?? ''}
+                onChange={e => setForm({ ...form, extracurricular_id: e.target.value ? Number(e.target.value) : null })}
+              >
+                <option value="" disabled>Pilih Ekskul...</option>
+                {extracurriculars.map(ek => (
+                  <option key={ek.id} value={ek.id}>{ek.name} ({ek.category})</option>
+                ))}
+              </select>
+              {extracurriculars.length === 0 && (
+                <p className="mt-1 text-[11px] text-amber-600">Belum ada data ekstrakurikuler. Tambahkan dulu di menu Ekstrakurikuler.</p>
+              )}
+              {form.extracurricular_id && (
+                <p className="mt-1 text-[11px] text-teal-600">
+                  Item ini akan tampil di halaman detail ekskul: <strong>{extracurriculars.find(e => e.id === form.extracurricular_id)?.name}</strong>.
+                </p>
+              )}
+            </FormField>
+          )}
           </div>
 
-          <FormField label="Tanggal Dokumentasi" required>
-            <input type="date" className={inputClass} value={form.publish_date} onChange={e => setForm({ ...form, publish_date: e.target.value })} />
+          <FormField label="Tahun Kegiatan" required>
+            <input
+              type="number"
+              className={inputClass}
+              value={form.year}
+              onChange={e => setForm({ ...form, year: Number(e.target.value) })}
+              placeholder={String(new Date().getFullYear())}
+            />
           </FormField>
 
-          <FormField label="Deskripsi / Kronologi Singkat" required>
-            <textarea className={textareaClass} rows={4} value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} placeholder="Tuliskan ulasan pelengkap dari foto ini yang dapat memandu pengguna saat mengklik gambar..." />
+          <FormField label="Prestasi / Ciri Khas Kegiatan">
+            <textarea
+              className={textareaClass}
+              rows={4}
+              value={form.traits_achievement}
+              onChange={e => setForm({ ...form, traits_achievement: e.target.value })}
+              placeholder="Contoh: Juara 1 Lomba Tari Tradisional Tingkat Kota, atau ceritakan momen kegiatan ini..."
+            />
           </FormField>
 
           <div className="flex items-center gap-3 py-1">
             <input type="checkbox" id="explore-active" checked={form.is_active} onChange={e => setForm({ ...form, is_active: e.target.checked })} className="w-4 h-4 rounded accent-indigo-600" />
-            <label htmlFor="explore-active" className="text-sm font-medium text-gray-700 select-none">Aktifkan konten di halaman ekplorasi interaktif umum</label>
+            <label htmlFor="explore-active" className="text-sm font-medium text-gray-700 select-none">Aktifkan konten di halaman publik</label>
           </div>
 
           <div className="flex gap-3 pt-2">
             <button type="button" onClick={() => setModal(false)} className="flex-1 py-2.5 border border-gray-200 rounded-xl text-sm font-medium text-gray-600 hover:bg-gray-50 transition-colors">Batal</button>
-            <button type="button" onClick={save} className="flex-1 py-2.5 bg-indigo-600 rounded-xl text-sm font-medium text-white hover:bg-indigo-700 transition-colors">Simpan Eksplorasi</button>
+            <button type="button" onClick={save} className="flex-1 py-2.5 bg-indigo-600 rounded-xl text-sm font-medium text-white hover:bg-indigo-700 transition-colors">Simpan Galeri</button>
           </div>
         </div>
       </Modal>

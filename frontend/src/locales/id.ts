@@ -529,6 +529,7 @@ export default {
   'organization.wellness.label': 'Inovasi & Kesejahteraan',
   'organization.wellness.title': 'Inovasi & Kesejahteraan',
   'organization.wellness.desc': 'Membina pikiran, jiwa, dan keterampilan masa depan.',
+   'common.readMore': 'Galeri Eksplorasi',
 
   'org.osis.name': 'Osis (Organisasi Siswa Intra Sekolah)',
   'org.osis.desc': 'Jantung kehidupan siswa, mengelola acara besar dan mewakili suara siswa ke pihak sekolah.',
@@ -854,9 +855,9 @@ export default {
 
   // Categories Name
   "cat_leadership": "Kepemimpinan & Tata Kelola",
-  "cat_arts": "Seni Pertunjukan",
-  "cat_innovation": "Inovasi & Teknologi",
-  "cat_service": "Layanan Masyarakat",
+  "cat_creative": "Seni Pertunjukan",
+  "cat_discipline": "Inovasi & Teknologi",
+  "cat_wellness": "Layanan Masyarakat",
 
   // Category Descriptions
   "desc_leadership_intro": "Memberdayakan generasi pemimpin visioner berikutnya melalui organisasi dan tata kelola yang sistematis.",

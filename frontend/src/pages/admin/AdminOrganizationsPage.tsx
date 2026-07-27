@@ -33,7 +33,7 @@ export default function AdminOrganizationPage() {
   const fetchData = async () => {
     try {
       setLoading(true);
-      const data = await organizationService.getAll();
+      const data = await organizationService.getAdminAll();
       setItems(Array.isArray(data) ? data.filter(Boolean) : []);
     } catch (error) {
       console.error("Gagal mengambil data organisasi:", error);

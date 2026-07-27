@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class ExtracurricularController extends BaseResourceController
 {
     protected $model = Extracurricular::class;
-    
+
     protected $validationRules = [
         'name'              => 'required|string|max:255',
         'category'          => 'required|in:Sports,Arts,Specialized',
@@ -26,7 +26,11 @@ class ExtracurricularController extends BaseResourceController
     {
         $query = Extracurricular::query();
 
-        if ($request->has('category')) {
+        if (!$request->user()) {
+            $query->where('is_active', true);
+        }
+
+        if ($request->filled('category')) {
             $query->where('category', $request->category);
         }
 

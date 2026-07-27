@@ -14,12 +14,12 @@ import SearchBar from '@/components/admin/SearchBar';
 interface ActivityGallery {
   id: number;
   image_url: string;
-  title: string;          // Nama/Judul Kegiatan
-  major_code: string;     // 'it' | 'culinary' | 'vcd' | 'hospitality' | 'accounting' | 'general'
-  activity_date: string;  // Tanggal Pelaksanaan Kegiatan
-  description: string;    // Keterangan singkat foto Dokumentasi
-  is_featured: boolean;   // Tampil di highlight beranda utama
-  is_archived?: boolean;  // Apakah masuk ke arsip
+  title: string;
+  major_code: string;
+  activity_date: string;
+  description: string;
+  is_featured: boolean;
+  is_archived?: boolean;
 }
 
 export default function AdminActivityGalleryPage() {

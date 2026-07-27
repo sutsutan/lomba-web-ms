@@ -155,7 +155,7 @@ export default function AdminMajorPage() {
 
   return (
     <div className="p-6 space-y-6">
-      <PageHeader title="Jurusan & Program Keahlian" subtitle="Kelola data jurusan, deskripsi kompetensi, dan ketua program studi" onAdd={openAdd} />
+      <PageHeader title="Jurusan & Program Keahlian" subtitle="Kelola data jurusan, deskripsi kompetensi, dan Kepala Program Studi" onAdd={openAdd} />
 
       <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
         <div className="p-4 border-b border-gray-100 bg-gray-50/50">
@@ -178,7 +178,7 @@ export default function AdminMajorPage() {
               label: 'Nama Program Keahlian',
               render: (item: Major) => <span className="font-semibold text-gray-900 block">{item.name}</span>
             },
-            { key: 'head_of_major', label: 'Ketua Jurusan (Kakomli)' },
+            { key: 'head_of_major', label: 'Kepala Program Studi (Kaprodi)' },
             {
               key: 'total_students',
               label: 'Total Siswa',
@@ -238,7 +238,7 @@ export default function AdminMajorPage() {
             <input className={inputClass} value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} placeholder="Contoh: Pengembangan Perangkat Lunak dan Gim" />
           </FormField>
 
-          <FormField label="Ketua Program Keahlian / Kakomli" required>
+          <FormField label="Kepala Program Studi (Kaprodi)" required>
             <input className={inputClass} value={form.head_of_major} onChange={e => setForm({ ...form, head_of_major: e.target.value })} placeholder="Nama Guru beserta gelar..." />
           </FormField>
 

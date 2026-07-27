@@ -5,10 +5,7 @@ export interface UserAccount {
   avatar_url: string | null;
   name: string;
   email: string;
-  role: 'admin' | 'user' | 'marketing';
-  internal_type: 'student' | 'teacher' | 'staff' | 'alumni' | 'none';
-  identity_number: string | null;
-  is_approved: boolean;
+  role: 'admin' | 'marketing';
 }
 
 export type UserPayload = Omit<UserAccount, 'id'> & { password?: string };
@@ -43,8 +40,4 @@ export const updateUser = async (id: number, data: Partial<UserPayload>) => {
 
 export const deleteUser = async (id: number) => {
   return await api.delete(`/admin/users/${id}`);
-};
-
-export const approveUser = async (id: number) => {
-  return await api.post(`/admin/users/${id}/approve`);
 };

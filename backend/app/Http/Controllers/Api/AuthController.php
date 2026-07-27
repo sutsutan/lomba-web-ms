@@ -9,32 +9,23 @@ use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller 
 {
-   public function login(Request $request) 
-{
-    $request->validate([
-        'email' => 'required|email',
-        'password' => 'required',
-    ]);
-
-    if (!Auth::attempt($request->only('email', 'password'))) {
-        throw ValidationException::withMessages([
-            'email' => ['Email atau password salah.'],
+    public function login(Request $request) 
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
         ]);
+
+        if (!Auth::attempt($request->only('email', 'password'))) {
+            throw ValidationException::withMessages([
+                'email' => ['Email atau password salah.'],
+            ]);
+        }
+
+        $request->session()->regenerate();
+
+        return response()->json(['user' => Auth::user()]);
     }
-
-    $user = Auth::user();
-
-    if ($user->role === 'user' && !$user->is_approved) {
-        Auth::logout();
-        throw ValidationException::withMessages([
-            'email' => ['Akun Anda belum disetujui oleh admin. Silakan tunggu proses verifikasi.'],
-        ]);
-    }
-
-    $request->session()->regenerate();
-
-    return response()->json(['user' => $user]);
-}
 
     public function logout(Request $request) 
     {

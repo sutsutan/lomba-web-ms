@@ -41,16 +41,6 @@ class User extends Authenticatable
         return $this->role === 'marketing';
     }
 
-    public function isUser(): bool
-    {
-        return $this->role === 'user';
-    }
-
-    public function isApproved(): bool
-    {
-        return $this->role !== 'user' || $this->is_approved;
-    }
-
     protected function casts(): array
     {
         return [
