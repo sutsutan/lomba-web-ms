@@ -106,8 +106,8 @@ export default {
 
   // Hero Section
   'hero.tagline': 'SMK Pariwisata Metland School',
-  'hero.title_part1': 'The High Standard',
-  'hero.title_part2': 'of Vocational Education',
+  'hero.title_part1': 'The High Standard of',
+  'hero.title_part2': 'Vocational Education',
   'hero.description': 'We prepare students with industry-ready skills, character development, and real-world experience for successful careers.',
   'hero.learn_more': 'Learn More',
   'hero.scroll_explore': 'Scroll to explore',
