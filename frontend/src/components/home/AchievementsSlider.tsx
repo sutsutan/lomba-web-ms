@@ -11,6 +11,7 @@ const AchievementsSlider = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [achievements, setAchievements] = useState<AchievementData[]>([]);
     const [loading, setLoading] = useState(true);
+    const [isPaused, setIsPaused] = useState(false);
 
     useEffect(() => {
         fetchPublicAchievements().then((data) => {
@@ -18,6 +19,16 @@ const AchievementsSlider = () => {
             setLoading(false);
         });
     }, []);
+
+   useEffect(() => {
+    if (achievements.length <= 1 || isPaused) return;
+
+    const interval = setInterval(() => {
+        setCurrentIndex((prev) => (prev + 1) % achievements.length);
+    }, 4500);
+
+    return () => clearInterval(interval);
+}, [achievements.length, isPaused]);
 
     const nextSlide = () => {
         if (achievements.length === 0) return;
@@ -96,10 +107,10 @@ const AchievementsSlider = () => {
                             animate={{
                                 x: `calc(-${currentIndex * 100}% - ${currentIndex * (typeof window !== 'undefined' && window.innerWidth < 768 ? 16 : 32)}px)`,
                             }}
-                            transition={{
-                                type: 'spring',
-                                stiffness: 260,
-                                damping: 26,
+                           transition={{
+                                type: "tween",
+                                duration: 0.8,
+                                ease: "easeInOut",
                             }}
                         >
                             {achievements.map((item, index) => (
@@ -111,7 +122,10 @@ const AchievementsSlider = () => {
                                         opacity: index === currentIndex ? 1 : 0.4,
                                         filter: index === currentIndex ? 'blur(0px)' : 'blur(2px)',
                                     }}
-                                    transition={{ duration: 0.4 }}
+                                   transition={{
+                                        duration: 0.6,
+                                        ease: "easeInOut",
+                                    }}
                                 >
                                     <div className="relative overflow-hidden rounded-3xl bg-gradient-to-t from-white via-[#E2F0F9]/20 to-[#E2F0F9] shadow-[0_20px_60px_rgba(0,0,0,0.15)] md:rounded-[3rem]">
                                         <div className="grid items-center gap-6 p-8 md:grid-cols-[1.2fr,0.8fr] md:gap-0 md:p-12 lg:p-16">
@@ -134,14 +148,9 @@ const AchievementsSlider = () => {
                                                 </p>
 
                                                 {/* Detail/News Link */}
-                                               <Link 
-                                                to={item.news_id ? `/achievement-detail/${item.news_id}` : '#'} 
-                                                className={`group mt-2 inline-flex items-center justify-center gap-3 rounded-full bg-[#0F4C5C] px-8 py-3.5 text-sm font-bold text-white shadow-xl transition-all hover:bg-[#0a3844] hover:shadow-2xl active:scale-95 md:mt-4 md:px-10 md:py-4 md:text-base ${!item.news_id ? 'cursor-not-allowed opacity-60' : 'cursor-pointer'}`}
-                                                onClick={(e) => {
-                                                    if (!item.news_id) {
-                                                        e.preventDefault();
-                                                    }
-                                                }}
+                                              <Link
+                                                to={`/achievement-detail/${item.id}`}
+                                                className="group mt-2 inline-flex items-center justify-center gap-3 rounded-full bg-[#0F5F58] px-8 py-3.5 text-sm font-bold text-white shadow-xl transition-all hover:bg-[#0b4b45] hover:shadow-2xl active:scale-95 md:mt-4 md:px-10 md:py-4 md:text-base"
                                             >
                                                 <Trophy className="h-4 w-4 md:h-5 md:w-5" />
                                                 {t('achievements.learn_more')}
