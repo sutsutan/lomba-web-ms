@@ -39,4 +39,19 @@ class AchievementController extends BaseResourceController
                 ->get()
         );
     }
+
+    public function summary()
+{
+    $total = Achievement::count();
+    $international = Achievement::where('category', 'like', '%international%')->count();
+    $national = Achievement::where('category', 'like', '%national%')->count();
+    $categories = Achievement::distinct()->pluck('category')->filter()->count();
+
+    return response()->json([
+        'total'         => $total,
+        'international' => $international,
+        'national'      => $national,
+        'categories'    => $categories,
+    ]);
+}
 }

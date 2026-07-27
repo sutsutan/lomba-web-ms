@@ -83,19 +83,32 @@ export default function AdminActivityGalleryPage() {
 
   // Aksi Simpan (Create / Update)
   const save = async () => {
-    try {
-      if (editing) {
-        await updateActivityGallery(editing.id, form);
-      } else {
-        await createActivityGallery(form);
-      }
-      setModal(false);
-      fetchData();
-    } catch (error) {
-      console.error('Gagal menyimpan data galeri kegiatan:', error);
-      alert('Gagal menyimpan data. Silakan coba lagi.');
+  if (!form.image_url) {
+    alert('Mohon unggah foto dokumentasi terlebih dahulu.');
+    return;
+  }
+  if (!form.title.trim()) {
+    alert('Mohon isi Nama/Judul Kegiatan.');
+    return;
+  }
+  try {
+    if (editing) {
+      await updateActivityGallery(editing.id, form);
+    } else {
+      await createActivityGallery(form);
     }
-  };
+    setModal(false);
+    fetchData();
+  } catch (error: any) {
+    console.error('Gagal menyimpan data galeri kegiatan:', error);
+    const errors = error?.response?.data?.errors;
+    if (errors) {
+      alert(`Validasi gagal:\n${Object.values(errors).flat().join('\n')}`);
+    } else {
+      alert(error?.response?.data?.message || 'Gagal menyimpan data. Silakan coba lagi.');
+    }
+  }
+};
 
   // Aksi Hapus
   const del = async (id: number) => {
@@ -273,8 +286,8 @@ export default function AdminActivityGalleryPage() {
           </FormField>
 
           <div className="flex items-center gap-3 py-1">
-            <input type="checkbox" id="gallery-featured" checked={form.is_featured} onChange={e => setForm({ ...form, is_featured: e.target.checked })} className="w-4 h-4 rounded accent-indigo-600" />
-            <label htmlFor="gallery-featured" className="text-sm font-medium text-gray-700 select-none">Pin / Sematkan di beranda utama (Sorotan)</label>
+            <input type="checkbox" id="gallery-archived" checked={form.is_archived} onChange={e => setForm({ ...form, is_archived: e.target.checked })} className="w-4 h-4 rounded accent-amber-600" />
+            <label htmlFor="gallery-archived" className="text-sm font-medium text-gray-700 select-none">📦 Langsung masukkan ke Arsip (tidak tampil aktif di publik)</label>
           </div>
 
           <div className="flex gap-3 pt-2">

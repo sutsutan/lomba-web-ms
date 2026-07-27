@@ -1,27 +1,41 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Icon } from '../../components/admin/Icons';
+import { getAdminStats, AdminStats } from '@/services/Dashboard';
 
-const mockStats = {
-  teachers: 42, news: 18, alumni: 236, students_works: 54,
-  achievements: 31, organizations: 8, extracurriculars: 14, partnerships: 27,
-  users: 115,
+const emptyStats: AdminStats = {
+  teachers: 0, news: 0, alumni: 0, students_works: 0,
+  achievements: 0, organizations: 0, extracurriculars: 0,
+  partnerships: 0, users: 0,
 };
 
 export default function AdminDashboard() {
   const navigate = useNavigate();
+  const [statsData, setStatsData] = useState<AdminStats>(emptyStats);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    let mounted = true;
+    getAdminStats().then(data => {
+      if (mounted) {
+        setStatsData(data);
+        setLoading(false);
+      }
+    });
+    return () => { mounted = false; };
+  }, []);
 
   const stats = [
-  { label: 'Guru & Staf', value: mockStats.teachers, icon: 'Users', color: 'indigo', path: '/dashboard/teachers' },
-  { label: 'Berita', value: mockStats.news, icon: 'Newspaper', color: 'blue', path: '/dashboard/news' },
-  { label: 'Alumni', value: mockStats.alumni, icon: 'Globe', color: 'emerald', path: '/dashboard/alumni' },
-  { label: 'Karya Siswa', value: mockStats.students_works, icon: 'Palette', color: 'violet', path: '/dashboard/student-works' },
-  { label: 'Prestasi', value: mockStats.achievements, icon: 'Trophy', color: 'amber', path: '/dashboard/achievements' },
-  { label: 'Organisasi', value: mockStats.organizations, icon: 'Flag', color: 'rose', path: '/dashboard/organizations' },
-  { label: 'Ekskul', value: mockStats.extracurriculars, icon: 'GraduationCap', color: 'orange', path: '/dashboard/extracurriculars' },
-  { label: 'Mitra', value: mockStats.partnerships, icon: 'Handshake', color: 'teal', path: '/dashboard/partnerships' },
-  { label: 'Manajemen User', value: mockStats.users, icon: 'UserCog', color: 'cyan', path: '/dashboard/manage-user' },
-];
+    { label: 'Guru & Staf', value: statsData.teachers, icon: 'Users', color: 'indigo', path: '/dashboard/teachers' },
+    { label: 'Berita', value: statsData.news, icon: 'Newspaper', color: 'blue', path: '/dashboard/news' },
+    { label: 'Alumni', value: statsData.alumni, icon: 'Globe', color: 'emerald', path: '/dashboard/alumni' },
+    { label: 'Karya Siswa', value: statsData.students_works, icon: 'Palette', color: 'violet', path: '/dashboard/student-works' },
+    { label: 'Prestasi', value: statsData.achievements, icon: 'Trophy', color: 'amber', path: '/dashboard/achievements' },
+    { label: 'Organisasi', value: statsData.organizations, icon: 'Flag', color: 'rose', path: '/dashboard/organizations' },
+    { label: 'Ekskul', value: statsData.extracurriculars, icon: 'GraduationCap', color: 'orange', path: '/dashboard/extracurriculars' },
+    { label: 'Mitra', value: statsData.partnerships, icon: 'Handshake', color: 'teal', path: '/dashboard/partnerships' },
+    { label: 'Manajemen User', value: statsData.users, icon: 'UserCog', color: 'cyan', path: '/dashboard/manage-user' },
+  ];
 
   const colorMap: Record<string, string> = {
     indigo: 'bg-indigo-50 text-indigo-600',
@@ -49,7 +63,13 @@ export default function AdminDashboard() {
             <div className={`w-10 h-10 rounded-xl flex items-center justify-center mb-3 ${colorMap[stat.color]}`}>
               <Icon name={stat.icon} className="w-5 h-5" />
             </div>
-            <div className="text-2xl font-bold text-gray-900">{stat.value}</div>
+            <div className="text-2xl font-bold text-gray-900">
+              {loading ? (
+                <span className="inline-block h-6 w-10 animate-pulse rounded bg-gray-100" />
+              ) : (
+                stat.value
+              )}
+            </div>
             <div className="text-xs text-gray-500 mt-0.5">{stat.label}</div>
           </div>
         ))}
@@ -61,9 +81,9 @@ export default function AdminDashboard() {
           <h3 className="font-bold text-gray-800 mb-4">Akses Cepat</h3>
           <div className="grid grid-cols-2 gap-3">
             {stats.map(item => (
-              <button 
-                key={item.path} 
-                onClick={() => navigate(item.path)} 
+              <button
+                key={item.path}
+                onClick={() => navigate(item.path)}
                 className="flex items-center gap-3 p-3 rounded-xl hover:bg-indigo-50 transition-colors text-left group"
               >
                 <div className="w-8 h-8 bg-indigo-100 rounded-lg flex items-center justify-center text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white transition-colors">
@@ -98,4 +118,4 @@ export default function AdminDashboard() {
       </div>
     </div>
   );
-} 
+}

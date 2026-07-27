@@ -17,6 +17,7 @@ Route::get('/hero-backgrounds', [HeroBackgroundController::class, 'index']);
 Route::get('/majors', [MajorController::class, 'index']);
 Route::get('/majors/{slug}', [MajorController::class, 'show']);
 Route::get('/achievements', [AchievementController::class, 'index']);
+Route::get('/achievements/summary', [AchievementController::class, 'summary']);
 Route::get('/achievements/{id}', [AchievementController::class, 'show']);
 Route::get('/partnerships', [PartnershipController::class, 'index']);
 Route::get('/testimonies', [TestimonyController::class, 'index']);

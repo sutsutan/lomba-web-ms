@@ -22,7 +22,10 @@ class AlumniController extends BaseResourceController {
     ];
 
    public function index(Request $request) {
-    $query = Alumni::with('major');
+    $query = Alumni::with('major')
+         ->where('is_active', true)
+        ->orderByDesc('grad_year')
+        ->orderBy('name');   
 
     if (!$request->user()) {
         $query->where('is_active', true);

@@ -34,7 +34,7 @@ import NewsArchive from "./pages/public/NewsArchive";
 import NewsDetail from "./pages/public/NewsDetail";
 import Achievement from "./pages/public/Achievement"
 import AchievementDetail from "./pages/public/AchievementDetail"
-import RequireRole from "./components/admin/requireRole"
+import RequireRole from "./components/admin/RequireRole"
 
 
 
