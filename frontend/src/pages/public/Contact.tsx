@@ -1,29 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { motion} from 'framer-motion';
 import MainLayout from '@/layouts/MainLayout';
 import ScrollReveal from '@/components/ScrollReveal';
 import HeroCarousel from '@/components/HeroCarousel';
 import { MapPin, Phone, Mail, Clock, Send, MessageCircle } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
-import {
-  MapContainer,
-  TileLayer,
-  Marker,
-  Popup,
-  Circle,
-  ZoomControl,
-} from "react-leaflet";
 
-import "leaflet/dist/leaflet.css";
 import api from '@/lib/api';
-import "@/lib/leaflet";
 
 const Contact = () => {
    const { t, language } = useLanguage();
-   const schoolPosition: [number, number] = [
- -6.4033441,
-  106.9756046,
-];
     const [heroSlides, setHeroSlides] = useState<any[]>([]);
 
      useEffect(() => {
@@ -225,119 +211,87 @@ const Contact = () => {
         </div>
       </section>
 
-        {/* map with leaflet */}
-      <section className="py-20 bg-slate-50">
-      <section className="py-24 bg-gradient-to-b from-slate-50 to-white">
+      {/* Google Maps */}
+<section className="py-24 bg-gradient-to-b from-slate-50 to-white">
     <div className="container mx-auto px-6">
         <ScrollReveal>
-            <div className="text-center mb-14">
-                <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-white shadow-lg mb-6">
-                    <MapPin className="w-10 h-10 text-teal-600" />
+            <div className="mb-14 text-center">
+                <div className="mb-6 inline-flex h-20 w-20 items-center justify-center rounded-full bg-white shadow-lg">
+                    <MapPin className="h-10 w-10 text-teal-600" />
                 </div>
-                <h2 className="text-4xl font-bold text-foreground mb-4">
+
+                <h2 className="mb-4 text-4xl font-bold text-foreground">
                     {t("contact.map.title")}
                 </h2>
-                <p className="text-muted-foreground text-lg max-w-3xl mx-auto">
+
+                <p className="mx-auto max-w-3xl text-lg text-muted-foreground">
                     {t("contact.map.desc")}
                 </p>
             </div>
         </ScrollReveal>
+
         <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: .6 }}
+            transition={{ duration: 0.6 }}
             className="relative"
         >
             <div className="overflow-hidden rounded-3xl border border-slate-200 shadow-2xl">
-                <MapContainer
-                    center={schoolPosition}
-                    zoom={17}
-                    zoomControl={false}
-                    scrollWheelZoom={false}
-                    className="w-full h-[650px]"
-                >
-                    <ZoomControl position="bottomright" />
-                    <TileLayer
-                        attribution="&copy; OpenStreetMap contributors"
-                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                    />
-                    <Circle
-                        center={schoolPosition}
-                        radius={120}
-                        pathOptions={{
-                            color: "#0d9488",
-                            fillColor: "#14b8a6",
-                            fillOpacity: .2,
-                            weight: 2,
-                        }}
-                    />
-                    <Marker position={schoolPosition}>
-                        <Popup>
-                            <div className="space-y-2">
-                                <h3 className="font-bold text-base">
-                                    SMK Metland School
-                                </h3>
-                                <p className="text-sm">
-                                    Jl. Kota Taman Metropolitan,
-                                    Cileungsi Kidul,
-                                    Kabupaten Bogor,
-                                    Jawa Barat
-                                </p>
-                                <a
-                                    href="https://www.google.com/maps/dir/?api=1&destination=-6.4033441,106.9756046"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="inline-block mt-2 text-teal-600 font-semibold hover:underline"
-                                >
-                                    Open Google Maps →
-                                </a>
-                            </div>
-                        </Popup>
-                    </Marker>
-                </MapContainer>
+                <iframe
+                    title="SMK Pariwisata Metland School"
+                    src="https://www.google.com/maps?q=SMK+Pariwisata+Metland+School+Cileungsi&output=embed"
+                    className="h-[650px] w-full"
+                    loading="lazy"
+                    allowFullScreen
+                    referrerPolicy="no-referrer-when-downgrade"
+                />
             </div>
 
-            {/* Floating Card */}
+            {/* Floating Information */}
             <motion.div
                 initial={{ opacity: 0, x: -40 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: .3 }}
-                className="absolute left-8 bottom-8 max-w-sm bg-white rounded-3xl shadow-2xl p-7 hidden lg:block"
+                transition={{ delay: 0.3 }}
+                className="absolute bottom-8 left-8 hidden max-w-sm rounded-3xl bg-white p-7 shadow-2xl lg:block"
             >
-                <div className="flex items-center gap-3 mb-5">
-                    <div className="w-12 h-12 rounded-xl bg-teal-100 flex items-center justify-center">
+                <div className="mb-5 flex items-center gap-3">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-teal-100">
                         <MapPin className="text-teal-600" />
                     </div>
+
                     <div>
-                        <h3 className="font-bold text-lg">
-                            SMK Metland School
+                        <h3 className="text-lg font-bold">
+                            SMK Pariwisata Metland School
                         </h3>
                         <p className="text-sm text-slate-500">
-                            Kabupaten Bogor
+                            Cileungsi, Bogor
                         </p>
                     </div>
                 </div>
-                <p className="text-slate-600 leading-relaxed mb-5">
+
+                <p className="mb-6 leading-relaxed text-slate-600">
                     Jl. Kota Taman Metropolitan,
                     Cileungsi Kidul,
                     Kecamatan Cileungsi,
                     Kabupaten Bogor,
                     Jawa Barat 16820
                 </p>
+
                 <div className="space-y-3">
                     <a
-                        href="https://www.google.com/maps/dir/?api=1&destination=-6.363659,106.997040"
+                        href="https://maps.google.com/?q=SMK+Pariwisata+Metland+School+Cileungsi"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex justify-center items-center w-full bg-teal-600 hover:bg-teal-700 text-white rounded-xl py-3 font-semibold transition"
+                        className="flex w-full items-center justify-center rounded-xl bg-teal-600 py-3 font-semibold text-white transition hover:bg-teal-700"
                     >
                         📍 Open Google Maps
                     </a>
+
                     <a
                         href="tel:+622182496976"
-                        className="flex justify-center items-center w-full border rounded-xl py-3 font-semibold hover:bg-slate-50 transition"
+                        className="flex w-full items-center justify-center rounded-xl border py-3 font-semibold transition hover:bg-slate-50"
                     >
                         📞 Call School
                     </a>
@@ -345,8 +299,7 @@ const Contact = () => {
             </motion.div>
         </motion.div>
     </div>
-      </section>
-      </section>
+</section>
     </MainLayout>
   );
 };
