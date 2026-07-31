@@ -10,16 +10,16 @@ import FormField, { inputClass, selectClass, textareaClass } from '@/components/
 import ImageUploadField from '@/components/admin/ImageUploadField';
 import SearchBar from '@/components/admin/SearchBar';
 
-// Interface Data Karya / Inovasi Siswa
+// Interface student work
 interface StudentWork {
   id: number;
-  preview_url: string;    // Foto produk / mock-up karya
-  title: string;          // Nama Produk / Judul Projek
-  major_code: string;     // 'it' | 'culinary' | 'vcd' | 'hospitality' | 'accounting'
-  creators: string;       // Nama siswa pencipta (bisa individu atau tim)
-  project_url: string;    // Link demo (GitHub, Behance, Drive, dll - Opsional)
-  description: string;    // Detail fitur / bahan / proses pembuatan
-  is_active: boolean;     
+  preview_url: string;
+  title: string;
+  major_code: string;
+  creators: string;
+  project_url: string;
+  description: string;
+  is_active: boolean;
 }
 
 export default function AdminStudentWorkPage() {
@@ -30,7 +30,6 @@ export default function AdminStudentWorkPage() {
   const [editing, setEditing] = useState<StudentWork | null>(null);
   const [search, setSearch] = useState('');
 
-  // Inisialisasi form default
   const [form, setForm] = useState({
     preview_url: '',
     title: '',
@@ -41,28 +40,24 @@ export default function AdminStudentWorkPage() {
     is_active: true
   });
 
-  // Filter pencarian berdasarkan judul projek, nama pencipta, atau deskripsi produk
   const filtered = items.filter(i =>
     String(i.title || '').toLowerCase().includes(search.toLowerCase()) ||
     String(i.creators || '').toLowerCase().includes(search.toLowerCase()) ||
     String(i.description || '').toLowerCase().includes(search.toLowerCase())
   );
 
-  // Aksi Buka Modal Tambah
   const openAdd = () => {
     setEditing(null);
     setForm({ preview_url: '', title: '', major_code: 'it', creators: '', project_url: '', description: '', is_active: true });
     setModal(true);
   };
 
-  // Aksi Buka Modal Edit
   const openEdit = (item: StudentWork) => {
     setEditing(item);
     setForm({ preview_url: item.preview_url, title: item.title, major_code: item.major_code, creators: item.creators, project_url: item.project_url, description: item.description, is_active: item.is_active });
     setModal(true);
   };
 
-  // Fetch data dari API
   const fetchData = async () => {
     try {
       setLoading(true);
@@ -77,7 +72,6 @@ export default function AdminStudentWorkPage() {
 
   useEffect(() => { fetchData(); }, []);
 
-  // Aksi Simpan (Create / Update)
   const save = async () => {
     try {
       if (editing) {
@@ -93,7 +87,6 @@ export default function AdminStudentWorkPage() {
     }
   };
 
-  // Aksi Hapus
   const del = async (id: number) => {
     if (!confirm('Yakin ingin menghapus karya siswa ini?')) return;
     try {
@@ -105,7 +98,6 @@ export default function AdminStudentWorkPage() {
     }
   };
 
-  // Mapping warna badge sesuai jurusan karya
   const majorColors: Record<string, string> = {
     it: 'blue',
     culinary: 'amber',
@@ -114,7 +106,6 @@ export default function AdminStudentWorkPage() {
     accounting: 'gray'
   };
 
-  // Mapping label singkatan jurusan
   const majorLabels: Record<string, string> = {
     it: 'IT / RPL',
     culinary: 'Culinary / Boga',
@@ -133,64 +124,39 @@ export default function AdminStudentWorkPage() {
         </div>
 
         <DataTable
-          columns={[
-            {
-              key: 'preview_url',
-              label: 'Mockup / Produk',
-              render: (item: StudentWork) => (
-                <img 
-                  src={item.preview_url} 
-                  className="w-16 h-12 object-cover rounded-xl border border-gray-100 shadow-sm bg-gray-50" 
-                  alt="" 
-                  onError={e => (e.currentTarget.src = 'https://placehold.co/64x48/e2e8f0/94a3b8?text=Projek')} 
-                />
-              )
-            },
-            {
-              key: 'title',
-              label: 'Nama Karya & Kreator',
-              render: (item: StudentWork) => (
-                <div>
-                  <span className="font-semibold text-gray-900 block leading-tight mb-0.5">{item.title}</span>
-                  <span className="text-gray-400 text-[11px] block font-normal">Oleh: {item.creators}</span>
-                </div>
-              )
-            },
-            {
-              key: 'major_code',
-              label: 'Asal Jurusan',
-              render: (item: StudentWork) => (
-                <Badge color={majorColors[item.major_code] || 'gray'}>
-                  {majorLabels[item.major_code] || String(item.major_code || '').toUpperCase()}
-                </Badge>
-              )
-            },
-            {
-              key: 'project_url',
-              label: 'Tautan Demo',
-              render: (item: StudentWork) => item.project_url ? (
-                <a 
-                  href={item.project_url} 
-                  target="_blank" 
-                  rel="noreferrer" 
-                  className="inline-flex text-indigo-600 hover:text-indigo-800 text-xs font-semibold underline truncate max-w-[120px]"
-                >
-                  Buka Tautan ↗
-                </a>
-              ) : (
-                <span className="text-gray-400 text-xs font-normal">-</span>
-              )
-            },
-            {
-              key: 'is_active',
-              label: 'Status Tampilan',
-              render: (item: StudentWork) => (
-                <Badge color={item.is_active ? 'green' : 'gray'}>
-                  {item.is_active ? 'Publik' : 'Draft'}
-                </Badge>
-              )
-            },
-          ]}
+        columns={[
+          {
+            key: 'preview_url',
+            label: 'Mockup / Produk',
+            render: (item: StudentWork) => (
+              <img src={item.preview_url} className="w-16 h-12 object-cover rounded-xl border border-gray-100 shadow-sm bg-gray-50" alt="" onError={e => (e.currentTarget.src = 'https://placehold.co/64x48/e2e8f0/94a3b8?text=Projek')} />
+            )
+          },
+          { key: 'title', label: 'Nama Karya', render: (item: StudentWork) => <span className="whitespace-nowrap font-semibold text-gray-900">{item.title}</span> },
+          { key: 'creators', label: 'Kreator', render: (item: StudentWork) => <span className="whitespace-nowrap">{item.creators}</span> },
+          {
+            key: 'major_code',
+            label: 'Asal Jurusan',
+            render: (item: StudentWork) => <Badge color={majorColors[item.major_code] || 'gray'}>{majorLabels[item.major_code] || String(item.major_code || '').toUpperCase()}</Badge>
+          },
+          {
+            key: 'description',
+            label: 'Deskripsi',
+            render: (item: StudentWork) => <span className="text-xs text-gray-500 max-w-xs block line-clamp-2">{item.description || '-'}</span>
+          },
+          {
+            key: 'project_url',
+            label: 'Tautan Demo',
+            render: (item: StudentWork) => item.project_url ? (
+              <a href={item.project_url} target="_blank" rel="noreferrer" className="whitespace-nowrap inline-flex text-indigo-600 hover:text-indigo-800 text-xs font-semibold underline">Buka Tautan ↗</a>
+            ) : (<span className="text-gray-400 text-xs font-normal">-</span>)
+          },
+          {
+            key: 'is_active',
+            label: 'Status Tampilan',
+            render: (item: StudentWork) => <Badge color={item.is_active ? 'green' : 'gray'}>{item.is_active ? 'Publik' : 'Draft'}</Badge>
+          },
+        ]}
           data={filtered}
           onEdit={openEdit}
           onDelete={del}

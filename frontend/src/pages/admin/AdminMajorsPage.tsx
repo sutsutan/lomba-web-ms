@@ -22,6 +22,7 @@ interface Major {
   total_students: number;
   total_partners: number;
   curriculum_image?: string;
+  program_link?: string;
   is_active: boolean;
 }
 
@@ -33,42 +34,56 @@ export default function AdminMajorPage() {
   const [editing, setEditing] = useState<Major | null>(null);
   const [search, setSearch] = useState('');
 
-  // State untuk modal arsip gallery
   const [archiveModal, setArchiveModal] = useState(false);
   const [archiveMajor, setArchiveMajor] = useState<Major | null>(null);
   const [archiveItems, setArchiveItems] = useState<ActivityGalleryData[]>([]);
   const [archiveLoading, setArchiveLoading] = useState(false);
+  const [useCustomLink, setUseCustomLink] = useState(false);
 
-  // Inisialisasi form default
   const [form, setForm] = useState({
-  code: 'it',
-  name: '',
-  head_of_major: '',
-  description: '',
-  total_students: 0,
-  total_partners: 0,
-  curriculum_image: '',
-  is_active: true
-});
+    code: 'it',
+    name: '',
+    head_of_major: '',
+    description: '',
+    total_students: 0,
+    total_partners: 0,
+    curriculum_image: '',
+    program_link: '',
+    is_active: true
+  });
 
-  // Filter pencarian berdasarkan nama jurusan atau nama ketua jurusan
   const filtered = items.filter(i =>
     String(i.name || '').toLowerCase().includes(search.toLowerCase()) ||
     String(i.head_of_major || '').toLowerCase().includes(search.toLowerCase()) ||
     String(i.code || '').toLowerCase().includes(search.toLowerCase())
   );
 
+const program_link_options = [
+  { value: '/major?type=hospitality', label: 'Hospitality (Perhotelan)' },
+  { value: '/major?type=culinary', label: 'Culinary (Tata Boga)' },
+  { value: '/major?type=accounting', label: 'Accounting (Akuntansi)' },
+  { value: '/major?type=dkv', label: 'DKV (Desain Komunikasi Visual)' },
+  { value: '/major?type=it', label: 'IT / PPLG (Rekayasa Perangkat Lunak)' },
+];
+
+  const suggestedLink = (code: string) => `/major?type=${code}`;
+
   const openAdd = () => {
   setEditing(null);
+  setUseCustomLink(false);
   setForm({
     code: 'it', name: '', head_of_major: '', description: '',
-    total_students: 0, total_partners: 0, curriculum_image: '', is_active: true
+    total_students: 0, total_partners: 0, curriculum_image: '',
+    program_link: suggestedLink('it'), is_active: true
   });
   setModal(true);
 };
 
- const openEdit = (item: Major) => {
+  const openEdit = (item: Major) => {
   setEditing(item);
+  const currentLink = item.program_link || suggestedLink(item.code);
+  const isKnownOption = program_link_options.some(opt => opt.value === currentLink);
+  setUseCustomLink(!isKnownOption);
   setForm({
     code: item.code,
     name: item.name,
@@ -77,12 +92,12 @@ export default function AdminMajorPage() {
     total_students: item.total_students,
     total_partners: item.total_partners || 0,
     curriculum_image: item.curriculum_image || '',
+    program_link: currentLink,
     is_active: item.is_active
   });
   setModal(true);
 };
 
-  // Fetch data dari API
   const fetchData = async () => {
     try {
       setLoading(true);
@@ -97,10 +112,9 @@ export default function AdminMajorPage() {
 
   useEffect(() => { fetchData(); }, []);
 
-  // Aksi Simpan (Create / Update)
   const save = async () => {
     if (!form.name || !form.head_of_major) {
-      alert('Mohon lengkapi field Nama Lengkap dan Ketua Program (*).');
+      alert('Mohon lengkapi field Nama Lengkap dan Kepala Program Studi (*).');
       return;
     }
     try {
@@ -117,7 +131,6 @@ export default function AdminMajorPage() {
     }
   };
 
-  // Aksi Hapus
   const del = async (id: number) => {
     if (!confirm('Yakin ingin menghapus jurusan ini?')) return;
     try {
@@ -129,7 +142,6 @@ export default function AdminMajorPage() {
     }
   };
 
-  // Buka modal arsip gallery per jurusan
   const openArchive = async (item: Major) => {
     setArchiveMajor(item);
     setArchiveModal(true);
@@ -144,7 +156,6 @@ export default function AdminMajorPage() {
     }
   };
 
-  // Mapping warna badge berdasarkan kode kode jurusan
   const majorColors: Record<string, string> = {
     it: 'blue',
     culinary: 'amber',
@@ -163,37 +174,35 @@ export default function AdminMajorPage() {
         </div>
 
         <DataTable
-          columns={[
-            {
-              key: 'code',
-              label: 'Kode',
-              render: (item: Major) => (
-                <Badge color={majorColors[item.code] || 'gray'}>
-                  {String(item.code || '').toUpperCase()}
-                </Badge>
-              )
-            },
-            {
-              key: 'name',
-              label: 'Nama Program Keahlian',
-              render: (item: Major) => <span className="font-semibold text-gray-900 block">{item.name}</span>
-            },
-            { key: 'head_of_major', label: 'Kepala Program Studi (Kaprodi)' },
-            {
-              key: 'total_students',
-              label: 'Total Siswa',
-              render: (item: Major) => <span className="text-sm font-medium text-gray-700">{item.total_students} Siswa</span>
-            },
-            {
-              key: 'is_active',
-              label: 'Status',
-              render: (item: Major) => (
-                <Badge color={item.is_active ? 'green' : 'gray'}>
-                  {item.is_active ? 'Aktif' : 'Nonaktif'}
-                </Badge>
-              )
-            },
-          ]}
+      columns={[
+        {
+          key: 'code',
+          label: 'Kode',
+          render: (item: Major) => <Badge color={majorColors[item.code] || 'gray'}>{String(item.code || '').toUpperCase()}</Badge>
+        },
+        { key: 'name', label: 'Nama Program', render: (item: Major) => <span className="whitespace-nowrap font-semibold text-gray-900">{item.name}</span> },
+        { key: 'head_of_major', label: 'Kaprodi', render: (item: Major) => <span className="whitespace-nowrap">{item.head_of_major}</span> },
+        { key: 'description', label: 'Deskripsi', render: (item: Major) => <span className="text-xs text-gray-500 max-w-xs block line-clamp-2">{item.description || '-'}</span> },
+        { key: 'total_students', label: 'Total Siswa', render: (item: Major) => <span className="whitespace-nowrap text-sm font-medium text-gray-700">{item.total_students} Siswa</span> },
+        { key: 'total_partners', label: 'Total Mitra', render: (item: Major) => <span className="whitespace-nowrap text-sm font-medium text-gray-700">{item.total_partners} Mitra</span> },
+        {
+          key: 'curriculum_image',
+          label: 'Gambar Kurikulum',
+          render: (item: Major) => item.curriculum_image ? (
+            <img src={item.curriculum_image} className="w-16 h-10 object-cover rounded-lg border" alt="" />
+          ) : <span className="text-gray-400 text-xs">-</span>
+        },
+        {
+          key: 'program_link',
+          label: 'Link Explore Program',
+          render: (item: Major) => <span className="whitespace-nowrap text-xs font-mono text-indigo-600">{item.program_link || '-'}</span>
+        },
+        {
+          key: 'is_active',
+          label: 'Status',
+          render: (item: Major) => <Badge color={item.is_active ? 'green' : 'gray'}>{item.is_active ? 'Aktif' : 'Nonaktif'}</Badge>
+        },
+      ]}
           data={filtered}
           onEdit={openEdit}
           onDelete={del}
@@ -216,7 +225,20 @@ export default function AdminMajorPage() {
 
           <div className="grid grid-cols-2 gap-4">
             <FormField label="Identifikasi Kode" required>
-              <select className={selectClass} value={form.code} onChange={e => setForm({ ...form, code: e.target.value })}>
+              <select
+                className={selectClass}
+                value={form.code}
+                onChange={e => {
+                  const newCode = e.target.value;
+                  setForm({
+                    ...form,
+                    code: newCode,
+                    program_link: (!form.program_link || form.program_link === suggestedLink(form.code))
+                      ? suggestedLink(newCode)
+                      : form.program_link
+                  });
+                }}
+              >
                 <option value="it">IT (Information Technology)</option>
                 <option value="culinary">Culinary (Tata Boga)</option>
                 <option value="dkv">DKV (Desain Komunikasi Visual)</option>
@@ -243,9 +265,9 @@ export default function AdminMajorPage() {
           </FormField>
 
           <div className="rounded-xl border border-blue-100 bg-blue-50 px-4 py-3 text-xs text-blue-700">
-          💡 Untuk mengelola foto <strong>Practical Lab Facilities</strong> jurusan ini, silakan buka menu{' '}
-          <strong>Fasilitas Sekolah</strong> dan pilih jurusan yang sesuai.
-        </div>
+            💡 Untuk mengelola foto <strong>Practical Lab Facilities</strong> jurusan ini, silakan buka menu{' '}
+            <strong>Fasilitas Sekolah</strong> dan pilih jurusan yang sesuai.
+          </div>
 
           {/* SINGLE IMAGE: Curriculum Focus (tetap seperti semula) */}
           <div className="flex flex-col gap-2">
@@ -266,10 +288,43 @@ export default function AdminMajorPage() {
             )}
           </div>
 
-            <div className="rounded-xl border border-blue-100 bg-blue-50 px-4 py-3 text-xs text-blue-700">
-              💡 Untuk mengelola foto <strong>Activity Gallery</strong> (dokumentasi kegiatan) jurusan ini, silakan buka menu{' '}
-              <strong>Galeri Kegiatan</strong> dan pilih jurusan yang sesuai.
-            </div>
+          <FormField label='Tujuan Tombol "Explore Program" di Homepage'>
+          <select
+            className={selectClass}
+            value={useCustomLink ? '__custom__' : form.program_link}
+            onChange={e => {
+              if (e.target.value === '__custom__') {
+                setUseCustomLink(true);
+              } else {
+                setUseCustomLink(false);
+                setForm({ ...form, program_link: e.target.value });
+              }
+            }}
+          >
+            {program_link_options.map(opt => (
+              <option key={opt.value} value={opt.value}>{opt.label}</option>
+            ))}
+            <option value="__custom__">Lainnya / Link Kustom...</option>
+          </select>
+
+          {useCustomLink && (
+            <input
+              className={`${inputClass} mt-2`}
+              value={form.program_link}
+              onChange={e => setForm({ ...form, program_link: e.target.value })}
+              placeholder="Contoh: /major?type=dkv atau https://..."
+            />
+          )}
+
+          <p className="mt-1.5 text-[11px] text-gray-400 leading-relaxed">
+            💡 Pilih jurusan tujuan agar tombol "Explore Program" di halaman utama otomatis membuka tab jurusan yang sesuai. Pilih "Lainnya" hanya jika ingin mengarahkan ke link khusus (misal URL eksternal).
+          </p>
+        </FormField>
+
+          <div className="rounded-xl border border-blue-100 bg-blue-50 px-4 py-3 text-xs text-blue-700">
+            💡 Untuk mengelola foto <strong>Activity Gallery</strong> (dokumentasi kegiatan) jurusan ini, silakan buka menu{' '}
+            <strong>Galeri Kegiatan</strong> dan pilih jurusan yang sesuai.
+          </div>
 
           <div className="flex items-center gap-3 py-1">
             <input type="checkbox" id="major-active" checked={form.is_active} onChange={e => setForm({ ...form, is_active: e.target.checked })} className="w-4 h-4 rounded accent-indigo-600" />

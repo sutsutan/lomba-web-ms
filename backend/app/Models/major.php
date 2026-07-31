@@ -12,7 +12,7 @@ class Major extends Model
     protected $fillable = [
     'name', 'slug', 'icon', 'description', 'cover_image', 'is_active',
     'code', 'head_of_major', 'total_students', 'total_partners',
-    'curriculum_image', 'activity_images'
+    'curriculum_image', 'activity_images', 'program_link'
 ];
     protected $casts = [
         'is_active'      => 'boolean',

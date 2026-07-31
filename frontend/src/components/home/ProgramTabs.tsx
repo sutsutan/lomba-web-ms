@@ -1,9 +1,13 @@
 import ScrollReveal from '@/components/ScrollReveal';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { AnimatePresence, motion } from 'framer-motion';
-import { ChevronLeft, ChevronRight, Link, ArrowRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+
+import { getPublicMajors, MajorData } from '@/services/Major';
+import { organizationService, OrganizationData } from '@/services/Organization';
+import { getPublicExtracurriculars, Extracurricular as ExtracurricularType } from '@/services/Extracurricular';
 
 import programAkuntansi from '@/assets/akuntansi.webp';
 import programPerhotelan from '@/assets/aph.webp';
@@ -22,6 +26,13 @@ import Msp from '@/assets/msp.jpeg';
 import programCulinaryImg from '@/assets/program-culinary.webp';
 import programItImg from '@/assets/program-it.webp';
 
+interface MajorCardContent {
+    image: string;
+    title: string;
+    description: string;
+    link: string;
+}
+
 interface TabContent {
     title: string;
     description: string;
@@ -32,32 +43,73 @@ const ProgramTabs = () => {
     const { t } = useLanguage();
     const navigate = useNavigate();
 
+    // Data dinamis dari backend
+    const [dynamicMajors, setDynamicMajors] = useState<MajorData[]>([]);
+    const [dynamicOrganizations, setDynamicOrganizations] = useState<OrganizationData[]>([]);
+    const [dynamicExtracurriculars, setDynamicExtracurriculars] = useState<ExtracurricularType[]>([]);
+
+    useEffect(() => {
+        getPublicMajors().then(setDynamicMajors).catch(() => setDynamicMajors([]));
+        organizationService.getAll().then(setDynamicOrganizations).catch(() => setDynamicOrganizations([]));
+        getPublicExtracurriculars().then(setDynamicExtracurriculars).catch(() => setDynamicExtracurriculars([]));
+    }, []);
+
+    const fallbackMajorCards: MajorCardContent[] = [
+    { image: programCulinaryImg, title: t('category.culinary'), description: t('major.culinary.desc'), link: '/academics' },
+    { image: programItImg, title: t('category.it'), description: t('major.pplg.desc'), link: '/academics' },
+    { image: programDkv, title: t('category.dkv'), description: t('major.dkv.desc'), link: '/academics' },
+    { image: programPerhotelan, title: t('category.hospitality'), description: t('major.hospitality.desc'), link: '/academics' },
+    { image: programAkuntansi, title: t('category.accounting'), description: t('major.accounting.desc'), link: '/academics' },
+];
+
+    const staticMajorImageByCode: Record<string, string> = {
+        culinary: programCulinaryImg,
+        it: programItImg,
+        pplg: programItImg,
+        dkv: programDkv,
+        hospitality: programPerhotelan,
+        accounting: programAkuntansi,
+    };
+
+    const majorCards: MajorCardContent[] = dynamicMajors.length > 0
+    ? dynamicMajors.map((m) => ({
+        image: m.curriculum_image || staticMajorImageByCode[m.code] || programCulinaryImg,
+        title: m.name,
+        description: m.description || '',
+        link: m.program_link || `/academics?type=${m.code}`,
+    }))
+    : fallbackMajorCards;
+
+    const fallbackOrganizationImages = [Itec, LogoOsis, Kkr, Mahes, Msp, Mpk];
+    const organizationImages = dynamicOrganizations.length > 0
+        ? dynamicOrganizations.map((o) => o.logo_url)
+        : fallbackOrganizationImages;
+
+    const fallbackExtracurricularImages = [
+        extracurricularFutsal,
+        extracurricularBasket,
+        extracurricularBadminton,
+        extracurricularModelling,
+    ];
+    const extracurricularImages = dynamicExtracurriculars.length > 0
+        ? dynamicExtracurriculars.map((e) => e.image_url || extracurricularFutsal)
+        : fallbackExtracurricularImages;
+
     const tabData: Record<string, TabContent> = {
         major: {
             title: t('program.major.title'),
             description: t('program.major.desc'),
-            images: [
-                programCulinaryImg,
-                programItImg,
-                programDkv,
-                programPerhotelan,
-                programAkuntansi,
-            ],
+            images: majorCards.map((m) => m.image),
         },
         organization: {
             title: t('program.organization.title'),
             description: t('program.organization.desc'),
-            images: [Itec, LogoOsis, Kkr, Mahes, Msp, Mpk],
+            images: organizationImages,
         },
         extracurricular: {
             title: t('program.extracurricular.title'),
             description: t('program.extracurricular.desc'),
-            images: [
-                extracurricularFutsal,
-                extracurricularBasket,
-                extracurricularBadminton,
-                extracurricularModelling,
-            ],
+            images: extracurricularImages,
         },
     };
 
@@ -74,10 +126,16 @@ const ProgramTabs = () => {
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
+    useEffect(() => {
+        if (activeImageIndex >= tabData[activeTab].images.length) {
+            setActiveImageIndex(0);
+        }
+    }, [dynamicMajors, dynamicOrganizations, dynamicExtracurriculars, activeTab]);
+
     const isOrganization = activeTab === 'organization';
     const isCompactLayout =
         activeTab === 'organization' || activeTab === 'major';
-        const isMajor = activeTab === 'major';
+    const isMajor = activeTab === 'major';
 
     const handleTabChange = (tab: keyof typeof tabData) => {
         setActiveTab(tab);
@@ -220,6 +278,7 @@ const ProgramTabs = () => {
                                                 src={image}
                                                 alt={`Organization ${index + 1}`}
                                                 className="h-20 w-20 object-contain transition-all duration-300 group-hover:drop-shadow-[0_0_20px_rgba(15,95,88,0.35)] sm:h-24 sm:w-24 md:h-28 md:w-28 lg:h-32 lg:w-32"
+                                                onError={e => (e.currentTarget.src = 'https://placehold.co/128x128/e2e8f0/94a3b8?text=Org')}
                                             />
 
                                             <motion.div
@@ -275,36 +334,32 @@ const ProgramTabs = () => {
                                                 {/* IMAGE */}
                                                 <div className="h-[260px] md:h-[380px] lg:h-[450px]">
                                                     <img
-                                                        src={tabData.major.images[activeImageIndex]}
-                                                        alt=""
+                                                        src={majorCards[activeImageIndex]?.image}
+                                                        alt={majorCards[activeImageIndex]?.title}
                                                         className="h-full w-full object-cover"
+                                                        onError={e => (e.currentTarget.src = 'https://placehold.co/600x450/e2e8f0/94a3b8?text=Major')}
                                                     />
                                                 </div>
 
                                                 {/* CONTENT */}
                                                 <div className="flex flex-col justify-center p-8 lg:p-12">
                                                     <h3 className="mb-5 text-3xl font-bold text-primary">
-                                                        {[
-                                                            t('category.culinary'),
-                                                            t('category.it'),
-                                                            t('category.dkv'),
-                                                            t('category.hospitality'),
-                                                            t('category.accounting'),
-                                                        ][activeImageIndex]}
+                                                        {majorCards[activeImageIndex]?.title}
                                                     </h3>
 
                                                     <p className="mb-8 leading-relaxed text-muted-foreground">
-                                                        {[
-                                                            t('major.culinary.desc'),
-                                                            t('major.pplg.desc'),
-                                                            t('major.dkv.desc'),
-                                                            t('major.hospitality.desc'),
-                                                            t('major.accounting.desc'),
-                                                        ][activeImageIndex]}
+                                                        {majorCards[activeImageIndex]?.description}
                                                     </p>
 
                                                     <button
-                                                        onClick={() => navigate('/academics')}
+                                                        onClick={() => {
+                                                            const link = majorCards[activeImageIndex]?.link || '/academics';
+                                                            if (link.startsWith('http')) {
+                                                                window.open(link, '_blank', 'noopener,noreferrer');
+                                                            } else {
+                                                                navigate(link);
+                                                            }
+                                                        }}
                                                         className="inline-flex w-fit items-center gap-2 rounded-full bg-primary px-6 py-3 text-white transition hover:gap-4"
                                                     >
                                                         Explore Program
@@ -327,7 +382,7 @@ const ProgramTabs = () => {
 
                                 {/* DOTS */}
                                 <div className="mt-8 flex justify-center gap-3">
-                                    {tabData.major.images.map((_, index) => (
+                                    {majorCards.map((_, index) => (
                                         <button
                                             key={index}
                                             onClick={() => setActiveImageIndex(index)}
@@ -341,7 +396,7 @@ const ProgramTabs = () => {
                                 </div>
                             </div>
                         ) : (
-                                // (MAJOR & EXTRACURRICULAR)
+                                // (EXTRACURRICULAR)
                                 <>
                                     <div
                                         className={`relative mx-auto flex-shrink-0 overflow-visible lg:mx-0 ${
@@ -401,6 +456,7 @@ const ProgramTabs = () => {
                                                             src={image}
                                                             alt={`${tabData[activeTab].title} ${index + 1}`}
                                                             className="h-full w-full object-cover"
+                                                            onError={e => (e.currentTarget.src = 'https://placehold.co/300x450/e2e8f0/94a3b8?text=Ekskul')}
                                                         />
                                                     </motion.div>
                                                 );

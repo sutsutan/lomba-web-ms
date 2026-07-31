@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Icon } from '../../components/admin/Icons';
 import { getAdminStats, AdminStats } from '@/services/Dashboard';
+import { useAuth } from '../../contexts/AuthContext';
 
 const emptyStats: AdminStats = {
   teachers: 0, news: 0, alumni: 0, students_works: 0,
@@ -11,6 +12,7 @@ const emptyStats: AdminStats = {
 
 export default function AdminDashboard() {
   const navigate = useNavigate();
+  const { isMarketing } = useAuth();
   const [statsData, setStatsData] = useState<AdminStats>(emptyStats);
   const [loading, setLoading] = useState(true);
 
@@ -25,17 +27,19 @@ export default function AdminDashboard() {
     return () => { mounted = false; };
   }, []);
 
-  const stats = [
-    { label: 'Guru & Staf', value: statsData.teachers, icon: 'Users', color: 'indigo', path: '/dashboard/teachers' },
-    { label: 'Berita', value: statsData.news, icon: 'Newspaper', color: 'blue', path: '/dashboard/news' },
-    { label: 'Alumni', value: statsData.alumni, icon: 'Globe', color: 'emerald', path: '/dashboard/alumni' },
-    { label: 'Karya Siswa', value: statsData.students_works, icon: 'Palette', color: 'violet', path: '/dashboard/student-works' },
-    { label: 'Prestasi', value: statsData.achievements, icon: 'Trophy', color: 'amber', path: '/dashboard/achievements' },
-    { label: 'Organisasi', value: statsData.organizations, icon: 'Flag', color: 'rose', path: '/dashboard/organizations' },
-    { label: 'Ekskul', value: statsData.extracurriculars, icon: 'GraduationCap', color: 'orange', path: '/dashboard/extracurriculars' },
-    { label: 'Mitra', value: statsData.partnerships, icon: 'Handshake', color: 'teal', path: '/dashboard/partnerships' },
-    { label: 'Manajemen User', value: statsData.users, icon: 'UserCog', color: 'cyan', path: '/dashboard/manage-user' },
+  const allStats = [
+    { key: 'teachers', label: 'Guru & Staf', value: statsData.teachers, icon: 'Users', color: 'indigo', path: '/dashboard/teachers', marketingVisible: false },
+    { key: 'news', label: 'Berita', value: statsData.news, icon: 'Newspaper', color: 'blue', path: '/dashboard/news', marketingVisible: true },
+    { key: 'alumni', label: 'Alumni', value: statsData.alumni, icon: 'Globe', color: 'emerald', path: '/dashboard/alumni', marketingVisible: true },
+    { key: 'students_works', label: 'Karya Siswa', value: statsData.students_works, icon: 'Palette', color: 'violet', path: '/dashboard/student-works', marketingVisible: false },
+    { key: 'achievements', label: 'Prestasi', value: statsData.achievements, icon: 'Trophy', color: 'amber', path: '/dashboard/achievements', marketingVisible: true },
+    { key: 'organizations', label: 'Organisasi', value: statsData.organizations, icon: 'Flag', color: 'rose', path: '/dashboard/organizations', marketingVisible: false },
+    { key: 'extracurriculars', label: 'Ekskul', value: statsData.extracurriculars, icon: 'GraduationCap', color: 'orange', path: '/dashboard/extracurriculars', marketingVisible: false },
+    { key: 'partnerships', label: 'Mitra', value: statsData.partnerships, icon: 'Handshake', color: 'teal', path: '/dashboard/partnerships', marketingVisible: true },
+    { key: 'users', label: 'Manajemen User', value: statsData.users, icon: 'UserCog', color: 'cyan', path: '/dashboard/manage-user', marketingVisible: false },
   ];
+
+  const stats = isMarketing ? allStats.filter(s => s.marketingVisible) : allStats;
 
   const colorMap: Record<string, string> = {
     indigo: 'bg-indigo-50 text-indigo-600',
@@ -56,10 +60,9 @@ export default function AdminDashboard() {
         <p className="text-gray-500 mt-1">Kelola seluruh konten website sekolah dari sini.</p>
       </div>
 
-      {/* Grid Statistik Utama */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 mb-8">
         {stats.map(stat => (
-          <div key={stat.label} className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
+          <div key={stat.key} className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
             <div className={`w-10 h-10 rounded-xl flex items-center justify-center mb-3 ${colorMap[stat.color]}`}>
               <Icon name={stat.icon} className="w-5 h-5" />
             </div>
@@ -76,7 +79,6 @@ export default function AdminDashboard() {
       </div>
 
       <div className="grid md:grid-cols-2 gap-6">
-        {/* Panel Akses Cepat */}
         <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
           <h3 className="font-bold text-gray-800 mb-4">Akses Cepat</h3>
           <div className="grid grid-cols-2 gap-3">
@@ -95,7 +97,6 @@ export default function AdminDashboard() {
           </div>
         </div>
 
-        {/* Info Detail Sistem */}
         <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
           <h3 className="font-bold text-gray-800 mb-4">Info Sistem</h3>
           <div className="space-y-3">

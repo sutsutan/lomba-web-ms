@@ -1,57 +1,77 @@
-import { useEffect, useState } from 'react';
-import { motion} from 'framer-motion';
+import { useState } from 'react';
+import { motion } from 'framer-motion';
+import { 
+  MapPin, 
+  Phone, 
+  Mail, 
+  Clock, 
+  Send, 
+  MessageCircle, 
+  CheckCircle2, 
+  AlertCircle 
+} from 'lucide-react';
 import MainLayout from '@/layouts/MainLayout';
 import ScrollReveal from '@/components/ScrollReveal';
 import HeroCarousel from '@/components/HeroCarousel';
-import { MapPin, Phone, Mail, Clock, Send, MessageCircle } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
-
-import api from '@/lib/api';
+import { submitPpdbForm } from '@/services/PpdbSubmission';
 
 const Contact = () => {
-   const { t, language } = useLanguage();
-    const [heroSlides, setHeroSlides] = useState<any[]>([]);
+  const { t, language } = useLanguage();
 
-     useEffect(() => {
-        const fetchHero = async () => {
-            try {
-                const res = await api.get("/contact");
+  const [formData, setFormData] = useState({
+    first_name: '',
+    last_name: '',
+    email: '',
+    phone: '',
+    subject: '',
+    message: '',
+  });
 
-                const data = Array.isArray(res.data)
-                    ? res.data
-                    : (res.data.data || []);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [submitError, setSubmitError] = useState('');
 
-                const filtered = data.filter(
-                    (item: any) =>
-                        item.category === "contact" &&
-                        item.is_active
-                );
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSubmitting(true);
+    setSubmitStatus('idle');
+    setSubmitError('');
 
-                setHeroSlides(
-                    filtered.map((item: any) => ({
-                        image_url: item.image_url,
-                        title: language === "id" ? item.title_id : item.title_en,
-                        subtitle:
-                            language === "id"
-                                ? item.subtitle_id
-                                : item.subtitle_en,
-                    }))
-                );
-            } catch (err) {
-                console.error("Gagal load hero:", err);
-            }
-        };
-
-        fetchHero();
-    }, [language]);
+    try {
+      await submitPpdbForm({
+        parent_name: `${formData.first_name} ${formData.last_name}`.trim(),
+        email: formData.email,
+        phone: formData.phone || undefined,
+        subject: formData.subject,
+        message: formData.message,
+      });
+      setSubmitStatus('success');
+      setFormData({ 
+        first_name: '', 
+        last_name: '', 
+        email: '', 
+        phone: '', 
+        subject: '', 
+        message: '' 
+      });
+    } catch (error: any) {
+      setSubmitStatus('error');
+      setSubmitError(
+        error?.response?.data?.message || 'Gagal mengirim pesan. Silakan coba lagi.'
+      );
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   return (
     <MainLayout>
-       <HeroCarousel 
-            category="contact" 
-            lang={language}
-            height="h-[60vh]"
-            />
+      <HeroCarousel 
+        category="contact" 
+        lang={language}
+        height="h-[60vh]"
+      />
 
       {/* Contact Content */}
       <section className="py-20 bg-background px-6 md:px-12 lg:px-24">
@@ -62,7 +82,7 @@ const Contact = () => {
             <ScrollReveal direction="left">
               <div className="space-y-8">
                 <div>
-                   <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-teal-50 text-teal-700 font-bold text-sm mb-6">
+                  <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-teal-50 text-teal-700 font-bold text-sm mb-6">
                     <span className="w-2 h-2 rounded-full bg-teal-500 animate-pulse" />
                     {t('nav.contact')}
                   </div>
@@ -82,7 +102,7 @@ const Contact = () => {
                     <div>
                       <h4 className="font-bold text-foreground">{t('contact.info.address')}</h4>
                       <p className="text-muted-foreground whitespace-pre-line">
-                         Jl. Kota Taman Metropolitan, Cileungsi Kidul, Kec. Cileungsi, Kabupaten Bogor, Jawa Barat 16820
+                        Jl. Kota Taman Metropolitan, Cileungsi Kidul, Kec. Cileungsi, Kabupaten Bogor, Jawa Barat 16820
                       </p>
                     </div>
                   </div>
@@ -97,7 +117,7 @@ const Contact = () => {
                     </div>
                   </div>
 
-                   <div className="flex items-start gap-4">
+                  <div className="flex items-start gap-4">
                     <div className="w-12 h-12 bg-teal-50 rounded-xl flex items-center justify-center flex-shrink-0">
                       <MessageCircle className="w-6 h-6 text-teal-600" />
                     </div>
@@ -138,7 +158,22 @@ const Contact = () => {
                 <h3 className="text-2xl font-bold text-foreground mb-6">
                   {t('contact.form.title')}
                 </h3>
-                <form className="space-y-6">
+
+                {submitStatus === 'success' && (
+                  <div className="mb-6 flex items-center gap-3 bg-green-50 border border-green-200 text-green-700 rounded-xl px-4 py-3 text-sm font-medium">
+                    <CheckCircle2 className="w-5 h-5 flex-shrink-0" />
+                    Pesan Anda berhasil dikirim. Tim kami akan segera menghubungi Anda.
+                  </div>
+                )}
+
+                {submitStatus === 'error' && (
+                  <div className="mb-6 flex items-center gap-3 bg-red-50 border border-red-200 text-red-700 rounded-xl px-4 py-3 text-sm font-medium">
+                    <AlertCircle className="w-5 h-5 flex-shrink-0" />
+                    {submitError}
+                  </div>
+                )}
+
+                <form className="space-y-6" onSubmit={handleSubmit}>
                   <div className="grid md:grid-cols-2 gap-4">
                     <div>
                       <label className="block text-sm font-bold text-foreground mb-2">
@@ -146,6 +181,9 @@ const Contact = () => {
                       </label>
                       <input
                         type="text"
+                        required
+                        value={formData.first_name}
+                        onChange={e => setFormData({ ...formData, first_name: e.target.value })}
                         className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white focus:outline-none focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all font-medium"
                         placeholder="John"
                       />
@@ -156,6 +194,8 @@ const Contact = () => {
                       </label>
                       <input
                         type="text"
+                        value={formData.last_name}
+                        onChange={e => setFormData({ ...formData, last_name: e.target.value })}
                         className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white focus:outline-none focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all font-medium"
                         placeholder="Doe"
                       />
@@ -168,6 +208,9 @@ const Contact = () => {
                     </label>
                     <input
                       type="email"
+                      required
+                      value={formData.email}
+                      onChange={e => setFormData({ ...formData, email: e.target.value })}
                       className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white focus:outline-none focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all font-medium"
                       placeholder="john@example.com"
                     />
@@ -175,11 +218,30 @@ const Contact = () => {
 
                   <div>
                     <label className="block text-sm font-bold text-foreground mb-2">
+                      No. Telepon / WhatsApp
+                    </label>
+                    <input
+                      type="tel"
+                      value={formData.phone}
+                      onChange={e => setFormData({ ...formData, phone: e.target.value })}
+                      className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white focus:outline-none focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all font-medium"
+                      placeholder="0812xxxxxxx"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-bold text-foreground mb-2">
                       {t('contact.form.subject')}
                     </label>
-                    <select className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white focus:outline-none focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all font-medium appearance-none">
+                    <select
+                      required
+                      value={formData.subject}
+                      onChange={e => setFormData({ ...formData, subject: e.target.value })}
+                      className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white focus:outline-none focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all font-medium appearance-none"
+                    >
+                      <option value="" disabled>Pilih topik...</option>
                       {t('contact.form.subject_options').split(',').map((opt) => (
-                        <option key={opt}>{opt}</option>
+                        <option key={opt} value={opt}>{opt}</option>
                       ))}
                     </select>
                   </div>
@@ -189,7 +251,10 @@ const Contact = () => {
                       {t('contact.form.message')}
                     </label>
                     <textarea
+                      required
                       rows={4}
+                      value={formData.message}
+                      onChange={e => setFormData({ ...formData, message: e.target.value })}
                       className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white focus:outline-none focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all font-medium resize-none"
                       placeholder="Your message..."
                     />
@@ -199,9 +264,10 @@ const Contact = () => {
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     type="submit"
-                    className="w-full inline-flex items-center justify-center gap-2 bg-teal-600 text-white font-bold py-4 rounded-xl hover:bg-teal-700 transition-all shadow-lg shadow-teal-500/20 active:scale-[0.98]"
+                    disabled={submitting}
+                    className="w-full inline-flex items-center justify-center gap-2 bg-teal-600 text-white font-bold py-4 rounded-xl hover:bg-teal-700 transition-all shadow-lg shadow-teal-500/20 active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed"
                   >
-                    {t('contact.form.send')}
+                    {submitting ? 'Mengirim...' : t('contact.form.send')}
                     <Send className="w-4 h-4" />
                   </motion.button>
                 </form>
@@ -212,94 +278,90 @@ const Contact = () => {
       </section>
 
       {/* Google Maps */}
-<section className="py-24 bg-gradient-to-b from-slate-50 to-white">
-    <div className="container mx-auto px-6">
-        <ScrollReveal>
+      <section className="py-24 bg-gradient-to-b from-slate-50 to-white">
+        <div className="container mx-auto px-6">
+          <ScrollReveal>
             <div className="mb-14 text-center">
-                <div className="mb-6 inline-flex h-20 w-20 items-center justify-center rounded-full bg-white shadow-lg">
-                    <MapPin className="h-10 w-10 text-teal-600" />
-                </div>
+              <div className="mb-6 inline-flex h-20 w-20 items-center justify-center rounded-full bg-white shadow-lg">
+                <MapPin className="h-10 w-10 text-teal-600" />
+              </div>
 
-                <h2 className="mb-4 text-4xl font-bold text-foreground">
-                    {t("contact.map.title")}
-                </h2>
+              <h2 className="mb-4 text-4xl font-bold text-foreground">
+                {t("contact.map.title")}
+              </h2>
 
-                <p className="mx-auto max-w-3xl text-lg text-muted-foreground">
-                    {t("contact.map.desc")}
-                </p>
+              <p className="mx-auto max-w-3xl text-lg text-muted-foreground">
+                {t("contact.map.desc")}
+              </p>
             </div>
-        </ScrollReveal>
+          </ScrollReveal>
 
-        <motion.div
+          <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
             className="relative"
-        >
+          >
             <div className="overflow-hidden rounded-3xl border border-slate-200 shadow-2xl">
-                <iframe
-                    title="SMK Pariwisata Metland School"
-                    src="https://www.google.com/maps?q=SMK+Pariwisata+Metland+School+Cileungsi&output=embed"
-                    className="h-[650px] w-full"
-                    loading="lazy"
-                    allowFullScreen
-                    referrerPolicy="no-referrer-when-downgrade"
-                />
+              <iframe
+                title="SMK Pariwisata Metland School"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3965.176044703714!2d106.96918881476986!3d-6.371261395389658!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69922e39cd1ef3%3A0x6b44ddc0612ce6ed!2sSMK%20Pariwisata%20Metland%20School!5e0!3m2!1sid!2sid!4v1680000000000!5m2!1sid!2sid"
+                className="h-[650px] w-full"
+                loading="lazy"
+                allowFullScreen
+                referrerPolicy="no-referrer-when-downgrade"
+              />
             </div>
 
             {/* Floating Information */}
             <motion.div
-                initial={{ opacity: 0, x: -40 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.3 }}
-                className="absolute bottom-8 left-8 hidden max-w-sm rounded-3xl bg-white p-7 shadow-2xl lg:block"
+              initial={{ opacity: 0, x: -40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.3 }}
+              className="absolute bottom-8 left-8 hidden max-w-sm rounded-3xl bg-white p-7 shadow-2xl lg:block"
             >
-                <div className="mb-5 flex items-center gap-3">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-teal-100">
-                        <MapPin className="text-teal-600" />
-                    </div>
-
-                    <div>
-                        <h3 className="text-lg font-bold">
-                            SMK Pariwisata Metland School
-                        </h3>
-                        <p className="text-sm text-slate-500">
-                            Cileungsi, Bogor
-                        </p>
-                    </div>
+              <div className="mb-5 flex items-center gap-3">
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-teal-100">
+                  <MapPin className="text-teal-600" />
                 </div>
 
-                <p className="mb-6 leading-relaxed text-slate-600">
-                    Jl. Kota Taman Metropolitan,
-                    Cileungsi Kidul,
-                    Kecamatan Cileungsi,
-                    Kabupaten Bogor,
-                    Jawa Barat 16820
-                </p>
-
-                <div className="space-y-3">
-                    <a
-                        href="https://maps.google.com/?q=SMK+Pariwisata+Metland+School+Cileungsi"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex w-full items-center justify-center rounded-xl bg-teal-600 py-3 font-semibold text-white transition hover:bg-teal-700"
-                    >
-                        📍 Open Google Maps
-                    </a>
-
-                    <a
-                        href="tel:+622182496976"
-                        className="flex w-full items-center justify-center rounded-xl border py-3 font-semibold transition hover:bg-slate-50"
-                    >
-                        📞 Call School
-                    </a>
+                <div>
+                  <h3 className="text-lg font-bold">
+                    SMK Pariwisata Metland School
+                  </h3>
+                  <p className="text-sm text-slate-500">
+                    Cileungsi, Bogor
+                  </p>
                 </div>
+              </div>
+
+              <p className="mb-6 leading-relaxed text-slate-600">
+                Jl. Kota Taman Metropolitan, Cileungsi Kidul, Kecamatan Cileungsi, Kabupaten Bogor, Jawa Barat 16820
+              </p>
+
+              <div className="space-y-3">
+                <a
+                  href="https://maps.google.com/?q=SMK+Pariwisata+Metland+School"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex w-full items-center justify-center rounded-xl bg-teal-600 py-3 font-semibold text-white transition hover:bg-teal-700"
+                >
+                  📍 Open Google Maps
+                </a>
+
+                <a
+                  href="tel:+622182496976"
+                  className="flex w-full items-center justify-center rounded-xl border py-3 font-semibold transition hover:bg-slate-50"
+                >
+                  📞 Call School
+                </a>
+              </div>
             </motion.div>
-        </motion.div>
-    </div>
-</section>
+          </motion.div>
+        </div>
+      </section>
     </MainLayout>
   );
 };

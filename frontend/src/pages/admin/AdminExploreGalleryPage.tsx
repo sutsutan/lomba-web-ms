@@ -174,8 +174,8 @@ export default function AdminExploreGalleryPage() {
         </div>
 
         <DataTable
-          columns={[
-           {
+         columns={[
+          {
             key: 'documentation_url',
             label: 'Dokumentasi',
             render: (item: ExploreGalleryData) => {
@@ -184,59 +184,45 @@ export default function AdminExploreGalleryPage() {
                 : (item.documentation_url ? [item.documentation_url] : []);
               return (
                 <div className="relative w-20 h-12">
-                  <img
-                    src={photos[0]}
-                    className="w-20 h-12 object-cover rounded-xl border border-gray-100 shadow-sm bg-gray-50"
-                    alt=""
-                    onError={e => (e.currentTarget.src = 'https://placehold.co/80x48/e2e8f0/94a3b8?text=No+Media')}
-                  />
+                  <img src={photos[0]} className="w-20 h-12 object-cover rounded-xl border border-gray-100 shadow-sm bg-gray-50" alt="" onError={e => (e.currentTarget.src = 'https://placehold.co/80x48/e2e8f0/94a3b8?text=No+Media')} />
                   {photos.length > 1 && (
-                    <span className="absolute -bottom-1 -right-1 bg-indigo-600 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full shadow">
-                      +{photos.length - 1}
-                    </span>
+                    <span className="absolute -bottom-1 -right-1 bg-indigo-600 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full shadow">+{photos.length - 1}</span>
                   )}
                 </div>
               );
             }
           },
-            {
-              key: 'event_name',
-              label: 'Nama Kegiatan & Tahun',
-              render: (item: ExploreGalleryData) => (
-                <div>
-                  <span className="font-semibold text-gray-900 block leading-tight mb-0.5">{item.event_name}</span>
-                  <span className="text-gray-400 text-[11px] block font-normal">Tahun {item.year}</span>
-                </div>
-              )
-            },
-            {
-              key: 'relation',
-              label: 'Sumber Terhubung',
-              render: (item: ExploreGalleryData) => (
-                <Badge color={typeColors[item.extracurricular_id ? 'extracurricular' : 'organization']}>
-                  {getRelationTypeLabel(item)}
-                </Badge>
-              )
-            },
-            {
-              key: 'related_to',
-              label: 'Nama Relasi',
-              render: (item: ExploreGalleryData) => (
-                <span className="text-xs font-medium text-gray-700 bg-gray-100 px-2 py-1 rounded-md inline-block max-w-[180px] truncate">
-                  {getRelatedLabel(item)}
-                </span>
-              )
-            },
-            {
-              key: 'is_active',
-              label: 'Visibilitas',
-              render: (item: ExploreGalleryData) => (
-                <Badge color={item.is_active ? 'green' : 'gray'}>
-                  {item.is_active ? 'Tampil' : 'Arsip'}
-                </Badge>
-              )
-            },
-          ]}
+          {
+            key: 'event_name',
+            label: 'Nama Kegiatan',
+            render: (item: ExploreGalleryData) => <span className="whitespace-nowrap font-semibold text-gray-900">{item.event_name}</span>
+          },
+          { key: 'year', label: 'Tahun', render: (item: ExploreGalleryData) => <span className="whitespace-nowrap text-xs">{item.year}</span> },
+          {
+            key: 'relation',
+            label: 'Sumber Terhubung',
+            render: (item: ExploreGalleryData) => (
+              <Badge color={typeColors[item.extracurricular_id ? 'extracurricular' : 'organization']}>{getRelationTypeLabel(item)}</Badge>
+            )
+          },
+          {
+            key: 'related_to',
+            label: 'Nama Relasi',
+            render: (item: ExploreGalleryData) => (
+              <span className="whitespace-nowrap text-xs font-medium text-gray-700 bg-gray-100 px-2 py-1 rounded-md inline-block">{getRelatedLabel(item)}</span>
+            )
+          },
+          {
+            key: 'traits_achievement',
+            label: 'Prestasi / Ciri Khas',
+            render: (item: ExploreGalleryData) => <span className="text-xs text-gray-500 max-w-xs block line-clamp-2">{item.traits_achievement || '-'}</span>
+          },
+          {
+            key: 'is_active',
+            label: 'Visibilitas',
+            render: (item: ExploreGalleryData) => <Badge color={item.is_active ? 'green' : 'gray'}>{item.is_active ? 'Tampil' : 'Arsip'}</Badge>
+          },
+        ]}
           data={filtered}
           onEdit={openEdit}
           onDelete={del}

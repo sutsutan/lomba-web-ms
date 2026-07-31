@@ -99,54 +99,42 @@ export default function AdminExtracurricularPage() {
           <div className="p-12 text-center text-gray-500 font-medium">Sedang memuat data...</div>
         ) : (
           <DataTable
-            columns={[
-              { 
-                key: 'image_url', 
-                label: 'Foto', 
-                render: (item: Extracurricular) => (
-                  <img 
-                    src={item.image_url} 
-                    className="w-16 h-10 object-cover rounded-lg border border-gray-100 shadow-sm" 
-                    alt="" 
-                    onError={e => (e.currentTarget.src = 'https://placehold.co/64x40/e2e8f0/94a3b8?text=?')} 
-                  />
-                ) 
-              },
-              { 
-                key: 'name', 
-                label: 'Nama Ekskul', 
-                render: (item: Extracurricular) => <span className="font-semibold text-gray-900 block">{item.name}</span> 
-              },
-              { 
-                key: 'category', 
-                label: 'Kategori', 
-                render: (item: Extracurricular) => (
-                  <Badge color={catColors[item.category] || 'gray'}>
-                    {item.category === 'Sports' ? 'Olahraga' : item.category === 'Arts' ? 'Seni' : 'Khusus/Sains'}
-                  </Badge>
-                ) 
-              },
-              { key: 'coach_name', label: 'Pembina' },
-              { 
-                key: 'schedule', 
-                label: 'Jadwal / Intensitas', 
-                render: (item: Extracurricular) => (
-                  <div>
-                    <div className="text-xs text-gray-700 font-medium">{item.schedule}</div>
-                    <div className="text-[10px] text-gray-400 font-normal">{item.intensity}</div>
-                  </div>
-                ) 
-              },
-              { 
-                key: 'is_active', 
-                label: 'Status', 
-                render: (item: Extracurricular) => (
-                  <Badge color={item.is_active ? 'green' : 'gray'}>
-                    {item.is_active ? 'Aktif' : 'Nonaktif'}
-                  </Badge>
-                ) 
-              },
-            ]}
+          columns={[
+        { 
+          key: 'image_url', 
+          label: 'Foto', 
+          render: (item: Extracurricular) => (
+            <img src={item.image_url} className="w-16 h-10 object-cover rounded-lg border border-gray-100 shadow-sm" alt="" onError={e => (e.currentTarget.src = 'https://placehold.co/64x40/e2e8f0/94a3b8?text=?')} />
+          ) 
+        },
+        { key: 'name', label: 'Nama Ekskul', render: (item: Extracurricular) => <span className="whitespace-nowrap font-semibold text-gray-900">{item.name}</span> },
+        { 
+          key: 'category', 
+          label: 'Kategori', 
+          render: (item: Extracurricular) => (
+            <Badge color={catColors[item.category] || 'gray'}>
+              {item.category === 'Sports' ? 'Olahraga' : item.category === 'Arts' ? 'Seni' : 'Khusus/Sains'}
+            </Badge>
+          ) 
+        },
+        { key: 'coach_name', label: 'Pembina', render: (item: Extracurricular) => <span className="whitespace-nowrap">{item.coach_name || '-'}</span> },
+        { key: 'schedule', label: 'Jadwal', render: (item: Extracurricular) => <span className="whitespace-nowrap text-xs">{item.schedule || '-'}</span> },
+        { key: 'intensity', label: 'Intensitas', render: (item: Extracurricular) => <span className="whitespace-nowrap text-xs">{item.intensity || '-'}</span> },
+        { key: 'description', label: 'Deskripsi', render: (item: Extracurricular) => <span className="text-xs text-gray-500 max-w-xs block line-clamp-2">{item.description || '-'}</span> },
+        { key: 'track_record', label: 'Track Record', render: (item: Extracurricular) => <span className="text-xs text-gray-500 max-w-xs block line-clamp-2">{item.track_record || '-'}</span> },
+        {
+          key: 'registration_link',
+          label: 'Link Daftar',
+          render: (item: Extracurricular) => item.registration_link ? (
+            <a href={item.registration_link} target="_blank" rel="noreferrer" className="whitespace-nowrap text-xs font-semibold text-indigo-600 underline">Buka ↗</a>
+          ) : <span className="text-gray-400 text-xs">-</span>
+        },
+        { 
+          key: 'is_active', 
+          label: 'Status', 
+          render: (item: Extracurricular) => <Badge color={item.is_active ? 'green' : 'gray'}>{item.is_active ? 'Aktif' : 'Nonaktif'}</Badge>
+        },
+      ]}
             data={filtered}
             onEdit={openEdit}
             onDelete={del}

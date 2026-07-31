@@ -10,6 +10,7 @@ export interface MajorData {
   total_students: number;
   total_partners: number;
   curriculum_image: string;
+  program_link?: string;
   is_active: boolean;
   image_url?: string;
 }

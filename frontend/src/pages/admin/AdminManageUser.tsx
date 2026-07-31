@@ -117,37 +117,22 @@ export default function AdminManageUserPage() {
           </div>
         ) : (
           <DataTable
-            columns={[
-              {
-                key: 'avatar_url',
-                label: 'Foto',
-                render: (item: UserAccount) => (
-                  <img
-                    src={item.avatar_url || 'https://placehold.co/36x36/e2e8f0/94a3b8?text=User'}
-                    className="w-9 h-9 object-cover rounded-full border border-gray-100 shadow-sm"
-                    alt=""
-                    onError={e => (e.currentTarget.src = 'https://placehold.co/36x36/e2e8f0/94a3b8?text=User')}
-                  />
-                )
-              },
-              {
-                key: 'name',
-                label: 'Pengguna Sistem',
-                render: (item: UserAccount) => (
-                  <div>
-                    <span className="font-semibold text-gray-900 block leading-tight mb-0.5">{item.name}</span>
-                    <span className="text-gray-400 text-[11px] block font-normal">{item.email}</span>
-                  </div>
-                )
-              },
-              {
-                key: 'role',
-                label: 'Hak Akses (Role)',
-                render: (item: UserAccount) => (
-                  <Badge color={roleColor[item.role]}>{roleLabels[item.role]}</Badge>
-                )
-              },
-            ]}
+           columns={[
+            {
+              key: 'avatar_url',
+              label: 'Foto',
+              render: (item: UserAccount) => (
+                <img src={item.avatar_url || 'https://placehold.co/36x36/e2e8f0/94a3b8?text=User'} className="w-9 h-9 object-cover rounded-full border border-gray-100 shadow-sm" alt="" onError={e => (e.currentTarget.src = 'https://placehold.co/36x36/e2e8f0/94a3b8?text=User')} />
+              )
+            },
+            { key: 'name', label: 'Nama', render: (item: UserAccount) => <span className="whitespace-nowrap font-semibold text-gray-900">{item.name}</span> },
+            { key: 'email', label: 'Email', render: (item: UserAccount) => <span className="whitespace-nowrap text-gray-500 text-xs">{item.email}</span> },
+            {
+              key: 'role',
+              label: 'Hak Akses (Role)',
+              render: (item: UserAccount) => <Badge color={roleColor[item.role]}>{roleLabels[item.role]}</Badge>
+            },
+          ]}
             data={items}
             onEdit={openEdit}
             onDelete={del}

@@ -6,13 +6,14 @@ import HeroCarousel from '@/components/HeroCarousel';
 import MainLayout from '@/layouts/MainLayout';
 import President from '@/assets/darmawan.jpg';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { fetchPublicTeachers, PublicTeacher } from '@/services/Teacher';
+import { fetchPublicTeachers, fetchPublicLeadership, PublicTeacher, PublicLeader } from '@/services/Teacher';
 import api from '@/lib/api';
 
 const Teachers = () => {
     const { t, language} = useLanguage();
     const [activeDept, setActiveDept] = useState<string>('pplg');
     const [dynamicDepartments, setDynamicDepartments] = useState<Record<string, PublicTeacher[]> | null>(null);
+    const [dynamicLeadership, setDynamicLeadership] = useState<PublicLeader[]>([]);
     const [heroSlides, setHeroSlides] = useState<any[]>([]);
 
      useEffect(() => {
@@ -52,6 +53,9 @@ const Teachers = () => {
         fetchPublicTeachers().then(data => {
             if (data) setDynamicDepartments(data);
         });
+        fetchPublicLeadership().then(data => {
+            setDynamicLeadership(data);
+        });
     }, []);
 
     const fallbackDepartments = {
@@ -87,23 +91,26 @@ const Teachers = () => {
         ]
     };
 
+    const fallbackLeadership: PublicLeader[] = [
+        {
+            name: "Drs. Darmawan Sunarja, MM.Par",
+            role: t('teacher.role.principal'),
+            image: President,
+            bio: t('teacher.bio.principal')
+        },
+        {
+            name: "Suharti, SE",
+            role: t('teacher.role.vice_principal'),
+            image: "",
+            bio: t('teacher.bio.vice_principal')
+        }
+    ];
+
     const activeDepartmentsData = dynamicDepartments || fallbackDepartments;
+    const activeLeadershipData = dynamicLeadership.length > 0 ? dynamicLeadership : fallbackLeadership;
 
     const teacherData = {
-        leadership: [
-            {
-                name: "Drs. Darmawan Sunarja, MM.Par",
-                role: t('teacher.role.principal'),
-                image: President,
-                bio: t('teacher.bio.principal')
-            },
-            {
-                name: "Suharti, SE",
-                role: t('teacher.role.vice_principal'),
-                image: "",
-                bio: t('teacher.bio.vice_principal')
-            }
-        ],
+        leadership: activeLeadershipData,
         departments: activeDepartmentsData
     };
 
@@ -133,7 +140,7 @@ const Teachers = () => {
                         </div>
                     </ScrollReveal>
 
-                    {/* Exclusive Leadership Section */}
+                    {/* Exclusive Leadership Section — Kepala Sekolah & Wakil Kepala Sekolah */}
                     <div className="grid lg:grid-cols-2 gap-12 mb-32">
                         {teacherData.leadership.map((leader, index) => (
                             <ScrollReveal key={index} delay={index * 0.2}>
@@ -144,6 +151,7 @@ const Teachers = () => {
                                                 src={leader.image}
                                                 alt={leader.name}
                                                 className="w-full h-full object-cover transition-all duration-700"
+                                                onError={(e) => { e.currentTarget.src = 'https://placehold.co/300x300/e2e8f0/94a3b8?text=Pimpinan'; }}
                                             />
                                         ) : (
                                             <Users size={48} className="text-slate-300" />
@@ -154,13 +162,20 @@ const Teachers = () => {
                                             {leader.role}
                                         </div>
                                         <h3 className="text-2xl font-bold text-[#0F5F58]">{leader.name}</h3>
-                                        <p className="text-gray-600 text-base leading-relaxed italic">
-                                            "{leader.bio}"
-                                        </p>
+                                        {leader.bio && (
+                                            <p className="text-gray-600 text-base leading-relaxed italic">
+                                                "{leader.bio}"
+                                            </p>
+                                        )}
                                     </div>
                                 </div>
                             </ScrollReveal>
                         ))}
+                        {teacherData.leadership.length === 0 && (
+                            <div className="col-span-full py-16 text-center text-slate-400 font-medium">
+                                Belum ada data pimpinan sekolah.
+                            </div>
+                        )}
                     </div>
 
                     <hr className="mb-24 border-gray-100" />
@@ -244,7 +259,6 @@ const Teachers = () => {
                                             </div>
                                         </div>
                                         <div className="p-8 text-center">
-                                            {/* Fix typo here: mb-2 line-clamp-1 */}
                                             <h4 className="font-bold text-[#0F5F58] text-xl mb-2 line-clamp-1">
                                                 {teacher.name}
                                             </h4>

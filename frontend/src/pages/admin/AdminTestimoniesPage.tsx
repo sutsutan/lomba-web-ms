@@ -129,57 +129,39 @@ export default function AdminTestimonyPage() {
           <div className="p-8 text-center text-gray-500 text-sm font-medium">Memuat data testimoni...</div>
         ) : (
           <DataTable
-            columns={[
-              {
-                key: 'profile_picture',
-                label: 'Foto / Avatar',
-                render: (item: TestimonyBackend) => (
-                  <img
-                    src={item.profile_picture || ''}
-                    className="w-10 h-10 object-cover rounded-full border border-gray-100 shadow-sm"
-                    alt=""
-                    onError={e => (e.currentTarget.src = 'https://placehold.co/40x40/e2e8f0/94a3b8?text=User')}
-                  />
-                )
-              },
-              {
-                key: 'name',
-                label: 'Nama & Keterangan',
-                render: (item: TestimonyBackend) => (
-                  <div>
-                    <span className="font-semibold text-gray-900 block">{item.name}</span>
-                    <span className="text-gray-400 text-[11px] block">{item.alias}</span>
-                  </div>
-                )
-              },
-              {
-                key: 'from_type',
-                label: 'Kategori',
-                render: (item: TestimonyBackend) => (
-                  <Badge color={roleColors[item.from_type] || 'gray'}>
-                    {roleLabels[item.from_type] || String(item.from_type || '').toUpperCase()}
-                  </Badge>
-                )
-              },
-              {
-                key: 'quote',
-                label: 'Isi Testimoni',
-                render: (item: TestimonyBackend) => (
-                  <span className="text-gray-600 text-xs line-clamp-2 max-w-xs block font-normal">
-                    "{item.quote}"
-                  </span>
-                )
-              },
-              {
-                key: 'is_active',
-                label: 'Status',
-                render: (item: TestimonyBackend) => (
-                  <Badge color={item.is_active ? 'green' : 'gray'}>
-                    {item.is_active ? 'Aktif' : 'Nonaktif'}
-                  </Badge>
-                )
-              },
-            ]}
+           columns={[
+            {
+              key: 'profile_picture',
+              label: 'Foto',
+              render: (item: TestimonyBackend) => (
+                <img src={item.profile_picture || ''} className="w-10 h-10 object-cover rounded-full border border-gray-100 shadow-sm" alt="" onError={e => (e.currentTarget.src = 'https://placehold.co/40x40/e2e8f0/94a3b8?text=User')} />
+              )
+            },
+            { key: 'name', label: 'Nama', render: (item: TestimonyBackend) => <span className="whitespace-nowrap font-semibold text-gray-900">{item.name}</span> },
+            { key: 'alias', label: 'Keterangan', render: (item: TestimonyBackend) => <span className="whitespace-nowrap text-xs text-gray-400">{item.alias || '-'}</span> },
+            {
+              key: 'from_type',
+              label: 'Kategori',
+              render: (item: TestimonyBackend) => <Badge color={roleColors[item.from_type] || 'gray'}>{roleLabels[item.from_type] || String(item.from_type || '').toUpperCase()}</Badge>
+            },
+            {
+              key: 'quote',
+              label: 'Isi Testimoni',
+              render: (item: TestimonyBackend) => <span className="text-gray-600 text-xs line-clamp-2 max-w-xs block font-normal">"{item.quote}"</span>
+            },
+            {
+              key: 'video_url',
+              label: 'Video',
+              render: (item: TestimonyBackend) => item.video_url ? (
+                <a href={item.video_url} target="_blank" rel="noreferrer" className="whitespace-nowrap text-xs font-semibold text-red-600 underline">▶ YouTube</a>
+              ) : <span className="text-gray-400 text-xs">-</span>
+            },
+            {
+              key: 'is_active',
+              label: 'Status',
+              render: (item: TestimonyBackend) => <Badge color={item.is_active ? 'green' : 'gray'}>{item.is_active ? 'Aktif' : 'Nonaktif'}</Badge>
+            },
+          ]}
             data={filtered}
             onEdit={openEdit}
             onDelete={del}

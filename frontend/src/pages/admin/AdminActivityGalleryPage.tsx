@@ -162,7 +162,7 @@ export default function AdminActivityGalleryPage() {
       <PageHeader title="Galeri Kegiatan" subtitle="Dokumentasi foto dan publikasi album kegiatan praktik per jurusan" onAdd={openAdd} />
 
       <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-        <div className="p-4 border-b border-gray-100 bg-gray-50/50 space-y-3">
+        <div className="p-4 border-b border-gray-100 bg-gray-50/50">
           <div className="flex gap-2">
             <button
               type="button"
@@ -183,59 +183,39 @@ export default function AdminActivityGalleryPage() {
         </div>
 
         <DataTable
-          columns={[
-            {
-              key: 'image_url',
-              label: 'Foto Dokumentasi',
-              render: (item: ActivityGallery) => (
-                <img 
-                  src={item.image_url} 
-                  className="w-20 h-12 object-cover rounded-xl border border-gray-100 shadow-sm" 
-                  alt="" 
-                  onError={e => (e.currentTarget.src = 'https://placehold.co/80x48/e2e8f0/94a3b8?text=No+Image')} 
-                />
-              )
-            },
-            {
-              key: 'title',
-              label: 'Nama Kegiatan & Agenda',
-              render: (item: ActivityGallery) => (
-                <div>
-                  <span className="font-semibold text-gray-900 block">{item.title}</span>
-                  <span className="text-gray-400 text-[11px] block">
-                    📅 {new Date(item.activity_date).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}
-                  </span>
-                </div>
-              )
-            },
-            {
-              key: 'major_code',
-              label: 'Klaster / Jurusan',
-              render: (item: ActivityGallery) => (
-                <Badge color={majorColors[item.major_code] || 'gray'}>
-                  {majorLabels[item.major_code] || String(item.major_code || '').toUpperCase()}
-                </Badge>
-              )
-            },
-            {
-              key: 'description',
-              label: 'Keterangan Foto',
-              render: (item: ActivityGallery) => (
-                <span className="text-gray-500 text-xs line-clamp-2 max-w-xs block font-normal">
-                  {item.description || '-'}
-                </span>
-              )
-            },
-            {
-              key: 'is_featured',
-              label: 'Sorotan',
-              render: (item: ActivityGallery) => (
-                <Badge color={item.is_featured ? 'purple' : 'gray'}>
-                  {item.is_featured ? 'Headline' : 'Reguler'}
-                </Badge>
-              )
-            },
-          ]}
+         columns={[
+          {
+            key: 'image_url',
+            label: 'Foto Dokumentasi',
+            render: (item: ActivityGallery) => (
+              <img src={item.image_url} className="w-20 h-12 object-cover rounded-xl border border-gray-100 shadow-sm" alt="" onError={e => (e.currentTarget.src = 'https://placehold.co/80x48/e2e8f0/94a3b8?text=No+Image')} />
+            )
+          },
+          { key: 'title', label: 'Nama Kegiatan', render: (item: ActivityGallery) => <span className="whitespace-nowrap font-semibold text-gray-900">{item.title}</span> },
+          { key: 'activity_date', label: 'Tanggal', render: (item: ActivityGallery) => <span className="whitespace-nowrap text-xs">{new Date(item.activity_date).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}</span> },
+          {
+            key: 'major_code',
+            label: 'Klaster / Jurusan',
+            render: (item: ActivityGallery) => (
+              <Badge color={majorColors[item.major_code] || 'gray'}>{majorLabels[item.major_code] || String(item.major_code || '').toUpperCase()}</Badge>
+            )
+          },
+          {
+            key: 'description',
+            label: 'Keterangan Foto',
+            render: (item: ActivityGallery) => <span className="text-gray-500 text-xs line-clamp-2 max-w-xs block font-normal">{item.description || '-'}</span>
+          },
+          {
+            key: 'is_featured',
+            label: 'Sorotan',
+            render: (item: ActivityGallery) => <Badge color={item.is_featured ? 'purple' : 'gray'}>{item.is_featured ? 'Headline' : 'Reguler'}</Badge>
+          },
+          {
+            key: 'is_archived',
+            label: 'Arsip',
+            render: (item: ActivityGallery) => <Badge color={item.is_archived ? 'amber' : 'green'}>{item.is_archived ? 'Diarsipkan' : 'Aktif'}</Badge>
+          },
+        ]}
           data={filtered}
           onEdit={openEdit}
           onDelete={del}

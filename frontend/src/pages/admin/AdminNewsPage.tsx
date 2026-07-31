@@ -11,7 +11,6 @@ import FormField, { inputClass } from '@/components/admin/FormField';
 import ImageUploadField from '@/components/admin/ImageUploadField';
 import SearchBar from '@/components/admin/SearchBar';
 
-// 🛠️ HUBUNGKAN KE SERVICE API
 import { newsService, NewsData } from '@/services/News';
 
 const quillModules = {
@@ -192,73 +191,52 @@ export default function AdminNewsPage() {
           <div className="p-8 text-center text-gray-500 font-medium">Memuat database berita...</div>
         ) : (
           <DataTable
-            columns={[
-              { 
-                key: 'thumbnail', 
-                label: 'Cover', 
-                render: (item: any) => (
-                  <img 
-                    src={item.thumbnail} 
-                    className="w-20 h-12 object-cover rounded-lg border border-gray-100 shadow-sm" 
-                    alt="" 
-                    onError={e => (e.currentTarget.src = 'https://placehold.co/80x48/e2e8f0/94a3b8?text=img')} 
-                  />
-                ) 
-              },
-              { 
-                key: 'title_id', 
-                label: 'Judul Berita', 
-                render: (item: any) => (
-                  <span className="font-semibold text-gray-900 line-clamp-2 max-w-xs block">
-                    {item.title_id}
-                  </span>
-                ) 
-              },
-              { 
-                key: 'category', 
-                label: 'Kategori', 
-                render: (item: any) => (
-                  <Badge color={getCategoryColor(item.category)}>
-                    {item.category}
-                  </Badge>
-                ) 
-              },
-              { key: 'published_date', label: 'Tanggal Terbit' },
-              { 
-                key: 'is_published', 
-                label: 'Status', 
-                render: (item) => {
-
-                    const publishDate = new Date(item.published_date);
-
-                    const now = new Date();
-
-                    if (!item.is_published) {
-
-                        return <Badge color="yellow">Draft</Badge>;
-
-                    }
-
-                    if (publishDate > now) {
-
-                        return <Badge color="blue">Scheduled</Badge>;
-
-                    }
-
-                    return <Badge color="green">Published</Badge>;
-
-                }
-              },
-              {
-                key: 'is_headline',
-                label: 'Headline',
-                render: (item: any) => (
-                  <Badge color={item.is_headline ? 'blue' : 'gray'}>
-                    {item.is_headline ? 'Headline' : '-'}
-                  </Badge>
-                ),
-              },
-            ]}
+           columns={[
+            { 
+              key: 'thumbnail', 
+              label: 'Cover', 
+              render: (item: any) => (
+                <img src={item.thumbnail} className="w-20 h-12 object-cover rounded-lg border border-gray-100 shadow-sm" alt="" onError={e => (e.currentTarget.src = 'https://placehold.co/80x48/e2e8f0/94a3b8?text=img')} />
+              ) 
+            },
+            { 
+              key: 'title_id', 
+              label: 'Judul', 
+              render: (item: any) => <span className="whitespace-nowrap font-semibold text-gray-900">{item.title_id}</span> 
+            },
+            { 
+              key: 'category', 
+              label: 'Kategori', 
+              render: (item: any) => <Badge color={getCategoryColor(item.category)}>{item.category}</Badge> 
+            },
+            { key: 'published_date', label: 'Tanggal Terbit', render: (item: any) => <span className="whitespace-nowrap text-xs">{item.published_date}</span> },
+            {
+              key: 'excerpt_id',
+              label: 'Ringkasan',
+              render: (item: any) => <span className="text-xs text-gray-500 max-w-xs block line-clamp-2">{item.excerpt_id || '-'}</span>
+            },
+            {
+              key: 'gallery_images',
+              label: 'Galeri',
+              render: (item: any) => <span className="whitespace-nowrap text-xs text-gray-500">{(item.gallery_images || []).length} foto</span>
+            },
+            { 
+              key: 'is_published', 
+              label: 'Status', 
+              render: (item) => {
+                const publishDate = new Date(item.published_date);
+                const now = new Date();
+                if (!item.is_published) return <Badge color="yellow">Draft</Badge>;
+                if (publishDate > now) return <Badge color="blue">Scheduled</Badge>;
+                return <Badge color="green">Published</Badge>;
+              }
+            },
+            {
+              key: 'is_headline',
+              label: 'Headline',
+              render: (item: any) => <Badge color={item.is_headline ? 'blue' : 'gray'}>{item.is_headline ? 'Headline' : '-'}</Badge>,
+            },
+          ]}
             data={filtered}
             onEdit={(item: any) => openEdit(item as NewsData)}
             onDelete={(id: number) => del(id)}

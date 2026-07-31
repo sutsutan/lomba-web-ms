@@ -59,6 +59,7 @@ import AdminExploreGalleryPage from './pages/admin/AdminExploreGalleryPage';
 import AdminAlumniPage from './pages/admin/AdminAlumniPage';
 import AdminManageUserPage from './pages/admin/AdminManageUser';
 import AdminAchievementPage from './pages/admin/AdminAchievementPage';
+import AdminPpdbInboxPage from './pages/admin/AdminPpdbInboxPage';
 
 // Components
 import PpdbPopup from "./components/home/ppdbpopup";
@@ -124,6 +125,7 @@ const App = () => (
                   <Route path="manage-user" element={<AdminManageUserPage />} />
                   <Route path="manage-user" element={<RequireRole allow={['admin']}><AdminManageUserPage /></RequireRole>} />
                   <Route path="hero-backgrounds" element={<RequireRole allow={['admin']}><AdminHeroPage /></RequireRole>} />
+                  <Route path="ppdb-inbox" element={<AdminPpdbInboxPage />} />
                 </Route>
 
                 <Route path="*" element={<NotFound />} />

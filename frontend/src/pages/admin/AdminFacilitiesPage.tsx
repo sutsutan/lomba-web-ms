@@ -125,7 +125,6 @@ export default function AdminFacilityPage() {
     'Rusak': 'red'
   };
 
-  // Cari data jurusan by id, untuk ditampilkan sebagai badge di tabel
   const getMajorById = (majorId: number | null) => majors.find(m => m.id === majorId);
 
   return (
@@ -138,60 +137,40 @@ export default function AdminFacilityPage() {
         </div>
 
         <DataTable
-          columns={[
-            {
-              key: 'image_url',
-              label: 'Foto Sarana',
-              render: (item: FacilityData) => (
-                <img
-                  src={item.image_url}
-                  className="w-16 h-10 object-cover rounded-lg border border-gray-100 shadow-sm"
-                  alt=""
-                  onError={e => (e.currentTarget.src = 'https://placehold.co/64x40/e2e8f0/94a3b8?text=Fasilitas')}
-                />
-              )
-            },
-            {
-              key: 'name',
-              label: 'Nama Fasilitas & Lokasi',
-              render: (item: FacilityData) => (
-                <div>
-                  <span className="font-semibold text-gray-900 block">{item.name}</span>
-                  <span className="text-gray-400 text-[11px] block">{item.location}</span>
-                </div>
-              )
-            },
-            {
-              key: 'major_id',
-              label: 'Kepemilikan Jurusan',
-              render: (item: FacilityData) => {
-                const major = getMajorById(item.major_id);
-                return (
-                  <Badge color={majorColors[major?.code || ''] || 'gray'}>
-                    {major ? major.name : 'Tidak diketahui'}
-                  </Badge>
-                );
-              }
-            },
-            {
-              key: 'condition',
-              label: 'Kondisi',
-              render: (item: FacilityData) => (
-                <Badge color={conditionColors[item.condition] || 'gray'}>
-                  {item.condition}
-                </Badge>
-              )
-            },
-            {
-              key: 'is_active',
-              label: 'Katalog',
-              render: (item: FacilityData) => (
-                <Badge color={item.is_active ? 'green' : 'gray'}>
-                  {item.is_active ? 'Tampil' : 'Sembunyi'}
-                </Badge>
-              )
-            },
-          ]}
+        columns={[
+          {
+            key: 'image_url',
+            label: 'Foto Sarana',
+            render: (item: FacilityData) => (
+              <img src={item.image_url} className="w-16 h-10 object-cover rounded-lg border border-gray-100 shadow-sm" alt="" onError={e => (e.currentTarget.src = 'https://placehold.co/64x40/e2e8f0/94a3b8?text=Fasilitas')} />
+            )
+          },
+          { key: 'name', label: 'Nama Fasilitas', render: (item: FacilityData) => <span className="whitespace-nowrap font-semibold text-gray-900">{item.name}</span> },
+          { key: 'location', label: 'Lokasi', render: (item: FacilityData) => <span className="whitespace-nowrap">{item.location || '-'}</span> },
+          {
+            key: 'major_id',
+            label: 'Kepemilikan Jurusan',
+            render: (item: FacilityData) => {
+              const major = getMajorById(item.major_id);
+              return <Badge color={majorColors[major?.code || ''] || 'gray'}>{major ? major.name : 'Tidak diketahui'}</Badge>;
+            }
+          },
+          {
+            key: 'condition',
+            label: 'Kondisi',
+            render: (item: FacilityData) => <Badge color={conditionColors[item.condition] || 'gray'}>{item.condition}</Badge>
+          },
+          {
+            key: 'description',
+            label: 'Deskripsi',
+            render: (item: FacilityData) => <span className="text-xs text-gray-500 max-w-xs block line-clamp-2">{item.description || '-'}</span>
+          },
+          {
+            key: 'is_active',
+            label: 'Katalog',
+            render: (item: FacilityData) => <Badge color={item.is_active ? 'green' : 'gray'}>{item.is_active ? 'Tampil' : 'Sembunyi'}</Badge>
+          },
+        ]}
           data={filtered}
           onEdit={openEdit}
           onDelete={del}

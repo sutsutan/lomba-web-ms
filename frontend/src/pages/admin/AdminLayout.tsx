@@ -21,21 +21,22 @@ export default function AdminLayout() {
 
   const navItems: NavItem[] = [
     { path: '/dashboard', label: 'Dashboard', icon: 'LayoutDashboard', roles: ['admin', 'marketing'] },
-    { path: '/dashboard/hero', label: 'Hero Background', icon: 'Image', roles: ['admin'] },
-    { path: '/dashboard/achievements', label: 'Prestasi', icon: 'Trophy', roles: ['admin'] },
-    { path: '/dashboard/partnerships', label: 'Kemitraan', icon: 'Handshake', roles: ['admin'] },
-    { path: '/dashboard/testimonies', label: 'Testimoni', icon: 'Star', roles: ['admin'] },
+    { path: '/dashboard/hero', label: 'Hero Background', icon: 'Image', roles: ['admin', 'marketing'] },
+    { path: '/dashboard/achievements', label: 'Prestasi', icon: 'Trophy', roles: ['admin', 'marketing'] },
+    { path: '/dashboard/partnerships', label: 'Kemitraan', icon: 'Handshake', roles: ['admin', 'marketing'] },
+    { path: '/dashboard/testimonies', label: 'Testimoni', icon: 'Star', roles: ['admin', 'marketing']},
     { path: '/dashboard/majors', label: 'Jurusan', icon: 'BookOpen', roles: ['admin', 'marketing'] },
-    { path: '/dashboard/facilities', label: 'Fasilitas', icon: 'Building2', roles: ['admin'] },
-    { path: '/dashboard/activity-gallery', label: 'Galeri Kegiatan', icon: 'Camera', roles: ['admin'] },
+    { path: '/dashboard/facilities', label: 'Fasilitas', icon: 'Building2', roles: ['admin', 'marketing'] },
+    { path: '/dashboard/activity-gallery', label: 'Galeri Kegiatan', icon: 'Camera', roles: ['admin', 'marketing'] },
     { path: '/dashboard/student-works', label: 'Karya Siswa', icon: 'Palette', roles: ['admin'] },
     { path: '/dashboard/teachers', label: 'Guru & Staf', icon: 'Users', roles: ['admin'] },
     { path: '/dashboard/extracurriculars', label: 'Ekskul', icon: 'GraduationCap', roles: ['admin'] },
     { path: '/dashboard/organizations', label: 'Organisasi', icon: 'Flag', roles: ['admin'] },
-    { path: '/dashboard/news', label: 'Berita', icon: 'Newspaper', roles: ['admin'] },
+    { path: '/dashboard/news', label: 'Berita', icon: 'Newspaper', roles: ['admin', 'marketing'] },
     { path: '/dashboard/explore-gallery', label: 'Galeri Eksplorasi', icon: 'ImagePlus', roles: ['admin'] },
-    { path: '/dashboard/alumni', label: 'Alumni', icon: 'Globe', roles: ['admin'] },
+    { path: '/dashboard/alumni', label: 'Alumni', icon: 'Globe', roles: ['admin', 'marketing'] },
     { path: '/dashboard/manage-user', label: 'Manajemen User', icon: 'UserCog', roles: ['admin'] },
+    { path: '/dashboard/ppdb-inbox', label: 'PPDB Inbox', icon: 'Inbox', roles: ['admin', 'marketing'] },
   ];
 
   const currentRole: Role = isAdmin ? 'admin' : 'marketing';

@@ -245,8 +245,8 @@ ${item.description}
         onAdd={openAdd}
       />
 
-      <div className="overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm">
-        <div className="border-b border-gray-100 bg-gray-50/50 p-4">
+      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+        <div className="p-4 border-b border-gray-100 bg-gray-50/50">
           <SearchBar
             value={search}
             onChange={setSearch}
@@ -260,75 +260,51 @@ ${item.description}
           </div>
         ) : (
           <DataTable
-            columns={[
-              {
-                key: "image_url",
-                label: "Foto",
-                render: (item: AchievementData) => (
-                  <img
-                    src={item.image_url}
-                    className="h-14 w-14 rounded-xl object-cover"
-                  />
-                ),
+           columns={[
+            {
+              key: "image_url",
+              label: "Foto",
+              render: (item: AchievementData) => (
+                <img src={item.image_url} className="h-14 w-14 rounded-xl object-cover" />
+              ),
+            },
+            { key: "title", label: "Judul", render: (item: AchievementData) => <span className="whitespace-nowrap font-semibold text-gray-900">{item.title}</span> },
+            { key: "holder_name", label: "Peraih", render: (item: AchievementData) => <span className="whitespace-nowrap">{item.holder_name}</span> },
+            { key: "competition", label: "Kompetisi", render: (item: AchievementData) => <span className="whitespace-nowrap">{item.competition}</span> },
+            {
+              key: "category",
+              label: "Jurusan",
+              render: (item: AchievementData) => {
+                const category = CATEGORY_OPTIONS.find((c) => c.value === item.category);
+                return <Badge color={category?.color || "gray"}>{category?.label || item.category}</Badge>;
               },
-              {
-                key: "title",
-                label: "Judul",
-              },
-              {
-                key: "holder_name",
-                label: "Peraih",
-              },
-              {
-                key: "competition",
-                label: "Kompetisi",
-              },
-              {
-                key: "category",
-                label: "Jurusan",
-                render: (item: AchievementData) => {
-                  const category =
-                    CATEGORY_OPTIONS.find(
-                      (c) => c.value === item.category
-                    );
-
-                  return (
-                    <Badge color={category?.color || "gray"}>
-                      {category?.label || item.category}
-                    </Badge>
-                  );
-                },
-              },
-              {
-                key: "level",
-                label: "Tingkat",
-              },
-              {
-                key: "medal",
-                label: "Medali",
-              },
-              {
-                key: "year",
-                label: "Tahun",
-              },
-              {
-                key: "is_active",
-                label: "Status",
-                render: (item) => (
-                  <Badge
-                    color={
-                      item.is_active
-                        ? "green"
-                        : "gray"
-                    }
-                  >
-                    {item.is_active
-                      ? "Aktif"
-                      : "Nonaktif"}
-                  </Badge>
-                ),
-              },
-            ]}
+            },
+            { key: "level", label: "Tingkat", render: (item: AchievementData) => <span className="whitespace-nowrap capitalize">{item.level || '-'}</span> },
+            { key: "organizer", label: "Penyelenggara", render: (item: AchievementData) => <span className="whitespace-nowrap">{item.organizer || '-'}</span> },
+            { key: "location", label: "Lokasi", render: (item: AchievementData) => <span className="whitespace-nowrap">{item.location || '-'}</span> },
+            { key: "achievement_date", label: "Tanggal", render: (item: AchievementData) => <span className="whitespace-nowrap">{item.achievement_date ? new Date(item.achievement_date).toLocaleDateString('id-ID') : '-'}</span> },
+            { key: "medal", label: "Medali", render: (item: AchievementData) => <span className="whitespace-nowrap">{item.medal || '-'}</span> },
+            { key: "year", label: "Tahun" },
+            {
+              key: "certificate_url",
+              label: "Sertifikat",
+              render: (item: AchievementData) => item.certificate_url ? (
+                <a href={item.certificate_url} target="_blank" rel="noreferrer" className="whitespace-nowrap text-xs font-semibold text-indigo-600 underline">Lihat ↗</a>
+              ) : <span className="text-gray-400 text-xs">-</span>
+            },
+            {
+              key: "description",
+              label: "Deskripsi",
+              render: (item: AchievementData) => <span className="text-xs text-gray-500 max-w-xs block line-clamp-2">{item.description || '-'}</span>
+            },
+            {
+              key: "is_active",
+              label: "Status",
+              render: (item) => (
+                <Badge color={item.is_active ? "green" : "gray"}>{item.is_active ? "Aktif" : "Nonaktif"}</Badge>
+              ),
+            },
+          ]}
             data={filtered}
             onEdit={openEdit}
             onDelete={del}

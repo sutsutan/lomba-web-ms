@@ -140,57 +140,29 @@ export default function AdminPartnershipPage() {
           </div>
         ) : (
           <DataTable
-            columns={[
-              {
-                key: 'logo_url',
-                label: 'Logo',
-                render: (item: PartnerData) => (
-                  <img
-                    src={item.logo_url}
-                    className="w-14 h-14 rounded-lg border object-contain"
-                    alt=""
-                    onError={(e) =>
-                      (e.currentTarget.src =
-                        'https://placehold.co/56x56?text=Logo')
-                    }
-                  />
-                ),
-              },
-              {
-                key: 'company_name',
-                label: 'Perusahaan',
-              },
-              {
-                key: 'location',
-                label: 'Lokasi',
-              },
-              {
-                key: 'website_url',
-                label: 'Website',
-                render: (item: PartnerData) =>
-                  item.website_url ? (
-                    <a
-                      href={item.website_url}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="text-indigo-600 hover:underline"
-                    >
-                      {item.website_url}
-                    </a>
-                  ) : (
-                    '-'
-                  ),
-              },
-              {
-                key: 'is_active',
-                label: 'Status',
-                render: (item: PartnerData) => (
-                  <Badge color={item.is_active ? 'green' : 'gray'}>
-                    {item.is_active ? 'Aktif' : 'Nonaktif'}
-                  </Badge>
-                ),
-              },
-            ]}
+         columns={[
+          {
+            key: 'logo_url',
+            label: 'Logo',
+            render: (item: PartnerData) => (
+              <img src={item.logo_url} className="w-14 h-14 rounded-lg border object-contain" alt="" onError={(e) => (e.currentTarget.src = 'https://placehold.co/56x56?text=Logo')} />
+            ),
+          },
+          { key: 'company_name', label: 'Perusahaan', render: (item: PartnerData) => <span className="whitespace-nowrap font-semibold text-gray-900">{item.company_name}</span> },
+          { key: 'location', label: 'Lokasi', render: (item: PartnerData) => <span className="whitespace-nowrap">{item.location || '-'}</span> },
+          {
+            key: 'website_url',
+            label: 'Website',
+            render: (item: PartnerData) => item.website_url ? (
+              <a href={item.website_url} target="_blank" rel="noreferrer" className="whitespace-nowrap text-indigo-600 hover:underline text-xs">{item.website_url}</a>
+            ) : ('-'),
+          },
+          {
+            key: 'is_active',
+            label: 'Status',
+            render: (item: PartnerData) => <Badge color={item.is_active ? 'green' : 'gray'}>{item.is_active ? 'Aktif' : 'Nonaktif'}</Badge>,
+          },
+        ]}
             data={filtered}
             onEdit={openEdit}
             onDelete={del}
