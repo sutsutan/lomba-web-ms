@@ -113,29 +113,38 @@ const AchievementsSlider = () => {
                                 ease: "easeInOut",
                             }}
                         >
-                            {achievements.map((item, index) => (
+                            {achievements.map((item, index) => {
+                                const isCurrent = index === currentIndex;
+                                return (
                                 <motion.div
                                     key={item.id}
                                     className="min-w-full"
+                                    initial={{ scale: 0.85, opacity: 0.5 }}
                                     animate={{
-                                        scale: index === currentIndex ? 1 : 0.9,
-                                        opacity: index === currentIndex ? 1 : 0.4,
-                                        filter: index === currentIndex ? 'blur(0px)' : 'blur(2px)',
+                                        scale: isCurrent ? 1 : 0.88,
+                                        opacity: isCurrent ? 1 : 0.4,
+                                        filter: isCurrent ? 'blur(0px)' : 'blur(3px)',
                                     }}
-                                   transition={{
-                                        duration: 0.6,
-                                        ease: "easeInOut",
+                                    transition={{
+                                        type: "spring",
+                                        stiffness: 120,
+                                        damping: 18,
+                                        duration: 0.7
                                     }}
                                 >
-                                    <div className="relative overflow-hidden rounded-3xl bg-gradient-to-t from-white via-[#E2F0F9]/20 to-[#E2F0F9] shadow-[0_20px_60px_rgba(0,0,0,0.15)] md:rounded-[3rem]">
+                                    <div className="group relative overflow-hidden rounded-3xl bg-gradient-to-t from-white via-[#E2F0F9]/30 to-[#E2F0F9] shadow-[0_20px_60px_rgba(0,0,0,0.15)] md:rounded-[3rem] border border-white/60 transition-transform duration-500 hover:shadow-[0_25px_70px_rgba(15,95,88,0.2)]">
                                         <div className="grid items-center gap-6 p-8 md:grid-cols-[1.2fr,0.8fr] md:gap-0 md:p-12 lg:p-16">
                                             
                                             {/* Left Content */}
                                             <div className="order-2 space-y-4 md:order-1 md:space-y-6">
                                                 {/* Category Badge */}
-                                                <span className="inline-block rounded-2xl border border-white/50 bg-white/90 px-4 py-2 text-xs font-bold text-slate-700 shadow-sm backdrop-blur-sm md:px-6 md:py-2.5 md:text-sm uppercase tracking-wider">
+                                                <motion.span 
+                                                    animate={{ scale: isCurrent ? [0.9, 1.05, 1] : 0.9 }}
+                                                    transition={{ duration: 0.5 }}
+                                                    className="inline-block rounded-2xl border border-teal-200/60 bg-white/90 px-4 py-2 text-xs font-bold text-[#0F5F58] shadow-sm backdrop-blur-sm md:px-6 md:py-2.5 md:text-sm uppercase tracking-wider"
+                                                >
                                                     {item.category} ({item.year})
-                                                </span>
+                                                </motion.span>
 
                                                 {/* Student Name */}
                                                 <h3 className="text-2xl font-black leading-tight text-[#0F5F58] md:text-3xl lg:text-4xl xl:text-5xl">
@@ -148,36 +157,42 @@ const AchievementsSlider = () => {
                                                 </p>
 
                                                 {/* Detail/News Link */}
-                                              <Link
-                                                to={`/achievement-detail/${item.id}`}
-                                                className="group mt-2 inline-flex items-center justify-center gap-3 rounded-full bg-[#0F5F58] px-8 py-3.5 text-sm font-bold text-white shadow-xl transition-all hover:bg-[#0b4b45] hover:shadow-2xl active:scale-95 md:mt-4 md:px-10 md:py-4 md:text-base"
-                                            >
-                                                <Trophy className="h-4 w-4 md:h-5 md:w-5" />
-                                                {t('achievements.learn_more')}
-                                            </Link>
+                                                <Link
+                                                    to={`/achievement-detail/${item.id}`}
+                                                    className="group/btn mt-2 inline-flex items-center justify-center gap-3 rounded-full bg-[#0F5F58] px-8 py-3.5 text-sm font-bold text-white shadow-xl transition-all hover:bg-[#0b4b45] hover:shadow-2xl hover:scale-105 active:scale-95 md:mt-4 md:px-10 md:py-4 md:text-base"
+                                                >
+                                                    <Trophy className="h-4 w-4 transition-transform group-hover/btn:rotate-12 md:h-5 md:w-5" />
+                                                    {t('achievements.learn_more')}
+                                                </Link>
                                             </div>
 
-                                            {/* Right Image - Circle */}
+                                            {/* Right Image - Circle with Zoom In Animation */}
                                             <div className="order-1 flex justify-center md:order-2 md:justify-end">
                                                 <div className="relative">
-                                                    <div className="absolute inset-0 scale-95 transform rounded-full bg-gradient-to-br md:scale-100" />
-                                                    <div className="relative h-48 w-48 overflow-hidden rounded-full border-4 shadow-2xl md:h-64 md:w-64 lg:h-80 lg:w-80">
+                                                    {/* Animated Backdrop Ring */}
+                                                    <div className="absolute inset-0 scale-105 rounded-full bg-gradient-to-tr from-teal-500/20 to-emerald-400/30 blur-xl transition-all duration-700 group-hover:scale-125" />
+                                                    <motion.div 
+                                                        animate={{ scale: isCurrent ? [0.85, 1.05, 1] : 0.85 }}
+                                                        transition={{ duration: 0.6, ease: "easeOut" }}
+                                                        className="relative h-48 w-48 overflow-hidden rounded-full border-4 border-white shadow-2xl md:h-64 md:w-64 lg:h-80 lg:w-80"
+                                                    >
                                                         <img
                                                             src={item.image_url}
                                                             alt={item.holder_name}
-                                                            className="h-full w-full object-cover"
+                                                            className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-115"
                                                             onError={(e) => {
                                                                 e.currentTarget.src = 'https://placehold.co/600x600/0f172a/fff?text=🏆';
                                                             }}
                                                         />
-                                                    </div>
+                                                    </motion.div>
                                                 </div>
                                             </div>
 
                                         </div>
                                     </div>
                                 </motion.div>
-                            ))}
+                                );
+                            })}
                         </motion.div>
                     </div>
 

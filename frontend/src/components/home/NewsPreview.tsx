@@ -3,33 +3,77 @@ import ScrollReveal from '@/components/ScrollReveal';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Link } from 'react-router-dom';
 import { newsService, NewsData } from '@/services/News';
+import { Calendar, ArrowRight, Newspaper } from 'lucide-react';
+
+const FALLBACK_NEWS: NewsData[] = [
+  {
+    id: 1,
+    title_id: 'SMK Pariwisata Metland Meraih Juara 1 Lomba Kompetensi Siswa Nasional',
+    category: 'Achievement',
+    published_date: '2026-03-15',
+    is_published: true,
+    thumbnail: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=800&auto=format&fit=crop',
+    content_id: 'Siswa SMK Pariwisata Metland kembali mengukir prestasi gemilang dalam ajang Lomba Kompetensi Siswa (LKS) tingkat nasional bidang Hospitality & Culinary Arts.',
+    excerpt_id: 'Siswa SMK Pariwisata Metland kembali mengukir prestasi gemilang dalam ajang Lomba Kompetensi Siswa (LKS) tingkat nasional bidang Hospitality & Culinary Arts.'
+  },
+  {
+    id: 2,
+    title_id: 'Kunjungan Industri & Workshop Bersama Hotel Bintang 5 Jakarta',
+    category: 'Industrial Visit',
+    published_date: '2026-03-10',
+    is_published: true,
+    thumbnail: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=600&auto=format&fit=crop',
+    content_id: 'Siswa jurusan Perhotelan dan Tata Boga mengikuti sesi pembelajaran langsung dari praktisi profesional industri perhotelan bintang lima.',
+    excerpt_id: 'Siswa jurusan Perhotelan dan Tata Boga mengikuti sesi pembelajaran langsung dari praktisi profesional industri.'
+  },
+  {
+    id: 3,
+    title_id: 'Pembukaan Pendaftaran PPDB Gelombang II Tahun Ajaran 2026/2027',
+    category: 'Admission',
+    published_date: '2026-03-01',
+    is_published: true,
+    thumbnail: 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?q=80&w=600&auto=format&fit=crop',
+    content_id: 'SMK Pariwisata Metland secara resmi membuka pendaftaran peserta didik baru gelombang II dengan berbagai program beasiswa prestasi.',
+    excerpt_id: 'SMK Pariwisata Metland secara resmi membuka pendaftaran peserta didik baru gelombang II dengan beasiswa prestasi.'
+  },
+  {
+    id: 4,
+    title_id: 'Festival Kuliner Nusantara & Gelar Karya Siswa Metland 2026',
+    category: 'Event',
+    published_date: '2026-02-20',
+    is_published: true,
+    thumbnail: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?q=80&w=600&auto=format&fit=crop',
+    content_id: 'Acara tahunan pameran karya kreasi kuliner dan pertunjukan seni budaya siswa-siswi SMK Pariwisata Metland berlangsung meriah.',
+    excerpt_id: 'Acara tahunan pameran karya kreasi kuliner dan pertunjukan seni budaya siswa-siswi SMK Pariwisata Metland.'
+  }
+];
 
 const NewsPreview = () => {
   const { t } = useLanguage();
-  const [featuredNews, setFeaturedNews] = useState<NewsData | null>(null);
+  const [newsList, setNewsList] = useState<NewsData[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchFeaturedNews = async () => {
+    const fetchNews = async () => {
       try {
         setLoading(true);
         const data = await newsService.getAll(true);
-        if (!data || data.length === 0) {
-          setFeaturedNews(null);
-          return;
+        if (data && data.length > 0) {
+          const sortedNews = [...data].sort(
+            (a, b) => new Date(b.published_date).getTime() - new Date(a.published_date).getTime()
+          );
+          setNewsList(sortedNews);
+        } else {
+          setNewsList(FALLBACK_NEWS);
         }
-        const sortedNews = [...data].sort(
-          (a, b) => new Date(b.published_date).getTime() - new Date(a.published_date).getTime()
-        );
-        setFeaturedNews(sortedNews[0]);
       } catch (error) {
-        console.error('Gagal mendapatkan berita utama:', error);
-        setFeaturedNews(null);
+        console.error('Gagal mendapatkan berita:', error);
+        setNewsList(FALLBACK_NEWS);
       } finally {
         setLoading(false);
       }
     };
-    fetchFeaturedNews();
+    fetchNews();
   }, []);
 
   const formatDate = (dateString: string) => {
@@ -41,83 +85,164 @@ const NewsPreview = () => {
   };
 
   const stripHtml = (html: string) => {
+    if (!html) return '';
     const text = html.replace(/<[^>]*>/g, '');
     return text.replace(/\s+/g, ' ').trim();
   };
 
-  if (loading || !featuredNews) return null;
+  if (loading) {
+    return (
+      <section className="section-padding bg-background overflow-hidden">
+        <div className="container mx-auto px-6 text-center">
+          <div className="h-8 w-48 bg-slate-200 animate-pulse mx-auto rounded-lg mb-4" />
+        </div>
+      </section>
+    );
+  }
+
+  const featured = newsList[0] || FALLBACK_NEWS[0];
+  const sideNews = newsList.slice(1, 4).length > 0 ? newsList.slice(1, 4) : FALLBACK_NEWS.slice(1, 4);
 
   return (
-    <section className="section-padding bg-background overflow-hidden">
+    <section className="section-padding bg-background overflow-hidden relative">
       {/* Header */}
-      <div className="container mx-auto mb-16 px-6 text-center md:px-16 lg:px-24 xl:px-32">
-        <h2 className="text-3xl font-black text-[#0F5F58] md:text-5xl">{t('more.news.title')}</h2>
-        <div className="mx-auto mt-4 h-1 w-24 rounded-full bg-teal-500/20" />
+      <div className="container mx-auto mb-12 px-6 text-center md:px-16 lg:px-24">
+        <ScrollReveal>
+          <div className="inline-flex items-center gap-2 rounded-full bg-teal-50 px-4 py-1.5 text-xs font-bold text-[#0F5F58] mb-3 border border-teal-100">
+            <Newspaper className="w-4 h-4" />
+            <span>METLAND NEWS & UPDATES</span>
+          </div>
+          <h2 className="text-3xl font-black text-[#0F5F58] md:text-5xl">{t('more.news.title')}</h2>
+          <div className="mx-auto mt-4 h-1 w-24 rounded-full bg-teal-500/20" />
+        </ScrollReveal>
       </div>
 
-      <ScrollReveal delay={0.4}>
-        <div className="container mx-auto px-8 md:px-16 lg:px-24 xl:px-32">
-          {/* Grid Layout */}
-          <div className="grid gap-14 lg:grid-cols-2 lg:items-start">
+      <div className="container mx-auto px-6 md:px-12 lg:px-20">
+        
+        {/* Main Featured News Card (Matching Reference Design) */}
+        <ScrollReveal delay={0.2} className="mb-16">
+          <div className="grid md:grid-cols-12 gap-8 items-start">
             
-            {/* Image Section */}
-            <div className="relative">
-              <img
-                src={featuredNews.thumbnail || "https://placehold.co/800x500?text=News"}
-                alt={featuredNews.title_id}
-                className="h-[420px] w-full rounded-xl object-cover shadow-xl lg:h-[520px]"
-              />
-              <div className="mt-6">
-                <p className="mb-2 text-sm font-bold text-[#0F5F58]">{formatDate(featuredNews.published_date)}</p>
-                <p className="text-xs text-muted-foreground">{featuredNews.category}</p>
+            {/* Left Side: Big Image + Date & Excerpt underneath */}
+            <div className="md:col-span-6 flex flex-col gap-3">
+              <div className="relative h-[300px] sm:h-[360px] md:h-[400px] w-full overflow-hidden rounded-3xl shadow-lg border border-slate-100 group">
+                <img
+                  src={featured.thumbnail || "https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=800"}
+                  alt={featured.title_id}
+                  className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+                <div className="absolute top-4 left-4">
+                  <span className="rounded-full bg-[#0F5F58] px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-white shadow-md">
+                    {featured.category}
+                  </span>
+                </div>
+              </div>
+              {/* Date & Excerpt below image */}
+              <div className="px-1 pt-1">
+                <div className="flex items-center gap-2 text-xs font-bold text-teal-800 mb-1">
+                  <Calendar className="w-3.5 h-3.5 text-teal-600" />
+                  <span>{formatDate(featured.published_date)}</span>
+                </div>
+                <p className="text-xs text-slate-500 line-clamp-2">
+                  {featured.excerpt_id ? featured.excerpt_id : stripHtml(featured.content_id)}
+                </p>
               </div>
             </div>
 
-            {/* Content Section: Diberikan min-w-0 agar teks tidak menembus grid */}
-            <div className="flex flex-col min-w-0">
-              <div className="space-y-6">
-                <p className="font-medium italic text-[#0F5F58]">
-                  {t('more.news.subtitle')}
-                </p>
+            {/* Right Side: Header Tagline, Title, Content, Read More Button */}
+            <div className="md:col-span-6 flex flex-col items-start justify-start pt-2 md:pt-4 md:pl-4">
+              <p className="text-xs font-semibold text-teal-600 tracking-wide italic mb-2">
+                Stay updated with our latest announcements and events
+              </p>
+              <h3 className="text-2xl sm:text-3xl lg:text-4xl font-black leading-tight text-[#0F5F58] mb-3">
+                {featured.title_id}
+              </h3>
+              <p className="text-slate-600 text-sm sm:text-base leading-relaxed line-clamp-5 mb-5">
+                {featured.excerpt_id ? featured.excerpt_id : stripHtml(featured.content_id)}
+              </p>
 
-                <h3 className="text-2xl md:text-3xl font-bold leading-tight text-[#0F5F58]">
-                  {featuredNews.title_id}
-                </h3>
-
-                {/* Preview Text - Menggunakan whitespace-normal untuk wrap teks */}
-                <div className="relative"> 
-                  <div 
-                    className="text-muted-foreground leading-8 text-justify whitespace-normal break-words overflow-hidden"
-                    style={{
-                      display: '-webkit-box',
-                      WebkitLineClamp: 8, // Menampilkan maksimal 8 baris
-                      WebkitBoxOrient: 'vertical',
-                    }}
-                  >
-                    {featuredNews.excerpt_id
-                      ? featuredNews.excerpt_id
-                      : stripHtml(featuredNews.content_id)}
-                  </div>
-
-                  {/* Fade Effect: Z-index diatur agar berada di atas teks */}
-                  <div className="pointer-events-none absolute bottom-0 left-0 h-16 w-full bg-gradient-to-t from-background to-transparent z-10" />
-                </div>
-              </div>
-
-              {/* Button */}
-              <div className="mt-8">
+              <div>
                 <Link
-                  to={`/more-news/${featuredNews.id}`}
-                  className="inline-flex items-center rounded-full bg-[#B8C5D0] px-8 py-3 font-semibold text-[#0F5F58] transition-all duration-300 hover:bg-[#A0B0BD]"
+                  to={`/more-news/${featured.id}`}
+                  className="inline-flex items-center gap-2 font-bold text-xs uppercase tracking-wider text-white bg-[#0F5F58] hover:bg-[#0b4b45] px-7 py-3 rounded-full transition-all shadow-md hover:shadow-lg active:scale-95"
                 >
-                  {t('news.all.read_more')}
+                  <span>Read More</span>
+                  <ArrowRight className="w-4 h-4" />
                 </Link>
               </div>
             </div>
 
           </div>
+        </ScrollReveal>
+
+        {/* Small Horizontal Cards for Other News */}
+        <div className="mb-12">
+          <div className="flex items-center justify-between mb-6">
+            <h3 className="text-lg font-bold text-[#0F5F58] border-l-4 border-teal-500 pl-3">
+              Berita Lainnya
+            </h3>
+          </div>
+
+          <div className="flex gap-5 overflow-x-auto pb-4 no-scrollbar">
+            {sideNews.map((item, idx) => (
+              <ScrollReveal key={item.id || idx} delay={0.2 + idx * 0.1}>
+                <Link
+                  to={`/more-news/${item.id}`}
+                  className="group relative block w-[260px] sm:w-[280px] h-[180px] sm:h-[200px] flex-shrink-0 overflow-hidden rounded-2xl shadow-md transition-all duration-500 hover:-translate-y-1 hover:shadow-xl"
+                >
+                  {/* Full Background Image */}
+                  <img
+                    src={item.thumbnail || "https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=600"}
+                    alt={item.title_id}
+                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  />
+
+                  {/* Dark Gradient Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/40 to-transparent" />
+
+                  {/* Content Overlay at Bottom */}
+                  <div className="absolute inset-x-0 bottom-0 p-4 flex flex-col gap-1">
+                    {/* Category Badge */}
+                    <span className="self-start rounded-md bg-white/20 backdrop-blur-sm px-2.5 py-0.5 text-[9px] font-bold uppercase tracking-wider text-white border border-white/20">
+                      {item.category}
+                    </span>
+
+                    {/* Title */}
+                    <h4 className="text-sm font-bold text-white leading-snug line-clamp-2 group-hover:text-teal-200 transition-colors">
+                      {item.title_id}
+                    </h4>
+
+                    {/* Excerpt */}
+                    <p className="text-[10px] text-slate-300 line-clamp-1 leading-relaxed">
+                      {item.excerpt_id ? item.excerpt_id : stripHtml(item.content_id)}
+                    </p>
+
+                    {/* Date */}
+                    <div className="flex items-center gap-1 text-[10px] text-slate-400">
+                      <Calendar className="w-3 h-3" />
+                      <span>{formatDate(item.published_date)}</span>
+                    </div>
+                  </div>
+                </Link>
+              </ScrollReveal>
+            ))}
+          </div>
         </div>
-      </ScrollReveal>
+
+        {/* View All Button */}
+        <ScrollReveal delay={0.4}>
+          <div className="mt-8 text-center">
+            <Link
+              to="/news"
+              className="inline-flex items-center gap-3 rounded-full bg-[#0F5F58] px-8 py-3.5 font-bold text-white shadow-lg transition-all duration-300 hover:bg-[#0b4b45] hover:shadow-xl active:scale-95"
+            >
+              <span>Lihat Semua Berita</span>
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+        </ScrollReveal>
+
+      </div>
     </section>
   );
 };
