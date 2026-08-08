@@ -120,12 +120,12 @@ const NewsPreview = () => {
       <div className="container mx-auto px-6 md:px-12 lg:px-20">
         
         {/* Main Featured News Card (Matching Reference Design) */}
-        <ScrollReveal delay={0.2} className="mb-16">
-          <div className="grid md:grid-cols-12 gap-8 items-start">
+        <ScrollReveal delay={0.2} className="mb-8 md:mb-10">
+          <div className="grid md:grid-cols-12 gap-6 lg:gap-8 items-start">
             
             {/* Left Side: Big Image + Date & Excerpt underneath */}
-            <div className="md:col-span-6 flex flex-col gap-3">
-              <div className="relative h-[300px] sm:h-[360px] md:h-[400px] w-full overflow-hidden rounded-3xl shadow-lg border border-slate-100 group">
+            <div className="md:col-span-6 flex flex-col gap-2.5">
+              <div className="relative h-[240px] sm:h-[300px] md:h-[320px] lg:h-[350px] w-full overflow-hidden rounded-3xl shadow-lg border border-slate-100 group">
                 <img
                   src={featured.thumbnail || "https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=800"}
                   alt={featured.title_id}
@@ -138,8 +138,8 @@ const NewsPreview = () => {
                 </div>
               </div>
               {/* Date & Excerpt below image */}
-              <div className="px-1 pt-1">
-                <div className="flex items-center gap-2 text-xs font-bold text-teal-800 mb-1">
+              <div className="px-1 pt-0.5">
+                <div className="flex items-center gap-2 text-xs font-bold text-teal-800 mb-0.5">
                   <Calendar className="w-3.5 h-3.5 text-teal-600" />
                   <span>{formatDate(featured.published_date)}</span>
                 </div>
@@ -150,14 +150,14 @@ const NewsPreview = () => {
             </div>
 
             {/* Right Side: Header Tagline, Title, Content, Read More Button */}
-            <div className="md:col-span-6 flex flex-col items-start justify-start pt-2 md:pt-4 md:pl-4">
+            <div className="md:col-span-6 flex flex-col items-start justify-start pt-1 md:pt-2 md:pl-2">
               <p className="text-xs font-semibold text-teal-600 tracking-wide italic mb-2">
                 Stay updated with our latest announcements and events
               </p>
               <h3 className="text-2xl sm:text-3xl lg:text-4xl font-black leading-tight text-[#0F5F58] mb-3">
                 {featured.title_id}
               </h3>
-              <p className="text-slate-600 text-sm sm:text-base leading-relaxed line-clamp-5 mb-5">
+              <p className="text-slate-600 text-sm sm:text-base leading-relaxed line-clamp-5 mb-4">
                 {featured.excerpt_id ? featured.excerpt_id : stripHtml(featured.content_id)}
               </p>
 
