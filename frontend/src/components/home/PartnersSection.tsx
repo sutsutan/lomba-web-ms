@@ -11,32 +11,25 @@ const PartnersSection = () => {
 
   useEffect(() => {
     const loadPartners = async () => {
-        try {
-            const data = await fetchPublicPartners();
-            setPartners(data);
-        } catch (err) {
-            console.error(err);
-        } finally {
-            setLoading(false);
+      try {
+        const data = await fetchPublicPartners();
+        if (data.length > 0) {
+          setPartners(data);
+        } else {
+          setPartners([
+            { id: 1, company_name: 'Grand Metropolitan', logo_url: 'https://smkmetland.net/ppdb/wp-content/uploads/2023/01/Grand_Metropolitan-removebg-preview-150x150.png', location: '', website_url: '', is_active: true },
+            { id: 2, company_name: 'Metland Hotels Group', logo_url: 'https://smkmetland.net/ppdb/wp-content/uploads/2022/12/Metland-Hotels-Group-150x150.png', location: '', website_url: '', is_active: true },
+            { id: 3, company_name: 'Pullman', logo_url: 'https://smkmetland.net/ppdb/wp-content/uploads/2023/01/Pullman-removebg-preview-150x150.png', location: '', website_url: '', is_active: true }
+          ]);
         }
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
     };
 
     loadPartners();
-}, []);
-
-  useEffect(() => {
-    setLoading(true);
-    fetchPublicPartners().then((data) => {
-      if (data.length > 0) {
-        setPartners(data);
-      } else {
-        setPartners([
-          { id: 1, company_name: 'Grand Metropolitan', logo_url: 'https://smkmetland.net/ppdb/wp-content/uploads/2023/01/Grand_Metropolitan-removebg-preview-150x150.png', location: '', website_url: '', is_active: true },
-          { id: 2, company_name: 'Metland Hotels Group', logo_url: 'https://smkmetland.net/ppdb/wp-content/uploads/2022/12/Metland-Hotels-Group-150x150.png', location: '', website_url: '', is_active: true },
-          { id: 3, company_name: 'Pullman', logo_url: 'https://smkmetland.net/ppdb/wp-content/uploads/2023/01/Pullman-removebg-preview-150x150.png', location: '', website_url: '', is_active: true }
-        ]);
-      }
-    });
   }, []);
 
   return (
@@ -92,14 +85,14 @@ const PartnersSection = () => {
             {/* First Set */}
             <div className="flex items-center gap-16 px-8">
               {partners.map((partner) => (
-                <div 
-                  key={`p1-${partner.id}`} 
+                <div
+                  key={`p1-${partner.id}`}
                   className="flex-shrink-0 transition-all duration-300 opacity-70 hover:opacity-100"
                 >
                   {partner.logo_url ? (
-                    <img 
-                      src={partner.logo_url} 
-                      alt={partner.company_name} 
+                    <img
+                      src={partner.logo_url}
+                      alt={partner.company_name}
                       className="h-20 w-auto object-contain md:h-25"
                       onError={(e) => {
                         e.currentTarget.src = `https://placehold.co/150x150/e2e8f0/0f5f58?text=${encodeURIComponent(partner.company_name)}`;
@@ -113,18 +106,18 @@ const PartnersSection = () => {
                 </div>
               ))}
             </div>
-            
+
             {/* Duplicated Set for Seamless Loop */}
             <div className="flex items-center gap-16 px-8" aria-hidden="true">
               {partners.map((partner) => (
-                <div 
-                  key={`p2-${partner.id}`} 
+                <div
+                  key={`p2-${partner.id}`}
                   className="flex-shrink-0 transition-all duration-300 opacity-70 hover:opacity-100"
                 >
                   {partner.logo_url ? (
-                    <img 
-                      src={partner.logo_url} 
-                      alt={partner.company_name} 
+                    <img
+                      src={partner.logo_url}
+                      alt={partner.company_name}
                       className="h-20 w-auto object-contain md:h-25"
                       onError={(e) => {
                         e.currentTarget.src = `https://placehold.co/150x150/e2e8f0/0f5f58?text=${encodeURIComponent(partner.company_name)}`;

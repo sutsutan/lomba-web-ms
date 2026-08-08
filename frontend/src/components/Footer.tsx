@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { MapPin, Phone, Mail, MessageCircle, Globe} from 'lucide-react';
+import { MapPin, Phone, Mail, MessageCircle, Globe } from 'lucide-react';
 import { FaFacebook, FaInstagram, FaYoutube, FaTwitter } from 'react-icons/fa';
 import footerBg from '@/assets/footer.jpg';
 import logo from '@/assets/metland.png';
@@ -9,7 +9,7 @@ const Footer = () => {
   const { t } = useLanguage();
 
   return (
-    <footer 
+    <footer
       className="text-white relative"
       style={{
         backgroundImage: `url(${footerBg})`,
@@ -119,16 +119,16 @@ const Footer = () => {
             <h4 className="font-semibold text-lg mb-4">{t('footer.contact_us')}</h4>
             <ul className="space-y-4">
               <li className="flex items-start gap-3">
-                <MapPin className="w-10 h-10 mt-0.5 opacity-80" />
+                <MapPin className="w-5 h-5 mt-0.5 flex-shrink-0 opacity-80" />
                 <span className="text-sm opacity-80">
-                 Jl. Kota Taman Metropolitan, Cileungsi Kidul, Kec. Cileungsi, Kabupaten Bogor, Jawa Barat 16820
+                  Jl. Kota Taman Metropolitan, Cileungsi Kidul, Kec. Cileungsi, Kabupaten Bogor, Jawa Barat 16820
                 </span>
               </li>
               <li className="flex items-center gap-3">
                 <Phone className="w-5 h-5 opacity-80" />
                 <span className="text-sm opacity-80">(021) 82496976</span>
               </li>
-               <li className="flex items-center gap-3">
+              <li className="flex items-center gap-3">
                 <MessageCircle className="w-5 h-5 opacity-80" />
                 <span className="text-sm opacity-80"> +6281293395500</span>
               </li>
@@ -139,7 +139,7 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="mt-12 pt-8 border-t border-white/20 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-sm opacity-70">
-            © {new Date().getFullYear()} By Hanna, Sutan, Ghattan | Metland School. {t('footer.rights')}
+            © {new Date().getFullYear()} By Hanna, Sutan, <a href="https://ghattanilhaq-source.github.io/Portfolio/" target="_blank" rel="noopener noreferrer" className="hover:underline">Ghattan</a> | Metland School. {t('footer.rights')}
           </p>
           <div className="flex gap-6">
             <a href="#" className="text-sm opacity-70 hover:opacity-100 transition-opacity">

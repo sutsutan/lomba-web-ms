@@ -29,7 +29,7 @@ const HeroSection = () => {
     });
 
 
-   useEffect(() => {
+    useEffect(() => {
         if (isAnimatingIntro) return;
         const len = slides.length > 0 ? slides.length : 2;
         if (len <= 1) return;
@@ -75,7 +75,8 @@ const HeroSection = () => {
     return (
         <section className="relative h-screen w-full overflow-hidden bg-[#0a0a0a]">
             {/* CSS ANIMATION INJECTOR */}
-            <style dangerouslySetInnerHTML={{ __html: `
+            <style dangerouslySetInnerHTML={{
+                __html: `
                 @keyframes expandLine {
                     0% { transform: scaleX(0); opacity: 0; }
                     100% { transform: scaleX(1); opacity: 1; }
@@ -92,9 +93,9 @@ const HeroSection = () => {
                     <motion.div
                         key="intro-overlay"
                         className="fixed inset-0 z-[100] flex items-center justify-center bg-[#051C1F] overflow-hidden"
-                        exit={{ 
+                        exit={{
                             opacity: 0,
-                            transition: { duration: 0.8, ease: "easeInOut", delay: 0.4 } 
+                            transition: { duration: 0.8, ease: "easeInOut", delay: 0.4 }
                         }}
                     >
                         {/* DEBU CAHAYA */}
@@ -104,15 +105,15 @@ const HeroSection = () => {
                                     <motion.div
                                         key={i}
                                         initial={{ opacity: 0, y: "100vh" }}
-                                        animate={{ 
+                                        animate={{
                                             opacity: [0, 0.3, 0],
                                             y: "-10vh",
                                             x: `${Math.random() * 100}vw`
                                         }}
-                                        transition={{ 
-                                            duration: Math.random() * 5 + 7, 
+                                        transition={{
+                                            duration: Math.random() * 5 + 7,
                                             repeat: Infinity,
-                                            ease: "linear" 
+                                            ease: "linear"
                                         }}
                                         className="absolute w-1 h-1 bg-teal-200/40 rounded-full blur-[1px]"
                                     />
@@ -123,11 +124,11 @@ const HeroSection = () => {
                         {/* LOGO PORTAL ZOOM OUT */}
                         <motion.div
                             className="relative z-10 flex flex-col items-center"
-                            exit={{ 
+                            exit={{
                                 scale: 12,
                                 opacity: 0,
                                 filter: "blur(5px)",
-                                transition: { duration: 1.5, ease: [0.7, 0, 0.2, 1] } 
+                                transition: { duration: 1.5, ease: [0.7, 0, 0.2, 1] }
                             }}
                             style={{ willChange: "transform, opacity" }}
                         >
@@ -140,7 +141,7 @@ const HeroSection = () => {
                             />
 
                             <motion.div className="mt-8 text-center">
-                                <motion.h2 
+                                <motion.h2
                                     initial={{ opacity: 0, y: 10 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ delay: 0.5 }}
@@ -156,7 +157,7 @@ const HeroSection = () => {
             </AnimatePresence>
 
             {/* CINEMATIC BACKGROUND CAROUSEL */}
-           <div className="absolute inset-0 z-0">
+            <div className="absolute inset-0 z-0">
                 <AnimatePresence mode="popLayout">
                     <motion.div
                         key={activeSlide.id}
@@ -166,7 +167,7 @@ const HeroSection = () => {
                         transition={{ duration: 2.5, ease: [0.4, 0, 0.2, 1] }}
                         className="relative h-full w-full"
                     >
-                      <img
+                        <img
                             src={activeSlide.image_url}
                             alt="Hero Slide"
                             className="h-full w-full object-cover"
@@ -203,14 +204,14 @@ const HeroSection = () => {
                             className="flex items-center gap-3"
                         >
                             <div className="h-[1px] w-8 bg-teal-400" />
-                            <span className="text-xs font-bold uppercase tracking-[0.3em] text-teal-400 md:text-sm">
+                            <span className="text-xs font-bold uppercase tracking-[0.2em] text-teal-400 md:text-sm">
                                 {t('hero.tagline')}
-                            </span> 
-                        </motion.div>  
+                            </span>
+                        </motion.div>
                     </div>
 
-                    <div className="mb-8">
-                        <h1 className="text-4xl font-black leading-none tracking-tighter text-white sm:text-5xl md:text-7xl lg:text-8xl">
+                    <div className="mb-6 xl:mb-8">
+                        <h1 className="text-3xl font-black leading-tight tracking-tight text-white sm:text-4xl md:text-5xl lg:text-6xl xl:text-6xl">
                             <div className="overflow-hidden py-1">
                                 <motion.span
                                     initial={{ y: '100%' }}
@@ -238,7 +239,7 @@ const HeroSection = () => {
                         initial={{ opacity: 0, x: -20 }}
                         animate={!isAnimatingIntro ? { opacity: 1, x: 0 } : {}}
                         transition={{ duration: 1, delay: 0.8 }}
-                        className="mb-12 max-w-2xl border-l border-teal-500/30 pl-6 text-base leading-relaxed text-slate-300 md:text-xl"
+                        className="mb-12 max-w-2xl border-l border-teal-500/30 pl-6 text-sm leading-relaxed text-slate-300 sm:text-base md:text-lg"
                     >
                         {t('hero.description')}
                     </motion.p>
@@ -263,14 +264,14 @@ const HeroSection = () => {
             </div>
 
             {/* CAROUSEL DOTS */}
-            <div className="absolute bottom-10 left-12 z-30 hidden md:block">
+            <div className="absolute bottom-10 left-6 z-30 md:left-12">
                 <div className="flex items-center gap-4">
                     {Array.isArray(activeSlides) && activeSlides.map((item: any, index: number) => (
-                            <button 
-                                key={item.id || index}
-                                onClick={() => setCurrentSlide(index)} 
-                                className="group relative"
-                            >
+                        <button
+                            key={item.id || index}
+                            onClick={() => setCurrentSlide(index)}
+                            className="group relative"
+                        >
                             <div className={`mb-2 text-[10px] font-bold transition-colors ${index === currentSlide ? 'text-teal-400' : 'text-white/40'}`}>
                                 0{index + 1}
                             </div>

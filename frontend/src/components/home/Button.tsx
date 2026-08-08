@@ -5,9 +5,9 @@ import marsMetland from '@/assets/mars-metland.mp3';
 
 const ButtonCorner: React.FC = () => {
   const [isUserEnabled, setIsUserEnabled] = useState<boolean>(true);
-  
+
   const [isInterrupted, setIsInterrupted] = useState<boolean>(false);
-  
+
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
@@ -43,18 +43,18 @@ const ButtonCorner: React.FC = () => {
 
   const radius = 90;
   const menuItems = [
-    { 
-      id: 'music', 
-      icon: isUserEnabled ? <Pause size={20} /> : <Play size={20} />, 
-      color: isUserEnabled ? 'bg-teal-500' : 'bg-red-500', 
-      action: 'music' 
+    {
+      id: 'music',
+      icon: isUserEnabled ? <Pause size={20} /> : <Play size={20} />,
+      color: isUserEnabled ? 'bg-teal-500' : 'bg-red-500',
+      action: 'music'
     },
     { id: 'wa', icon: <MessageCircle size={20} />, color: 'bg-green-500', action: 'wa' },
     { id: 'ppdb', icon: <FileText size={20} />, color: 'bg-amber-500', action: 'ppdb' },
   ];
 
   return (
-    <div className="fixed bottom-10 right-10 z-[9999] flex items-center justify-center">
+    <div className="fixed bottom-6 right-6 sm:bottom-10 sm:right-10 z-[9999] flex items-center justify-center">
       <audio id='mars-metland-audio' ref={audioRef} src={marsMetland} loop />
 
       <AnimatePresence>
@@ -96,14 +96,14 @@ const ButtonCorner: React.FC = () => {
         >
           <Plus size={30} />
         </motion.div>
-        
+
         {/* Wave effect hanya muncul jika user mengaktifkan musik DAN tidak sedang diinterupsi */}
         {isUserEnabled && !isInterrupted && (
-            <motion.span 
-                animate={{ scale: [1, 1.5], opacity: [0.5, 0] }}
-                transition={{ repeat: Infinity, duration: 1.5 }}
-                className="absolute inset-0 rounded-full bg-white/30"
-            />
+          <motion.span
+            animate={{ scale: [1, 1.5], opacity: [0.5, 0] }}
+            transition={{ repeat: Infinity, duration: 1.5 }}
+            className="absolute inset-0 rounded-full bg-white/30"
+          />
         )}
       </motion.button>
     </div>

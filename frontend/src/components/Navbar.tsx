@@ -13,7 +13,7 @@ interface NavItem {
 
 const Navbar = () => {
   const { t, language, toggleLanguage } = useLanguage();
-  
+
   const navItems: NavItem[] = [
     { label: t('nav.home'), href: '/' },
     {
@@ -74,36 +74,32 @@ const Navbar = () => {
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, ease: 'easeOut' }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        isScrolled ? 'pt-2' : 'pt-6'
-      }`}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isScrolled ? 'pt-2' : 'pt-6'
+        }`}
     >
       <div className="container mx-auto px-6 flex items-center justify-between">
-        
+
         {/*SECTION LOGO*/}
         <Link to="/" className="flex items-center gap-3 group z-10">
-          <div className={`flex items-center gap-3 px-4 py-2 rounded-full transition-all duration-500 ${
-            isScrolled 
-              ? 'bg-white/80 backdrop-blur-md shadow-lg border border-white/20' 
+          <div className={`flex items-center gap-3 px-4 py-2 rounded-full transition-all duration-500 ${isScrolled
+              ? 'bg-white/80 backdrop-blur-md shadow-lg border border-white/20'
               : 'bg-transparent border-transparent'
-          }`}>
+            }`}>
             <div className="transition-transform duration-300 group-hover:scale-110">
-              <img 
-                src={logo} 
-                alt="Metland Logo" 
-                className="w-9 h-9 object-contain" 
+              <img
+                src={logo}
+                alt="Metland Logo"
+                className="w-9 h-9 object-contain"
               />
             </div>
-            
-            <div className="flex flex-col leading-tight">
-              <span className={`font-bold text-lg tracking-tight transition-colors duration-500 ${
-                isScrolled ? 'text-slate-900' : 'text-white'
-              }`}>
+
+            <div className="hidden sm:flex flex-col leading-tight">
+              <span className={`font-bold text-lg tracking-tight transition-colors duration-500 ${isScrolled ? 'text-slate-900' : 'text-white'
+                }`}>
                 SMK Pariwisata Metland
               </span>
-              <span className={`text-[9px] uppercase tracking-widest font-light transition-colors duration-500 ${
-                isScrolled ? 'text-slate-600' : 'text-white/80'
-              }`}>
+              <span className={`text-[9px] uppercase tracking-widest font-light transition-colors duration-500 ${isScrolled ? 'text-slate-600' : 'text-white/80'
+                }`}>
                 School
               </span>
             </div>
@@ -114,11 +110,10 @@ const Navbar = () => {
         <div className="hidden lg:flex items-center gap-3">
           {/*NAV PILL SECTION (WITH LANGUAGE TOGGLE INSIDE)*/}
           <nav
-            className={`flex items-center gap-1 p-1.5 rounded-full border border-white/20 transition-all duration-500 ${
-              isScrolled 
-                ? 'bg-black/20 backdrop-blur-xl shadow-2xl' 
+            className={`flex items-center gap-1 p-1.5 rounded-full border border-white/20 transition-all duration-500 ${isScrolled
+                ? 'bg-black/20 backdrop-blur-xl shadow-2xl'
                 : 'bg-white/10 backdrop-blur-md shadow-lg'
-            }`}
+              }`}
           >
             {navItems.map((item) => (
               <div
@@ -129,17 +124,15 @@ const Navbar = () => {
               >
                 <Link
                   to={item.href}
-                  className={`flex items-center gap-1 px-5 py-2.5 text-sm font-semibold rounded-full transition-all duration-300 ${
-                    isActive(item.href)
-                      ? 'bg-white text-teal-700 shadow-md' 
+                  className={`flex items-center gap-1 px-5 py-2.5 text-sm font-semibold rounded-full transition-all duration-300 ${isActive(item.href)
+                      ? 'bg-white text-teal-700 shadow-md'
                       : 'text-white hover:bg-white/20'
-                  }`}
+                    }`}
                 >
                   {item.label}
                   {item.children && (
-                    <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${
-                      openDropdown === item.label ? 'rotate-180' : ''
-                    }`} />
+                    <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${openDropdown === item.label ? 'rotate-180' : ''
+                      }`} />
                   )}
                 </Link>
 
@@ -188,11 +181,10 @@ const Navbar = () => {
         {/*MOBILE BUTTON*/}
         <button
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          className={`lg:hidden w-11 h-11 flex items-center justify-center rounded-full transition-all duration-500 ${
-            isScrolled 
-              ? 'bg-white/80 backdrop-blur-md text-slate-900 shadow-md' 
+          className={`lg:hidden w-11 h-11 flex items-center justify-center rounded-full transition-all duration-500 ${isScrolled
+              ? 'bg-white/80 backdrop-blur-md text-slate-900 shadow-md'
               : 'bg-white/10 backdrop-blur-md text-white border border-white/20 shadow-lg'
-          }`}
+            }`}
         >
           {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
@@ -214,18 +206,17 @@ const Navbar = () => {
                   <div key={item.label} className="w-full">
                     <Link
                       to={item.href}
-                      className={`block w-full px-5 py-3 rounded-2xl font-bold transition-colors ${
-                        isActive(item.href) ? 'bg-teal-600 text-white' : 'text-slate-800 hover:bg-slate-100'
-                      }`}
+                      className={`block w-full px-5 py-3 rounded-2xl font-bold transition-colors ${isActive(item.href) ? 'bg-teal-600 text-white' : 'text-slate-800 hover:bg-slate-100'
+                        }`}
                     >
                       {item.label}
                     </Link>
                     {item.children && (
                       <div className="mt-2 ml-4 pl-4 border-l-2 border-slate-200 space-y-1">
                         {item.children.map((child) => (
-                          <Link 
-                            key={child.href} 
-                            to={child.href} 
+                          <Link
+                            key={child.href}
+                            to={child.href}
                             className="block px-4 py-2.5 text-sm text-slate-600 hover:text-teal-600 hover:bg-slate-50 rounded-lg font-medium transition-colors"
                           >
                             {child.label}
@@ -235,7 +226,7 @@ const Navbar = () => {
                     )}
                   </div>
                 ))}
-                
+
                 <Link
                   to="/ppdb"
                   onClick={() => setIsMobileMenuOpen(false)}

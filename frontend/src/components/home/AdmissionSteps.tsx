@@ -7,7 +7,7 @@ import ScrollReveal from '@/components/ScrollReveal';
 
 
 const AdmissionSteps = () => {
-    const { t } = useLanguage();
+  const { t } = useLanguage();
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   const steps = [
@@ -49,7 +49,7 @@ const AdmissionSteps = () => {
   return (
     <section className="section-padding bg-[#D5EAE9] text-[#0F5F58] overflow-hidden">
       <div className="container mx-auto px-8 md:px-16 lg:px-24 xl:px-32 relative">
-        
+
         {/* Header Section */}
         <div className="flex flex-col md:flex-row justify-between items-start mb-16 gap-8">
           <div className="max-w-3xl">
@@ -111,18 +111,18 @@ const AdmissionSteps = () => {
               <ChevronRight className="-rotate-45 w-5 lg:w-6 group-active/btn:translate-x-1 transition-transform" />
             </button>
           </div>
-           {/* Main Horizontal Timeline Line */}
-           <div className="absolute bottom-16 left-0 right-0 h-0.5 bg-[#0F5F58]/30 w-[200vw] -ml-[50vw]" />
+          {/* Main Horizontal Timeline Line */}
+          <div className="absolute bottom-16 left-0 right-0 h-0.5 bg-[#0F5F58]/30 w-[200vw] -ml-[50vw]" />
 
-           <div 
-             ref={scrollContainerRef}
-             className="flex gap-8 overflow-x-auto overflow-y-hidden py-12 px-4 -mx-4 no-scrollbar"
-             style={{
-               scrollbarWidth: 'none',
-               msOverflowStyle: 'none', 
-             }}
-           >
-             <style>{`
+          <div
+            ref={scrollContainerRef}
+            className="flex gap-8 overflow-x-auto overflow-y-hidden py-12 px-4 -mx-4 no-scrollbar"
+            style={{
+              scrollbarWidth: 'none',
+              msOverflowStyle: 'none',
+            }}
+          >
+            <style>{`
                .no-scrollbar::-webkit-scrollbar {
                  display: none !important;
                  width: 0 !important;
@@ -134,43 +134,48 @@ const AdmissionSteps = () => {
                  scrollbar-width: none;
                }
              `}</style>
-             {steps.map((step, index) => (
-               <div key={index} className="flex-shrink-0 w-[300px] md:w-[350px] group flex flex-col justify-end">
-                 {/* Card */}
-                 <motion.div 
-                   initial={{ opacity: 0, y: 20 }}
-                   whileInView={{ opacity: 1, y: 0 }}
-                   viewport={{ once: true }}
-                   transition={{ delay: index * 0.1 }}
-                   className="bg-white rounded-lg shadow-sm hover:shadow-lg transition-all duration-300 mb-8 flex flex-col w-full"
-                 >
-                   <div className="h-40 overflow-hidden rounded-t-lg">
-                     <img src={step.image} alt={step.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
-                   </div>
-                   
-                   <div className="p-6 flex flex-col">
-                     <h3 className="font-bold text-lg mb-4 text-[#0F5F58]">
-                       {step.title}
-                     </h3>
-                     <p className="text-sm text-gray-600 leading-relaxed">
-                       {step.description}
-                     </p>
-                   </div>
-                 </motion.div>
+            {steps.map((step, index) => (
+              <div key={index} className="flex-shrink-0 w-[300px] md:w-[350px] group flex flex-col justify-end">
+                {/* Card */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1 }}
+                  className="bg-white rounded-lg shadow-sm hover:shadow-lg transition-all duration-300 mb-8 flex flex-col w-full"
+                >
+                  <div className="h-40 overflow-hidden rounded-t-lg">
+                    <img src={step.image} alt={step.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                  </div>
 
-                 {/* Connector to Timeline */}
-                 <div className="relative h-16 flex justify-center items-end flex-shrink-0 w-full">
-                    {/* Vertical Dashed Line */}
-                    <div className="absolute top-[-2rem] bottom-0 w-px border-l-2 border-dashed border-[#0F5F58]/40 h-[calc(100%+2rem)]" />
-                    
-                    {/* Circle Node on Timeline */}
-                    <div className="absolute bottom-0 w-4 h-4 rounded-full border-2 border-[#0F5F58] bg-[#D5EAE9] z-10 box-content p-1">
-                      <div className="w-full h-full bg-[#0F5F58] rounded-full" />
-                    </div>
-                 </div>
-               </div>
-             ))}
-           </div>
+                  <div className="p-6 flex flex-col">
+                    <h3 className="font-bold text-lg mb-4 text-[#0F5F58]">
+                      {step.title}
+                    </h3>
+                    <p className="text-sm text-gray-600 leading-relaxed">
+                      {step.description}
+                    </p>
+                  </div>
+                </motion.div>
+
+                {/* Connector to Timeline */}
+                <div className="relative h-16 flex justify-center items-end flex-shrink-0 w-full">
+                  {/* Vertical Dashed Line */}
+                  <div className="absolute top-[-2rem] bottom-0 w-px border-l-2 border-dashed border-[#0F5F58]/40 h-[calc(100%+2rem)]" />
+
+                  {/* Circle Node on Timeline */}
+                  <div className="absolute bottom-0 w-4 h-4 rounded-full border-2 border-[#0F5F58] bg-[#D5EAE9] z-10 box-content p-1">
+                    <div className="w-full h-full bg-[#0F5F58] rounded-full" />
+                  </div>
+
+                  {/* Step Number Indicator */}
+                  <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 font-bold text-xl text-[#0F5F58] opacity-80">
+                    {String(index + 1).padStart(2, '0')}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
 
       </div>
