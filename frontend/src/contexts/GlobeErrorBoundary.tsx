@@ -1,6 +1,6 @@
 import React from 'react';
 
-interface Props { children: React.ReactNode; }
+interface Props { children: React.ReactNode; resetKey?: unknown;}
 interface State { hasError: boolean; }
 
 export default class GlobeErrorBoundary extends React.Component<Props, State> {

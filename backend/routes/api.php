@@ -5,7 +5,7 @@ use App\Http\Controllers\Api\{
     AuthController, HeroBackgroundController, MajorController, AchievementController,
     PartnershipController, TestimonyController, FacilityController, ActivityGalleryController,
     StudentWorkController, TeacherController, ExtracurricularController, OrganizationController,
-    NewsController, ExploreGalleryController, AlumniController, UploadController, UserController,
+    NewsController, NewsCategoryController, ExploreGalleryController, AlumniController, UploadController, UserController,
     ppdb_submissionsController,
 };
 
@@ -30,6 +30,7 @@ Route::get('/extracurriculars', [ExtracurricularController::class, 'index']);
 Route::get('/organizations', [OrganizationController::class, 'index']);
 Route::get('/news', [NewsController::class, 'index']);
 Route::get('/news/{slug}', [NewsController::class, 'show']);
+Route::get('/news-categories', [NewsCategoryController::class, 'index']);
 Route::get('/explore-galleries', [ExploreGalleryController::class, 'index']);
 Route::get('/alumni', [AlumniController::class, 'index']);
 Route::get('/alumni/years', [AlumniController::class, 'years']);
@@ -74,6 +75,10 @@ Route::middleware(['auth:sanctum', 'role:admin,marketing'])->prefix('admin')->gr
         'partnerships'     => PartnershipController::class,
         'testimonies'      => TestimonyController::class,
     ]);
+
+    // Kategori berita — bisa ditambahkan langsung dari form admin berita
+    Route::post('/news-categories', [NewsCategoryController::class, 'store']);
+    Route::delete('/news-categories/{newsCategory}', [NewsCategoryController::class, 'destroy']);
 
     // PPDB Inbox — 'store' tidak didaftarkan di sini karena sudah publik di atas
     Route::apiResource('ppdb-submissions', ppdb_submissionsController::class)->except(['store']);

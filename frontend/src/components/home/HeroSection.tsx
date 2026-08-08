@@ -212,7 +212,7 @@ const HeroSection = () => {
 
                     <div className="mb-8">
                         <h1 className="text-3xl font-black leading-[0.88] tracking-tight text-white sm:text-4xl md:text-6xl lg:text-7xl xl:text-[5.2rem]">
-                            <div className="overflow-hidden py-1">
+                            <div className="overflow-hidden py-3">
                                 <motion.span
                                     initial={{ y: '100%' }}
                                     animate={!isAnimatingIntro ? { y: 0 } : {}}

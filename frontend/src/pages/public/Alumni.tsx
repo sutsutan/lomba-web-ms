@@ -225,21 +225,61 @@ const Alumni = () => {
                         <div className="relative w-full max-w-5xl rounded-[2.5rem] md:rounded-[4rem] border border-white/40 bg-white/30 p-2 md:p-8 shadow-2xl backdrop-blur-md">
                             <div className="relative overflow-hidden rounded-[2.2rem] md:rounded-[3.5rem] bg-[#12606A] shadow-2xl">
 
-                                {activeAlumni && activeAlumni.location && (
-                                    <div className="absolute left-4 top-4 z-40 animate-in fade-in zoom-in duration-500 md:left-10 md:top-10">
-                                        <div className="overflow-hidden rounded-xl border border-white bg-white/90 shadow-2xl backdrop-blur-md md:rounded-2xl">
-                                            <div className="bg-[#12606A] px-3 py-1.5 md:px-4 md:py-2 text-[8px] md:text-[10px] font-bold uppercase tracking-widest text-white">
-                                                {t('alumni.map.active_dest')}
-                                            </div>
-                                            <div className="p-3 md:p-4">
-                                                <h4 className="text-sm md:text-lg font-bold text-teal-800">{activeAlumni.company}</h4>
-                                                <p className="mt-1 flex items-center gap-2 text-[10px] md:text-sm text-teal-800 font-medium">
-                                                    <MapPin size={14} /> {activeAlumni.location[0].toFixed(2)}°, {activeAlumni.location[1].toFixed(2)}°
+                            <div
+                                className={`absolute left-4 top-4 z-40 w-[260px] transition-all duration-500 md:left-10 md:top-10 md:w-[340px] ${
+                                    activeAlumni && activeAlumni.location
+                                        ? "translate-y-0 scale-100 opacity-100"
+                                        : "pointer-events-none -translate-y-2 scale-95 opacity-0"
+                                }`}
+                            >
+                                <div className="overflow-hidden rounded-2xl border border-white/60 bg-white/95 shadow-2xl backdrop-blur-md">
+                                    <div className="flex items-center gap-2 bg-gradient-to-r from-[#12606A] to-teal-600 px-4 py-2">
+                                        <span className="relative flex h-2 w-2">
+                                            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-teal-300 opacity-75" />
+                                            <span className="relative inline-flex h-2 w-2 rounded-full bg-teal-200" />
+                                        </span>
+                                        <span className="text-[9px] font-bold uppercase tracking-widest text-white md:text-[10px]">
+                                            {t('alumni.map.active_dest')}
+                                        </span>
+                                    </div>
+
+                                    <div className="flex items-start gap-3 p-3 md:p-4">
+                                        <div className="h-11 w-11 shrink-0 overflow-hidden rounded-full border-2 border-teal-100 shadow">
+                                            <img
+                                                src={activeAlumni?.image || ""}
+                                                alt={activeAlumni?.name || ""}
+                                                className="h-full w-full object-cover"
+                                            />
+                                        </div>
+                                        <div className="min-w-0">
+                                            <h4 className="break-words text-sm font-black leading-snug text-slate-800 md:text-base">
+                                                {activeAlumni?.name}
+                                            </h4>
+                                            {activeAlumni?.position && (
+                                                <p className="mt-1 flex items-start gap-1.5 text-[11px] font-semibold leading-snug text-teal-600 md:text-xs">
+                                                    <Briefcase size={12} className="mt-0.5 shrink-0" />
+                                                    <span className="break-words">{activeAlumni.position}</span>
                                                 </p>
-                                            </div>
+                                            )}
+                                            <p className="mt-1 flex items-start gap-1.5 text-[10px] leading-snug text-slate-500 md:text-[11px]">
+                                                <MapPin size={12} className="mt-0.5 shrink-0" />
+                                                <span className="break-words">{activeAlumni?.company}</span>
+                                            </p>
                                         </div>
                                     </div>
-                                )}
+
+                                    <div className="flex items-center justify-between border-t border-slate-100 bg-slate-50/70 px-4 py-1.5">
+                                        <span className="text-[9px] font-semibold uppercase tracking-wide text-slate-400">
+                                            Koordinat
+                                        </span>
+                                        <span className="font-mono text-[10px] font-semibold text-slate-500">
+                                            {activeAlumni?.location
+                                                ? `${activeAlumni.location[0].toFixed(2)}°, ${activeAlumni.location[1].toFixed(2)}°`
+                                                : "—"}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
 
                                 <div className="absolute bottom-6 right-8 z-20 hidden flex-col items-end gap-1 opacity-60 md:flex">
                                     <p className="text-[9px] font-black uppercase tracking-[0.3em] text-white">{t('alumni.map.interactive')}</p>
@@ -247,7 +287,7 @@ const Alumni = () => {
                                 </div>
 
                                <div className="flex h-[400px] w-full items-center justify-center md:h-[650px]">
-                                    <GlobeErrorBoundary>
+                                    <GlobeErrorBoundary resetKey={activeAlumniId}>
                                         <GlobeAlumni
                                             targetId={activeAlumni?.id ?? null}
                                             targetLocation={activeAlumni?.location || null}
@@ -257,30 +297,6 @@ const Alumni = () => {
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* Stats Section */}
-            <section className="relative overflow-hidden bg-[#12606A] py-16 md:py-24 text-white">
-                <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '30px 30px md:40px 40px' }} />
-                <div className="container relative mx-auto px-4">
-                    <div className="grid grid-cols-2 gap-8 md:gap-12 lg:grid-cols-4">
-                        {[
-                            { value: '5K+', label: t('alumni.stats.total') },
-                            { value: '95%', label: t('alumni.stats.employability') },
-                            { value: '200+', label: t('alumni.stats.companies') },
-                            { value: '50+', label: t('alumni.stats.countries') },
-                        ].map((stat, index) => (
-                            <div key={index} className="text-center">
-                                <div className="text-4xl font-black italic tracking-tighter sm:text-5xl md:text-6xl text-white">
-                                    {stat.value}
-                                </div>
-                                <div className="mt-2 md:mt-3 text-[8px] md:text-[10px] font-black uppercase tracking-[0.2em] md:tracking-[0.4em] text-white/50">
-                                    {stat.label}
-                                </div>
-                            </div>
-                        ))}
                     </div>
                 </div>
             </section>

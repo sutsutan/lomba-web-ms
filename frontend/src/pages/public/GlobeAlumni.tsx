@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useRef } from "react";
 import createGlobe, { Globe } from "cobe";
 import { useLanguage } from "@/contexts/LanguageContext";
 
@@ -7,6 +7,8 @@ interface Alumni {
     location: [number, number];
     name: string;
     image: string;
+    position?: string;
+    company?: string;
 }
 
 interface GlobeAlumniProps {
@@ -14,6 +16,15 @@ interface GlobeAlumniProps {
     targetLocation?: [number, number] | null;
     alumniData: Alumni[];
 }
+
+// Konversi lat/lng (derajat) -> phi/theta sesuai konvensi resmi cobe
+function locationToAngles(lat: number, lng: number): [number, number] {
+    const phi = Math.PI - ((lng * Math.PI) / 180 - Math.PI / 2);
+    const theta = (lat * Math.PI) / 180;
+    return [phi, theta];
+}
+
+const clampTheta = (t: number) => Math.max(-1.4, Math.min(1.4, t));
 
 export default function GlobeAlumni({
     targetId,
@@ -31,156 +42,167 @@ export default function GlobeAlumni({
     const dragging = useRef(false);
     const lastX = useRef(0);
 
-    const animation = useRef<number | null>(null);
+    // ==========================
+    // Create Globe (mount only)
+    // ==========================
+    useEffect(() => {
+        if (!canvasRef.current) return;
 
-    const activeAlumni = useMemo(() => {
-        if (targetId == null) return null;
-        return alumniData.find((a) => a.id === targetId) ?? null;
-    }, [targetId, alumniData]);
+        const canvas = canvasRef.current;
+        let destroyed = false;
+        let frameId: number;
+        let globe: Globe | null = null;
+        let resizeObserver: ResizeObserver | null = null;
 
-   useEffect(() => {
-    if (!canvasRef.current) return;
+        const setup = (width: number) => {
+            if (destroyed || width <= 0) return;
 
-    const canvas = canvasRef.current;
-    const width = canvas.offsetWidth;
+            globe = createGlobe(canvas, {
+                devicePixelRatio: Math.min(window.devicePixelRatio || 1, 2),
+                width: width * 2,
+                height: width * 2,
+                phi: phi.current,
+                theta: theta.current,
+                dark: 0,
+                diffuse: 1.3,
+                mapSamples: 18000,
+                mapBrightness: 6.5,
+                baseColor: [1, 1, 1],
+                markerColor: [18 / 255, 96 / 255, 106 / 255],
+                glowColor: [0.85, 0.95, 0.93],
+                markers: [],
+            });
 
-    let destroyed = false;
-    let frameId: number;
+            globeRef.current = globe;
 
-    const globe = createGlobe(canvas, {
-        devicePixelRatio: Math.min(window.devicePixelRatio, 2),
-        width: width * 2,
-        height: width * 2,
-        phi: phi.current,
-        theta: theta.current,
-        dark: 0,
-        diffuse: 1.2,
-        mapSamples: 16000,
-        mapBrightness: 6,
-        baseColor: [1, 1, 1],
-        markerColor: [18 / 255, 96 / 255, 106 / 255],
-        glowColor: [0.92, 0.95, 0.95],
-        markers: [],
-    });
+            const animate = () => {
+                if (destroyed || !globe) return;
+                if (!dragging.current) {
+                    phi.current += 0.002;
+                }
+                try {
+                    globe.update({
+                        phi: phi.current,
+                        theta: theta.current,
+                    });
+                } catch (err) {
+                    console.error("cobe animate() update failed:", err);
+                }
+                frameId = requestAnimationFrame(animate);
+            };
 
-    globeRef.current = globe;
+            frameId = requestAnimationFrame(animate);
+        };
 
-    const animate = () => {
-        if (destroyed) return;
-        if (!dragging.current) {
-            phi.current += 0.002;
+        const initialWidth = canvas.offsetWidth;
+        if (initialWidth > 0) {
+            setup(initialWidth);
+        } else {
+            resizeObserver = new ResizeObserver((entries) => {
+                const w = entries[0]?.contentRect.width ?? 0;
+                if (w > 0 && !globeRef.current) {
+                    setup(w);
+                }
+            });
+            resizeObserver.observe(canvas);
         }
-        globe.update({
-            phi: phi.current,
-            theta: theta.current,
-        });
-        frameId = requestAnimationFrame(animate);
-    };
 
-    frameId = requestAnimationFrame(animate);
-
-    return () => {
-        destroyed = true;
-        cancelAnimationFrame(frameId);
-        globe.destroy();
-        if (globeRef.current === globe) {
-            globeRef.current = null;
-        }
-    };
-}, []);
+        return () => {
+            destroyed = true;
+            if (frameId) cancelAnimationFrame(frameId);
+            resizeObserver?.disconnect();
+            try {
+                globe?.destroy();
+            } catch {
+                // ignore
+            }
+            if (globeRef.current === globe) {
+                globeRef.current = null;
+            }
+        };
+    }, []);
 
     // ==========================
     // Update Markers
     // ==========================
-
     useEffect(() => {
         if (!globeRef.current) return;
-
-        globeRef.current.update({
-            markers: alumniData.map((a) => ({
-                location: a.location,
-                size: a.id === targetId ? 0.12 : 0.05,
-            })),
-        });
+        try {
+            globeRef.current.update({
+                markers: alumniData.map((a) => ({
+                    location: a.location,
+                    size: a.id === targetId ? 0.14 : 0.045,
+                })),
+            });
+        } catch (err) {
+            console.error("cobe marker update failed:", err);
+        }
     }, [alumniData, targetId]);
 
     // ==========================
     // Focus Selected Alumni
     // ==========================
-
     useEffect(() => {
         if (!targetLocation || !globeRef.current) return;
 
         const [lat, lng] = targetLocation;
+        const [nextPhi, nextTheta] = locationToAngles(lat, lng);
 
-        phi.current = (-lng * Math.PI) / 180 + Math.PI / 2;
-        theta.current = (-lat * Math.PI) / 180;
+        phi.current = nextPhi;
+        theta.current = clampTheta(nextTheta);
 
-        globeRef.current.update({
-            phi: phi.current,
-            theta: theta.current,
-        });
+        try {
+            globeRef.current.update({
+                phi: phi.current,
+                theta: theta.current,
+            });
+        } catch (err) {
+            console.error("cobe focus update failed:", err);
+        }
     }, [targetLocation]);
 
     // ==========================
     // Resize
     // ==========================
-
     useEffect(() => {
+        if (!canvasRef.current) return;
+
         const resize = () => {
             if (!canvasRef.current || !globeRef.current) return;
-
             const w = canvasRef.current.offsetWidth;
-
-            globeRef.current.update({
-                width: w * 2,
-                height: w * 2,
-            });
+            if (w <= 0) return;
+            try {
+                globeRef.current.update({
+                    width: w * 2,
+                    height: w * 2,
+                });
+            } catch (err) {
+                console.error("cobe resize update failed:", err);
+            }
         };
 
         resize();
 
+        const ro = new ResizeObserver(resize);
+        ro.observe(canvasRef.current);
         window.addEventListener("resize", resize);
 
-        return () => window.removeEventListener("resize", resize);
+        return () => {
+            ro.disconnect();
+            window.removeEventListener("resize", resize);
+        };
     }, []);
 
     return (
         <div className="relative mx-auto flex aspect-square w-full max-w-[500px] items-center justify-center">
 
+            {/* Ambient glow */}
             <div className="absolute h-64 w-64 rounded-full bg-[#12606A]/10 blur-[100px]" />
 
+            {/* Decorative rotating rings */}
             <div className="absolute h-full w-full max-h-[420px] max-w-[420px] rounded-full border border-[#12606A]/5" />
-
-            {activeAlumni && activeAlumni.image && (
-                <div className="absolute z-20 flex flex-col items-center -translate-y-4 pointer-events-none">
-
-                    <div className="relative">
-
-                        <div className="h-20 w-20 overflow-hidden rounded-full border-4 border-white bg-white shadow-xl">
-
-                            <img
-                                src={activeAlumni.image}
-                                alt={activeAlumni.name}
-                                className="h-full w-full object-cover"
-                            />
-
-                        </div>
-
-                        <div className="absolute inset-0 rounded-full bg-[#12606A]/10 animate-ping" />
-
-                    </div>
-
-                    <div className="mt-3 rounded-full bg-[#12606A]/80 px-4 py-1.5 backdrop-blur">
-
-                        <p className="text-xs font-bold text-white whitespace-nowrap">
-                            {activeAlumni.name}
-                        </p>
-
-                    </div>
-
-                </div>
-            )}
+            <div className="absolute h-full w-full max-h-[440px] max-w-[440px] animate-[spin_40s_linear_infinite] rounded-full border border-dashed border-teal-300/20" />
+            <div className="absolute h-full w-full max-h-[400px] max-w-[400px] animate-[spin_28s_linear_infinite_reverse] rounded-full border border-teal-200/10" />
 
             <canvas
                 ref={canvasRef}
@@ -189,20 +211,17 @@ export default function GlobeAlumni({
                 onPointerDown={(e) => {
                     dragging.current = true;
                     lastX.current = e.clientX;
-
                     e.currentTarget.style.cursor = "grabbing";
                 }}
                 onPointerMove={(e) => {
                     if (!dragging.current) return;
-
                     const delta = e.clientX - lastX.current;
-
                     phi.current += delta * 0.005;
-
-                    globeRef.current?.update({
-                        phi: phi.current,
-                    });
-
+                    try {
+                        globeRef.current?.update({ phi: phi.current });
+                    } catch (err) {
+                        console.error("cobe drag update failed:", err);
+                    }
                     lastX.current = e.clientX;
                 }}
                 onPointerUp={(e) => {
@@ -215,7 +234,8 @@ export default function GlobeAlumni({
                 }}
             />
 
-            <div className="absolute bottom-2 text-[9px] uppercase tracking-[0.2em] text-neutral-500">
+            <div className="absolute bottom-1 flex items-center gap-1.5 rounded-full bg-black/10 px-3 py-1 text-[9px] uppercase tracking-[0.2em] text-neutral-500 backdrop-blur-sm">
+                <span className="h-1 w-1 rounded-full bg-teal-400" />
                 {t("alumni.globe.hint")}
             </div>
 

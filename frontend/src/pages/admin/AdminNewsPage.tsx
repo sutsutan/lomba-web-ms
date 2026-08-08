@@ -10,6 +10,7 @@ import Modal from '@/components/admin/Modal';
 import FormField, { inputClass } from '@/components/admin/FormField';
 import ImageUploadField from '@/components/admin/ImageUploadField';
 import SearchBar from '@/components/admin/SearchBar';
+import CategorySelect from '@/components/admin/CategorySelect';
 
 import { newsService, NewsData } from '@/services/News';
 
@@ -49,7 +50,7 @@ export default function AdminNewsPage() {
   }>({ 
       title_id: "",
       title_en: "",
-      category: "Kegiatan",
+      category: "",
       published_date: new Date().toISOString().slice(0, 16),
       is_published: false,
       is_headline: false,
@@ -82,7 +83,7 @@ export default function AdminNewsPage() {
   setForm({ 
     title_id: "",
     title_en: "",
-    category: "Kegiatan",
+    category: "",
     published_date: new Date().toISOString().slice(0, 16),
     is_published: false,
     is_headline: false,
@@ -115,6 +116,11 @@ export default function AdminNewsPage() {
 
   const save = async () => {
     try {
+      if (!form.category) {
+        alert("Silakan pilih kategori berita terlebih dahulu.");
+        return;
+      }
+
       // Decode HTML entities
       const tempDiv = document.createElement("div");
       tempDiv.innerHTML = form.content_id;
@@ -257,11 +263,9 @@ export default function AdminNewsPage() {
           
           <div className="grid grid-cols-2 gap-4">
             <FormField label="Kategori" required>
-              <input 
-                className={inputClass} 
-                value={form.category} 
-                onChange={e => setForm({ ...form, category: e.target.value })} 
-                placeholder="Contoh: Prestasi, Kegiatan, Pengumuman" 
+              <CategorySelect
+                value={form.category}
+                onChange={(val) => setForm({ ...form, category: val })}
               />
             </FormField>
             <FormField label="Tanggal Publish" required>
