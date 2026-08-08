@@ -4,31 +4,43 @@ import { useAuth } from '../../contexts/AuthContext';
 import { Icon } from '../../components/admin/Icons';
 import metland from '@/assets/metland.png';
 
+type Role = 'admin' | 'marketing';
+
+interface NavItem {
+  path: string;
+  label: string;
+  icon: string;
+  roles: Role[];
+}
+
 export default function AdminLayout() {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-  
-  const { user, logout } = useAuth();
+  const { user, isAdmin, isMarketing, logout } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
 
-  const navItems = [
-  { path: '/dashboard', label: 'Dashboard', icon: 'LayoutDashboard' },
-  { path: '/dashboard/hero', label: 'Hero Background', icon: 'Image' },
-  { path: '/dashboard/achievements', label: 'Prestasi', icon: 'Trophy' },
-  { path: '/dashboard/partnerships', label: 'Kemitraan', icon: 'Handshake' },
-  { path: '/dashboard/testimonies', label: 'Testimoni', icon: 'Star' },
-  { path: '/dashboard/majors', label: 'Jurusan', icon: 'BookOpen' },
-  { path: '/dashboard/facilities', label: 'Fasilitas', icon: 'Building2' },
-  { path: '/dashboard/activity-gallery', label: 'Galeri Kegiatan', icon: 'Camera' },
-  { path: '/dashboard/student-works', label: 'Karya Siswa', icon: 'Palette' },
-  { path: '/dashboard/teachers', label: 'Guru & Staf', icon: 'Users' },
-  { path: '/dashboard/extracurriculars', label: 'Ekskul', icon: 'GraduationCap' },
-  { path: '/dashboard/organizations', label: 'Organisasi', icon: 'Flag' },
-  { path: '/dashboard/news', label: 'Berita', icon: 'Newspaper' },
-  { path: '/dashboard/explore-gallery', label: 'Galeri Eksplorasi', icon: 'ImagePlus' },
-  { path: '/dashboard/alumni', label: 'Alumni', icon: 'Globe' },
-  { path: '/dashboard/manage-user', label: 'Manajemen User', icon: 'UserCog' },
-];
+  const navItems: NavItem[] = [
+    { path: '/dashboard', label: 'Dashboard', icon: 'LayoutDashboard', roles: ['admin', 'marketing'] },
+    { path: '/dashboard/hero', label: 'Hero Background', icon: 'Image', roles: ['admin', 'marketing'] },
+    { path: '/dashboard/achievements', label: 'Prestasi', icon: 'Trophy', roles: ['admin', 'marketing'] },
+    { path: '/dashboard/partnerships', label: 'Kemitraan', icon: 'Handshake', roles: ['admin', 'marketing'] },
+    { path: '/dashboard/testimonies', label: 'Testimoni', icon: 'Star', roles: ['admin', 'marketing']},
+    { path: '/dashboard/majors', label: 'Jurusan', icon: 'BookOpen', roles: ['admin', 'marketing'] },
+    { path: '/dashboard/facilities', label: 'Fasilitas', icon: 'Building2', roles: ['admin', 'marketing'] },
+    { path: '/dashboard/activity-gallery', label: 'Galeri Kegiatan', icon: 'Camera', roles: ['admin', 'marketing'] },
+    { path: '/dashboard/student-works', label: 'Karya Siswa', icon: 'Palette', roles: ['admin'] },
+    { path: '/dashboard/teachers', label: 'Guru & Staf', icon: 'Users', roles: ['admin'] },
+    { path: '/dashboard/extracurriculars', label: 'Ekskul', icon: 'GraduationCap', roles: ['admin'] },
+    { path: '/dashboard/organizations', label: 'Organisasi', icon: 'Flag', roles: ['admin'] },
+    { path: '/dashboard/news', label: 'Berita', icon: 'Newspaper', roles: ['admin', 'marketing'] },
+    { path: '/dashboard/explore-gallery', label: 'Galeri Eksplorasi', icon: 'ImagePlus', roles: ['admin'] },
+    { path: '/dashboard/alumni', label: 'Alumni', icon: 'Globe', roles: ['admin', 'marketing'] },
+    { path: '/dashboard/manage-user', label: 'Manajemen User', icon: 'UserCog', roles: ['admin'] },
+    { path: '/dashboard/ppdb-inbox', label: 'PPDB Inbox', icon: 'Inbox', roles: ['admin', 'marketing'] },
+  ];
+
+  const currentRole: Role = isAdmin ? 'admin' : 'marketing';
+  const visibleMenu = navItems.filter(item => item.roles.includes(currentRole));
 
   const handleLogoutClick = async () => {
     if (confirm('Apakah Anda yakin ingin keluar dari sistem admin?')) {
@@ -37,8 +49,7 @@ export default function AdminLayout() {
     }
   };
 
-  const currentLabel = navItems.find(item => item.path === location.pathname)?.label || 'Dashboard';
-  
+  const currentLabel = visibleMenu.find(item => item.path === location.pathname)?.label || 'Dashboard';
 
   return (
     <div className="flex h-screen bg-gray-50 overflow-hidden">
@@ -51,16 +62,16 @@ export default function AdminLayout() {
             <Icon name="Menu" className="w-5 h-5 text-white" />
           </button>
         </div>
-        
+
         <nav className="flex-1 overflow-y-auto p-3 space-y-1">
-          {navItems.map(item => {
-            const isActive = location.pathname === item.path || 
+          {visibleMenu.map(item => {
+            const isActive = location.pathname === item.path ||
                             (item.path !== '/dashboard' && location.pathname.startsWith(item.path));
-            
+
             return (
-              <Link 
-                key={item.path} 
-                to={item.path} 
+              <Link
+                key={item.path}
+                to={item.path}
                 className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors ${
                   isActive ? 'bg-teal-600 text-white shadow-md' : 'hover:bg-teal-800 hover:text-slate-100'
                 }`}

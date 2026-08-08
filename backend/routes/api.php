@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\{
     PartnershipController, TestimonyController, FacilityController, ActivityGalleryController,
     StudentWorkController, TeacherController, ExtracurricularController, OrganizationController,
     NewsController, ExploreGalleryController, AlumniController, UploadController, UserController,
+    ppdb_submissionsController,
 };
 
 // --- Auth Routes ---
@@ -17,6 +18,7 @@ Route::get('/hero-backgrounds', [HeroBackgroundController::class, 'index']);
 Route::get('/majors', [MajorController::class, 'index']);
 Route::get('/majors/{slug}', [MajorController::class, 'show']);
 Route::get('/achievements', [AchievementController::class, 'index']);
+Route::get('/achievements/summary', [AchievementController::class, 'summary']);
 Route::get('/achievements/{id}', [AchievementController::class, 'show']);
 Route::get('/partnerships', [PartnershipController::class, 'index']);
 Route::get('/testimonies', [TestimonyController::class, 'index']);
@@ -33,28 +35,20 @@ Route::get('/alumni', [AlumniController::class, 'index']);
 Route::get('/alumni/years', [AlumniController::class, 'years']);
 Route::get('/heroes', [HeroBackgroundController::class, 'index']);
 
+// Form PPDB/Contact — publik, tanpa perlu login (diisi orang tua murid)
+Route::post('/ppdb-submissions', [ppdb_submissionsController::class, 'store']);
+
 // --- Protected Routes (semua role yang sudah login) ---
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/me', [AuthController::class, 'me']);
 });
 
-// --- Admin Only Routes (full CMS access) ---
+// --- Admin Only Routes (modul yang TIDAK boleh diakses marketing) ---
 Route::middleware(['auth:sanctum', 'admin'])->prefix('admin')->group(function () {
-
-    Route::get('/stats', [AuthController::class, 'adminStats']);
-    Route::post('/upload', [UploadController::class, 'upload']);
-
-    // Manajemen user hanya boleh diakses admin.
     Route::apiResource('users', UserController::class);
-    Route::post('/users/{id}/approve', [UserController::class, 'approve']);
 
     Route::apiResources([
-        'hero-backgrounds'   => HeroBackgroundController::class,
-        'majors'             => MajorController::class,
-        'achievements'       => AchievementController::class,
-        'partnerships'       => PartnershipController::class,
-        'testimonies'        => TestimonyController::class,
         'facilities'         => FacilityController::class,
         'activity-galleries' => ActivityGalleryController::class,
         'student-works'      => StudentWorkController::class,
@@ -63,19 +57,26 @@ Route::middleware(['auth:sanctum', 'admin'])->prefix('admin')->group(function ()
         'organizations'      => OrganizationController::class,
         'news'               => NewsController::class,
         'explore-galleries'  => ExploreGalleryController::class,
-        'alumni'             => AlumniController::class,
     ]);
 });
 
-// --- Marketing Routes (akses terbatas: PPDB + referensi jurusan + dashboard ringkas) ---
+// --- Shared Routes (Admin & Marketing) ---
+// Modul: Dashboard/stats, Jurusan, Prestasi, Alumni, Hero, Mitra, Testimoni, PPDB, Upload
 Route::middleware(['auth:sanctum', 'role:admin,marketing'])->prefix('admin')->group(function () {
-    Route::get('/marketing-stats', [AuthController::class, 'marketingStats']);
+    Route::get('/stats', [AuthController::class, 'adminStats']);
+    Route::post('/upload', [UploadController::class, 'upload']);
 
-    // Marketing hanya boleh membaca data jurusan (referensi PPDB), tidak boleh CRUD penuh.
-    Route::get('/majors', [MajorController::class, 'index']);
-    Route::get('/majors/{id}', [MajorController::class, 'show']);
+    Route::apiResources([
+        'majors'           => MajorController::class,
+        'achievements'     => AchievementController::class,
+        'alumni'           => AlumniController::class,
+        'hero-backgrounds' => HeroBackgroundController::class,
+        'partnerships'     => PartnershipController::class,
+        'testimonies'      => TestimonyController::class,
+    ]);
 
-    // Ganti dengan controller PPDB kamu yang sebenarnya, contoh:
-    // Route::apiResource('ppdb-registrations', PpdbRegistrationController::class)
-    //     ->except(['destroy']); // marketing tidak boleh hapus data pendaftar
+    // PPDB Inbox — 'store' tidak didaftarkan di sini karena sudah publik di atas
+    Route::apiResource('ppdb-submissions', ppdb_submissionsController::class)->except(['store']);
+    Route::patch('/ppdb-submissions/{id}/status', [ppdb_submissionsController::class, 'updateStatus']);
+    Route::post('/ppdb-submissions/{id}/reply', [ppdb_submissionsController::class, 'reply']);
 });

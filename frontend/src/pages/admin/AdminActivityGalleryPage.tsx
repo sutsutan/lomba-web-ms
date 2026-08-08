@@ -14,12 +14,12 @@ import SearchBar from '@/components/admin/SearchBar';
 interface ActivityGallery {
   id: number;
   image_url: string;
-  title: string;          // Nama/Judul Kegiatan
-  major_code: string;     // 'it' | 'culinary' | 'vcd' | 'hospitality' | 'accounting' | 'general'
-  activity_date: string;  // Tanggal Pelaksanaan Kegiatan
-  description: string;    // Keterangan singkat foto Dokumentasi
-  is_featured: boolean;   // Tampil di highlight beranda utama
-  is_archived?: boolean;  // Apakah masuk ke arsip
+  title: string;
+  major_code: string;
+  activity_date: string;
+  description: string;
+  is_featured: boolean;
+  is_archived?: boolean;
 }
 
 export default function AdminActivityGalleryPage() {
@@ -83,19 +83,32 @@ export default function AdminActivityGalleryPage() {
 
   // Aksi Simpan (Create / Update)
   const save = async () => {
-    try {
-      if (editing) {
-        await updateActivityGallery(editing.id, form);
-      } else {
-        await createActivityGallery(form);
-      }
-      setModal(false);
-      fetchData();
-    } catch (error) {
-      console.error('Gagal menyimpan data galeri kegiatan:', error);
-      alert('Gagal menyimpan data. Silakan coba lagi.');
+  if (!form.image_url) {
+    alert('Mohon unggah foto dokumentasi terlebih dahulu.');
+    return;
+  }
+  if (!form.title.trim()) {
+    alert('Mohon isi Nama/Judul Kegiatan.');
+    return;
+  }
+  try {
+    if (editing) {
+      await updateActivityGallery(editing.id, form);
+    } else {
+      await createActivityGallery(form);
     }
-  };
+    setModal(false);
+    fetchData();
+  } catch (error: any) {
+    console.error('Gagal menyimpan data galeri kegiatan:', error);
+    const errors = error?.response?.data?.errors;
+    if (errors) {
+      alert(`Validasi gagal:\n${Object.values(errors).flat().join('\n')}`);
+    } else {
+      alert(error?.response?.data?.message || 'Gagal menyimpan data. Silakan coba lagi.');
+    }
+  }
+};
 
   // Aksi Hapus
   const del = async (id: number) => {
@@ -149,7 +162,7 @@ export default function AdminActivityGalleryPage() {
       <PageHeader title="Galeri Kegiatan" subtitle="Dokumentasi foto dan publikasi album kegiatan praktik per jurusan" onAdd={openAdd} />
 
       <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-        <div className="p-4 border-b border-gray-100 bg-gray-50/50 space-y-3">
+        <div className="p-4 border-b border-gray-100 bg-gray-50/50">
           <div className="flex gap-2">
             <button
               type="button"
@@ -170,59 +183,39 @@ export default function AdminActivityGalleryPage() {
         </div>
 
         <DataTable
-          columns={[
-            {
-              key: 'image_url',
-              label: 'Foto Dokumentasi',
-              render: (item: ActivityGallery) => (
-                <img 
-                  src={item.image_url} 
-                  className="w-20 h-12 object-cover rounded-xl border border-gray-100 shadow-sm" 
-                  alt="" 
-                  onError={e => (e.currentTarget.src = 'https://placehold.co/80x48/e2e8f0/94a3b8?text=No+Image')} 
-                />
-              )
-            },
-            {
-              key: 'title',
-              label: 'Nama Kegiatan & Agenda',
-              render: (item: ActivityGallery) => (
-                <div>
-                  <span className="font-semibold text-gray-900 block">{item.title}</span>
-                  <span className="text-gray-400 text-[11px] block">
-                    📅 {new Date(item.activity_date).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}
-                  </span>
-                </div>
-              )
-            },
-            {
-              key: 'major_code',
-              label: 'Klaster / Jurusan',
-              render: (item: ActivityGallery) => (
-                <Badge color={majorColors[item.major_code] || 'gray'}>
-                  {majorLabels[item.major_code] || String(item.major_code || '').toUpperCase()}
-                </Badge>
-              )
-            },
-            {
-              key: 'description',
-              label: 'Keterangan Foto',
-              render: (item: ActivityGallery) => (
-                <span className="text-gray-500 text-xs line-clamp-2 max-w-xs block font-normal">
-                  {item.description || '-'}
-                </span>
-              )
-            },
-            {
-              key: 'is_featured',
-              label: 'Sorotan',
-              render: (item: ActivityGallery) => (
-                <Badge color={item.is_featured ? 'purple' : 'gray'}>
-                  {item.is_featured ? 'Headline' : 'Reguler'}
-                </Badge>
-              )
-            },
-          ]}
+         columns={[
+          {
+            key: 'image_url',
+            label: 'Foto Dokumentasi',
+            render: (item: ActivityGallery) => (
+              <img src={item.image_url} className="w-20 h-12 object-cover rounded-xl border border-gray-100 shadow-sm" alt="" onError={e => (e.currentTarget.src = 'https://placehold.co/80x48/e2e8f0/94a3b8?text=No+Image')} />
+            )
+          },
+          { key: 'title', label: 'Nama Kegiatan', render: (item: ActivityGallery) => <span className="whitespace-nowrap font-semibold text-gray-900">{item.title}</span> },
+          { key: 'activity_date', label: 'Tanggal', render: (item: ActivityGallery) => <span className="whitespace-nowrap text-xs">{new Date(item.activity_date).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}</span> },
+          {
+            key: 'major_code',
+            label: 'Klaster / Jurusan',
+            render: (item: ActivityGallery) => (
+              <Badge color={majorColors[item.major_code] || 'gray'}>{majorLabels[item.major_code] || String(item.major_code || '').toUpperCase()}</Badge>
+            )
+          },
+          {
+            key: 'description',
+            label: 'Keterangan Foto',
+            render: (item: ActivityGallery) => <span className="text-gray-500 text-xs line-clamp-2 max-w-xs block font-normal">{item.description || '-'}</span>
+          },
+          {
+            key: 'is_featured',
+            label: 'Sorotan',
+            render: (item: ActivityGallery) => <Badge color={item.is_featured ? 'purple' : 'gray'}>{item.is_featured ? 'Headline' : 'Reguler'}</Badge>
+          },
+          {
+            key: 'is_archived',
+            label: 'Arsip',
+            render: (item: ActivityGallery) => <Badge color={item.is_archived ? 'amber' : 'green'}>{item.is_archived ? 'Diarsipkan' : 'Aktif'}</Badge>
+          },
+        ]}
           data={filtered}
           onEdit={openEdit}
           onDelete={del}
@@ -273,8 +266,8 @@ export default function AdminActivityGalleryPage() {
           </FormField>
 
           <div className="flex items-center gap-3 py-1">
-            <input type="checkbox" id="gallery-featured" checked={form.is_featured} onChange={e => setForm({ ...form, is_featured: e.target.checked })} className="w-4 h-4 rounded accent-indigo-600" />
-            <label htmlFor="gallery-featured" className="text-sm font-medium text-gray-700 select-none">Pin / Sematkan di beranda utama (Sorotan)</label>
+            <input type="checkbox" id="gallery-archived" checked={form.is_archived} onChange={e => setForm({ ...form, is_archived: e.target.checked })} className="w-4 h-4 rounded accent-amber-600" />
+            <label htmlFor="gallery-archived" className="text-sm font-medium text-gray-700 select-none">📦 Langsung masukkan ke Arsip (tidak tampil aktif di publik)</label>
           </div>
 
           <div className="flex gap-3 pt-2">

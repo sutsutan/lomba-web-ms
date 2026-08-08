@@ -204,7 +204,7 @@ const OrganizationPage = () => {
                                             </p>
 
                                             <Link
-                                                to={`/organization/${org.id}`}
+                                                to={`/moreorg`}
                                                 className="inline-flex items-center gap-2 pt-3 font-semibold text-teal-700 hover:text-teal-500"
                                             >
                                                 {t("common.readMore")}
@@ -219,7 +219,7 @@ const OrganizationPage = () => {
                 </section>
                 )}
 
-                {/* SECTION 2: CREATIVE */}
+                {/* SECTION */}
                 {organizations.creative.length > 0 && (
                 <section className="border-y border-slate-100 bg-white py-24">
                     <div className="container mx-auto px-6">
@@ -248,10 +248,10 @@ const OrganizationPage = () => {
                                             <h4 className="mb-3 text-2xl font-bold italic text-slate-900 transition-colors group-hover:text-[#0F5F58]">{org.name}</h4>
                                             <p className="mb-6 text-sm leading-relaxed text-slate-500">{getDescription(org)}</p>
                                             <Link
-                                                to={`/organization/${org.id}`}
+                                                to={`/moreorg`}
                                                 className="group/btn flex items-center gap-2 text-xs font-black uppercase tracking-widest text-[#0F5F58]"
                                             >
-                                                Explore Gallery <ArrowRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-2" />
+                                               {t("common.readMore")} <ArrowRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-2" />
                                             </Link>
                                         </div>
                                     </div>

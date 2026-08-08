@@ -195,7 +195,7 @@ const HeroSection = () => {
 
             {/* MAIN CONTENT */}
             <div className="container relative z-20 mx-auto flex h-full items-center px-4 md:px-8 lg:px-24">
-                <div className="max-w-4xl">
+                <div className="max-w-6xl xl:max-w-7xl">
                     <div className="mb-4 overflow-hidden">
                         <motion.div
                             initial={{ y: 20, opacity: 0 }}
@@ -210,23 +210,32 @@ const HeroSection = () => {
                         </motion.div>
                     </div>
 
-                    <div className="mb-6 xl:mb-8">
-                        <h1 className="text-3xl font-black leading-tight tracking-tight text-white sm:text-4xl md:text-5xl lg:text-6xl xl:text-6xl">
+                    <div className="mb-8">
+                        <h1 className="text-3xl font-black leading-[0.88] tracking-tight text-white sm:text-4xl md:text-6xl lg:text-7xl xl:text-[5.2rem]">
                             <div className="overflow-hidden py-1">
                                 <motion.span
                                     initial={{ y: '100%' }}
                                     animate={!isAnimatingIntro ? { y: 0 } : {}}
-                                    transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                                    transition={{
+                                        duration: 0.8,
+                                        delay: 0.4,
+                                        ease: [0.16, 1, 0.3, 1],
+                                    }}
                                     className="block"
                                 >
                                     {t('hero.title_part1')}
                                 </motion.span>
                             </div>
+
                             <div className="overflow-hidden py-1">
                                 <motion.span
                                     initial={{ y: '100%' }}
                                     animate={!isAnimatingIntro ? { y: 0 } : {}}
-                                    transition={{ duration: 0.8, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                                    transition={{
+                                        duration: 0.8,
+                                        delay: 0.6,
+                                        ease: [0.16, 1, 0.3, 1],
+                                    }}
                                     className="block bg-gradient-to-r from-teal-300 via-emerald-200 to-teal-400 bg-clip-text text-transparent"
                                 >
                                     {t('hero.title_part2')}

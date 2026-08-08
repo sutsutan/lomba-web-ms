@@ -20,6 +20,24 @@ export interface AchievementData {
   is_active: boolean;
 }
 
+// services/Achievement.ts — tambahkan
+export interface AchievementSummary {
+  total: number;
+  international: number;
+  national: number;
+  categories: number;
+}
+
+export const fetchAchievementSummary = async (): Promise<AchievementSummary> => {
+  try {
+    const response = await api.get('/achievements/summary');
+    return response.data;
+  } catch (error) {
+    console.error('Gagal mengambil ringkasan prestasi:', error);
+    return { total: 0, international: 0, national: 0, categories: 0 };
+  }
+};
+
 export interface MajorData {
   id: number;
   slug: string;
@@ -39,13 +57,9 @@ export const fetchMajors = async (): Promise<MajorData[]> => {
 
 export const fetchPublicAchievements = async (): Promise<AchievementData[]> => {
   try {
-    const response = await api.get('/achievements');
-    const data = response.data.data || response.data;
-    
-    if (Array.isArray(data)) {
-      return data.filter((item: AchievementData) => item.is_active);
-    }
-    return [];
+    const response = await api.get('/achievements', { params: { per_page: 1000 } });
+    const data = response.data.data || response.data || [];
+    return Array.isArray(data) ? data : [];
   } catch (error) {
     console.error('Gagal mengambil data prestasi:', error);
     return [];

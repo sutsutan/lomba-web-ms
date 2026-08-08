@@ -1,128 +1,84 @@
 import { useState, useEffect, JSX } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  ChevronLeft, 
-  ChevronRight, 
-  LayoutGrid, 
-  Award, 
-  ExternalLink,
-  Heart,
+import {
+  ChevronLeft,
+  ChevronRight,
+  Palette,
+  ShieldCheck,
+  Award,
+  Zap,
 } from 'lucide-react';
 import MainLayout from '@/layouts/MainLayout';
 import HeroCarousel from '@/components/HeroCarousel';
 import ScrollReveal from '@/components/ScrollReveal';
 import { useLanguage } from '@/contexts/LanguageContext';
-import api from '@/lib/api';
+import { getPublicExploreGalleries, ExploreGalleryData } from '@/services/ExploreGallery';
 
 interface OrganizationCategory {
   id: number;
-  nameKey: string; 
+  nameKey: string;
+  slug: string;
   shortName: string;
   icon: JSX.Element;
   image: string;
 }
 
-interface OrgProject {
-  id: number;
-  categoryKey: string;
-  titleKey: string;
-  leader: string;
-  period: string;
-  descKey: string;
-  image: string;
-  linkUrl: string;
-  achievementsKeys?: string[];
-}
-
 const categories: OrganizationCategory[] = [
-  { id: 1, nameKey: 'cat_leadership', shortName: 'Leadership', icon: <Award/>, image: 'https://images.unsplash.com/photo-1523580494863-6f3031224c94?q=80&w=1200' },
-  { id: 2, nameKey: 'cat_arts', shortName: 'Arts', icon: <LayoutGrid/>, image: 'https://images.unsplash.com/photo-1514525253344-99a4299966c2?q=80&w=1200' },
-  { id: 3, nameKey: 'cat_innovation', shortName: 'Innovation', icon: <LayoutGrid/>, image: 'https://images.unsplash.com/photo-1514525253344-99a4299966c2?q=80&w=1200' },
-  { id: 4, nameKey: 'cat_service', shortName: 'Service', icon: <Heart/>, image: 'https://images.unsplash.com/photo-1514525253344-99a4299966c2?q=80&w=1200' },
-];
-
-const orgProjects: OrgProject[] = [
-  {
-    id: 1,
-    categoryKey: 'cat_leadership',
-    titleKey: 'proj_mcup_title',
-    leader: 'OSIS Committee',
-    period: '2024 - 2025',
-    descKey: 'proj_mcup_desc',
-    image: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?q=80&w=800',
-    linkUrl: 'https://instagram.com/metlandosis',
-    achievementsKeys: ['proj_mcup_achieve1', 'proj_mcup_achieve2']
-  },
+  { id: 1, nameKey: 'cat_leadership', slug: 'leadership', shortName: 'Leadership', icon: <Award />, image: 'https://images.unsplash.com/photo-1523580494863-6f3031224c94?q=80&w=1200' },
+  { id: 2, nameKey: 'cat_creative', slug: 'creative', shortName: 'Creative', icon: <Palette />, image: 'https://images.unsplash.com/photo-1514525253344-99a4299966c2?q=80&w=1200' },
+  { id: 3, nameKey: 'cat_discipline', slug: 'discipline', shortName: 'Discipline', icon: <ShieldCheck />, image: 'https://images.unsplash.com/photo-1523580494863-6f3031224c94?q=80&w=1200' },
+  { id: 4, nameKey: 'cat_wellness', slug: 'wellness', shortName: 'Wellness', icon: <Zap />, image: 'https://images.unsplash.com/photo-1514525253344-99a4299966c2?q=80&w=1200' },
 ];
 
 const categoryDescriptions: Record<string, { introKey: string }> = {
-  'cat_leadership': { introKey: "desc_leadership_intro" },
-  'cat_arts': { introKey: "desc_arts_intro" },
-  'cat_innovation': { introKey: "desc_innovation_intro" },
-  'cat_service': { introKey: "desc_service_intro" },
+  cat_leadership: { introKey: 'desc_leadership_intro' },
+  cat_creative: { introKey: 'desc_creative_intro' },
+  cat_discipline: { introKey: 'desc_discipline_intro' },
+  cat_wellness: { introKey: 'desc_wellness_intro' },
 };
 
 const MoreOrg = () => {
   const { t, language } = useLanguage();
-  const [heroSlides, setHeroSlides] = useState<any[]>([]);
+  const [galleryItems, setGalleryItems] = useState<ExploreGalleryData[]>([]);
   const [selectedCategory, setSelectedCategory] = useState(categories[0]);
   const [currentProjectIndex, setCurrentProjectIndex] = useState(0);
+  const [loading, setLoading] = useState(true);
 
-   useEffect(() => {
-        const fetchHero = async () => {
-            try {
-                const res = await api.get("/contact");
-
-                const data = Array.isArray(res.data)
-                    ? res.data
-                    : (res.data.data || []);
-
-                const filtered = data.filter(
-                    (item: any) =>
-                        item.category === "contact" &&
-                        item.is_active
-                );
-
-                setHeroSlides(
-                    filtered.map((item: any) => ({
-                        image_url: item.image_url,
-                        title: language === "id" ? item.title_id : item.title_en,
-                        subtitle:
-                            language === "id"
-                                ? item.subtitle_id
-                                : item.subtitle_en,
-                    }))
-                );
-            } catch (err) {
-                console.error("Gagal load hero:", err);
-            }
-        };
-
-        fetchHero();
-    }, [language]);
+  useEffect(() => {
+    setLoading(true);
+    getPublicExploreGalleries()
+      .then(setGalleryItems)
+      .finally(() => setLoading(false));
+  }, []);
 
   useEffect(() => {
     setCurrentProjectIndex(0);
   }, [selectedCategory]);
 
-  const filteredProjects = orgProjects.filter(p => p.categoryKey === selectedCategory.nameKey);
+  const filteredProjects = galleryItems.filter(
+    (p) => p.organization_id && p.organization?.category === selectedCategory.slug
+  );
   const currentProject = filteredProjects[currentProjectIndex];
 
   const handleNext = () => {
-    if (filteredProjects.length > 1) setCurrentProjectIndex((prev) => (prev + 1) % filteredProjects.length);
+    if (filteredProjects.length > 1) {
+      setCurrentProjectIndex((prev) => (prev + 1) % filteredProjects.length);
+    }
   };
 
   const handlePrev = () => {
-    if (filteredProjects.length > 1) setCurrentProjectIndex((prev) => (prev - 1 + filteredProjects.length) % filteredProjects.length);
+    if (filteredProjects.length > 1) {
+      setCurrentProjectIndex((prev) => (prev - 1 + filteredProjects.length) % filteredProjects.length);
+    }
   };
 
   return (
     <MainLayout>
-      <HeroCarousel 
-            category="moreorg" 
-            lang={language}
-            height="h-[60vh]"
-            />
+      <HeroCarousel
+        category="moreorg"
+        lang={language}
+        height="h-[60vh]"
+      />
 
       {/* SECTION 1: HIGHLIGHTED ACTIVITY */}
       <section className="bg-background py-12 md:py-16">
@@ -137,18 +93,26 @@ const MoreOrg = () => {
           <AnimatePresence mode="wait">
             {currentProject ? (
               <div key={currentProject.id} className="grid lg:grid-cols-2 gap-8 lg:gap-20 items-center ml-0 md:ml-14 mt-10">
-                <motion.div 
+                <motion.div
                   initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}
                   className="overflow-hidden shadow-2xl rounded-2xl"
                 >
-                  <img src={currentProject.image} className="w-full h-64 md:h-96 object-cover" alt="" />
+                  <img
+                    src={currentProject.documentation_url}
+                    className="w-full h-64 md:h-96 object-cover"
+                    alt={currentProject.event_name}
+                    onError={e => (e.currentTarget.src = 'https://placehold.co/800x600/e2e8f0/94a3b8?text=No+Image')}
+                  />
                 </motion.div>
 
                 <div className="space-y-6">
-                  <h3 className="text-lg font-medium text-[#0F5F58]/60 uppercase tracking-widest">{t(currentProject.categoryKey)}</h3>
-                  <h2 className="text-3xl md:text-5xl font-bold text-[#0F5F58] leading-tight">{t(currentProject.titleKey)}</h2>
-                  <p className="text-[#0F5F58]/80 text-lg leading-relaxed text-justify">{t(currentProject.descKey)}</p>
-                  
+                  <h3 className="text-lg font-medium text-[#0F5F58]/60 uppercase tracking-widest">
+                    {currentProject.organization?.name || t(selectedCategory.nameKey)}
+                  </h3>
+                  <h2 className="text-3xl md:text-5xl font-bold text-[#0F5F58] leading-tight">{currentProject.event_name}</h2>
+                  <p className="text-[#0F5F58]/80 text-lg leading-relaxed text-justify">{currentProject.traits_achievement}</p>
+                  <p className="text-sm font-semibold text-teal-600">Tahun {currentProject.year}</p>
+
                   <div className="relative flex items-center h-20 w-32">
                     <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-24 w-[2px] bg-[#0F5F58]/30 rotate-[45deg]" />
                     <button onClick={handlePrev} className="absolute left-2 -top-1 w-12 h-12 border-2 border-[#0F5F58]/40 flex items-center justify-center rotate-45 hover:bg-[#0F5F58] hover:text-white transition-all group">
@@ -161,7 +125,9 @@ const MoreOrg = () => {
                 </div>
               </div>
             ) : (
-              <div className="text-center py-20 text-[#0F5F58]/40">{t('org_no_activity')}</div>
+              <div className="text-center py-20 text-[#0F5F58]/40">
+                {loading ? 'Memuat aktivitas...' : t('org_no_activity')}
+              </div>
             )}
           </AnimatePresence>
         </div>
@@ -174,7 +140,7 @@ const MoreOrg = () => {
             <h2 className="text-3xl font-bold text-[#0F5F58] mb-2">{t('org_explore_title')}</h2>
             <p className="text-[#0F5F58]/60">{t('org_explore_subtitle')}</p>
           </div>
-          
+
           <div className="flex gap-4 overflow-x-auto pb-6 hide-scrollbar justify-start md:justify-center">
             {categories.map((cat) => (
               <motion.button
@@ -182,9 +148,9 @@ const MoreOrg = () => {
                 onClick={() => setSelectedCategory(cat)}
                 whileHover={{ y: -5 }}
                 className={`flex-shrink-0 w-40 p-6 rounded-2xl border-2 transition-all ${
-                  selectedCategory.id === cat.id 
-                  ? 'bg-[#0F5F58] border-[#0F5F58] text-white shadow-xl shadow-teal-900/20' 
-                  : 'bg-white border-gray-100 text-[#0F5F58] hover:border-[#0F5F58]/30'
+                  selectedCategory.id === cat.id
+                    ? 'bg-[#0F5F58] border-[#0F5F58] text-white shadow-xl shadow-teal-900/20'
+                    : 'bg-white border-gray-100 text-[#0F5F58] hover:border-[#0F5F58]/30'
                 }`}
               >
                 <div className="flex flex-col items-center gap-3">
@@ -228,28 +194,31 @@ const MoreOrg = () => {
               <ScrollReveal key={project.id} delay={index * 0.1}>
                 <motion.div whileHover={{ y: -10 }} className="group bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 border border-gray-100">
                   <div className="relative h-56 overflow-hidden">
-                    <img src={project.image} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="" />
+                    <img
+                      src={project.documentation_url}
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                      alt={project.event_name}
+                      onError={e => (e.currentTarget.src = 'https://placehold.co/400x300/e2e8f0/94a3b8?text=No+Image')}
+                    />
                     <div className="absolute top-4 right-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-[10px] font-bold text-[#0F5F58]">
-                      {project.period}
+                      {project.year}
                     </div>
                   </div>
                   <div className="p-8">
-                    <h4 className="text-xs font-black text-teal-600 uppercase tracking-widest mb-2">{project.leader}</h4>
-                    <h3 className="text-2xl font-bold text-[#0F5F58] mb-4 group-hover:text-teal-600 transition-colors">{t(project.titleKey)}</h3>
-                    <div className="space-y-2 mb-6">
-                      {project.achievementsKeys?.map((achKey, i) => (
-                        <div key={i} className="flex items-center gap-2 text-xs text-[#0F5F58]/70">
-                          <Award size={14} className="text-teal-500" /> {t(achKey)}
-                        </div>
-                      ))}
-                    </div>
-                    <a href={project.linkUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-sm font-bold text-[#0F5F58] group-hover:gap-4 transition-all">
-                      {t('org_view_doc')} <ExternalLink size={14} />
-                    </a>
+                    <h4 className="text-xs font-black text-teal-600 uppercase tracking-widest mb-2">
+                      {project.organization?.name}
+                    </h4>
+                    <h3 className="text-2xl font-bold text-[#0F5F58] mb-4 group-hover:text-teal-600 transition-colors">{project.event_name}</h3>
+                    <p className="text-sm text-[#0F5F58]/70 leading-relaxed">{project.traits_achievement}</p>
                   </div>
                 </motion.div>
               </ScrollReveal>
             ))}
+            {filteredProjects.length === 0 && !loading && (
+              <div className="col-span-full text-center py-16 text-[#0F5F58]/40">
+                Belum ada dokumentasi untuk kategori ini.
+              </div>
+            )}
           </div>
         </div>
       </section>

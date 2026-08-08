@@ -33,7 +33,7 @@ export default function AdminOrganizationPage() {
   const fetchData = async () => {
     try {
       setLoading(true);
-      const data = await organizationService.getAll();
+      const data = await organizationService.getAdminAll();
       setItems(Array.isArray(data) ? data.filter(Boolean) : []);
     } catch (error) {
       console.error("Gagal mengambil data organisasi:", error);
@@ -120,15 +120,16 @@ export default function AdminOrganizationPage() {
           <div className="p-8 text-center text-gray-500 font-medium">Memuat data...</div>
         ) : (
           <DataTable
-            columns={[
-              { key: 'logo_url', label: 'Lambang', render: (item: any) => <img src={item.logo_url} className="w-10 h-10 object-contain rounded-xl border border-gray-100" alt="" /> },
-              { key: 'name', label: 'Nama Organisasi', render: (item: any) => <div><span className="font-semibold text-gray-900 block">{item.name}</span><span className="text-gray-400 text-[11px] block">Pembina: {item.advisor_name}</span></div> },
-              { key: 'category', label: 'Rumpun Fokus', render: (item: any) => <Badge color="gray">{item.category}</Badge> },
-              // Kolom Deskripsi Baru
-              { key: 'description_id', label: 'Deskripsi (ID)', render: (item: any) => <div className="text-xs text-gray-600 truncate max-w-[150px]">{item.description_id}</div> },
-              { key: 'description_en', label: 'Description (EN)', render: (item: any) => <div className="text-xs text-gray-600 truncate max-w-[150px]">{item.description_en}</div> },
-              { key: 'is_active', label: 'Status', render: (item: any) => <Badge color={item.is_active ? 'green' : 'gray'}>{item.is_active ? 'Aktif' : 'Vakum'}</Badge> },
-            ]}
+         columns={[
+          { key: 'logo_url', label: 'Lambang', render: (item: any) => <img src={item.logo_url} className="w-10 h-10 object-contain rounded-xl border border-gray-100" alt="" /> },
+          { key: 'name', label: 'Nama Organisasi', render: (item: any) => <span className="whitespace-nowrap font-semibold text-gray-900">{item.name}</span> },
+          { key: 'leader_name', label: 'Ketua Umum', render: (item: any) => <span className="whitespace-nowrap">{item.leader_name}</span> },
+          { key: 'advisor_name', label: 'Pembina', render: (item: any) => <span className="whitespace-nowrap">{item.advisor_name}</span> },
+          { key: 'category', label: 'Rumpun Fokus', render: (item: any) => <Badge color="gray">{item.category}</Badge> },
+          { key: 'description_id', label: 'Deskripsi (ID)', render: (item: any) => <div className="text-xs text-gray-600 max-w-[200px] line-clamp-2">{item.description_id}</div> },
+          { key: 'description_en', label: 'Description (EN)', render: (item: any) => <div className="text-xs text-gray-600 max-w-[200px] line-clamp-2">{item.description_en || '-'}</div> },
+          { key: 'is_active', label: 'Status', render: (item: any) => <Badge color={item.is_active ? 'green' : 'gray'}>{item.is_active ? 'Aktif' : 'Vakum'}</Badge> },
+        ]}
             data={filtered}
             onEdit={(item: any) => openEdit(item as OrganizationData)}
             onDelete={(item: any) => item.id && del(item.id)}

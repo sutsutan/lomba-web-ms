@@ -24,6 +24,8 @@ export interface OrgProjectData {
   achievementsKeys?: string[];
 }
 
+
+
 const ADMIN_PATH = '/admin';
 
 const extractData = (response: any) => {
@@ -31,15 +33,19 @@ const extractData = (response: any) => {
 };
 
 export const organizationService = {
-  // --- Organisasi ---
+  // --- Organisasi (PUBLIK) ---
   getAll: async (): Promise<OrganizationData[]> => {
-    // Tetap ke rute publik
     const response = await api.get('/organizations');
     return extractData(response);
   },
 
+  // --- Organisasi (ADMIN) — melihat semua data termasuk nonaktif ---
+  getAdminAll: async (): Promise<OrganizationData[]> => {
+    const response = await api.get('/admin/organizations');
+    return extractData(response);
+  },
+
   create: async (data: OrganizationData): Promise<OrganizationData> => {
-    // Hasil: http://localhost:8000/api/admin/organizations
     const response = await api.post(`${ADMIN_PATH}/organizations`, data);
     return response.data;
   },
@@ -53,22 +59,19 @@ export const organizationService = {
     await api.delete(`${ADMIN_PATH}/organizations/${id}`);
   },
 
-  // --- Projek Organisasi ---
+  // --- Projek Organisasi (biarkan seperti semula) ---
   getAllProjects: async (): Promise<OrgProjectData[]> => {
     const response = await api.get(`${ADMIN_PATH}/organization-projects`);
     return extractData(response);
   },
-
   createProject: async (data: OrgProjectData): Promise<OrgProjectData> => {
     const response = await api.post(`${ADMIN_PATH}/organization-projects`, data);
     return response.data;
   },
-
   updateProject: async (id: number, data: OrgProjectData): Promise<OrgProjectData> => {
     const response = await api.put(`${ADMIN_PATH}/organization-projects/${id}`, data);
     return response.data;
   },
-
   deleteProject: async (id: number): Promise<void> => {
     await api.delete(`${ADMIN_PATH}/organization-projects/${id}`);
   }

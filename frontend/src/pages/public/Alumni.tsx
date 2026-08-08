@@ -5,6 +5,7 @@ import ScrollReveal from '@/components/ScrollReveal';
 import GlobeAlumni from '@/pages/public/GlobeAlumni';
 import { Briefcase, ChevronRight, GraduationCap, MapPin, Target } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
+import GlobeErrorBoundary from '@/contexts/GlobeErrorBoundary';
 import { Link } from 'react-router-dom';
 import { getPublicAlumni, AlumniData } from '@/services/Alumni';
 
@@ -63,15 +64,14 @@ const Alumni = () => {
 
     const activeAlumni = alumniData.find((a) => a.id === activeAlumniId);
 
-    const handleAlumniClick = (alumni: AlumniDisplay) => {
-        if (!alumni.location) return; // tidak ada koordinat, tidak bisa ditampilkan di globe
-        setActiveAlumniId(alumni.id);
-        globeSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    };
+   const handleAlumniClick = (alumni: AlumniDisplay, e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!alumni.location) return;
+    setActiveAlumniId(alumni.id);
+    globeSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+};
 
-    // Data untuk Globe hanya alumni yang punya koordinat valid.
-    // isLocated() bertindak sebagai type predicate sehingga TypeScript
-    // tahu location di sini pasti [number, number], bukan null.
     const globeAlumniData = alumniData.filter(isLocated);
 
     return (
@@ -117,7 +117,7 @@ const Alumni = () => {
                                 return (
                                     <ScrollReveal key={alumni.id} delay={index * 0.1}>
                                         <div
-                                            onClick={() => handleAlumniClick(alumni)}
+                                            onClick={(e) => handleAlumniClick(alumni, e)}
                                             className={`group relative flex ${alumni.location ? 'cursor-pointer' : 'cursor-default'} flex-col overflow-hidden rounded-[2.5rem] md:rounded-[3rem] border-2 p-2 md:p-3 transition-all duration-500 ${isActive
                                                 ? 'border-[#12606A] bg-teal-50/30 ring-4 md:ring-8 ring-[#12606A]/5 scale-[1.01] md:scale-[1.02]'
                                                 : 'border-slate-100 bg-white hover:border-teal-200 hover:shadow-xl'
@@ -246,12 +246,14 @@ const Alumni = () => {
                                     <div className="h-0.5 w-12 bg-teal-500" />
                                 </div>
 
-                                <div className="flex h-[400px] w-full items-center justify-center md:h-[650px]">
-                                    <GlobeAlumni
-                                        targetId={activeAlumni?.id ?? null}
-                                        targetLocation={activeAlumni?.location || null}
-                                        alumniData={globeAlumniData}
-                                    />
+                               <div className="flex h-[400px] w-full items-center justify-center md:h-[650px]">
+                                    <GlobeErrorBoundary>
+                                        <GlobeAlumni
+                                            targetId={activeAlumni?.id ?? null}
+                                            targetLocation={activeAlumni?.location || null}
+                                            alumniData={globeAlumniData}
+                                        />
+                                    </GlobeErrorBoundary>
                                 </div>
                             </div>
                         </div>

@@ -224,17 +224,24 @@ const About = () => {
         <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle, #ffffff 1px, transparent 1px)', backgroundSize: '20px 20px' }} />
         <div className="container mx-auto px-6 md:px-12 lg:px-24 relative z-10">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">{t('about.program.title')}</h2>
-          <div className="flex gap-6 overflow-x-auto hide-scrollbar pb-8">
-             {studyPrograms.map((program, idx) => (
-               <div key={idx} className="flex-shrink-0 w-[280px] md:w-[320px] bg-white rounded-2xl overflow-hidden text-[#0F5F58] shadow-xl">
-                  <div className="h-48 overflow-hidden">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5">
+            {studyPrograms.map((program, idx) => (
+                  <div
+                    key={idx}
+                    className="bg-white rounded-2xl overflow-hidden text-[#0F5F58] shadow-xl hover:-translate-y-2 transition-all duration-300"
+                  >
+                  <div className="h-36 md:h-40 overflow-hidden">
                     <img src={program.image} alt={program.title} className="w-full h-full object-cover transition-transform hover:scale-110 duration-500" />
                   </div>
-                  <div className="p-6">
-                    <h3 className="font-bold text-xl mb-2">{program.title}</h3>
-                    <p className="text-sm opacity-80 mb-6 h-12 line-clamp-2">{program.desc}</p>
-                    <Link to="/academics" className="flex items-center text-sm font-bold uppercase tracking-wider hover:gap-3 transition-all">
-                      {t('about.program.explore')} <ArrowRight className="w-4 h-4 ml-2" />
+                  <div className="p-4">
+                    <h3 className="font-bold text-lg mb-2">{program.title}</h3>
+                    <p className="text-xs md:text-sm opacity-80 mb-4 h-14 line-clamp-3">{program.desc}</p>
+                    <Link
+                        to="/academics"
+                        className="flex items-center text-xs md:text-sm font-bold uppercase tracking-wide hover:gap-2 transition-all"
+                    >
+                        {t('about.program.explore')}
+                        <ArrowRight className="w-4 h-4 ml-1" />
                     </Link>
                   </div>
                </div>

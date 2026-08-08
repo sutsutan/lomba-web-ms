@@ -131,52 +131,42 @@ export default function AdminAlumniPage() {
         </div>
         
         <DataTable
-          columns={[
-            { 
-              key: 'profile_picture', 
-              label: 'Foto', 
-              render: (item: AlumniItem) => (
-                <img 
-                  src={item.profile_picture} 
-                  className="w-10 h-10 rounded-full object-cover border border-gray-100" 
-                  alt="" 
-                  onError={e => (e.currentTarget.src = `https://placehold.co/40x40/e2e8f0/94a3b8?text=${item.name ? item.name[0] : '?'}`)} 
-                />
-              ) 
-            },
-            { 
-              key: 'name', 
-              label: 'Nama Alumni', 
-              render: (item: AlumniItem) => <span className="font-semibold text-gray-900 block">{item.name}</span> 
-            },
-            { 
-              key: 'role', 
-              label: 'Pekerjaan / Instansi', 
-              render: (item: AlumniItem) => <span className="text-sm text-gray-600 font-normal">{item.role || '-'}</span> 
-            },
-            { key: 'grad_year', label: 'Angkatan' },
-            { key: 'location_name', label: 'Lokasi Pemetaan' },
-            { 
-              key: 'tags', 
-              label: 'Tags', 
-              render: (item: AlumniItem) => (
-                <div className="flex flex-wrap gap-1 max-w-[150px]">
-                  {(item.tags || '').split(',').slice(0, 2).map(t => t.trim()).filter(Boolean).map(t => (
-                    <Badge key={t} color="blue">{t}</Badge>
-                  ))}
-                </div>
-              )
-            },
-            { 
-              key: 'is_active', 
-              label: 'Status', 
-              render: (item: AlumniItem) => (
-                <Badge color={item.is_active ? 'green' : 'gray'}>
-                  {item.is_active ? 'Aktif' : 'Nonaktif'}
-                </Badge>
-              ) 
-            },
-          ]}
+         columns={[
+          { 
+            key: 'profile_picture', 
+            label: 'Foto', 
+            render: (item: AlumniItem) => (
+              <img src={item.profile_picture} className="w-10 h-10 rounded-full object-cover border border-gray-100" alt="" onError={e => (e.currentTarget.src = `https://placehold.co/40x40/e2e8f0/94a3b8?text=${item.name ? item.name[0] : '?'}`)} />
+            ) 
+          },
+          { key: 'name', label: 'Nama Alumni', render: (item: AlumniItem) => <span className="whitespace-nowrap font-semibold text-gray-900">{item.name}</span> },
+          { key: 'role', label: 'Pekerjaan / Instansi', render: (item: AlumniItem) => <span className="whitespace-nowrap text-sm text-gray-600">{item.role || '-'}</span> },
+          { key: 'grad_year', label: 'Angkatan' },
+          { key: 'location_name', label: 'Lokasi Pemetaan', render: (item: AlumniItem) => <span className="whitespace-nowrap">{item.location_name}</span> },
+          { key: 'latitude', label: 'Latitude', render: (item: AlumniItem) => <span className="whitespace-nowrap text-xs text-gray-400 font-mono">{item.latitude || '-'}</span> },
+          { key: 'longitude', label: 'Longitude', render: (item: AlumniItem) => <span className="whitespace-nowrap text-xs text-gray-400 font-mono">{item.longitude || '-'}</span> },
+          { 
+            key: 'testimony', 
+            label: 'Testimoni', 
+            render: (item: AlumniItem) => <span className="text-xs text-gray-500 max-w-xs block line-clamp-2">{item.testimony || '-'}</span> 
+          },
+          { 
+            key: 'tags', 
+            label: 'Tags', 
+            render: (item: AlumniItem) => (
+              <div className="flex flex-wrap gap-1 max-w-[150px]">
+                {(item.tags || '').split(',').slice(0, 3).map(t => t.trim()).filter(Boolean).map(t => (
+                  <Badge key={t} color="blue">{t}</Badge>
+                ))}
+              </div>
+            )
+          },
+          { 
+            key: 'is_active', 
+            label: 'Status', 
+            render: (item: AlumniItem) => <Badge color={item.is_active ? 'green' : 'gray'}>{item.is_active ? 'Aktif' : 'Nonaktif'}</Badge>
+          },
+        ]}
           data={filtered}
           onEdit={openEdit}
           onDelete={del}

@@ -1,9 +1,13 @@
 import ScrollReveal from '@/components/ScrollReveal';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { AnimatePresence, motion } from 'framer-motion';
-import { ChevronLeft, ChevronRight, Link, ArrowRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+
+import { getPublicMajors, MajorData } from '@/services/Major';
+import { organizationService, OrganizationData } from '@/services/Organization';
+import { getPublicExtracurriculars, Extracurricular as ExtracurricularType } from '@/services/Extracurricular';
 
 import programAkuntansi from '@/assets/akuntansi.webp';
 import programPerhotelan from '@/assets/aph.webp';
@@ -22,6 +26,13 @@ import Msp from '@/assets/msp.jpeg';
 import programCulinaryImg from '@/assets/program-culinary.webp';
 import programItImg from '@/assets/program-it.webp';
 
+interface MajorCardContent {
+    image: string;
+    title: string;
+    description: string;
+    link: string;
+}
+
 interface TabContent {
     title: string;
     description: string;
@@ -32,32 +43,73 @@ const ProgramTabs = () => {
     const { t } = useLanguage();
     const navigate = useNavigate();
 
+    // Data dinamis dari backend
+    const [dynamicMajors, setDynamicMajors] = useState<MajorData[]>([]);
+    const [dynamicOrganizations, setDynamicOrganizations] = useState<OrganizationData[]>([]);
+    const [dynamicExtracurriculars, setDynamicExtracurriculars] = useState<ExtracurricularType[]>([]);
+
+    useEffect(() => {
+        getPublicMajors().then(setDynamicMajors).catch(() => setDynamicMajors([]));
+        organizationService.getAll().then(setDynamicOrganizations).catch(() => setDynamicOrganizations([]));
+        getPublicExtracurriculars().then(setDynamicExtracurriculars).catch(() => setDynamicExtracurriculars([]));
+    }, []);
+
+    const fallbackMajorCards: MajorCardContent[] = [
+    { image: programCulinaryImg, title: t('category.culinary'), description: t('major.culinary.desc'), link: '/academics' },
+    { image: programItImg, title: t('category.it'), description: t('major.pplg.desc'), link: '/academics' },
+    { image: programDkv, title: t('category.dkv'), description: t('major.dkv.desc'), link: '/academics' },
+    { image: programPerhotelan, title: t('category.hospitality'), description: t('major.hospitality.desc'), link: '/academics' },
+    { image: programAkuntansi, title: t('category.accounting'), description: t('major.accounting.desc'), link: '/academics' },
+];
+
+    const staticMajorImageByCode: Record<string, string> = {
+        culinary: programCulinaryImg,
+        it: programItImg,
+        pplg: programItImg,
+        dkv: programDkv,
+        hospitality: programPerhotelan,
+        accounting: programAkuntansi,
+    };
+
+    const majorCards: MajorCardContent[] = dynamicMajors.length > 0
+    ? dynamicMajors.map((m) => ({
+        image: m.curriculum_image || staticMajorImageByCode[m.code] || programCulinaryImg,
+        title: m.name,
+        description: m.description || '',
+        link: m.program_link || `/academics?type=${m.code}`,
+    }))
+    : fallbackMajorCards;
+
+    const fallbackOrganizationImages = [Itec, LogoOsis, Kkr, Mahes, Msp, Mpk];
+    const organizationImages = dynamicOrganizations.length > 0
+        ? dynamicOrganizations.map((o) => o.logo_url)
+        : fallbackOrganizationImages;
+
+    const fallbackExtracurricularImages = [
+        extracurricularFutsal,
+        extracurricularBasket,
+        extracurricularBadminton,
+        extracurricularModelling,
+    ];
+    const extracurricularImages = dynamicExtracurriculars.length > 0
+        ? dynamicExtracurriculars.map((e) => e.image_url || extracurricularFutsal)
+        : fallbackExtracurricularImages;
+
     const tabData: Record<string, TabContent> = {
         major: {
             title: t('program.major.title'),
             description: t('program.major.desc'),
-            images: [
-                programCulinaryImg,
-                programItImg,
-                programDkv,
-                programPerhotelan,
-                programAkuntansi,
-            ],
+            images: majorCards.map((m) => m.image),
         },
         organization: {
             title: t('program.organization.title'),
             description: t('program.organization.desc'),
-            images: [Itec, LogoOsis, Kkr, Mahes, Msp, Mpk],
+            images: organizationImages,
         },
         extracurricular: {
             title: t('program.extracurricular.title'),
             description: t('program.extracurricular.desc'),
-            images: [
-                extracurricularFutsal,
-                extracurricularBasket,
-                extracurricularBadminton,
-                extracurricularModelling,
-            ],
+            images: extracurricularImages,
         },
     };
 
@@ -74,9 +126,16 @@ const ProgramTabs = () => {
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
+    useEffect(() => {
+        if (activeImageIndex >= tabData[activeTab].images.length) {
+            setActiveImageIndex(0);
+        }
+    }, [dynamicMajors, dynamicOrganizations, dynamicExtracurriculars, activeTab]);
+
     const isOrganization = activeTab === 'organization';
     const isCompactLayout =
         activeTab === 'organization' || activeTab === 'major';
+    const isMajor = activeTab === 'major';
 
     const handleTabChange = (tab: keyof typeof tabData) => {
         setActiveTab(tab);
@@ -177,71 +236,167 @@ const ProgramTabs = () => {
                         </div>
                         {/* organizations */}
                         <div className="flex flex-col items-center justify-center gap-6 sm:gap-8 lg:flex-row lg:justify-start lg:gap-12">
-                            {isOrganization ? (
-                                <div className="flex w-full flex-col items-center gap-12 py-10 lg:items-start">
-                                    <div className="flex max-w-5xl flex-wrap items-center justify-center gap-8 sm:gap-12 md:gap-16 lg:justify-start">
-                                        {tabData.organization.images.map(
-                                            (image, index) => (
-                                                <motion.div
-                                                    key={`org-${index}`}
-                                                    initial={{
-                                                        opacity: 0,
-                                                        scale: 0.5,
-                                                    }}
-                                                    animate={{
-                                                        opacity: 1,
-                                                        scale: 1,
-                                                        y: [0, -15, 0], // Efek melayang vertikal
-                                                        rotate: [0, 5, -5, 0], // Efek rotasi halus
-                                                    }}
-                                                    transition={{
-                                                        delay: index * 0.1,
-                                                        duration: 4,
-                                                        repeat: Infinity,
-                                                        repeatType: 'mirror',
-                                                        ease: 'easeInOut',
-                                                        y: {
-                                                            duration: 3 + index, // Variasi kecepatan antar logo
-                                                            repeat: Infinity,
-                                                            ease: 'easeInOut',
-                                                        },
-                                                    }}
-                                                    whileHover={{
-                                                        scale: 1.2,
-                                                        rotate: 0,
-                                                        zIndex: 10,
-                                                        filter: 'drop-shadow(0px 0px 20px rgba(var(--primary), 0.3))',
-                                                    }}
-                                                    className="perspective-1000 relative flex h-20 w-20 cursor-pointer items-center justify-center sm:h-24 sm:w-24 md:h-28 md:w-28"
-                                                >
-                                                    <img
-                                                        src={image}
-                                                        alt={`Organization ${index + 1}`}
-                                                        className="h-full w-full object-contain drop-shadow-lg filter"
-                                                    />
-                                                </motion.div>
-                                            ),
-                                        )}
+                          {isOrganization ? (
+                            <div className="flex w-full flex-col items-center justify-center py-8">
+                                <div className="relative flex w-full max-w-6xl flex-wrap items-center justify-center gap-x-16 gap-y-14">
 
-                                     
-                                    </div>
-
-                                    <div className="relative pt-4">
-                                       <motion.button
-                                            whileHover={{ scale: 1.05 }}
-                                            whileTap={{ scale: 0.95 }}
-                                            onClick={() => navigate('/organization')}
-                                            className="btn-outline mt-4 inline-flex items-center gap-2"
+                                    {tabData.organization.images.map((image, index) => (
+                                        <motion.div
+                                            key={`org-${index}`}
+                                            initial={{
+                                                opacity: 0,
+                                                scale: 0.7,
+                                                y: 20,
+                                            }}
+                                            animate={{
+                                                opacity: 1,
+                                                scale: 1,
+                                                y: [0, -8, 0],
+                                            }}
+                                            transition={{
+                                                opacity: {
+                                                    duration: 0.4,
+                                                    delay: index * 0.08,
+                                                },
+                                                scale: {
+                                                    duration: 0.4,
+                                                    delay: index * 0.08,
+                                                },
+                                                y: {
+                                                    duration: 3 + index * 0.4,
+                                                    repeat: Infinity,
+                                                    ease: "easeInOut",
+                                                },
+                                            }}
+                                            whileHover={{
+                                                scale: 1.12,
+                                                rotate: index % 2 === 0 ? 4 : -4,
+                                            }}
+                                            className="group flex cursor-pointer flex-col items-center"
                                         >
-                                            Discover All Organizations
-                                            <ChevronRight className="h-4 w-4" />
-                                        </motion.button>
-                                        {/* Tooltip kecil di bawah tombol */}
-                                        <p className="text-muted-foreground absolute -bottom-6 left-1/2 w-max -translate-x-1/2 text-[11px] italic lg:left-0 lg:translate-x-0"></p>
-                                    </div>
+                                            <img
+                                                src={image}
+                                                alt={`Organization ${index + 1}`}
+                                                className="h-20 w-20 object-contain transition-all duration-300 group-hover:drop-shadow-[0_0_20px_rgba(15,95,88,0.35)] sm:h-24 sm:w-24 md:h-28 md:w-28 lg:h-32 lg:w-32"
+                                                onError={e => (e.currentTarget.src = 'https://placehold.co/128x128/e2e8f0/94a3b8?text=Org')}
+                                            />
+
+                                            <motion.div
+                                                className="mt-5 h-[2px] w-0 rounded-full bg-primary"
+                                                whileHover={{
+                                                    width: 55,
+                                                }}
+                                                transition={{
+                                                    duration: 0.25,
+                                                }}
+                                            />
+                                        </motion.div>
+                                    ))}
                                 </div>
-                            ) : (
-                                // (MAJOR & EXTRACURRICULAR)
+
+                                <motion.button
+                                    whileHover={{
+                                        scale: 1.05,
+                                    }}
+                                    whileTap={{
+                                        scale: 0.96,
+                                    }}
+                                    onClick={() => navigate('/organization')}
+                                    className="mt-16 inline-flex items-center gap-3 text-lg font-semibold text-primary transition-all hover:gap-5"
+                                >
+                                    Discover All Organizations
+                                    <ArrowRight className="h-5 w-5" />
+                                </motion.button>
+                            </div>
+                        ) : isMajor ? (
+                            <div className="w-full">
+                                <div className="flex items-center gap-6">
+                                    {/* Previous */}
+                                    <button
+                                        onClick={handlePrev}
+                                        type="button"
+                                        className="group relative hidden h-12 w-12 rotate-45 items-center justify-center border-2 border-primary/40 transition-all hover:bg-primary hover:text-white lg:flex"
+                                    >
+                                        <ChevronLeft className="h-6 w-6 -rotate-45 transition-transform group-active:-translate-x-1" />
+                                    </button>
+
+                                    {/* Card */}
+                                    <div className="flex-1 overflow-hidden rounded-3xl bg-white shadow-2xl">
+                                        <AnimatePresence mode="wait">
+                                            <motion.div
+                                                key={activeImageIndex}
+                                                initial={{ opacity: 0, x: 40 }}
+                                                animate={{ opacity: 1, x: 0 }}
+                                                exit={{ opacity: 0, x: -40 }}
+                                                transition={{ duration: 0.4 }}
+                                                className="grid md:grid-cols-2"
+                                            >
+                                                {/* IMAGE */}
+                                                <div className="h-[260px] md:h-[380px] lg:h-[450px]">
+                                                    <img
+                                                        src={majorCards[activeImageIndex]?.image}
+                                                        alt={majorCards[activeImageIndex]?.title}
+                                                        className="h-full w-full object-cover"
+                                                        onError={e => (e.currentTarget.src = 'https://placehold.co/600x450/e2e8f0/94a3b8?text=Major')}
+                                                    />
+                                                </div>
+
+                                                {/* CONTENT */}
+                                                <div className="flex flex-col justify-center p-8 lg:p-12">
+                                                    <h3 className="mb-5 text-3xl font-bold text-primary">
+                                                        {majorCards[activeImageIndex]?.title}
+                                                    </h3>
+
+                                                    <p className="mb-8 leading-relaxed text-muted-foreground">
+                                                        {majorCards[activeImageIndex]?.description}
+                                                    </p>
+
+                                                    <button
+                                                        onClick={() => {
+                                                            const link = majorCards[activeImageIndex]?.link || '/academics';
+                                                            if (link.startsWith('http')) {
+                                                                window.open(link, '_blank', 'noopener,noreferrer');
+                                                            } else {
+                                                                navigate(link);
+                                                            }
+                                                        }}
+                                                        className="inline-flex w-fit items-center gap-2 rounded-full bg-primary px-6 py-3 text-white transition hover:gap-4"
+                                                    >
+                                                        Explore Program
+                                                        <ArrowRight className="h-4 w-4" />
+                                                    </button>
+                                                </div>
+                                            </motion.div>
+                                        </AnimatePresence>
+                                    </div>
+
+                                    {/* Next */}
+                                    <button
+                                        onClick={handleNext}
+                                        type="button"
+                                        className="group relative hidden h-12 w-12 rotate-45 items-center justify-center border-2 border-primary/40 transition-all hover:bg-primary hover:text-white lg:flex"
+                                    >
+                                        <ChevronRight className="h-6 w-6 -rotate-45 transition-transform group-active:translate-x-1" />
+                                    </button>
+                                </div>
+
+                                {/* DOTS */}
+                                <div className="mt-8 flex justify-center gap-3">
+                                    {majorCards.map((_, index) => (
+                                        <button
+                                            key={index}
+                                            onClick={() => setActiveImageIndex(index)}
+                                            className={`rounded-full transition-all ${
+                                                activeImageIndex === index
+                                                    ? 'h-3 w-10 bg-primary'
+                                                    : 'h-3 w-3 bg-slate-300'
+                                            }`}
+                                        />
+                                    ))}
+                                </div>
+                            </div>
+                        ) : (
+                                // (EXTRACURRICULAR)
                                 <>
                                     <div
                                         className={`relative mx-auto flex-shrink-0 overflow-visible lg:mx-0 ${
@@ -301,6 +456,7 @@ const ProgramTabs = () => {
                                                             src={image}
                                                             alt={`${tabData[activeTab].title} ${index + 1}`}
                                                             className="h-full w-full object-cover"
+                                                            onError={e => (e.currentTarget.src = 'https://placehold.co/300x450/e2e8f0/94a3b8?text=Ekskul')}
                                                         />
                                                     </motion.div>
                                                 );

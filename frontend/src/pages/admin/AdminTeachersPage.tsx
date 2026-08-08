@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import api from '@/lib/api'; // ➕ Pastikan path import axios instance Anda sudah benar
+import api from '@/lib/api';
 
 import PageHeader from '@/components/admin/PageHeader';
 import DataTable from '@/components/admin/DataTable';
@@ -22,7 +22,7 @@ interface Teacher {
 }
 
 export default function AdminTeachersPage() {
-  const [items, setItems] = useState<Teacher[]>([]); // 🛠️ Mulai dengan array kosong untuk diisi dari API
+  const [items, setItems] = useState<Teacher[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [modal, setModal] = useState(false);
   const [editing, setEditing] = useState<Teacher | null>(null);
@@ -32,12 +32,10 @@ export default function AdminTeachersPage() {
     name: '', nip: '', division: 'IT', role: '', quote: '', competencies_tags: '', profile_picture: '', is_active: true,
   });
 
-  // ➕ Ambil data dari API Laravel saat halaman Admin dibuka
   const loadTeachers = async () => {
     try {
       setLoading(true);
       const response = await api.get('/teachers');
-      // Antisipasi jika Laravel mengirim data langsung atau dibungkus objek pagination
       const data = response.data.data || response.data;
       setItems(Array.isArray(data) ? data.filter(Boolean) : []);
     } catch (error) {
@@ -68,38 +66,49 @@ export default function AdminTeachersPage() {
     setModal(true); 
   };
 
-  // ➕ Aksi Simpan (Kirim POST / PUT ke API Laravel)
   const save = async () => {
     try {
       if (editing) {
-        // Mode Edit: Kirim request PUT / PATCH ke Laravel
         await api.put(`/admin/teachers/${editing.id}`, form);
       } else {
-        // Mode Tambah: Kirim request POST ke Laravel
         await api.post('/admin/teachers', form);
       }
       setModal(false);
-      loadTeachers(); // Refresh tabel setelah berhasil menyimpan data
+      loadTeachers();
     } catch (error) {
       alert("Gagal menyimpan data guru. Periksa kembali input backend Anda.");
       console.error(error);
     }
   };
 
-  // ➕ Aksi Hapus (Kirim request DELETE ke API Laravel)
   const del = async (id: number) => {
     if (!confirm("Apakah Anda yakin ingin menghapus data guru ini?")) return;
     try {
       await api.delete(`/admin/teachers/${id}`);
-      loadTeachers(); // Refresh tabel setelah data terhapus
+      loadTeachers();
     } catch (error) {
       console.error("Gagal menghapus data guru:", error);
     }
   };
 
-  const divisions = ['IT', 'Culinary', 'Visual Communication Design', 'Hospitality', 'Accounting', 'general_subject', 'staff'];
+  const leadershipDivisions = ['principal', 'vice_principal'];
+
   const divColors: Record<string, string> = { 
+    principal: 'red',
+    vice_principal: 'pink',
     IT: 'blue', Culinary: 'yellow', 'Visual Communication Design': 'purple', Hospitality: 'green', Accounting: 'gray', general_subject: 'yellow', staff: 'red' 
+  };
+
+  const divisionLabels: Record<string, string> = {
+    principal: '👑 Kepala Sekolah',
+    vice_principal: '🎖️ Wakil Kepala Sekolah',
+    IT: 'IT',
+    Culinary: 'Culinary',
+    'Visual Communication Design': 'Visual Communication Design',
+    Hospitality: 'Hospitality',
+    Accounting: 'Accounting',
+    general_subject: 'Umum',
+    staff: 'Staf/TU',
   };
 
   return (
@@ -114,46 +123,35 @@ export default function AdminTeachersPage() {
         {loading ? (
           <div className="p-12 text-center text-gray-500 font-medium">Sedang memuat data guru...</div>
         ) : (
-          <DataTable
-            columns={[
+          <div className="overflow-x-auto">
+            <DataTable
+             columns={[
               { 
                 key: 'profile_picture', 
                 label: 'Foto', 
                 render: (item: Teacher) => (
-                  <img 
-                    src={item.profile_picture} 
-                    className="w-10 h-10 rounded-full object-cover border border-gray-100" 
-                    alt="" 
-                    onError={e => (e.currentTarget.src = `https://placehold.co/40x40/e2e8f0/94a3b8?text=${item.name ? item.name[0] : '?'}`)} 
-                  />
+                  <img src={item.profile_picture} className="w-10 h-10 rounded-full object-cover border border-gray-100" alt="" onError={e => (e.currentTarget.src = `https://placehold.co/40x40/e2e8f0/94a3b8?text=${item.name ? item.name[0] : '?'}`)} />
                 ) 
               },
-              { 
-                key: 'name', 
-                label: 'Nama / NIP', 
-                render: (item: Teacher) => (
-                  <div>
-                    <div className="font-semibold text-gray-900">{item.name}</div>
-                    <div className="text-xs text-gray-400 font-normal">{item.nip || 'NIP Belum Diatur'}</div>
-                  </div>
-                )
-              },
+              { key: 'name', label: 'Nama', render: (item: Teacher) => <span className="whitespace-nowrap font-semibold text-gray-900">{item.name}</span> },
+              { key: 'nip', label: 'NIP', render: (item: Teacher) => <span className="whitespace-nowrap text-xs text-gray-400">{item.nip || 'Belum Diatur'}</span> },
               { 
                 key: 'division', 
                 label: 'Divisi', 
                 render: (item: Teacher) => (
                   <Badge color={divColors[item.division] || 'gray'}>
-                    {item.division === 'general_subject' ? 'Umum' : item.division === 'staff' ? 'Staf/TU' : item.division}
+                    {divisionLabels[item.division] || item.division}
                   </Badge>
                 ) 
               },
-              { key: 'role', label: 'Jabatan' },
+              { key: 'role', label: 'Jabatan', render: (item: Teacher) => <span className="whitespace-nowrap">{item.role}</span> },
+              { key: 'quote', label: 'Quote / Bio', render: (item: Teacher) => <span className="text-xs text-gray-500 max-w-xs block line-clamp-2">{item.quote || '-'}</span> },
               { 
                 key: 'competencies_tags', 
                 label: 'Kompetensi', 
                 render: (item: Teacher) => (
                   <div className="flex flex-wrap gap-1 max-w-xs">
-                    {(item.competencies_tags || '').split(',').slice(0, 3).map(tag => tag.trim()).filter(Boolean).map(tag => (
+                    {(item.competencies_tags || '').split(',').slice(0, 4).map(tag => tag.trim()).filter(Boolean).map(tag => (
                       <Badge key={tag} color="gray">{tag}</Badge>
                     ))}
                   </div>
@@ -162,17 +160,14 @@ export default function AdminTeachersPage() {
               { 
                 key: 'is_active', 
                 label: 'Status', 
-                render: (item: Teacher) => (
-                  <Badge color={item.is_active ? 'green' : 'gray'}>
-                    {item.is_active ? 'Aktif' : 'Nonaktif'}
-                  </Badge>
-                ) 
+                render: (item: Teacher) => <Badge color={item.is_active ? 'green' : 'gray'}>{item.is_active ? 'Aktif' : 'Nonaktif'}</Badge>
               },
             ]}
-            data={filtered}
-            onEdit={openEdit}
-            onDelete={del}
-          />
+              data={filtered}
+              onEdit={openEdit}
+              onDelete={del}
+            />
+          </div>
         )}
       </div>
 
@@ -190,33 +185,46 @@ export default function AdminTeachersPage() {
             <input className={inputClass} value={form.nip} onChange={e => setForm({ ...form, nip: e.target.value })} placeholder="Masukkan NIP jika ada..." />
           </FormField>
           
-          <FormField label="Divisi" required>
+          <FormField label="Divisi" required hint="Pilih Kepala Sekolah / Wakil Kepala Sekolah jika ingin ditampilkan di bagian Pimpinan Sekolah (terpisah dari tab divisi guru)">
             <select className={selectClass} value={form.division} onChange={e => setForm({ ...form, division: e.target.value })}>
-              <option value="IT">IT (Teknologi Informasi)</option>
-              <option value="Culinary">Culinary (Kuliner)</option>
-              <option value="Visual Communication Design">Visual Communication Design (DKV)</option>
-              <option value="Hospitality">Hospitality (Perhotelan)</option>
-              <option value="Accounting">Accounting (Akuntansi)</option>
-              <option value="general_subject">Mata Pelajaran Umum</option>
-              <option value="staff">Tenaga Kependidikan / Staf TU</option>
+              <optgroup label="👑 Pimpinan Sekolah">
+                <option value="principal">Kepala Sekolah</option>
+                <option value="vice_principal">Wakil Kepala Sekolah</option>
+              </optgroup>
+              <optgroup label="Divisi Guru & Staf">
+                <option value="IT">IT (Teknologi Informasi)</option>
+                <option value="Culinary">Culinary (Kuliner)</option>
+                <option value="Visual Communication Design">Visual Communication Design (DKV)</option>
+                <option value="Hospitality">Hospitality (Perhotelan)</option>
+                <option value="Accounting">Accounting (Akuntansi)</option>
+                <option value="general_subject">Mata Pelajaran Umum</option>
+                <option value="staff">Tenaga Kependidikan / Staf TU</option>
+              </optgroup>
             </select>
+            {leadershipDivisions.includes(form.division) && (
+              <p className="mt-1.5 text-[11px] text-red-600">
+                ⚠️ Data ini akan tampil di bagian <strong>Pimpinan Sekolah</strong> pada halaman publik, bukan di grid guru per-divisi.
+              </p>
+            )}
           </FormField>
           
-          <FormField label="Jabatan/Role" required>
-            <input className={inputClass} value={form.role} onChange={e => setForm({ ...form, role: e.target.value })} placeholder="Contoh: Kepala Lab / Guru Produktif" />
+          <FormField label="Jabatan/Role" required hint={leadershipDivisions.includes(form.division) ? 'Contoh: Kepala Sekolah / Wakil Kepala Bidang Kurikulum' : undefined}>
+            <input className={inputClass} value={form.role} onChange={e => setForm({ ...form, role: e.target.value })} placeholder={leadershipDivisions.includes(form.division) ? 'Contoh: Kepala Sekolah' : 'Contoh: Kepala Lab / Guru Produktif'} />
           </FormField>
           
           <div className="col-span-2">
-            <FormField label="Quote / Motto">
-              <textarea className={textareaClass} rows={2} value={form.quote} onChange={e => setForm({ ...form, quote: e.target.value })} placeholder="Motto hidup pendidik..." />
+            <FormField label={leadershipDivisions.includes(form.division) ? 'Sambutan / Bio Pimpinan' : 'Quote / Motto'} hint={leadershipDivisions.includes(form.division) ? 'Akan ditampilkan sebagai kutipan sambutan di halaman publik' : undefined}>
+              <textarea className={textareaClass} rows={leadershipDivisions.includes(form.division) ? 4 : 2} value={form.quote} onChange={e => setForm({ ...form, quote: e.target.value })} placeholder={leadershipDivisions.includes(form.division) ? 'Tuliskan sambutan singkat pimpinan sekolah...' : 'Motto hidup pendidik...'} />
             </FormField>
           </div>
           
-          <div className="col-span-2">
-            <FormField label="Tag Kompetensi" hint="Pisahkan dengan tanda koma tanpa spasi">
-              <input className={inputClass} value={form.competencies_tags} onChange={e => setForm({ ...form, competencies_tags: e.target.value })} placeholder="contoh: networking,programming,database" />
-            </FormField>
-          </div>
+          {!leadershipDivisions.includes(form.division) && (
+            <div className="col-span-2">
+              <FormField label="Tag Kompetensi" hint="Pisahkan dengan tanda koma tanpa spasi">
+                <input className={inputClass} value={form.competencies_tags} onChange={e => setForm({ ...form, competencies_tags: e.target.value })} placeholder="contoh: networking,programming,database" />
+              </FormField>
+            </div>
+          )}
           
           <div className="col-span-2 flex items-center gap-3 py-1">
             <input type="checkbox" id="teacher-active" checked={form.is_active} onChange={e => setForm({ ...form, is_active: e.target.checked })} className="w-4 h-4 rounded accent-indigo-600" />

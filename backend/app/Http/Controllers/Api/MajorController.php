@@ -12,7 +12,10 @@ class MajorController extends BaseResourceController {
         'description'       => 'nullable|string',
         'total_students'    => 'nullable|integer',
         'total_partners'    => 'nullable|integer',
+        'activity_images'   => 'nullable|array',
+        'activity_images.*' => 'string',
         'curriculum_image'  => 'nullable|string',
+        'program_link'         => 'nullable|string|max:255',
         'is_active'         => 'nullable|boolean',
     ];
 

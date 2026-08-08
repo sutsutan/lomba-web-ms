@@ -106,8 +106,8 @@ export default {
 
   // Hero Section
   'hero.tagline': 'SMK Pariwisata Metland School',
-  'hero.title_part1': 'The High Standard',
-  'hero.title_part2': 'of Vocational Education',
+  'hero.title_part1': 'The High Standard of',
+  'hero.title_part2': 'Vocational Education',
   'hero.description': 'We prepare students with industry-ready skills, character development, and real-world experience for successful careers.',
   'hero.learn_more': 'Learn More',
   'hero.scroll_explore': 'Scroll to explore',
@@ -520,6 +520,7 @@ export default {
   'organization.wellness.label': 'Innovation & Wellbeing',
   'organization.wellness.title': 'Innovation & Wellbeing',
   'organization.wellness.desc': 'Nurturing the mind, soul, and future skills.',
+  'common.readMore': 'Explore Gallery',
 
   'org.osis.name': 'Osis Student Council',
   'org.osis.desc': 'The heartbeat of student life, organizing major events and representing the student voice to the school board.',
@@ -843,9 +844,9 @@ export default {
 
   // Categories Name
   "cat_leadership": "Leadership & Governance",
-  "cat_arts": "Performing Arts",
-  "cat_innovation": "Innovation & Technology",
-  "cat_service": "Community Service",
+  "cat_creative": "Performing Arts",
+  "cat_discipline": "Innovation & Technology",
+  "cat_wellness": "Community Service",
 
   // Category Descriptions
   "desc_leadership_intro": "Empowering the next generation of visionary leaders through systematic organization and governance.",

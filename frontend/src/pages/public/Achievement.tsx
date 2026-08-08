@@ -12,6 +12,8 @@ import {
 import { Link } from "react-router-dom";
 
 import {
+    AchievementSummary,
+    fetchAchievementSummary,
     fetchPublicAchievements,
     AchievementData,
 } from "@/services/Achievement";
@@ -21,33 +23,34 @@ const Achievement = () => {
 
     const [achievements, setAchievements] = useState<AchievementData[]>([]);
     const [loading, setLoading] = useState(true);
+    const [summary, setSummary] = useState<AchievementSummary>({ total: 0, international: 0, national: 0, categories: 0 });
+
 
     const [selectedCategory, setSelectedCategory] =
         useState("All");
 
     const [search, setSearch] = useState("");
 
-   useEffect(() => {
+ useEffect(() => {
     const loadAchievements = async () => {
         try {
             setLoading(true);
-
-            const data = await fetchPublicAchievements();
-
-            console.log("Achievement API:", data);
-
+            const [data, summaryData] = await Promise.all([
+                fetchPublicAchievements(),
+                fetchAchievementSummary(),
+            ]);
             const sorted = [...data].sort((a, b) => b.year - a.year);
-
             setAchievements(sorted);
+            setSummary(summaryData);
         } catch (err) {
             console.error(err);
         } finally {
             setLoading(false);
         }
     };
-
     loadAchievements();
 }, []);
+
 
     const categories = useMemo(() => {
         const unique = [
@@ -218,47 +221,25 @@ if (achievements.length === 0) {
                                 </p>
                             </div>
 
-                            <div className="rounded-3xl bg-white p-8 shadow-lg text-center">
-                                <h2 className="text-5xl font-black text-primary">
-                                    {
-                                        achievements.filter(
-                                            a =>
-                                                a.category
-                                                    .toLowerCase()
-                                                    .includes("international")
-                                        ).length
-                                    }
-                                </h2>
-                                <p className="mt-3 text-muted-foreground">
-                                    International
-                                </p>
+                           <div className="rounded-3xl bg-white p-8 shadow-lg text-center">
+                                <h2 className="text-5xl font-black text-primary">{summary.total}+</h2>
+                                <p className="mt-3 text-muted-foreground">Total Achievements</p>
                             </div>
 
                             <div className="rounded-3xl bg-white p-8 shadow-lg text-center">
-                                <h2 className="text-5xl font-black text-primary">
-                                    {
-                                        achievements.filter(
-                                            a =>
-                                                a.category
-                                                    .toLowerCase()
-                                                    .includes("national")
-                                        ).length
-                                    }
-                                </h2>
-                                <p className="mt-3 text-muted-foreground">
-                                    National
-                                </p>
+                                <h2 className="text-5xl font-black text-primary">{summary.international}</h2>
+                                <p className="mt-3 text-muted-foreground">International</p>
                             </div>
 
                             <div className="rounded-3xl bg-white p-8 shadow-lg text-center">
-                                <h2 className="text-5xl font-black text-primary">
-                                    {categories.length - 1}
-                                </h2>
-                                <p className="mt-3 text-muted-foreground">
-                                    Categories
-                                </p>
+                                <h2 className="text-5xl font-black text-primary">{summary.national}</h2>
+                                <p className="mt-3 text-muted-foreground">National</p>
                             </div>
 
+                            <div className="rounded-3xl bg-white p-8 shadow-lg text-center">
+                                <h2 className="text-5xl font-black text-primary">{summary.categories}</h2>
+                                <p className="mt-3 text-muted-foreground">Categories</p>
+                            </div>
                         </div>
 
                     </ScrollReveal>

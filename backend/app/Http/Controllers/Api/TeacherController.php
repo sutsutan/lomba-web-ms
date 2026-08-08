@@ -8,7 +8,7 @@ class TeacherController extends BaseResourceController {
     protected $validationRules = [
         'name'               => 'required|string|max:255',
         'nip'                => 'nullable|string|unique:teachers,nip',
-        'division'           => 'required|in:IT,Culinary,Visual Communication Design,Hospitality,Accounting,general_subject,staff',
+        'division'           => 'required|in:principal,vice_principal,IT,Culinary,Visual Communication Design,Hospitality,Accounting,general_subject,staff',
         'role'               => 'required|string|max:255',
         'quote'              => 'nullable|string',
         'competencies_tags'  => 'nullable|string',

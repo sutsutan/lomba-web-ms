@@ -120,6 +120,7 @@ interface DynamicMajorStats {
     students: string;
     partners: string;
     head: string;
+    lab_images?: string[];
     curriculum_image: string;
 }
 

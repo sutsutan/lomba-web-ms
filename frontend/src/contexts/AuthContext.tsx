@@ -6,9 +6,7 @@ interface User {
   id: number;
   name: string;
   email: string;
-  role: 'admin' | 'user' | 'marketing';
-  internal_type?: 'student' | 'teacher' | 'staff' | 'alumni' | 'none';
-  is_approved?: boolean;
+  role: 'admin' | 'marketing';
 }
 
 interface AuthContextType {
