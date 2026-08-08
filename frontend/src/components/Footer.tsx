@@ -139,7 +139,7 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="mt-12 pt-8 border-t border-white/20 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-sm opacity-70">
-            © {new Date().getFullYear()} By Hanna, Sutan, <a href="https://ghattanilhaq-source.github.io/Portfolio/" target="_blank" rel="noopener noreferrer" className="hover:underline">Ghattan</a> | Metland School. {t('footer.rights')}
+            © {new Date().getFullYear()} By 3SiteDev: <a href="https://hanna-maria.vercel.app" target="_blank" rel="noopener noreferrer" className="hover:underline">Hanna</a>, Sutan, <a href="https://ghattanilhaq-source.github.io/Portfolio/" target="_blank" rel="noopener noreferrer" className="hover:underline">Ghattan</a> | Metland School. {t('footer.rights')}
           </p>
           <div className="flex gap-6">
             <a href="#" className="text-sm opacity-70 hover:opacity-100 transition-opacity">
