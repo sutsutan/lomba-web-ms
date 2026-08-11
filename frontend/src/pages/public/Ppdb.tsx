@@ -1,9 +1,9 @@
-import react, { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
+import React, { useEffect, useRef, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import MainLayout from '@/layouts/MainLayout';
 import ScrollReveal from '@/components/ScrollReveal';
 import HeroCarousel from '@/components/HeroCarousel';
-import { ArrowRight, ExternalLink } from 'lucide-react';
+import { ArrowRight, ExternalLink, FileText } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import logoMetland from '@/assets/metland.png';
 import studentEnrollment from '@/assets/pepleg.webp';
@@ -13,44 +13,65 @@ const Ppdb = () => {
   const { t, language } = useLanguage();
   const [heroSlides, setHeroSlides] = useState<any[]>([]);
 
-     useEffect(() => {
-        const fetchHero = async () => {
-            try {
-                const res = await api.get("/ppdb");
+  // --- Floating "jump to admission" button state ---
+  const ctaRef = useRef<HTMLDivElement | null>(null);
+  const [ctaInView, setCtaInView] = useState(false);
 
-                const data = Array.isArray(res.data)
-                    ? res.data
-                    : (res.data.data || []);
+  useEffect(() => {
+    const fetchHero = async () => {
+      try {
+        const res = await api.get('/ppdb');
 
-                const filtered = data.filter(
-                    (item: any) =>
-                        item.category === "ppdb" &&
-                        item.is_active
-                );
+        const data = Array.isArray(res.data)
+          ? res.data
+          : (res.data.data || []);
 
-                setHeroSlides(
-                    filtered.map((item: any) => ({
-                        image_url: item.image_url,
-                        title: language === "id" ? item.title_id : item.title_en,
-                        subtitle:
-                            language === "id"
-                                ? item.subtitle_id
-                                : item.subtitle_en,
-                    }))
-                );
-            } catch (err) {
-                console.error("Gagal load hero:", err);
-            }
-        };
+        const filtered = data.filter(
+          (item: any) =>
+            item.category === 'ppdb' &&
+            item.is_active
+        );
 
-        fetchHero();
-    }, [language]);
+        setHeroSlides(
+          filtered.map((item: any) => ({
+            image_url: item.image_url,
+            title: language === 'id' ? item.title_id : item.title_en,
+            subtitle:
+              language === 'id'
+                ? item.subtitle_id
+                : item.subtitle_en,
+          }))
+        );
+      } catch (err) {
+        console.error('Gagal load hero:', err);
+      }
+    };
 
+    fetchHero();
+  }, [language]);
+
+  // Sembunyikan tombol floating kalau section CTA sudah terlihat di layar
+  // (tombol tetap langsung muncul sejak halaman dibuka, tidak menunggu scroll)
+  useEffect(() => {
+    const node = ctaRef.current;
+    if (!node) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setCtaInView(entry.isIntersecting),
+      { threshold: 0.2 }
+    );
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
+
+  const scrollToAdmission = () => {
+    ctaRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
 
   return (
     <MainLayout>
-      <HeroCarousel 
-            category="ppdb" 
+      <HeroCarousel
+            category="ppdb"
             lang={language}
             height="h-[60vh]"
             />
@@ -73,18 +94,19 @@ const Ppdb = () => {
               <div className="bg-[#E8F0F2] rounded-3xl p-6 sm:p-8 md:p-10 lg:p-12 shadow-lg relative overflow-hidden">
                 {/* Decorative circle */}
                 <div className="absolute -bottom-16 -left-16 w-48 h-48 bg-[#9DB8BF] rounded-full opacity-60" />
-                
+
                 <div className="relative z-10 space-y-4 md:space-y-6">
                   <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-[#12606A] leading-snug">
                     {t('ppdb.journey.open_title')}<br />
                     <span className="text-[#12606A]">{t('ppdb.journey.open_subtitle')}</span>
                   </h3>
-                  
+
                   <p className="text-[#12606A]/80 font-medium leading-relaxed text-sm sm:text-base">
                     {t('ppdb.journey.desc')}
                   </p>
-                  
-                  <button 
+
+                  <button
+                    onClick={scrollToAdmission}
                     className="px-8 py-3 rounded-full bg-[#9DB8BF] text-[#12606A] font-bold text-sm hover:bg-[#8AA8AF] transition-all active:scale-95 shadow-md flex items-center gap-2 group"
                   >
                     {t('ppdb.journey.learn_more')}
@@ -119,30 +141,30 @@ const Ppdb = () => {
           {/* Steps */}
           <div className="space-y-0">
             {[
-              { 
-                step: 1, 
-                title: t('ppdb.step1.title'), 
+              {
+                step: 1,
+                title: t('ppdb.step1.title'),
                 subtitle: t('ppdb.step1.subtitle'),
                 desc: t('ppdb.step1.desc'),
                 date: t('ppdb.step1.date')
               },
-              { 
-                step: 2, 
-                title: t('ppdb.step2.title'), 
+              {
+                step: 2,
+                title: t('ppdb.step2.title'),
                 subtitle: t('ppdb.step2.subtitle'),
                 desc: t('ppdb.step2.desc'),
                 date: t('ppdb.step2.date')
               },
-              { 
-                step: 3, 
-                title: t('ppdb.step3.title'), 
+              {
+                step: 3,
+                title: t('ppdb.step3.title'),
                 subtitle: t('ppdb.step3.subtitle'),
                 desc: t('ppdb.step3.desc'),
                 date: t('ppdb.step3.date')
               },
-              { 
-                step: 4, 
-                title: t('ppdb.step4.title'), 
+              {
+                step: 4,
+                title: t('ppdb.step4.title'),
                 subtitle: t('ppdb.step4.subtitle'),
                 desc: t('ppdb.step4.desc'),
                 date: t('ppdb.step4.date')
@@ -153,9 +175,9 @@ const Ppdb = () => {
                   {/* Top Separator with Logo */}
                   <div className="flex items-center justify-center gap-4 py-6">
                     <div className="flex-1 h-[1px] bg-[#12606A]/30" />
-                    <img 
-                      src={logoMetland} 
-                      alt="Metland Logo" 
+                    <img
+                      src={logoMetland}
+                      alt="Metland Logo"
                       className="w-8 h-8 object-contain"
                     />
                     <div className="flex-1 h-[1px] bg-[#12606A]/30" />
@@ -189,9 +211,9 @@ const Ppdb = () => {
                   {index === arr.length - 1 && (
                     <div className="flex items-center justify-center gap-4 py-6">
                       <div className="flex-1 h-[1px] bg-[#12606A]/30" />
-                      <img 
-                        src={logoMetland} 
-                        alt="Metland Logo" 
+                      <img
+                        src={logoMetland}
+                        alt="Metland Logo"
                         className="w-8 h-8 object-contain"
                       />
                       <div className="flex-1 h-[1px] bg-[#12606A]/30" />
@@ -205,7 +227,11 @@ const Ppdb = () => {
       </section>
 
       {/* Call to Action - External Registration Link */}
-      <section className="py-16 md:py-24 bg-[#F8FAFB] relative overflow-hidden">
+      <section
+        id="admission-cta"
+        ref={ctaRef}
+        className="scroll-mt-24 py-16 md:py-24 bg-[#F8FAFB] relative overflow-hidden"
+      >
         {/* Background Decorations */}
         <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
           <div className="absolute -top-24 -right-24 w-96 h-96 bg-[#12606A]/5 rounded-full blur-3xl" />
@@ -218,12 +244,12 @@ const Ppdb = () => {
               <div className="inline-block px-4 py-1.5 rounded-full bg-teal-50 text-teal-700 text-xs font-bold uppercase tracking-widest mb-4">
                 {t('ppdb.cta.badge')}
               </div>
-              
+
               <h2 className="text-3xl md:text-5xl lg:text-5xl font-black text-[#12606A] leading-[1.1] tracking-tight">
                 {t('ppdb.cta.title')} <br />
                 <span className="text-teal-600">{t('ppdb.cta.title_highlight')}</span>
               </h2>
-              
+
               <p className="text-[#12606A]/70 text-lg md:text-xl font-medium max-w-2xl mx-auto leading-relaxed">
                 {t('ppdb.cta.desc')}
               </p>
@@ -239,16 +265,16 @@ const Ppdb = () => {
                 >
                   {/* Sliding highlight effect */}
                   <div className="absolute inset-0 bg-gradient-to-r from-teal-400/20 to-emerald-400/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 ease-in-out" />
-                  
+
                   <span className="relative z-10 flex items-center gap-3">
                     {t('ppdb.cta.btn')}
                     <ExternalLink className="w-6 h-6 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
                   </span>
-                  
+
                   {/* Hover circle animation */}
                   <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-white/10 rounded-full scale-0 group-hover:scale-100 transition-transform duration-700 ease-out" />
                 </motion.a>
-                
+
                 <p className="mt-8 text-sm text-slate-400 font-medium flex items-center justify-center gap-2">
                   <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
                   {t('ppdb.cta.status')}
@@ -259,6 +285,31 @@ const Ppdb = () => {
         </div>
       </section>
 
+      {/* Floating Action Button — jump to admission / registration section */}
+      <AnimatePresence>
+        {!ctaInView && (
+          <motion.button
+            key="fab-admission"
+            type="button"
+            onClick={scrollToAdmission}
+            aria-label={t('ppdb.cta.btn')}
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0, opacity: 0 }}
+            whileHover={{ scale: 1.08 }}
+            whileTap={{ scale: 0.9 }}
+            transition={{ type: 'spring', stiffness: 260, damping: 20 }}
+            className="fixed bottom-6 right-6 sm:bottom-10 sm:right-10 z-[9999] flex items-center justify-center w-16 h-16 rounded-full shadow-2xl text-white bg-[#12606A] hover:bg-[#0d4a52] transition-colors overflow-hidden"
+          >
+            <FileText size={26} />
+            <motion.span
+              animate={{ scale: [1, 1.5], opacity: [0.5, 0] }}
+              transition={{ repeat: Infinity, duration: 1.5 }}
+              className="absolute inset-0 rounded-full bg-white/30"
+            />
+          </motion.button>
+        )}
+      </AnimatePresence>
 
     </MainLayout>
   );
