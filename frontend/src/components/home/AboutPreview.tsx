@@ -29,7 +29,6 @@ const AboutPreview = () => {
               <h2 className="text-primary section-title text-3xl md:text-4xl">
                 {about?.know_us_title || t('about.preview.title')}
               </h2>
-              {/* Ringkasan singkat dari backend, fallback ke translasi statis */}
               <p className="text-muted-foreground leading-relaxed mt-8 text-justify indent-8">
                 {about?.know_us_summary || t('about.preview.desc1')}
               </p>

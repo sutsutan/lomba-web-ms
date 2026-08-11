@@ -1,4 +1,3 @@
-// src/pages/admin/AdminAboutPage.tsx
 import React, { useEffect, useState } from 'react';
 import { Plus, Trash2, Save } from 'lucide-react';
 import PageHeader from '@/components/admin/PageHeader';
@@ -65,7 +64,7 @@ export default function AdminAboutPage() {
 
   useEffect(() => { loadAll(); }, []);
 
-  // ---------- Get to Know Us ----------
+// get to know us
   const savePage = async () => {
     setSavingPage(true);
     try {
@@ -80,7 +79,7 @@ export default function AdminAboutPage() {
     }
   };
 
-  // ---------- Values ----------
+// values
   const openAddValue = () => {
     setEditingValue(null);
     setValueForm({ image: '', title: '', description: '' });
@@ -112,7 +111,7 @@ export default function AdminAboutPage() {
     }
   };
 
-  // ---------- Timeline ----------
+// Timeline
   const openAddTimeline = () => {
     setEditingTimeline(null);
     setTimelineForm({ year: '', heads: [''], beginning: '', growing: '', image: '' });
@@ -153,7 +152,7 @@ export default function AdminAboutPage() {
     <div className="p-6 space-y-8">
       <PageHeader title="Halaman About" subtitle="Kelola konten halaman Tentang Kami (About)" />
 
-      {/* ============ SECTION 1: GET TO KNOW US ============ */}
+{/* section 1 get to know us */}
       <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 space-y-4">
         <h3 className="font-bold text-gray-800 text-lg">Get to Know Us</h3>
 
@@ -200,7 +199,7 @@ export default function AdminAboutPage() {
         </button>
       </div>
 
-      {/* ============ SECTION 2: VALUES ============ */}
+{/* section 2 values */}
       <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 space-y-4">
         <div className="flex items-center justify-between">
           <h3 className="font-bold text-gray-800 text-lg">Values Section</h3>
@@ -233,7 +232,7 @@ export default function AdminAboutPage() {
         </div>
       </div>
 
-      {/* ============ SECTION 3: OUR JOURNEY (TIMELINE) ============ */}
+      {/* section 3 our journey (timeline) */}
       <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 space-y-4">
         <div className="flex items-center justify-between">
           <h3 className="font-bold text-gray-800 text-lg">Our Journey (Timeline)</h3>

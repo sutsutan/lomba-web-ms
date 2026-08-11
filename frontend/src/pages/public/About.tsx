@@ -338,9 +338,6 @@ const About = () => {
                       key={news.id}
                       className="grid md:grid-cols-2 gap-6 md:gap-8 items-start"
                     >
-                      {/* Gambar: pada mobile SELALU tampil duluan (order-1),
-                          hanya di desktop yang bisa pindah ke kanan (md:order-2)
-                          untuk item selang-seling — sama seperti versi lama. */}
                       <div
                         className={`w-full h-[280px] md:h-[350px] rounded-2xl overflow-hidden shadow-lg ${
                           imageFirst ? '' : 'order-1 md:order-2'
