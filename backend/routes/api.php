@@ -6,7 +6,7 @@ use App\Http\Controllers\Api\{
     PartnershipController, TestimonyController, FacilityController, ActivityGalleryController,
     StudentWorkController, TeacherController, ExtracurricularController, OrganizationController,
     NewsController, NewsCategoryController, ExploreGalleryController, AlumniController, UploadController, UserController,
-    ppdb_submissionsController,
+    ppdb_submissionsController, AboutPageController, AboutValueController, AboutTimelineController
 };
 
 // --- Auth Routes ---
@@ -35,6 +35,10 @@ Route::get('/explore-galleries', [ExploreGalleryController::class, 'index']);
 Route::get('/alumni', [AlumniController::class, 'index']);
 Route::get('/alumni/years', [AlumniController::class, 'years']);
 Route::get('/heroes', [HeroBackgroundController::class, 'index']);
+Route::get('/about-page', [AboutPageController::class, 'show']);
+Route::get('/about-values', [AboutValueController::class, 'index']);
+Route::get('/about-timelines', [AboutTimelineController::class, 'index']);
+
 
 // Form PPDB/Contact — publik, tanpa perlu login (diisi orang tua murid)
 Route::post('/ppdb-submissions', [ppdb_submissionsController::class, 'store']);
@@ -66,6 +70,9 @@ Route::middleware(['auth:sanctum', 'admin'])->prefix('admin')->group(function ()
 Route::middleware(['auth:sanctum', 'role:admin,marketing'])->prefix('admin')->group(function () {
     Route::get('/stats', [AuthController::class, 'adminStats']);
     Route::post('/upload', [UploadController::class, 'upload']);
+    Route::put('/about-page', [AboutPageController::class, 'update']);
+    Route::apiResource('about-values', AboutValueController::class)->except(['show']);
+    Route::apiResource('about-timelines', AboutTimelineController::class)->except(['show']);
 
     Route::apiResources([
         'majors'           => MajorController::class,

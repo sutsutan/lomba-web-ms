@@ -60,6 +60,7 @@ import AdminAlumniPage from './pages/admin/AdminAlumniPage';
 import AdminManageUserPage from './pages/admin/AdminManageUser';
 import AdminAchievementPage from './pages/admin/AdminAchievementPage';
 import AdminPpdbInboxPage from './pages/admin/AdminPpdbInboxPage';
+import AdminAboutPage from './pages/admin/AdminAboutPage';
 
 // Components
 import PpdbPopup from "./components/home/ppdbpopup";
@@ -110,6 +111,7 @@ const App = () => (
                   <Route index element={<AdminDashboard />} />
                   <Route path="majors" element={<AdminMajorsPage />} />
                   <Route path="hero" element={<AdminHeroPage />} />
+                  <Route path="about" element={<AdminAboutPage />} />
                   <Route path="achievements" element={<AdminAchievementPage />} />
                   <Route path="partnerships" element={<AdminPartnershipsPage />} />
                   <Route path="testimonies" element={<AdminTestimoniesPage />} />
