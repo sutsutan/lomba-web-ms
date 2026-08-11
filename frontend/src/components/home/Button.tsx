@@ -1,13 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Pause, Play, MessageCircle, FileText, Plus } from 'lucide-react';
-import marsMetland from '@/assets/mars-metland.mp3';
+import bgmMetland from '@/assets/sekolah-cinta-asa.wav';
 
 const ButtonCorner: React.FC = () => {
   const [isUserEnabled, setIsUserEnabled] = useState<boolean>(true);
-
   const [isInterrupted, setIsInterrupted] = useState<boolean>(false);
-
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
@@ -29,13 +27,41 @@ const ButtonCorner: React.FC = () => {
 
     if (isUserEnabled && !isInterrupted) {
       audio.play().catch(() => {
-        console.log("Autoplay dicegah browser");
-        setIsUserEnabled(false);
+        console.log("Autoplay dicegah browser, menunggu interaksi user...");
       });
     } else {
       audio.pause();
     }
   }, [isUserEnabled, isInterrupted]);
+
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    const tryPlay = () => {
+      if (isUserEnabled && !isInterrupted) {
+        audio.play().catch(() => {});
+      }
+    };
+
+    // Coba langsung saat mount
+    tryPlay();
+
+    const events: (keyof WindowEventMap)[] = ['click', 'touchstart', 'keydown', 'scroll'];
+
+    const handleFirstInteraction = () => {
+      tryPlay();
+      events.forEach((ev) => window.removeEventListener(ev, handleFirstInteraction));
+    };
+
+    events.forEach((ev) =>
+      window.addEventListener(ev, handleFirstInteraction, { once: true })
+    );
+
+    return () => {
+      events.forEach((ev) => window.removeEventListener(ev, handleFirstInteraction));
+    };
+  }, []);
 
   const toggleMusic = () => {
     setIsUserEnabled(!isUserEnabled);
@@ -55,7 +81,7 @@ const ButtonCorner: React.FC = () => {
 
   return (
     <div className="fixed bottom-6 right-6 sm:bottom-10 sm:right-10 z-[9999] flex items-center justify-center">
-      <audio id='mars-metland-audio' ref={audioRef} src={marsMetland} loop />
+      <audio id='bgm-metland-audio' ref={audioRef} src={bgmMetland} loop />
 
       <AnimatePresence>
         {isOpen && menuItems.map((item, index) => {
@@ -97,7 +123,6 @@ const ButtonCorner: React.FC = () => {
           <Plus size={30} />
         </motion.div>
 
-        {/* Wave effect hanya muncul jika user mengaktifkan musik DAN tidak sedang diinterupsi */}
         {isUserEnabled && !isInterrupted && (
           <motion.span
             animate={{ scale: [1, 1.5], opacity: [0.5, 0] }}
@@ -110,4 +135,4 @@ const ButtonCorner: React.FC = () => {
   );
 };
 
-export default ButtonCorner; 
+export default ButtonCorner;
