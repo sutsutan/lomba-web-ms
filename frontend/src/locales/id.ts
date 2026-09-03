@@ -987,4 +987,11 @@ export default {
   'tefa.program.accounting.3.title': 'Lab Akuntansi Digital',
   'tefa.program.accounting.3.desc': 'Berlatih dengan perangkat lunak standar industri seperti MYOB, Accurate, dan fungsi lanjutan Excel.',
 
+  // TeFa Gallery & Highlights
+  'tefa.gallery.facility_title': 'Galeri Fasilitas Teaching Factory',
+  'tefa.gallery.hint': 'Klik kartu untuk beralih tampilan',
+  'tefa.gallery.active_badge': 'Fasilitas Aktif',
+  'tefa.highlights.item1': 'Pembelajaran Berbasis Produksi',
+  'tefa.highlights.item2': 'Standar Industri Nyata',
+  'tefa.highlights.item3': 'Bimbingan Mentor Berpengalaman',
 };

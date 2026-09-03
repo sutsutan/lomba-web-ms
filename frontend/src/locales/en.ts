@@ -976,6 +976,13 @@ export default {
   'tefa.program.accounting.3.title': 'Digital Accounting Lab',
   'tefa.program.accounting.3.desc': 'Practicing with industry-standard software like MYOB, Accurate, and Excel advanced functions.',
 
+  // TeFa Gallery & Highlights
+  'tefa.gallery.facility_title': 'Teaching Factory Facility Showcase',
+  'tefa.gallery.hint': 'Click card to switch view',
+  'tefa.gallery.active_badge': 'Active Facility',
+  'tefa.highlights.item1': 'Production-Based Learning',
+  'tefa.highlights.item2': 'Industry-Grade Standards',
+  'tefa.highlights.item3': 'Expert Mentor Guidance',
 };
 
 

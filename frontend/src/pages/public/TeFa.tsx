@@ -10,7 +10,18 @@ import programHospitality from '@/assets/aph.webp';
 import programCulinary from '@/assets/program-culinary.webp';
 import programDkv from '@/assets/program-dkv.jpg';
 import programIt from '@/assets/program-it.webp';
-import { Calculator, Code, Hotel, Palette, Utensils } from 'lucide-react';
+import pepleg from '@/assets/pepleg.webp';
+import pameran from '@/assets/pameran.jpg';
+import culinaryScene from '@/assets/culinary-scene.jpg';
+import galaDinner from '@/assets/gala-dinner.jpg';
+import tefaItSoftware from '@/assets/tefa/tefa-it-software.jpg';
+import tefaDkvStudio from '@/assets/tefa/tefa-dkv-studio.jpg';
+import tefaHospitalityRoom from '@/assets/tefa/tefa-hospitality-room.jpg';
+import tefaAccountingBank from '@/assets/tefa/tefa-accounting-bank.jpg';
+import tefaAccountingTax from '@/assets/tefa/tefa-accounting-tax.jpg';
+import tefaCulinaryPastry from '@/assets/tefa/tefa-culinary-pastry.jpg';
+
+import { Calculator, Code, Hotel, Palette, Utensils, CheckCircle2, Sparkles } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 // ─── Category Data ───────────────────────────────────────────────────
@@ -95,16 +106,168 @@ const tefaProjects = [
     { id: 15, categoryKey: 'accounting', student: 'Roberto Carlos', class: 'XI AK 1', title: 'Budget Planning System', titleId: 'Sistem Perencanaan Anggaran', description: 'Developed a comprehensive budget plan for the next fiscal year.', descriptionId: 'Mengembangkan rencana anggaran komprehensif untuk tahun fiskal berikutnya.', image: programAccounting },
 ];
 
+// ─── TeFa Program Facilities & Activities Mini Gallery ──────────────
+const categoryGalleries: Record<string, Array<{
+    id: number;
+    title: string;
+    titleId: string;
+    subtitle: string;
+    subtitleId: string;
+    image: string;
+}>> = {
+    it: [
+        {
+            id: 1,
+            title: 'IoT & Robotics Lab',
+            titleId: 'Lab IoT & Robotika',
+            subtitle: 'Applied Embedded Systems',
+            subtitleId: 'Sistem Tertanam Terapan',
+            image: programIt,
+        },
+        {
+            id: 2,
+            title: 'Software Dev Studio',
+            titleId: 'Studio Software Dev',
+            subtitle: 'Web & Mobile Production',
+            subtitleId: 'Produksi Web & Mobile',
+            image: tefaItSoftware,
+        },
+        {
+            id: 3,
+            title: 'IT Systems & Cloud',
+            titleId: 'Sistem & Cloud IT',
+            subtitle: 'Infrastructure & Networks',
+            subtitleId: 'Infrastruktur & Jaringan',
+            image: pepleg,
+        },
+    ],
+    dkv: [
+        {
+            id: 1,
+            title: 'Creative Agency',
+            titleId: 'Agensi Desain Kreatif',
+            subtitle: 'Brand Identity & Visuals',
+            subtitleId: 'Identitas Visual & Branding',
+            image: programDkv,
+        },
+        {
+            id: 2,
+            title: 'Photography Studio',
+            titleId: 'Studio Fotografi',
+            subtitle: 'Professional Media Lighting',
+            subtitleId: 'Tata Cahaya & Media Profesional',
+            image: tefaDkvStudio,
+        },
+        {
+            id: 3,
+            title: 'Creative Showcase',
+            titleId: 'Pameran Karya Kreatif',
+            subtitle: 'Exhibition & Portfolio',
+            subtitleId: 'Portofolio & Eksibisi',
+            image: pameran,
+        },
+    ],
+    culinary: [
+        {
+            id: 1,
+            title: 'Commercial Kitchen',
+            titleId: 'Dapur Komersial',
+            subtitle: 'Professional Line Cookery',
+            subtitleId: 'Manajemen Dapur Profesional',
+            image: programCulinary,
+        },
+        {
+            id: 2,
+            title: 'Pastry & Bakery',
+            titleId: 'Workshop Pastry & Roti',
+            subtitle: 'Artisan Baking Production',
+            subtitleId: 'Produksi Roti & Kue Artisan',
+            image: tefaCulinaryPastry,
+        },
+        {
+            id: 3,
+            title: 'Culinary Plating',
+            titleId: 'Penyajian & Plating',
+            subtitle: 'Fine Dining Service',
+            subtitleId: 'Layanan Restoran & Tata Meja',
+            image: culinaryScene,
+        },
+    ],
+    hospitality: [
+        {
+            id: 1,
+            title: 'Front Office Desk',
+            titleId: 'Resepsionis Front Office',
+            subtitle: 'Guest Services & Concierge',
+            subtitleId: 'Layanan Tamu & Reservasi',
+            image: programHospitality,
+        },
+        {
+            id: 2,
+            title: 'Suite Housekeeping',
+            titleId: 'Housekeeping Suite',
+            subtitle: 'Hotel Room Standards',
+            subtitleId: 'Standar Kamar Hotel Bintang 5',
+            image: tefaHospitalityRoom,
+        },
+        {
+            id: 3,
+            title: 'Banquet & Events',
+            titleId: 'Layanan Jamuan Acara',
+            subtitle: 'Formal Dinner Service',
+            subtitleId: 'Operasional Event & Banquet',
+            image: galaDinner,
+        },
+    ],
+    accounting: [
+        {
+            id: 1,
+            title: 'Financial Accounting',
+            titleId: 'Pusat Akuntansi Keuangan',
+            subtitle: 'Bookkeeping & Ledgers',
+            subtitleId: 'Pembukuan & Laporan Finansial',
+            image: programAccounting,
+        },
+        {
+            id: 2,
+            title: 'Mini Bank Simulation',
+            titleId: 'Simulasi Mini Bank',
+            subtitle: 'Live Teller & Customer Flow',
+            subtitleId: 'Layanan Teller & Nasabah',
+            image: tefaAccountingBank,
+        },
+        {
+            id: 3,
+            title: 'Tax & Digital Lab',
+            titleId: 'Lab Pajak & Digital',
+            subtitle: 'SPT Audit & Accounting Apps',
+            subtitleId: 'Audit Pajak & Aplikasi Komputer',
+            image: tefaAccountingTax,
+        },
+    ],
+};
+
 const TeFa = () => {
     const { t, language } = useLanguage();
     const [selectedCategory, setSelectedCategory] = useState(categories[0]);
     const [currentProjectIndex, setCurrentProjectIndex] = useState(0);
+    const [activeGalleryIndex, setActiveGalleryIndex] = useState(0);
 
     const filteredProjects = tefaProjects.filter(
         (p) => p.categoryKey === selectedCategory.key,
     );
 
     const currentProject = filteredProjects[currentProjectIndex];
+
+    const currentGalleryList = categoryGalleries[selectedCategory.key] || [];
+    const currentActivePhoto = currentGalleryList[activeGalleryIndex] || {
+        id: 0,
+        title: selectedCategory.name,
+        titleId: selectedCategory.nameId,
+        subtitle: selectedCategory.shortName,
+        subtitleId: selectedCategory.shortName,
+        image: selectedCategory.image,
+    };
 
     const handleNext = () => {
         if (filteredProjects.length > 1) {
@@ -124,10 +287,11 @@ const TeFa = () => {
         }
     };
 
-    // Reset project index on category change
+    // Reset project and gallery index on category change
     const handleCategoryChange = (cat: typeof categories[0]) => {
         setSelectedCategory(cat);
         setCurrentProjectIndex(0);
+        setActiveGalleryIndex(0);
     };
 
     const getCategoryName = (cat: typeof categories[0]) =>
@@ -317,25 +481,151 @@ const TeFa = () => {
                                     </h2>
                                 </div>
 
-                                <div className="flex flex-col lg:flex-row lg:items-center gap-8 lg:gap-12 mb-8">
-                                    {/* Category Description */}
-                                    <div className="flex-1 space-y-6 leading-[1.8] text-[#0F5F58]/80 text-justify">
-                                        <p className="text-sm md:text-base lg:text-lg">
-                                            {t(`tefa.cat.${selectedCategory.key}.intro`)}
-                                        </p>
-                                        <p className="text-sm md:text-base lg:text-lg">
-                                            {t(`tefa.cat.${selectedCategory.key}.detail`)}
-                                        </p>
-                                        <p className="text-sm md:text-base lg:text-lg">
-                                            {t(`tefa.cat.${selectedCategory.key}.closing`)}
-                                        </p>
+                                <div className="flex flex-col lg:flex-row items-start gap-8 lg:gap-12 mb-10">
+                                    {/* LEFT: TeFa Photo Showcase + Mini Gallery Cards */}
+                                    <div className="w-full lg:w-1/2 flex flex-col">
+                                        {/* Main Featured Photo */}
+                                        <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl shadow-xl border border-[#0F5F58]/15 bg-slate-900 group">
+                                            <AnimatePresence mode="wait">
+                                                <motion.div
+                                                    key={selectedCategory.key + '-' + activeGalleryIndex}
+                                                    initial={{ opacity: 0, scale: 0.97 }}
+                                                    animate={{ opacity: 1, scale: 1 }}
+                                                    exit={{ opacity: 0, scale: 1.03 }}
+                                                    transition={{ duration: 0.35, ease: 'easeOut' }}
+                                                    className="relative w-full h-64 sm:h-72 md:h-80 lg:h-[340px] xl:h-[380px]"
+                                                >
+                                                    <img
+                                                        src={currentActivePhoto.image}
+                                                        alt={language === 'id' ? currentActivePhoto.titleId : currentActivePhoto.title}
+                                                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                                    />
+                                                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/15 to-transparent pointer-events-none" />
+                                                </motion.div>
+                                            </AnimatePresence>
+
+                                            {/* Top Tag */}
+                                            <div className="absolute top-3 left-3 sm:top-4 sm:left-4 z-10 flex items-center gap-2">
+                                                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-white/95 text-[#0F5F58] backdrop-blur-md shadow-md border border-[#0F5F58]/10">
+                                                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                                                    {language === 'id' ? currentActivePhoto.titleId : currentActivePhoto.title}
+                                                </span>
+                                            </div>
+
+                                            {/* Bottom Caption Overlay */}
+                                            <div className="absolute bottom-3 left-3 right-3 sm:bottom-4 sm:left-4 sm:right-4 z-10 flex items-end justify-between gap-3">
+                                                <div>
+                                                    <p className="text-xs sm:text-sm font-bold text-white drop-shadow">
+                                                        {language === 'id' ? currentActivePhoto.titleId : currentActivePhoto.title}
+                                                    </p>
+                                                    <p className="text-[11px] sm:text-xs text-white/80 font-medium drop-shadow">
+                                                        {language === 'id' ? currentActivePhoto.subtitleId : currentActivePhoto.subtitle}
+                                                    </p>
+                                                </div>
+                                                <span className="px-2.5 py-1 rounded-lg text-[10px] sm:text-xs font-bold bg-black/60 backdrop-blur-md text-white/90 border border-white/20 flex-shrink-0">
+                                                    {activeGalleryIndex + 1} / {currentGalleryList.length}
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        {/* Mini Gallery Cards Underneath Photo */}
+                                        <div className="mt-3.5 sm:mt-4">
+                                            <div className="flex items-center justify-between mb-2 px-1">
+                                                <span className="text-xs font-bold text-[#0F5F58] flex items-center gap-1.5">
+                                                    <Sparkles className="w-3.5 h-3.5 text-[#0F5F58]" />
+                                                    {t('tefa.gallery.facility_title')}
+                                                </span>
+                                                <span className="text-[11px] text-[#0F5F58]/70 italic hidden sm:inline">
+                                                    {t('tefa.gallery.hint')}
+                                                </span>
+                                            </div>
+
+                                            {/* 3 Mini Cards */}
+                                            <div className="grid grid-cols-3 gap-2.5 sm:gap-3">
+                                                {currentGalleryList.map((item, idx) => {
+                                                    const isActive = activeGalleryIndex === idx;
+                                                    return (
+                                                        <motion.button
+                                                            key={item.id}
+                                                            type="button"
+                                                            onClick={() => setActiveGalleryIndex(idx)}
+                                                            whileHover={{ y: -3 }}
+                                                            whileTap={{ scale: 0.97 }}
+                                                            className={`group relative flex flex-col p-1.5 sm:p-2 rounded-xl sm:rounded-2xl transition-all duration-200 text-left border ${
+                                                                isActive
+                                                                    ? 'bg-[#0F5F58]/10 border-[#0F5F58] shadow-md ring-2 ring-[#0F5F58]/30'
+                                                                    : 'bg-white border-gray-200 hover:border-[#0F5F58]/40 hover:bg-slate-50'
+                                                            }`}
+                                                        >
+                                                            <div className="relative h-14 sm:h-18 md:h-20 w-full overflow-hidden rounded-lg sm:rounded-xl">
+                                                                <img
+                                                                    src={item.image}
+                                                                    alt={language === 'id' ? item.titleId : item.title}
+                                                                    className={`w-full h-full object-cover transition-transform duration-300 group-hover:scale-110 ${
+                                                                        isActive ? 'brightness-100' : 'brightness-90 group-hover:brightness-100'
+                                                                    }`}
+                                                                />
+                                                                {isActive && (
+                                                                    <div className="absolute inset-0 bg-[#0F5F58]/20 flex items-center justify-center">
+                                                                        <span className="w-2.5 h-2.5 rounded-full bg-white shadow-md ring-2 ring-[#0F5F58]" />
+                                                                    </div>
+                                                                )}
+                                                            </div>
+
+                                                            <div className="mt-1.5 w-full">
+                                                                <h4
+                                                                    className={`text-[10px] sm:text-xs font-bold leading-tight truncate ${
+                                                                        isActive ? 'text-[#0F5F58]' : 'text-gray-800 group-hover:text-[#0F5F58]'
+                                                                    }`}
+                                                                >
+                                                                    {language === 'id' ? item.titleId : item.title}
+                                                                </h4>
+                                                                <p className="text-[9px] text-gray-500 truncate hidden sm:block mt-0.5">
+                                                                    {language === 'id' ? item.subtitleId : item.subtitle}
+                                                                </p>
+                                                            </div>
+                                                        </motion.button>
+                                                    );
+                                                })}
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div className="flex-1 w-full lg:-translate-y-4 xl:-translate-y-6">
-                                        <img
-                                            src={selectedCategory.image}
-                                            alt={getCategoryName(selectedCategory)}
-                                            className="w-full h-64 lg:h-[320px] xl:h-[360px] object-cover rounded-2xl shadow-lg border border-[#0F5F58]/10"
-                                        />
+
+                                    {/* RIGHT: Category Description & Key Highlights */}
+                                    <div className="w-full lg:w-1/2 flex flex-col justify-between space-y-6 leading-[1.8] text-[#0F5F58]/80 text-justify">
+                                        <div className="space-y-4 md:space-y-5">
+                                            <p className="text-sm md:text-base lg:text-lg">
+                                                {t(`tefa.cat.${selectedCategory.key}.intro`)}
+                                            </p>
+                                            <p className="text-sm md:text-base lg:text-lg">
+                                                {t(`tefa.cat.${selectedCategory.key}.detail`)}
+                                            </p>
+                                            <p className="text-sm md:text-base lg:text-lg">
+                                                {t(`tefa.cat.${selectedCategory.key}.closing`)}
+                                            </p>
+                                        </div>
+
+                                        {/* Key Highlights Pill Badges */}
+                                        <div className="pt-4 border-t border-[#0F5F58]/10 grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                                            <div className="flex items-center gap-2 p-2.5 rounded-xl bg-[#0F5F58]/5 border border-[#0F5F58]/10">
+                                                <CheckCircle2 className="w-4 h-4 text-[#0F5F58] flex-shrink-0" />
+                                                <span className="text-xs font-semibold text-[#0F5F58]">
+                                                    {t('tefa.highlights.item1')}
+                                                </span>
+                                            </div>
+                                            <div className="flex items-center gap-2 p-2.5 rounded-xl bg-[#0F5F58]/5 border border-[#0F5F58]/10">
+                                                <CheckCircle2 className="w-4 h-4 text-[#0F5F58] flex-shrink-0" />
+                                                <span className="text-xs font-semibold text-[#0F5F58]">
+                                                    {t('tefa.highlights.item2')}
+                                                </span>
+                                            </div>
+                                            <div className="flex items-center gap-2 p-2.5 rounded-xl bg-[#0F5F58]/5 border border-[#0F5F58]/10">
+                                                <CheckCircle2 className="w-4 h-4 text-[#0F5F58] flex-shrink-0" />
+                                                <span className="text-xs font-semibold text-[#0F5F58]">
+                                                    {t('tefa.highlights.item3')}
+                                                </span>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
