@@ -19,8 +19,8 @@ interface HeroBg {
   title_en: string | null; 
   subtitle_id: string | null; 
   subtitle_en: string | null; 
-  description_id: string | null; // Added
-  description_en: string | null; // Added
+  description_id: string | null;
+  description_en: string | null;
   category: string | null; 
   order: number; 
   is_active: boolean; 
@@ -188,6 +188,7 @@ export default function AdminHeroPage() {
               <option value="eskul">MoreEskul</option>
               <option value="moreorg">MoreOrg</option>
               <option value="ppdb">Ppdb</option>
+              <option value="achievement">Achievement</option>
             </select>
           </FormField>
 

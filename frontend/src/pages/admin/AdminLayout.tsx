@@ -22,6 +22,7 @@ export default function AdminLayout() {
   const navItems: NavItem[] = [
     { path: '/dashboard', label: 'Dashboard', icon: 'LayoutDashboard', roles: ['admin', 'marketing'] },
     { path: '/dashboard/hero', label: 'Hero Background', icon: 'Image', roles: ['admin', 'marketing'] },
+    { path: '/dashboard/about', label: 'Halaman About', icon: 'Info', roles: ['admin', 'marketing'] },
     { path: '/dashboard/achievements', label: 'Prestasi', icon: 'Trophy', roles: ['admin', 'marketing'] },
     { path: '/dashboard/partnerships', label: 'Kemitraan', icon: 'Handshake', roles: ['admin', 'marketing'] },
     { path: '/dashboard/testimonies', label: 'Testimoni', icon: 'Star', roles: ['admin', 'marketing']},

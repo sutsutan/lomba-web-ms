@@ -1,8 +1,5 @@
-// Testimony.tsx
-'use client';
-
 import { AnimatePresence, motion } from 'framer-motion';
-import { ChevronLeft, ChevronRight, Play, Quote } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Play, Quote, X, Maximize2 } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { fetchPublicTestimonies, TestimonialItem } from '@/services/Testimony';
@@ -28,6 +25,7 @@ const TestimonialVideo = () => {
   const { t } = useLanguage();
   const [activeTab, setActiveTab] = useState<string>('student');
   const [activeIndex, setActiveIndex] = useState(0);
+  const [activeModalVideo, setActiveModalVideo] = useState<TestimonialItem | null>(null);
   const [testimonialData, setTestimonialData] = useState<Record<string, TestimonialItem[]>>({
     student: [], parents: [], teacher: [], alumni: [], industry: []
   });
@@ -109,7 +107,7 @@ const TestimonialVideo = () => {
     };
   };
 
-  const getYoutubeEmbedUrl = (url: string) => {
+  const getYoutubeEmbedUrl = (url: string, autoplay = false) => {
     let videoId = '';
 
     if (url.includes('youtu.be/')) {
@@ -121,6 +119,10 @@ const TestimonialVideo = () => {
     }
 
     if (!videoId) return url;
+
+    if (autoplay) {
+      return `https://www.youtube.com/embed/${videoId}?autoplay=1&controls=1&rel=0&modestbranding=1`;
+    }
 
     return `https://www.youtube.com/embed/${videoId}?enablejsapi=1&autoplay=0&controls=0&loop=1&playlist=${videoId}&playsinline=1&rel=0&modestbranding=1`;
   };
@@ -197,7 +199,7 @@ const TestimonialVideo = () => {
                     <h4 className="text-2xl font-black text-[#0F5F58]">
                       {testimonialData[activeTab][activeIndex]?.name}
                     </h4>
-                    <p className="text-sm font-bold uppercase tracking-widest text-teal-600">
+                    <p className="text-sm font-bold uppercase tracking-widest text-teal-600 mb-3">
                       {testimonialData[activeTab][activeIndex]?.role}
                     </p>
                   </div>
@@ -218,7 +220,7 @@ const TestimonialVideo = () => {
                   return (
                     <motion.div
                       key={item.id}
-                      className="group absolute top-0 h-full w-[180px] cursor-pointer overflow-hidden border-4 border-white bg-black shadow-2xl sm:w-[280px] md:w-[320px]"
+                      className="group absolute top-0 h-full w-[180px] cursor-pointer overflow-hidden border-4 border-white bg-black shadow-2xl sm:w-[280px] md:w-[320px] rounded-2xl"
                       animate={positionStyle}
                       transition={{ type: 'spring', stiffness: 100, damping: 20 }}
                       onMouseEnter={() => {
@@ -239,7 +241,11 @@ const TestimonialVideo = () => {
                           }
                         }
                       }}
-                      onClick={() => setActiveIndex(index)}
+                      onClick={() => {
+                        if (!isFront) {
+                          setActiveIndex(index);
+                        }
+                      }}
                     >
                       <div className="absolute top-1/2 left-1/2 w-[1600px] h-[900px] max-w-none -translate-x-1/2 -translate-y-1/2 pointer-events-none">
                         <iframe
@@ -254,12 +260,24 @@ const TestimonialVideo = () => {
                         />
                       </div>
 
+                      {/* Subtle bottom gradient so the corner button stays legible, without covering the video's own play icon */}
                       {isFront && (
-                        <div className="pointer-events-none absolute inset-0 flex items-center justify-center transition-opacity group-hover:opacity-0">
-                          <div className="flex h-14 w-14 items-center justify-center rounded-full border border-white/30 bg-white/20 backdrop-blur-md">
-                            <Play size={24} className="ml-1 fill-white text-white" />
-                          </div>
-                        </div>
+                        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-slate-950/50 to-transparent" />
+                      )}
+
+                      {/* Simple expand button, like YouTube's fullscreen icon, tucked in a corner instead of sitting over the video */}
+                      {isFront && (
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            controlMarsAudio(true);
+                            setActiveModalVideo(item);
+                          }}
+                          aria-label="Perbesar video"
+                          className="absolute bottom-3 right-3 z-10 flex h-9 w-9 items-center justify-center rounded-lg bg-black/60 text-white backdrop-blur-sm transition-all hover:bg-black/80 hover:scale-110 active:scale-95"
+                        >
+                          <Maximize2 size={16} />
+                        </button>
                       )}
                     </motion.div>
                   );
@@ -293,6 +311,65 @@ const TestimonialVideo = () => {
           <div className="text-center py-12 text-slate-400">Belum ada data testimoni pada kategori ini.</div>
         )}
       </div>
+
+      {/* Full Video Modal - now with a white card */}
+      <AnimatePresence>
+        {activeModalVideo && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/85 p-4 backdrop-blur-md"
+            onClick={() => {
+              setActiveModalVideo(null);
+              controlMarsAudio(false);
+            }}
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.9, opacity: 0, y: 20 }}
+              transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+              className="relative w-full max-w-4xl overflow-hidden rounded-3xl bg-white border border-slate-200 shadow-2xl"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Modal Header */}
+              <div className="flex items-center justify-between border-b border-slate-200 p-5 bg-white text-slate-900">
+                <div>
+                  <h3 className="text-xl font-bold text-slate-900 flex items-center gap-2">
+                    <span>{activeModalVideo.name}</span>
+                    <span className="text-xs font-semibold text-teal-700 bg-teal-50 px-2.5 py-0.5 rounded-full border border-teal-200">
+                      {activeModalVideo.role}
+                    </span>
+                  </h3>
+                  <p className="text-xs text-slate-500 mt-1 line-clamp-1 italic">
+                    "{activeModalVideo.description}"
+                  </p>
+                </div>
+                <button
+                  onClick={() => {
+                    setActiveModalVideo(null);
+                    controlMarsAudio(false);
+                  }}
+                  className="rounded-full bg-slate-100 p-2 text-slate-500 hover:bg-slate-200 hover:text-slate-900 transition-colors"
+                >
+                  <X className="h-6 w-6" />
+                </button>
+              </div>
+
+              {/* Video Player */}
+              <div className="relative aspect-video w-full bg-black">
+                <iframe
+                  src={getYoutubeEmbedUrl(activeModalVideo.videoUrl, true)}
+                  className="h-full w-full border-0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 };

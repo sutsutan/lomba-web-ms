@@ -73,9 +73,7 @@ export const newsService = {
     return extractData<NewsData>(response);
   },
 
-  // =========================
   // ADMIN
-  // =========================
 
   create: async (data: NewsData): Promise<NewsData> => {
     const response = await api.post(`${ADMIN_PATH}/news`, data);

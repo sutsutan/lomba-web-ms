@@ -15,6 +15,7 @@ const News = () => {
 
   const [newsItems, setNewsItems] = useState<NewsData[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selectedCategory, setSelectedCategory] = useState<string>('all');
 
  useEffect(() => {
     const fetchPublicNews = async () => {
@@ -86,6 +87,20 @@ const latestNews = useMemo(() => {
   const allNews = useMemo(() => {
      return remainingNews;
 }, [remainingNews]);
+
+  // Daftar kategori yang benar-benar dipakai oleh berita yang tayang,
+  // supaya tombol filter tidak menampilkan kategori kosong.
+  const categories = useMemo(() => {
+    const unique = Array.from(
+      new Set(allNews.map((news) => news.category).filter(Boolean))
+    );
+    return unique;
+  }, [allNews]);
+
+  const filteredAllNews = useMemo(() => {
+    if (selectedCategory === 'all') return allNews;
+    return allNews.filter((news) => news.category === selectedCategory);
+  }, [allNews, selectedCategory]);
 
   if (loading) {
     return (
@@ -211,7 +226,7 @@ const latestNews = useMemo(() => {
 
           <ScrollReveal>
 
-            <div className="mb-12 flex items-center justify-between">
+            <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
 
               <h2 className="section-title text-3xl">
                 {t('news.all.title')}
@@ -227,68 +242,103 @@ const latestNews = useMemo(() => {
 
             </div>
 
+            {/* Category Filter Buttons */}
+            {categories.length > 0 && (
+              <div className="no-scrollbar mb-10 flex flex-wrap gap-2.5">
+                <button
+                  onClick={() => setSelectedCategory('all')}
+                  className={`rounded-full px-4 py-2 text-sm font-bold transition-all ${
+                    selectedCategory === 'all'
+                      ? 'bg-primary text-primary-foreground shadow-md'
+                      : 'bg-card border border-border text-muted-foreground hover:border-primary hover:text-primary'
+                  }`}
+                >
+                  Semua
+                </button>
+                {categories.map((cat) => (
+                  <button
+                    key={cat}
+                    onClick={() => setSelectedCategory(cat)}
+                    className={`rounded-full px-4 py-2 text-sm font-bold transition-all ${
+                      selectedCategory === cat
+                        ? 'bg-primary text-primary-foreground shadow-md'
+                        : 'bg-card border border-border text-muted-foreground hover:border-primary hover:text-primary'
+                    }`}
+                  >
+                    {cat}
+                  </button>
+                ))}
+              </div>
+            )}
+
           </ScrollReveal>
 
-          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+          {filteredAllNews.length === 0 ? (
+            <div className="text-center py-16 text-muted-foreground">
+              Belum ada berita untuk kategori ini.
+            </div>
+          ) : (
+            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
 
-            {allNews.map((news, index) => (
+              {filteredAllNews.map((news, index) => (
 
-              <ScrollReveal
-                key={news.id}
-                delay={index * 0.1}
-              >
-                <article className="card-hover flex h-full flex-col overflow-hidden">
+                <ScrollReveal
+                  key={news.id}
+                  delay={index * 0.1}
+                >
+                  <article className="card-hover flex h-full flex-col overflow-hidden">
 
-                  <img
-                    src={news.thumbnail}
-                    alt={news.title_id}
-                    className="h-48 w-full object-cover"
-                  />
+                    <img
+                      src={news.thumbnail}
+                      alt={news.title_id}
+                      className="h-48 w-full object-cover"
+                    />
 
-                  <div className="flex flex-1 flex-col justify-between p-6">
+                    <div className="flex flex-1 flex-col justify-between p-6">
 
-                    <div>
+                      <div>
 
-                      <div className="mb-3 flex items-center gap-3">
+                        <div className="mb-3 flex items-center gap-3">
 
-                        <span className="rounded-full bg-primary-lighter px-3 py-1 text-xs font-medium text-primary">
-                          {news.category}
-                        </span>
+                          <span className="rounded-full bg-primary-lighter px-3 py-1 text-xs font-medium text-primary">
+                            {news.category}
+                          </span>
 
-                        <span className="flex items-center gap-1 text-xs text-muted-foreground">
-                          <Calendar className="h-3 w-3" />
-                          {formatDate(news.published_date)}
-                        </span>
+                          <span className="flex items-center gap-1 text-xs text-muted-foreground">
+                            <Calendar className="h-3 w-3" />
+                            {formatDate(news.published_date)}
+                          </span>
+
+                        </div>
+
+                        <h3 className="mb-2 line-clamp-2 font-semibold text-foreground">
+                          {news.title_id}
+                        </h3>
+
+                        <p className="line-clamp-2 text-sm text-muted-foreground">
+                          {news.excerpt_id ??
+                            'Klik untuk membaca detail artikel.'}
+                        </p>
 
                       </div>
 
-                      <h3 className="mb-2 line-clamp-2 font-semibold text-foreground">
-                        {news.title_id}
-                      </h3>
-
-                      <p className="line-clamp-2 text-sm text-muted-foreground">
-                        {news.excerpt_id ??
-                          'Klik untuk membaca detail artikel.'}
-                      </p>
+                      <Link
+                        to={`/more-news/${news.slug || news.id}`}
+                        className="mt-6 inline-flex items-center gap-1 text-sm font-medium text-primary transition-all hover:gap-2"
+                      >
+                        {t('news.all.read_more')}
+                        <ArrowRight className="h-4 w-4" />
+                      </Link>
 
                     </div>
 
-                    <Link
-                      to={`/more-news/${news.slug || news.id}`}
-                      className="mt-6 inline-flex items-center gap-1 text-sm font-medium text-primary transition-all hover:gap-2"
-                    >
-                      {t('news.all.read_more')}
-                      <ArrowRight className="h-4 w-4" />
-                    </Link>
+                  </article>
+                </ScrollReveal>
 
-                  </div>
+              ))}
 
-                </article>
-              </ScrollReveal>
-
-            ))}
-
-          </div>
+            </div>
+          )}
 
         </div>
       </section>

@@ -1,237 +1,378 @@
-// src/pages/public/NewsArchive.tsx
+// src/pages/public/NewsDetail.tsx
+import { useParams, Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import MainLayout from '@/layouts/MainLayout';
+import ScrollReveal from '@/components/ScrollReveal';
+import { Calendar, ArrowLeft, Share2, X, ChevronLeft, ChevronRight, Maximize2 } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import HeroCarousel from '@/components/HeroCarousel';
+import { useLanguage } from '@/contexts/LanguageContext';
+import { useToast } from '@/hooks/use-toast';
+import api from '@/lib/api';
 
-import { useState, useEffect, useMemo } from "react";
-import MainLayout from "@/layouts/MainLayout";
-import ScrollReveal from "@/components/ScrollReveal";
-import {
-  Calendar,
-  ArrowRight,
-  ChevronLeft,
-  ChevronRight,
-} from "lucide-react";
-import { useLanguage } from "@/contexts/LanguageContext";
-import HeroCarousel from "@/components/HeroCarousel";
-import { Link } from "react-router-dom";
+import { newsService, NewsData } from '@/services/News';
 
-import { newsService, NewsData } from "@/services/News";
-
-const NewsArchive = () => {
+const NewsDetail = () => {
+  const { id } = useParams();
   const { t, language } = useLanguage();
+   const [heroSlides, setHeroSlides] = useState<any[]>([]);
+  const { toast } = useToast();
 
-  const [allNewsData, setAllNewsData] = useState<NewsData[]>([]);
+  const [currentNews, setCurrentNews] = useState<NewsData | null>(null);
+  const [sidebarNews, setSidebarNews] = useState<NewsData[]>([]);
   const [loading, setLoading] = useState(true);
-  const [currentPage, setCurrentPage] = useState(1);
 
-  const itemsPerPage = 6;
+  // Lightbox State
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+   useEffect(() => {
+        const fetchHero = async () => {
+            try {
+                const res = await api.get("/contact");
+
+                const data = Array.isArray(res.data)
+                    ? res.data
+                    : (res.data.data || []);
+
+                const filtered = data.filter(
+                    (item: any) =>
+                        item.category === "contact" &&
+                        item.is_active
+                );
+
+                setHeroSlides(
+                    filtered.map((item: any) => ({
+                        image_url: item.image_url,
+                        title: language === "id" ? item.title_id : item.title_en,
+                        subtitle:
+                            language === "id"
+                                ? item.subtitle_id
+                                : item.subtitle_en,
+                    }))
+                );
+            } catch (err) {
+                console.error("Gagal load hero:", err);
+            }
+        };
+
+        fetchHero();
+    }, [language]);
+
+  const openLightbox = (index: number) => {
+    setCurrentImageIndex(index);
+    setLightboxOpen(true);
+    document.body.style.overflow = 'hidden';
+  };
+
+  const closeLightbox = () => {
+    setLightboxOpen(false);
+    document.body.style.overflow = 'auto';
+  };
+
+  const nextImage = (e: React.MouseEvent) => {
+  e.stopPropagation();
+
+  if (allImages.length > 0) {
+    setCurrentImageIndex((prev) => (prev + 1) % allImages.length);
+  }
+};
+
+  const allImages = currentNews
+  ? [
+      currentNews.thumbnail,
+      ...(currentNews.gallery_images ?? []),
+    ]
+  : [];
+
+  const prevImage = (e: React.MouseEvent) => {
+  e.stopPropagation();
+
+  if (allImages.length > 0) {
+    setCurrentImageIndex(
+      (prev) => (prev - 1 + allImages.length) % allImages.length
+    );
+  }
+};
 
   useEffect(() => {
-    const fetchNews = async () => {
-      try {
-        setLoading(true);
+    const loadNewsDetails = async () => {
+  if (!id) return;
+  try {
+    setLoading(true);
+    const activeNews = await newsService.getById(id);
+    console.log("Detail Berita Diterima:", activeNews); 
+    setCurrentNews(activeNews);
 
-        const data = await newsService.getAll(true);
+        const allNews = await newsService.getAll(true);
+        const others = allNews.filter(
+          n => String(n.id) !== String(id) && n.slug !== id
+        );
 
-        const now = new Date();
+        // Prioritaskan berita dengan kategori yang sama dengan berita
+        // yang sedang dibaca, baru sisanya sebagai pelengkap.
+        const sameCategory = others.filter(
+          n => n.category === activeNews.category
+        );
+        const otherCategory = others.filter(
+          n => n.category !== activeNews.category
+        );
 
-        const publishedNews = data
-          .filter(
-            (item) =>
-              item.is_published &&
-              new Date(item.published_date) <= now
-          )
-          .sort(
-            (a, b) =>
-              new Date(b.published_date).getTime() -
-              new Date(a.published_date).getTime()
-          );
-
-        setAllNewsData(publishedNews);
-        setCurrentPage(1);
+        const recommended = [...sameCategory, ...otherCategory].slice(0, 3);
+        setSidebarNews(recommended);
       } catch (error) {
-        console.error("Gagal memuat arsip berita:", error);
+        console.error("Gagal memuat detail konten berita:", error);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchNews();
-  }, []);
+    loadNewsDetails();
+  }, [id]);
 
-  const formatDate = (date: string) => {
-    return new Date(date).toLocaleDateString(
-      language === "id" ? "id-ID" : "en-US",
-      {
-        day: "numeric",
-        month: "long",
-        year: "numeric",
+  const handleShare = async () => {
+    if (!currentNews) return;
+    
+    const shareData = {
+      title: currentNews.title_id,
+      text: currentNews.excerpt_id || currentNews.content_id.replace(/<[^>]*>/g, '').substring(0, 100),
+      url: window.location.href,
+    };
+
+    if (navigator.share && navigator.canShare && navigator.canShare(shareData)) {
+      try {
+        await navigator.share(shareData);
+      } catch (err) {
+        if ((err as Error).name !== 'AbortError') console.error('Error sharing:', err);
       }
+    } else {
+      try {
+        await navigator.clipboard.writeText(window.location.href);
+        toast({
+          title: language === 'id' ? 'Tautan disalin!' : 'Link copied!',
+          description: language === 'id' 
+            ? 'Tautan berita telah disalin ke papan klip Anda.' 
+            : 'The news link has been copied to your clipboard.',
+        });
+      } catch (err) {
+        console.error('Failed to copy text:', err);
+      }
+    }
+  };
+
+  if (loading) {
+    return <MainLayout><div className="text-center py-40 text-muted-foreground font-medium">Memuat detail berita...</div></MainLayout>;
+  }
+
+  if (!currentNews) {
+    return (
+      <MainLayout>
+        <div className="text-center py-40 text-destructive font-medium">
+          <p className="mb-4">Berita tidak ditemukan atau telah dihapus.</p>
+          <Link to="/news-archive" className="text-primary hover:underline">Kembali ke Arsip</Link>
+        </div>
+      </MainLayout>
     );
-  };
-
-  const getExcerpt = (news: NewsData) => {
-    if (news.excerpt_id) return news.excerpt_id;
-
-    const plain = news.content_id.replace(/<[^>]+>/g, "");
-
-    return plain.length > 120
-      ? plain.substring(0, 120) + "..."
-      : plain;
-  };
-
-  const totalPages = useMemo(() => {
-    return Math.ceil(allNewsData.length / itemsPerPage);
-  }, [allNewsData]);
-
-  const currentNews = useMemo(() => {
-    const start = (currentPage - 1) * itemsPerPage;
-    return allNewsData.slice(start, start + itemsPerPage);
-  }, [allNewsData, currentPage]);
-
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  };
+  }
 
   return (
     <MainLayout>
-      <HeroCarousel
-        title={t("news.hero.title")}
-        subtitle={t("news.hero.subtitle")}
-        description={t("news.hero.desc")}
-        height="h-[70vh]"
-      />
-
-      <section className="pt-20 pb-12 bg-section border-b border-border">
-        <div className="container mx-auto px-4 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-            {t("news.all.title")}
-          </h1>
-
-          <p className="text-muted-foreground max-w-2xl mx-auto">
-            {language === "id"
-              ? "Jelajahi seluruh arsip berita, pengumuman, dan pencapaian terbaru dari sekolah kami."
-              : "Explore all news archives, announcements, and our latest achievements from our school."}
-          </p>
-        </div>
-      </section>
-
-      <section className="py-20 bg-background">
+       <HeroCarousel
+          title={t('news.hero.title')}
+          subtitle={t('news.hero.subtitle')}
+          description={t('news.hero.desc')}
+          height="h-[40vh]"
+        />
+        
+      <section className="pt-32 pb-20 bg-background">
         <div className="container mx-auto px-4">
-          {loading ? (
-            <div className="text-center py-20 text-muted-foreground font-medium">
-              Sinkronisasi arsip berita sekolah...
-            </div>
-          ) : allNewsData.length === 0 ? (
-            <div className="text-center py-20 text-muted-foreground">
-              Belum ada berita yang diterbitkan.
-            </div>
-          ) : (
-            <>
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-                {currentNews.map((news, index) => (
-                  <ScrollReveal
-                    key={news.id}
-                    delay={index * 0.1}
-                  >
-                    <article className="group card-hover bg-card rounded-2xl overflow-hidden border border-border flex flex-col h-full shadow-sm">
+          <Link to="/news-archive" className="inline-flex items-center gap-2 text-primary font-medium mb-8 hover:gap-3 transition-all">
+            <ArrowLeft className="w-4 h-4" /> {language === 'id' ? 'Kembali ke Arsip' : 'Back to Archive'}
+          </Link>
 
-                      <div className="relative h-56 overflow-hidden">
-                        <img
-                          src={news.thumbnail || "/placeholder-news.jpg"}
-                          alt={news.title_id}
-                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                          onError={(e) => {
-                            e.currentTarget.src =
-                              "/placeholder-news.jpg";
-                          }}
-                        />
+          <div className="flex flex-col lg:flex-row gap-12 items-start">
+            <main className="lg:w-2/3 w-full">
+              <ScrollReveal>
+                <div className="mb-6">
+                  <span className="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm font-bold uppercase tracking-wide">
+                    {currentNews.category}
+                  </span>
+                  <h1 className="text-3xl md:text-5xl font-bold text-foreground mt-4 mb-6 leading-tight">
+                    {currentNews.title_id}
+                  </h1>
+                  <div className="flex flex-wrap items-center gap-6 text-muted-foreground border-y py-4 border-border">
+                    <div className="flex items-center gap-2">
+                      <Calendar className="w-4 h-4" />
+                      {new Date(currentNews.published_date).toLocaleDateString(language === 'id' ? 'id-ID' : 'en-US', { 
+                        day: 'numeric', month: 'long', year: 'numeric' 
+                      })}
+                    </div>
+                    <button onClick={handleShare} className="flex items-center gap-2 cursor-pointer hover:text-primary transition-colors focus:outline-none">
+                      <Share2 className="w-4 h-4" /> {language === 'id' ? 'Bagikan' : 'Share'}
+                    </button>
+                  </div>
+                </div>
 
-                        <div className="absolute top-4 left-4">
-                          <span className="bg-primary px-3 py-1 rounded-full text-xs font-bold text-primary-foreground shadow-lg">
-                            {news.category}
-                          </span>
+                <div
+                  onClick={() => openLightbox(0)}
+                  className="relative rounded-2xl overflow-hidden mb-8 shadow-xl cursor-pointer group"
+                >
+                  <img
+                    src={currentNews.thumbnail}
+                    alt={currentNews.title_id}
+                    className="w-full h-[500px] object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 flex items-center justify-center">
+                    <Maximize2 className="w-10 h-10 text-white opacity-0 group-hover:opacity-100 transition-all duration-300" />
+                  </div>
+                </div>
+
+                <div
+                    className="news-content text-lg text-foreground break-words"
+                    dangerouslySetInnerHTML={{
+                      __html: currentNews.content_id,
+                    }}
+                  />
+                                
+                {/* Photo Gallery Section */}
+                {currentNews.gallery_images && currentNews.gallery_images.length > 0 && (
+                  <div className="mt-12 pt-8 border-t border-border/50">
+                    <h3 className="text-2xl font-bold text-foreground mb-6 flex items-center gap-2">
+                       {language === 'id' ? 'Galeri Foto' : 'Photo Gallery'}
+                    </h3>
+                    <div className="flex gap-4 overflow-x-auto pb-6 snap-x snap-mandatory scrollbar-hide">
+                      {currentNews.gallery_images.map((img, idx) => (
+                        <div 
+                          key={idx} 
+                          onClick={() => openLightbox(idx + 1)}
+                          className="relative flex-none w-64 h-40 sm:w-72 sm:h-48 rounded-2xl overflow-hidden cursor-pointer group snap-center shadow-md border border-border/50"
+                        >
+                          <img src={img} alt={`Gallery ${idx + 1}`} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all duration-300 flex items-center justify-center">
+                            <Maximize2 className="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 w-8 h-8 drop-shadow-md scale-75 group-hover:scale-100" />
+                          </div>
                         </div>
-                      </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </ScrollReveal>
+            </main>
 
-                      <div className="p-6 flex flex-col flex-1">
-
-                        <div className="flex items-center gap-2 text-muted-foreground text-xs mb-3">
-                          <Calendar className="w-3.5 h-3.5" />
-                          {formatDate(news.published_date)}
-                        </div>
-
-                        <h3 className="text-xl font-bold mb-3 line-clamp-2 group-hover:text-primary transition-colors">
-                          {news.title_id}
-                        </h3>
-
-                        <p className="text-muted-foreground text-sm mb-6 line-clamp-3 leading-relaxed">
-                          {getExcerpt(news)}
-                        </p>
-
-                        <div className="mt-auto">
-                          <Link
-                            to={`/more-news/${news.slug ?? news.id}`}
-                          >
-                            <button className="flex items-center gap-2 text-primary font-bold text-sm hover:gap-3 transition-all group/btn">
-                              {t("news.all.read_more")}
-                              <ArrowRight className="w-4 h-4 transition-transform group-hover/btn:translate-x-1" />
-                            </button>
-                          </Link>
-                        </div>
-
-                      </div>
-
-                    </article>
-                  </ScrollReveal>
-                ))}
+            <aside className="lg:w-1/3 w-full space-y-8">
+              <div className="p-6 bg-section rounded-2xl border border-border">
+                <h3 className="text-xl font-bold mb-4">{language === 'id' ? 'Kategori Berita' : 'News Categories'}</h3>
+                <Link
+                  to={`/news-archive`}
+                  className="inline-flex items-center gap-2 rounded-full bg-primary/10 text-primary px-4 py-1.5 text-sm font-bold hover:bg-primary/20 transition-colors"
+                >
+                  {currentNews.category}
+                </Link>
               </div>
 
-              {totalPages > 1 && (
-                <div className="flex justify-center items-center gap-3">
-
-                  <button
-                    onClick={() => handlePageChange(currentPage - 1)}
-                    disabled={currentPage === 1}
-                    className="p-3 rounded-xl border border-border bg-card hover:bg-primary hover:text-primary-foreground disabled:opacity-30 transition-all"
-                  >
-                    <ChevronLeft className="w-5 h-5" />
-                  </button>
-
-                  <div className="flex gap-2">
-                    {Array.from({ length: totalPages }, (_, i) => (
-                      <button
-                        key={i}
-                        onClick={() => handlePageChange(i + 1)}
-                        className={`w-12 h-12 rounded-xl border font-bold transition-all ${
-                          currentPage === i + 1
-                            ? "bg-primary border-primary text-primary-foreground shadow-lg scale-110"
-                            : "border-border bg-card hover:border-primary hover:text-primary"
-                        }`}
-                      >
-                        {i + 1}
-                      </button>
-                    ))}
-                  </div>
-
-                  <button
-                    onClick={() => handlePageChange(currentPage + 1)}
-                    disabled={currentPage === totalPages}
-                    className="p-3 rounded-xl border border-border bg-card hover:bg-primary hover:text-primary-foreground disabled:opacity-30 transition-all"
-                  >
-                    <ChevronRight className="w-5 h-5" />
-                  </button>
-
+              <div className="p-6 bg-section rounded-2xl border border-border">
+                <h3 className="text-xl font-bold mb-1">{language === 'id' ? 'Berita Lainnya' : 'Other News'}</h3>
+                <p className="text-xs text-muted-foreground mb-6">
+                  {language === 'id'
+                    ? `Direkomendasikan dari kategori "${currentNews.category}" dan berita lain`
+                    : `Recommended from the "${currentNews.category}" category and other news`}
+                </p>
+                <div className="space-y-6">
+                  {sidebarNews.map((news) => (
+                    <Link 
+                      key={news.id} 
+                      to={`/more-news/${news.slug || news.id}`} 
+                      className="group flex gap-4 items-start"
+                      onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                    >
+                      <div className="w-20 h-20 flex-shrink-0 rounded-xl overflow-hidden bg-muted">
+                        <img src={news.thumbnail} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt={news.title_id} />
+                      </div>
+                      <div className="flex-1">
+                        <h4 className="text-sm font-bold group-hover:text-primary transition-colors line-clamp-2 leading-snug mb-1">
+                          {news.title_id}
+                        </h4>
+                        <div className="flex items-center gap-2 text-[10px] text-muted-foreground uppercase font-bold tracking-wider">
+                          <span className={news.category === currentNews.category ? 'text-primary' : ''}>
+                            {news.category}
+                          </span>
+                          <span>•</span>
+                          <span>{new Date(news.published_date).getFullYear()}</span>
+                        </div>
+                      </div>
+                    </Link>
+                  ))}
+                  {sidebarNews.length === 0 && (
+                    <p className="text-xs text-muted-foreground">
+                      {language === 'id' ? 'Belum ada berita lain.' : 'No other news yet.'}
+                    </p>
+                  )}
                 </div>
-              )}
-            </>
-          )}
+              </div>
+            </aside>
+          </div>
         </div>
       </section>
+
+      {/* Lightbox Overlay */}
+      <AnimatePresence>
+        {lightboxOpen && currentNews?.gallery_images && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-[9999] bg-black/95 flex items-center justify-center backdrop-blur-md"
+            onClick={closeLightbox}
+          >
+            <button 
+              onClick={closeLightbox}
+              className="absolute top-6 right-6 lg:top-8 lg:right-8 text-white/50 hover:text-white bg-white/5 hover:bg-white/20 p-2 lg:p-3 rounded-full transition-all group z-50"
+            >
+              <X className="w-6 h-6 lg:w-8 lg:h-8 group-hover:scale-110 transition-transform" />
+            </button>
+            
+            <button 
+              onClick={prevImage}
+              className="absolute left-2 sm:left-4 lg:left-8 text-white/50 hover:text-white bg-white/5 hover:bg-white/20 p-2 lg:p-4 rounded-full transition-all group z-50"
+            >
+              <ChevronLeft className="w-6 h-6 lg:w-8 lg:h-8 group-hover:-translate-x-1 transition-transform" />
+            </button>
+
+            <motion.img 
+              key={currentImageIndex}
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              src={allImages[currentImageIndex]}
+              alt="Fullscreen view" 
+              className="max-w-[95vw] lg:max-w-[85vw] max-h-[85vh] object-contain rounded-lg shadow-2xl drop-shadow-[0_0_15px_rgba(255,255,255,0.05)] cursor-default"
+              onClick={(e) => e.stopPropagation()}
+            />
+
+            <div className="absolute bottom-20 left-1/2 -translate-x-1/2 text-white text-sm font-medium">
+              {currentImageIndex === 0
+                ? (language === "id" ? "Foto Utama Berita" : "Featured Image")
+                : `${language === "id" ? "Galeri Foto" : "Gallery"} ${currentImageIndex}`}
+            </div>
+
+            <button 
+              onClick={nextImage}
+              className="absolute right-2 sm:right-4 lg:right-8 text-white/50 hover:text-white bg-white/5 hover:bg-white/20 p-2 lg:p-4 rounded-full transition-all group z-50"
+            >
+              <ChevronRight className="w-6 h-6 lg:w-8 lg:h-8 group-hover:translate-x-1 transition-transform" />
+            </button>
+            
+            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-white/60 text-xs sm:text-sm tracking-widest font-medium bg-white/10 backdrop-blur-md px-4 py-2 rounded-full border border-white/5">
+              {currentImageIndex + 1} / {allImages.length}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </MainLayout>
   );
 };
 
-export default NewsArchive;
+export default NewsDetail;

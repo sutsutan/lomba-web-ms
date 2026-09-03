@@ -5,8 +5,8 @@ use App\Http\Controllers\Api\{
     AuthController, HeroBackgroundController, MajorController, AchievementController,
     PartnershipController, TestimonyController, FacilityController, ActivityGalleryController,
     StudentWorkController, TeacherController, ExtracurricularController, OrganizationController,
-    NewsController, ExploreGalleryController, AlumniController, UploadController, UserController,
-    ppdb_submissionsController,
+    NewsController, NewsCategoryController, ExploreGalleryController, AlumniController, UploadController, UserController,
+    ppdb_submissionsController, AboutPageController, AboutValueController, AboutTimelineController
 };
 
 // --- Auth Routes ---
@@ -30,10 +30,15 @@ Route::get('/extracurriculars', [ExtracurricularController::class, 'index']);
 Route::get('/organizations', [OrganizationController::class, 'index']);
 Route::get('/news', [NewsController::class, 'index']);
 Route::get('/news/{slug}', [NewsController::class, 'show']);
+Route::get('/news-categories', [NewsCategoryController::class, 'index']);
 Route::get('/explore-galleries', [ExploreGalleryController::class, 'index']);
 Route::get('/alumni', [AlumniController::class, 'index']);
 Route::get('/alumni/years', [AlumniController::class, 'years']);
 Route::get('/heroes', [HeroBackgroundController::class, 'index']);
+Route::get('/about-page', [AboutPageController::class, 'show']);
+Route::get('/about-values', [AboutValueController::class, 'index']);
+Route::get('/about-timelines', [AboutTimelineController::class, 'index']);
+
 
 // Form PPDB/Contact — publik, tanpa perlu login (diisi orang tua murid)
 Route::post('/ppdb-submissions', [ppdb_submissionsController::class, 'store']);
@@ -65,6 +70,9 @@ Route::middleware(['auth:sanctum', 'admin'])->prefix('admin')->group(function ()
 Route::middleware(['auth:sanctum', 'role:admin,marketing'])->prefix('admin')->group(function () {
     Route::get('/stats', [AuthController::class, 'adminStats']);
     Route::post('/upload', [UploadController::class, 'upload']);
+    Route::put('/about-page', [AboutPageController::class, 'update']);
+    Route::apiResource('about-values', AboutValueController::class)->except(['show']);
+    Route::apiResource('about-timelines', AboutTimelineController::class)->except(['show']);
 
     Route::apiResources([
         'majors'           => MajorController::class,
@@ -74,6 +82,10 @@ Route::middleware(['auth:sanctum', 'role:admin,marketing'])->prefix('admin')->gr
         'partnerships'     => PartnershipController::class,
         'testimonies'      => TestimonyController::class,
     ]);
+
+    // Kategori berita — bisa ditambahkan langsung dari form admin berita
+    Route::post('/news-categories', [NewsCategoryController::class, 'store']);
+    Route::delete('/news-categories/{newsCategory}', [NewsCategoryController::class, 'destroy']);
 
     // PPDB Inbox — 'store' tidak didaftarkan di sini karena sudah publik di atas
     Route::apiResource('ppdb-submissions', ppdb_submissionsController::class)->except(['store']);
