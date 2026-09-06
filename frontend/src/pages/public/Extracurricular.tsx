@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { motion} from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
@@ -62,6 +62,7 @@ const Extracurricular = () => {
   const fallbackStories = [
     { 
       title: t('extra.stories.title'), 
+      summary: '',
       desc: t('extra.stories.desc1') + t('extra.stories.desc1_plus'), 
       extraDesc: t('extra.stories.extraDesc1'),
       infoBox: t('extra.stories.infoBox1'),
@@ -69,6 +70,7 @@ const Extracurricular = () => {
     },
     { 
       title: t('extra.stories.title2'), 
+      summary: '',
       desc: t('extra.stories.desc2') + t('extra.stories.desc2_plus'), 
       extraDesc: t('extra.stories.extraDesc2'),
       infoBox: t('extra.stories.infoBox2'),
@@ -76,6 +78,7 @@ const Extracurricular = () => {
     },
     { 
       title: t('extra.stories.title3'), 
+      summary: '',
       desc: t('extra.stories.desc3') + t('extra.stories.desc3_plus'), 
       extraDesc: t('extra.stories.extraDesc3'),
       infoBox: t('extra.stories.infoBox3'),
@@ -86,6 +89,7 @@ const Extracurricular = () => {
   const renderedStories = dynamicEkskul.length > 0 
     ? dynamicEkskul.map((item, index) => ({
         title: index === 0 ? t('extra.stories.title') : `${item.name} (${item.category})`,
+        summary: item.summary || '',
         desc: item.description 
           ? item.description 
           : `${item.name}${t('extra.dynamic.desc_part1')}`,
@@ -98,6 +102,17 @@ const Extracurricular = () => {
         link: item.registration_link || ""
       }))
     : fallbackStories;
+
+  const carouselItems = useMemo(
+    () =>
+      dynamicEkskul
+        .filter(item => !!item.image_url)
+        .map(item => ({
+          image: item.image_url,
+          alt: item.name,
+        })),
+    [dynamicEkskul]
+  );
 
   return (
     <MainLayout>
@@ -156,7 +171,7 @@ const Extracurricular = () => {
 
             <ScrollReveal delay={0.2}>
                <div className="w-full">
-                 <StackedCarousel />
+                 <StackedCarousel items={carouselItems} />
                </div>
             </ScrollReveal>
           </div>
@@ -179,9 +194,15 @@ const Extracurricular = () => {
               <ScrollReveal delay={0.2} className={story.reverse ? "order-2 lg:order-1 lg:text-right" : "order-2"}>
                 <div className="space-y-6">
                   {story.title && (
-                    <h3 className="text-3xl lg:text-4xl font-bold text-[#12606A] mb-6">
+                    <h3 className="text-3xl lg:text-4xl font-bold text-[#12606A] mb-2">
                       {story.title}
                     </h3>
+                  )}
+
+                  {story.summary && (
+                    <p className="text-teal-600 font-bold text-lg italic mb-4">
+                      {story.summary}
+                    </p>
                   )}
                   
                   <div className="space-y-4">

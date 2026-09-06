@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
-import extracurricularFutsal from '@/assets/extracurricular-futsal.webp';
-import extracurricularBasket from '@/assets/extracurricular-basket.jpg';
-import extracurricularModelling from '@/assets/extracurricular-modelling.webp';
-import extracurricularBadminton from '@/assets/extracurricular-badminton.jpg';
+export interface StackedCarouselItem {
+  image: string;
+  alt?: string;
+}
 
-const images = [
-  extracurricularFutsal,
-  extracurricularBasket,
-  extracurricularModelling,
-  extracurricularBadminton,
-];
 
-const StackedCarousel: React.FC = () => {
+interface StackedCarouselProps {
+  items?: StackedCarouselItem[];
+}
+
+const StackedCarousel: React.FC<StackedCarouselProps> = ({ items }) => {
+  const slides = items && items.length > 0 ? items : [];
+
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [windowWidth, setWindowWidth] = useState(
     typeof window !== 'undefined' ? window.innerWidth : 1200
@@ -26,18 +26,22 @@ const StackedCarousel: React.FC = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  useEffect(() => {
+    setActiveImageIndex(0);
+  }, [slides.length]);
+
   const handleNext = () => {
-    setActiveImageIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
+    setActiveImageIndex((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
   };
 
   const handlePrev = () => {
-    setActiveImageIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
+    setActiveImageIndex((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
   };
 
   const getSlideStyles = (index: number) => {
-    const total = images.length;
+    const total = slides.length;
     let diff = index - activeImageIndex;
-    
+
     // Handle loop diff
     if (diff > total / 2) diff -= total;
     if (diff <= -total / 2) diff += total;
@@ -64,7 +68,7 @@ const StackedCarousel: React.FC = () => {
       </div>
 
       <div className="relative w-full flex justify-center items-center h-[280px] sm:h-[350px] md:h-[400px] lg:h-[450px] overflow-visible">
-        {images.map((image, index) => {
+        {slides.map((slide, index) => {
           const style = getSlideStyles(index);
           return (
             <motion.div
@@ -90,9 +94,13 @@ const StackedCarousel: React.FC = () => {
               onClick={() => setActiveImageIndex(index)}
             >
               <img
-                src={image}
-                alt={`Extracurricular ${index + 1}`}
+                src={slide.image}
+                alt={slide.alt || `Extracurricular ${index + 1}`}
                 className="w-full h-full object-cover"
+                onError={(e) => {
+                  (e.currentTarget as HTMLImageElement).src =
+                    'https://placehold.co/280x450/e2e8f0/94a3b8?text=Ekskul';
+                }}
               />
             </motion.div>
           );

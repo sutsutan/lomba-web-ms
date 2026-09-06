@@ -22,7 +22,7 @@ export default function AdminExtracurricularPage() {
   const [search, setSearch] = useState('');
   
   const [form, setForm] = useState<Omit<Extracurricular, 'id'>>({ 
-    name: '', category: 'Sports', coach_name: '', schedule: '', intensity: '', description: '', track_record: '', registration_link: '', image_url: '', is_active: true 
+    name: '', summary: '', category: 'Sports', coach_name: '', schedule: '', intensity: '', description: '', track_record: '', registration_link: '', image_url: '', is_active: true 
   });
 
   const loadData = async () => {
@@ -48,14 +48,14 @@ export default function AdminExtracurricularPage() {
 
   const openAdd = () => { 
     setEditing(null); 
-    setForm({ name: '', category: 'Sports', coach_name: '', schedule: '', intensity: '', description: '', track_record: '', registration_link: '', image_url: '', is_active: true }); 
+    setForm({ name: '', summary: '', category: 'Sports', coach_name: '', schedule: '', intensity: '', description: '', track_record: '', registration_link: '', image_url: '', is_active: true }); 
     setModal(true); 
   };
 
   const openEdit = (item: Extracurricular) => { 
     setEditing(item); 
     setForm({ 
-      name: item.name, category: item.category, coach_name: item.coach_name, schedule: item.schedule, intensity: item.intensity, description: item.description || '', track_record: item.track_record || '', registration_link: item.registration_link || '', image_url: item.image_url, is_active: item.is_active 
+      name: item.name, summary: item.summary || '', category: item.category, coach_name: item.coach_name, schedule: item.schedule, intensity: item.intensity, description: item.description || '', track_record: item.track_record || '', registration_link: item.registration_link || '', image_url: item.image_url, is_active: item.is_active 
     }); 
     setModal(true); 
   };
@@ -108,6 +108,7 @@ export default function AdminExtracurricularPage() {
           ) 
         },
         { key: 'name', label: 'Nama Ekskul', render: (item: Extracurricular) => <span className="whitespace-nowrap font-semibold text-gray-900">{item.name}</span> },
+        { key: 'summary', label: 'Ringkasan', render: (item: Extracurricular) => <span className="text-xs text-gray-600 max-w-[160px] block line-clamp-2 italic">{item.summary || '-'}</span> },
         { 
           key: 'category', 
           label: 'Kategori', 
@@ -159,6 +160,12 @@ export default function AdminExtracurricularPage() {
               <option value="Specialized">Specialized (Bidang Khusus / Sains)</option>
             </select>
           </FormField>
+
+          <div className="col-span-2">
+            <FormField label="Ringkasan Singkat" hint="Kalimat pendek/tagline yang tampil menonjol di card halaman publik (beda dari Deskripsi Kegiatan di bawah)">
+              <input className={inputClass} value={form.summary} onChange={e => setForm({ ...form, summary: e.target.value })} placeholder="Contoh: Melatih disiplin, kekompakan, dan jiwa kepemimpinan siswa" maxLength={500} />
+            </FormField>
+          </div>
           
           <FormField label="Nama Pembina / Pelatih">
             <input className={inputClass} value={form.coach_name} onChange={e => setForm({ ...form, coach_name: e.target.value })} placeholder="Contoh: Pak Budi Supardi" />

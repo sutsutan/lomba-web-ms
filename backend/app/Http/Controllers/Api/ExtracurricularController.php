@@ -11,6 +11,7 @@ class ExtracurricularController extends BaseResourceController
 
     protected $validationRules = [
         'name'              => 'required|string|max:255',
+        'summary'           => 'nullable|string|max:500',
         'category'          => 'required|in:Sports,Arts,Specialized',
         'coach_name'        => 'nullable|string|max:255',
         'description'       => 'nullable|string',

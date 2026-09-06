@@ -3,6 +3,7 @@ import api from '@/lib/api';
 export interface Extracurricular {
   id: number;
   name: string;
+  summary: string;
   category: string;
   coach_name: string;
   schedule: string;
