@@ -189,6 +189,7 @@ export default function AdminHeroPage() {
               <option value="moreorg">MoreOrg</option>
               <option value="ppdb">Ppdb</option>
               <option value="achievement">Achievement</option>
+              <option value="tefa">TeFa</option>
             </select>
           </FormField>
 

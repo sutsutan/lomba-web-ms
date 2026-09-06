@@ -6,7 +6,8 @@ use App\Http\Controllers\Api\{
     PartnershipController, TestimonyController, FacilityController, ActivityGalleryController,
     StudentWorkController, TeacherController, ExtracurricularController, OrganizationController,
     NewsController, NewsCategoryController, ExploreGalleryController, AlumniController, UploadController, UserController,
-    ppdb_submissionsController, AboutPageController, AboutValueController, AboutTimelineController
+    ppdb_submissionsController, AboutPageController, AboutValueController, AboutTimelineController, TefaProjectController, TefaGalleryController,
+     TefaCategoryContentController, TefaProgramController
 };
 
 // --- Auth Routes ---
@@ -38,6 +39,10 @@ Route::get('/heroes', [HeroBackgroundController::class, 'index']);
 Route::get('/about-page', [AboutPageController::class, 'show']);
 Route::get('/about-values', [AboutValueController::class, 'index']);
 Route::get('/about-timelines', [AboutTimelineController::class, 'index']);
+Route::get('/tefa-projects', [TefaProjectController::class, 'index']);
+Route::get('/tefa-galleries', [TefaGalleryController::class, 'index']);
+Route::get('/tefa-category-contents', [TefaCategoryContentController::class, 'index']);
+Route::get('/tefa-programs', [TefaProgramController::class, 'index']);
 
 
 // Form PPDB/Contact — publik, tanpa perlu login (diisi orang tua murid)
@@ -52,6 +57,8 @@ Route::middleware('auth:sanctum')->group(function () {
 // --- Admin Only Routes (modul yang TIDAK boleh diakses marketing) ---
 Route::middleware(['auth:sanctum', 'admin'])->prefix('admin')->group(function () {
     Route::apiResource('users', UserController::class);
+    Route::get('/tefa-category-contents/{majorCode}', [TefaCategoryContentController::class, 'show']);
+    Route::put('/tefa-category-contents/{majorCode}', [TefaCategoryContentController::class, 'update']);
 
     Route::apiResources([
         'facilities'         => FacilityController::class,
@@ -62,6 +69,9 @@ Route::middleware(['auth:sanctum', 'admin'])->prefix('admin')->group(function ()
         'organizations'      => OrganizationController::class,
         'news'               => NewsController::class,
         'explore-galleries'  => ExploreGalleryController::class,
+        'tefa-projects'     => TefaProjectController::class,
+        'tefa-galleries'    => TefaGalleryController::class,
+        'tefa-programs' => TefaProgramController::class,
     ]);
 });
 

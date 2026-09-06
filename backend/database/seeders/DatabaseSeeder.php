@@ -18,6 +18,8 @@ class DatabaseSeeder extends Seeder
             NewsSeeder::class,
             HeroBackgroundSeeder::class,
             MajorAndStudentWorkSeeder::class,
+            TefaContentSeeder::class,
+            TefaSeeder::class,
         ]);
 
         User::updateOrCreate(

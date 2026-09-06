@@ -36,6 +36,8 @@ export default function AdminDashboard() {
     { key: 'organizations', label: 'Organisasi', value: statsData.organizations, icon: 'Flag', color: 'rose', path: '/dashboard/organizations', marketingVisible: false },
     { key: 'extracurriculars', label: 'Ekskul', value: statsData.extracurriculars, icon: 'GraduationCap', color: 'orange', path: '/dashboard/extracurriculars', marketingVisible: false },
     { key: 'partnerships', label: 'Mitra', value: statsData.partnerships, icon: 'Handshake', color: 'teal', path: '/dashboard/partnerships', marketingVisible: true },
+    { key: 'tefa', label: 'TEFA', value: 0, icon: 'Palette', color: 'cyan', path: '/dashboard/tefa', marketingVisible: true },
+    { key: 'ppdb_inbox', label: 'PPDB Inbox', value: 0, icon: 'Inbox', color: 'cyan', path: '/dashboard/ppdb-inbox', marketingVisible: true },  
     { key: 'users', label: 'Manajemen User', value: statsData.users, icon: 'UserCog', color: 'cyan', path: '/dashboard/manage-user', marketingVisible: false },
   ];
 

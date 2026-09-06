@@ -36,6 +36,7 @@ export default function AdminLayout() {
     { path: '/dashboard/news', label: 'Berita', icon: 'Newspaper', roles: ['admin', 'marketing'] },
     { path: '/dashboard/explore-gallery', label: 'Galeri Eksplorasi', icon: 'ImagePlus', roles: ['admin'] },
     { path: '/dashboard/alumni', label: 'Alumni', icon: 'Globe', roles: ['admin', 'marketing'] },
+    { path: '/dashboard/tefa', label: 'TEFA', icon: 'Palette', roles: ['admin', 'marketing'] },
     { path: '/dashboard/manage-user', label: 'Manajemen User', icon: 'UserCog', roles: ['admin'] },
     { path: '/dashboard/ppdb-inbox', label: 'PPDB Inbox', icon: 'Inbox', roles: ['admin', 'marketing'] },
   ];

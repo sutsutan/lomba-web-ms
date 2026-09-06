@@ -12,6 +12,7 @@ import AdminAlumniPage from './AdminAlumniPage';
 import AdminPartnershipPage from './AdminPartnershipPage';
 import AdminExtracurricularPage from './AdminExtracurricularsPage';
 import AdminManageUserPage from './AdminManageUser';
+import AdminTefaPage from './AdminTefaPage';
 
 export default function AdminPanel() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -45,7 +46,6 @@ export default function AdminPanel() {
       case 'partnerships': return <AdminPartnershipPage />;
       case 'extracurriculars': return <AdminExtracurricularPage />;
       case 'manage-user': return <AdminManageUserPage />;
-      
       case 'testimonies': 
         return <PlaceholderPage title="Testimoni" description="Kelola testimoni dari siswa, orang tua, dan dunia industri" />;
       case 'majors': 

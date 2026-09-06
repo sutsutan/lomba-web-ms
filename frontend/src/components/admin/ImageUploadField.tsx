@@ -8,7 +8,7 @@ interface ImageUploadFieldProps {
   onChange: (url: string) => void;
   label?: string;
   accept?: string;
-  folder?: string; // folder tujuan di server (default: 'uploads')
+  folder?: string;
 }
 
 export default function ImageUploadField({ 
