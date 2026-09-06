@@ -117,7 +117,7 @@ export default {
   'about.preview.title': 'Where Learning Begins',
   'about.preview.desc1': 'Metland School is a vocational secondary school focused on developing practical skills, character, and confidence in every student. We believe that education should prepare students not only academically but also professionally for their future careers.',
   'about.preview.desc2': 'Through project-based learning, industry partnerships, and hands-on experiences, we empower students to become skilled professionals ready to make an impact in their chosen fields.',
-  
+
   // Program Tabs
   'program.title': 'Learning That Makes a Difference',
   'program.extracurricular.title': 'Extracurricular',
@@ -141,15 +141,15 @@ export default {
   'achievements.title': 'Moments of Achievement',
   'achievements.subtitle': 'Celebrating our students\' global excellence',
   'achievements.learn_more': 'Learn More',
-  
+
   'achievements.1.title': 'Gold Medal - National Robotics Competition',
   'achievements.1.desc': 'First place in the National Robotics Competition 2024, showcasing innovative automation solutions.',
   'achievements.1.cat': 'Technology',
-  
+
   'achievements.2.title': 'Best Culinary Innovation Award',
   'achievements.2.desc': 'Winner of the Jakarta Culinary Festival for creative fusion cuisine.',
   'achievements.2.cat': 'Culinary',
-  
+
   'achievements.3.title': 'National Debate Championship',
   'achievements.3.desc': 'Champion in the National English Debate Competition representing West Java.',
   'achievements.3.cat': 'Academic',
@@ -187,7 +187,7 @@ export default {
   'ppdb.popup.title': 'PPDB 2026/2027',
   'ppdb.popup.desc': 'Join the excellence. Register now for Metland School\'s 2026/2027 academic year and embark on a journey of growth and success.',
   'ppdb.popup.btn': 'Register Now',
-  
+
   // About Page
   'about.hero.title': 'About Metland School',
   'about.hero.subtitle': 'Metland School',
@@ -198,7 +198,7 @@ export default {
   'about.know_us.contact': 'Contact Us',
   'about.know_us.learn': 'Learn More',
   'about.values.swipe': 'Swipe for more information',
-  
+
   'about.value.1.title': 'Industry Ready Skills',
   'about.value.1.desc': 'Skills aligned with real industries',
   'about.value.2.title': 'Strong Character',
@@ -241,7 +241,7 @@ export default {
   'about.life.item2.desc': 'SMK Metland actively provides students with opportunities to gain real professional experience through collaboration with industry partners. One of these opportunities is student participation in the Bank Indonesia Gala Dinner event. During this activity, students are directly involved in various services and operations, allowing them to apply skills learned in school. Through this experience, students enhance their technical abilities, communication skills, and understanding of professional ethics and workplace standards.',
   'about.life.item3.title': 'Basic Leadership Training - Metland School',
   'about.life.item3.desc': 'Discipline and leadership training activities are an integral part of student character development at SMK Metland. Through marching drills and field training, students are trained to improve teamwork, discipline, and physical endurance. These activities also aim to build mental resilience and a strong sense of responsibility. As a result, students are better prepared to become confident, independent individuals who are ready to face future challenges.',
-  
+
   // Academics Page
   'academics.hero.title': 'Academics',
   'academics.hero.subtitle': 'Empowering Vocational Excellence',
@@ -282,7 +282,7 @@ export default {
   'academics.works.4.tag': 'Achievement',
   'academics.works.4.title': 'SMK METLAND',
   'academics.works.4.desc': 'National Competitions Winner',
-  
+
   // Alumni Page
   'alumni.hero.title': 'Alumni Network',
   'alumni.hero.subtitle': 'Global Impact',
@@ -459,7 +459,7 @@ export default {
   'extra.btn.explore_desc': 'View the complete list of 18+ extracurriculars along with their schedules and achievements.',
   'extra.btn.join_online': 'Join Online Now →',
 
-  
+
   // News Page
   'news.hero.title': 'News & Updates',
   'news.hero.subtitle': 'Metland School Press',
@@ -490,12 +490,12 @@ export default {
   'teacher.faculty.title': 'Academic Faculty',
   'teacher.cta.title': 'Inspired by Excellence',
   'teacher.cta.desc': "Our teachers don't just teach; they mentor. Each brings years of industry experience to provide a bridge between education and professional success.",
-  
+
   'teacher.role.principal': 'Principal',
   'teacher.role.vice_principal': 'Vice Principal',
   'teacher.bio.principal': 'Committed to driving vocational excellence through industry-standard education and strategic partnerships.',
   'teacher.bio.vice_principal': 'Expert in school management and student character development systems with focus on holistic education.',
-  
+
   'teacher.dept.pplg': 'PPLG',
   'teacher.dept.culinary': 'Culinary',
   'teacher.dept.hospitality': 'Hospitality',
@@ -564,7 +564,7 @@ export default {
   'values.core.pill': 'Brand DNA',
   'values.core.title_prefix': 'Generasi',
   'values.core.title_suffix': 'Cinta Prestasi',
-  
+
   'values.cinta.title': 'CINTA Philosophy',
   'values.cinta.prefix': 'Love',
   'values.cinta.1': 'God',
@@ -702,7 +702,7 @@ export default {
   "misi4_title": "Zero Unemployment",
   "misi4_desc": "Realizing maximum graduate absorption through strategic collaboration with DUDI both domestically and internationally.",
 
-// Major
+  // Major
   "hospitality_title": "Hospitality",
   "hospitality_subtitle": "Professional Service Excellence",
   "hospitality_desc": "Master professional hotel management and global service standards under the BLUD Ministry of Education framework.",
@@ -768,7 +768,7 @@ export default {
   "cert_desc": "Graduates are equipped with BNSP competency certifications and international licenses from industry partners.",
 
   "facilities_title": "Practical Lab Facilities",
-  
+
   "gallery_title": "Activity Gallery",
   "gallery_subtitle": "A glimpse into the vibrant practical sessions, student projects, and moments that define our major programs.",
 
@@ -784,7 +784,7 @@ export default {
   "excu_basket_name": "Basketball",
   "excu_basket_desc": "Master the court with professional coaching. We focus on tactical play and physical endurance.",
   "excu_basket_detail": "Basketball at Metland School has a long history of regional achievements. Training sessions are structured to build both individual technical skills and team cohesion.",
-  
+
   // 2. Volleyball
   "excu_volly_name": "Volleyball",
   "excu_volly_desc": "Developing power hits and solid defense through disciplined teamwork.",
@@ -861,7 +861,7 @@ export default {
   "proj_mcup_achieve2": "Big event Sponsor Collaboration",
 
   // more organization
- "cat_culinary": "Culinary",
+  "cat_culinary": "Culinary",
   "cat_dkv": "Visual Communication Design",
   "cat_it": "Information Technology",
   "cat_hospitality": "Hospitality",
@@ -877,7 +877,7 @@ export default {
   "org_active_programs2": "Active Programs",
 
   // student work
- "cat_culinary_name": "Culinary",
+  "cat_culinary_name": "Culinary",
   "cat_dkv_name": "Design Communication Visual",
   "cat_it_name": "Information Technology",
   "cat_hosp_name": "Hospitality",
@@ -898,8 +898,91 @@ export default {
   "proj_event_title": "Event Management",
   "proj_event_desc": "Complete event planning and execution for school events.",
   "proj_tax_title": "Tax Calculation System",
-  "proj_tax_desc": "Excel-based tax calculation and reporting system."
+  "proj_tax_desc": "Excel-based tax calculation and reporting system.",
 
-  
+  // TeFa (Teaching Factory) Page
+  'nav.tefa': 'Teaching Factory',
+
+  'tefa.hero.title': 'Teaching Factory',
+  'tefa.hero.subtitle': 'Learning by Doing',
+  'tefa.hero.desc': 'Bridging the gap between education and industry through real-world production-based learning experiences.',
+
+  'tefa.about.title': 'What is Teaching Factory?',
+  'tefa.about.desc1': 'Teaching Factory (TeFa) is a learning model that integrates the school environment with real industry workflow. Students are not just learning theory — they produce real products and services under professional standards, guided by experienced instructors and industry mentors.',
+  'tefa.about.desc2': 'Through TeFa, students develop entrepreneurial mindset, technical mastery, and workplace readiness. Each major at Metland School operates its own Teaching Factory program, ensuring every student gains hands-on experience in their field before graduation.',
+
+  'tefa.explore_title': 'Explore by Major',
+  'tefa.explore_desc': 'Select a major to discover Teaching Factory programs, activities, and student projects.',
+  'tefa.swipe_info': 'Swipe for more options',
+  'tefa.total_programs': 'Programs',
+  'tefa.programs_of': 'TeFa Programs —',
+  'tefa.no_projects': 'No projects found for this major yet.',
+  'tefa.projects_title': 'Student Projects',
+
+  // TeFa Category Descriptions
+  'tefa.cat.it.intro': 'The IT Teaching Factory at Metland School empowers students to build real-world digital solutions.',
+  'tefa.cat.it.detail': 'Students work on live client projects including websites, mobile apps, and enterprise systems. They practice agile methodologies, version control, and deployment workflows used by professional software companies.',
+  'tefa.cat.it.closing': 'By graduation, IT students have a portfolio of shipped products and the confidence to enter the tech industry as capable junior developers.',
+
+  'tefa.cat.dkv.intro': 'The DKV Teaching Factory channels creative talent into professional-grade visual content.',
+  'tefa.cat.dkv.detail': 'Students handle branding projects, social media campaigns, video production, and print design for real clients. They learn creative direction, client communication, and project management alongside technical design skills.',
+  'tefa.cat.dkv.closing': 'Graduates leave with a professional portfolio and industry experience that sets them apart in the competitive creative market.',
+
+  'tefa.cat.culinary.intro': 'The Culinary Teaching Factory transforms students into professional kitchen operators.',
+  'tefa.cat.culinary.detail': 'Students run a functioning restaurant and catering service, handling menu development, food preparation, quality control, and customer service under real business conditions with paying customers.',
+  'tefa.cat.culinary.closing': 'This hands-on production environment builds the discipline, speed, and creativity that define successful culinary professionals.',
+
+  'tefa.cat.hospitality.intro': 'The Hospitality Teaching Factory immerses students in professional guest service operations.',
+  'tefa.cat.hospitality.detail': 'Students manage front desk operations, housekeeping protocols, event coordination, and F&B service in simulated and real hotel environments. They learn to deliver five-star experiences with attention to every detail.',
+  'tefa.cat.hospitality.closing': 'Graduates are prepared to take on professional roles in hotels, resorts, cruise lines, and tourism enterprises worldwide.',
+
+  'tefa.cat.accounting.intro': 'The Accounting Teaching Factory gives students real-world financial management experience.',
+  'tefa.cat.accounting.detail': 'Students manage actual bookkeeping, financial reporting, tax filing, and budgeting for school cooperatives and partner businesses. They use industry-standard accounting software and follow professional workflows.',
+  'tefa.cat.accounting.closing': 'This practical training produces graduates who are audit-ready and confident in handling real business finances from day one.',
+
+  // TeFa Programs per Major
+  'tefa.program.it.1.title': 'Web Development Studio',
+  'tefa.program.it.1.desc': 'Building responsive websites and web applications for real clients using modern frameworks.',
+  'tefa.program.it.2.title': 'Mobile App Lab',
+  'tefa.program.it.2.desc': 'Developing cross-platform mobile applications solving real-world problems.',
+  'tefa.program.it.3.title': 'IT Solutions Desk',
+  'tefa.program.it.3.desc': 'Providing IT support, network management, and system administration services.',
+
+  'tefa.program.dkv.1.title': 'Creative Design Agency',
+  'tefa.program.dkv.1.desc': 'Producing brand identities, marketing materials, and social media content for businesses.',
+  'tefa.program.dkv.2.title': 'Video Production House',
+  'tefa.program.dkv.2.desc': 'Creating professional video content including commercials, documentaries, and motion graphics.',
+  'tefa.program.dkv.3.title': 'Photography Studio',
+  'tefa.program.dkv.3.desc': 'Offering professional photography services for events, products, and portraits.',
+
+  'tefa.program.culinary.1.title': 'Metland Kitchen',
+  'tefa.program.culinary.1.desc': 'Operating a student-run restaurant serving Indonesian and international cuisines.',
+  'tefa.program.culinary.2.title': 'Pastry & Bakery Workshop',
+  'tefa.program.culinary.2.desc': 'Producing artisan bread, pastries, and cakes for retail and catering orders.',
+  'tefa.program.culinary.3.title': 'Catering Service',
+  'tefa.program.culinary.3.desc': 'Managing full-scale catering operations for school and external events.',
+
+  'tefa.program.hospitality.1.title': 'Front Office Simulation',
+  'tefa.program.hospitality.1.desc': 'Running guest check-in, reservation management, and concierge services.',
+  'tefa.program.hospitality.2.title': 'Housekeeping Academy',
+  'tefa.program.hospitality.2.desc': 'Maintaining room standards, laundry operations, and facility management.',
+  'tefa.program.hospitality.3.title': 'Event Management Bureau',
+  'tefa.program.hospitality.3.desc': 'Planning and executing conferences, banquets, and special events.',
+
+  'tefa.program.accounting.1.title': 'Finance & Tax Center',
+  'tefa.program.accounting.1.desc': 'Handling bookkeeping, tax calculation, and financial reporting for partner businesses.',
+  'tefa.program.accounting.2.title': 'School Cooperative Management',
+  'tefa.program.accounting.2.desc': 'Managing the school cooperative\'s accounts, inventory, and financial statements.',
+  'tefa.program.accounting.3.title': 'Digital Accounting Lab',
+  'tefa.program.accounting.3.desc': 'Practicing with industry-standard software like MYOB, Accurate, and Excel advanced functions.',
+
+  // TeFa Gallery & Highlights
+  'tefa.gallery.facility_title': 'Teaching Factory Facility Showcase',
+  'tefa.gallery.hint': 'Click card to switch view',
+  'tefa.gallery.active_badge': 'Active Facility',
+  'tefa.highlights.item1': 'Production-Based Learning',
+  'tefa.highlights.item2': 'Industry-Grade Standards',
+  'tefa.highlights.item3': 'Expert Mentor Guidance',
 };
+
 

@@ -143,20 +143,20 @@ export default {
   'achievements.title': 'Momen Prestasi',
   'achievements.subtitle': 'Merayakan keunggulan global siswa kami',
   'achievements.learn_more': 'Pelajari Lebih Lanjut',
-  
+
   'achievements.1.title': 'Medali Emas - Kompetisi Robotika Nasional',
   'achievements.1.desc': 'Juara pertama dalam Kompetisi Robotika Nasional 2024, menampilkan solusi otomatisasi inovatif.',
   'achievements.1.cat': 'Teknologi',
-  
+
   'achievements.2.title': 'Penghargaan Inovasi Kuliner Terbaik',
   'achievements.2.desc': 'Pemenang Jakarta Culinary Festival untuk masakan fusi kreatif.',
   'achievements.2.cat': 'Kuliner',
-  
+
   'achievements.3.title': 'Kejuaraan Debat Nasional',
   'achievements.3.desc': 'Juara dalam Kompetisi Debat Bahasa Inggris Nasional mewakili Jawa Barat.',
   'achievements.3.cat': 'Akademik',
 
-    // preview news home
+  // preview news home
   'more.news.title': 'Berita Terbaru',
   'more.news.subtitle': 'tetap terinformasi dengan pencapaian dan kegiatan terbaru kami',
   'more.news.learn_more': 'Pelajari Lebih Lanjut',
@@ -207,7 +207,7 @@ export default {
   'about.know_us.contact': 'Hubungi Kami',
   'about.know_us.learn': 'Pelajari Lebih Lanjut',
   'about.values.swipe': 'Geser untuk informasi lebih lanjut',
-  
+
   'about.value.1.title': 'Keterampilan Siap Industri',
   'about.value.1.desc': 'Keterampilan yang selaras dengan industri nyata',
   'about.value.2.title': 'Karakter Kuat',
@@ -456,7 +456,7 @@ export default {
   'extra.dynamic.track_record_suffix': '. Pencapaian-pencapaian luar biasa tersebut senantiasa menjadi bukti paling nyata dari tingginya dedikasi, kedisiplinan, dan kerja keras para peserta didik serta kesabaran pembina selama ini.',
   'extra.dynamic.no_track_record_prefix': 'Dengan memutuskan untuk bergabung dan aktif bersama ',
   'extra.dynamic.no_track_record_suffix': ', kamu tidak hanya akan mendapatkan keterampilan dan teman-teman lintas jurusan baru, tetapi secara langsung juga akan meraih banyak kesempatan emas untuk terus berkarya, membuktikan kapabilitas diri, dan mulai membangun portofolio kebanggaan semenjak dini demi masa depan.',
-  
+
   'extra.dynamic.info_coach': 'Nama Pembina: ',
   'extra.dynamic.info_coach_default': 'Tim Pembina Profesional & Ahli',
   'extra.dynamic.info_schedule': 'Jadwal Latihan: ',
@@ -468,7 +468,7 @@ export default {
   'extra.btn.explore_desc': 'Lihat daftar lengkap pilihan ekstrakurikuler beserta jadwal dan tingkat prestasinya.',
   'extra.btn.join_online': 'Ikut Bergabung Secara Online →',
 
-  
+
   // News Page
   'news.hero.title': 'Berita & Pembaruan',
   'news.hero.subtitle': 'Metland School Press',
@@ -499,12 +499,12 @@ export default {
   'teacher.faculty.title': 'Fakultas Akademik',
   'teacher.cta.title': 'Terinspirasi oleh Keunggulan',
   'teacher.cta.desc': 'Guru-guru kami tidak hanya mengajar; mereka membimbing. Masing-masing membawa pengalaman industri bertahun-tahun untuk memberikan jembatan antara pendidikan dan kesuksesan profesional.',
-  
+
   'teacher.role.principal': 'Kepala Sekolah',
   'teacher.role.vice_principal': 'Wakil Kepala Sekolah',
   'teacher.bio.principal': 'Berkomitmen untuk mendorong keunggulan vokasi melalui pendidikan standar industri dan kemitraan strategis.',
   'teacher.bio.vice_principal': 'Ahli dalam manajemen sekolah dan sistem pengembangan karakter siswa dengan fokus pada pendidikan holistik.',
-  
+
   'teacher.dept.pplg': 'PPLG',
   'teacher.dept.culinary': 'Seni Kuliner',
   'teacher.dept.hospitality': 'Perhotelan',
@@ -529,7 +529,7 @@ export default {
   'organization.wellness.label': 'Inovasi & Kesejahteraan',
   'organization.wellness.title': 'Inovasi & Kesejahteraan',
   'organization.wellness.desc': 'Membina pikiran, jiwa, dan keterampilan masa depan.',
-   'common.readMore': 'Galeri Eksplorasi',
+  'common.readMore': 'Galeri Eksplorasi',
 
   'org.osis.name': 'Osis (Organisasi Siswa Intra Sekolah)',
   'org.osis.desc': 'Jantung kehidupan siswa, mengelola acara besar dan mewakili suara siswa ke pihak sekolah.',
@@ -573,7 +573,7 @@ export default {
   'values.core.pill': 'DNA Merek',
   'values.core.title_prefix': 'Generasi',
   'values.core.title_suffix': 'Cinta Prestasi',
-  
+
   'values.cinta.title': 'Filosofi CINTA',
   'values.cinta.prefix': 'Cinta',
   'values.cinta.1': 'Tuhan',
@@ -693,8 +693,8 @@ export default {
   'notfound.back': 'Kembali ke Beranda',
 
 
-// Vision Mission Page
-"hero_title": "Visi & Misi",
+  // Vision Mission Page
+  "hero_title": "Visi & Misi",
   "hero_subtitle": "Peta Jalan Masa Depan Kami",
   "hero_desc": "Visi besar kami untuk mencetak lulusan yang unggul, berkarakter, dan kompetitif secara global.",
   "vision_label": "Visi Strategis",
@@ -712,7 +712,7 @@ export default {
   "misi4_title": "Zero Unemployment",
   "misi4_desc": "Mewujudkan keterserapan lulusan secara maksimal melalui kerjasama strategis dengan DUDI di dalam dan luar negeri.",
 
-// major
+  // major
   "hospitality_title": "Perhotelan",
   "hospitality_subtitle": "Keunggulan Layanan Profesional",
   "hospitality_desc": "Kuasai manajemen hotel profesional dan standar layanan global di bawah kerangka BLUD Kementerian Pendidikan.",
@@ -767,7 +767,7 @@ export default {
   "btn_register": "Daftar Sekarang!",
 
   "profile_section_title": "Profil Mendalam Program",
-  
+
   "career_title": "Jalur Karir",
   "career_subtitle": "Memetakan perjalanan Anda menuju lanskap profesional global",
   "career_stage": "Tahap",
@@ -795,7 +795,7 @@ export default {
   "excu_basket_name": "Bola Basket",
   "excu_basket_desc": "Kuasai lapangan dengan pelatihan profesional. Kami fokus pada taktik dan ketahanan fisik.",
   "excu_basket_detail": "Basket di Metland School memiliki sejarah panjang prestasi regional. Sesi latihan disusun untuk membangun keterampilan teknis individu dan kohesi tim.",
-  
+
   // 2. Volleyball
   "excu_volly_name": "Bola Voli",
   "excu_volly_desc": "Mengembangkan pukulan keras dan pertahanan solid melalui kerja sama tim yang disiplin.",
@@ -872,7 +872,7 @@ export default {
   "proj_mcup_achieve2": "Kolaborasi Sponsor Nasional",
 
   // more organization
- "cat_culinary": "Kuliner",
+  "cat_culinary": "Kuliner",
   "cat_dkv": "Desain Komunikasi Visual",
   "cat_it": "Teknologi Informasi",
   "cat_hospitality": "Hospitalitas",
@@ -888,7 +888,7 @@ export default {
   "org_active_programs2": "Program Aktif",
 
   // student work
- "cat_culinary_name": "Kuliner",
+  "cat_culinary_name": "Kuliner",
   "cat_dkv_name": "Desain Komunikasi Visual",
   "cat_it_name": "Teknologi Informasi",
   "cat_hosp_name": "Hospitalitas",
@@ -909,5 +909,89 @@ export default {
   "proj_event_title": "Manajemen Event",
   "proj_event_desc": "Perencanaan dan pelaksanaan event lengkap untuk kegiatan sekolah.",
   "proj_tax_title": "Sistem Perhitungan Pajak",
-  "proj_tax_desc": "Sistem perhitungan dan pelaporan pajak berbasis Excel."
+  "proj_tax_desc": "Sistem perhitungan dan pelaporan pajak berbasis Excel.",
+
+  // TeFa (Teaching Factory) Page
+  'nav.tefa': 'Teaching Factory',
+
+  'tefa.hero.title': 'Teaching Factory',
+  'tefa.hero.subtitle': 'Belajar Sambil Berkarya',
+  'tefa.hero.desc': 'Menjembatani kesenjangan antara pendidikan dan industri melalui pengalaman belajar berbasis produksi nyata.',
+
+  'tefa.about.title': 'Apa Itu Teaching Factory?',
+  'tefa.about.desc1': 'Teaching Factory (TeFa) adalah model pembelajaran yang mengintegrasikan lingkungan sekolah dengan alur kerja industri nyata. Siswa tidak hanya belajar teori — mereka menghasilkan produk dan layanan nyata sesuai standar profesional, dibimbing oleh instruktur berpengalaman dan mentor industri.',
+  'tefa.about.desc2': 'Melalui TeFa, siswa mengembangkan pola pikir kewirausahaan, penguasaan teknis, dan kesiapan kerja. Setiap jurusan di Metland School mengoperasikan program Teaching Factory-nya sendiri, memastikan setiap siswa mendapatkan pengalaman langsung di bidangnya sebelum lulus.',
+
+  'tefa.explore_title': 'Jelajahi Berdasarkan Jurusan',
+  'tefa.explore_desc': 'Pilih jurusan untuk menemukan program Teaching Factory, aktivitas, dan proyek siswa.',
+  'tefa.swipe_info': 'Geser untuk opsi lainnya',
+  'tefa.total_programs': 'Program',
+  'tefa.programs_of': 'Program TeFa —',
+  'tefa.no_projects': 'Belum ada proyek untuk jurusan ini.',
+  'tefa.projects_title': 'Proyek Siswa',
+
+  // TeFa Category Descriptions
+  'tefa.cat.it.intro': 'Teaching Factory IT di Metland School memberdayakan siswa untuk membangun solusi digital dunia nyata.',
+  'tefa.cat.it.detail': 'Siswa mengerjakan proyek klien langsung termasuk website, aplikasi mobile, dan sistem enterprise. Mereka mempraktikkan metodologi agile, version control, dan workflow deployment yang digunakan oleh perusahaan software profesional.',
+  'tefa.cat.it.closing': 'Saat lulus, siswa IT memiliki portofolio produk yang telah dirilis dan kepercayaan diri untuk masuk ke industri teknologi sebagai junior developer yang mumpuni.',
+
+  'tefa.cat.dkv.intro': 'Teaching Factory DKV menyalurkan bakat kreatif menjadi konten visual berkelas profesional.',
+  'tefa.cat.dkv.detail': 'Siswa menangani proyek branding, kampanye media sosial, produksi video, dan desain cetak untuk klien nyata. Mereka belajar arahan kreatif, komunikasi klien, dan manajemen proyek bersamaan dengan keterampilan desain teknis.',
+  'tefa.cat.dkv.closing': 'Lulusan meninggalkan sekolah dengan portofolio profesional dan pengalaman industri yang membedakan mereka di pasar kreatif yang kompetitif.',
+
+  'tefa.cat.culinary.intro': 'Teaching Factory Kuliner mengubah siswa menjadi operator dapur profesional.',
+  'tefa.cat.culinary.detail': 'Siswa menjalankan restoran dan layanan katering yang berfungsi, menangani pengembangan menu, persiapan makanan, kontrol kualitas, dan layanan pelanggan dalam kondisi bisnis nyata dengan pelanggan yang membayar.',
+  'tefa.cat.culinary.closing': 'Lingkungan produksi langsung ini membangun disiplin, kecepatan, dan kreativitas yang mendefinisikan profesional kuliner yang sukses.',
+
+  'tefa.cat.hospitality.intro': 'Teaching Factory Perhotelan membenamkan siswa dalam operasi layanan tamu profesional.',
+  'tefa.cat.hospitality.detail': 'Siswa mengelola operasi meja depan, protokol housekeeping, koordinasi acara, dan layanan F&B di lingkungan hotel simulasi dan nyata. Mereka belajar memberikan pengalaman bintang lima dengan perhatian pada setiap detail.',
+  'tefa.cat.hospitality.closing': 'Lulusan siap untuk mengambil peran profesional di hotel, resor, kapal pesiar, dan perusahaan pariwisata di seluruh dunia.',
+
+  'tefa.cat.accounting.intro': 'Teaching Factory Akuntansi memberikan pengalaman manajemen keuangan dunia nyata kepada siswa.',
+  'tefa.cat.accounting.detail': 'Siswa mengelola pembukuan aktual, pelaporan keuangan, pengisian pajak, dan penganggaran untuk koperasi sekolah dan bisnis mitra. Mereka menggunakan perangkat lunak akuntansi standar industri dan mengikuti alur kerja profesional.',
+  'tefa.cat.accounting.closing': 'Pelatihan praktis ini menghasilkan lulusan yang siap audit dan percaya diri dalam menangani keuangan bisnis nyata sejak hari pertama.',
+
+  // TeFa Programs per Major
+  'tefa.program.it.1.title': 'Studio Pengembangan Web',
+  'tefa.program.it.1.desc': 'Membangun website dan aplikasi web responsif untuk klien nyata menggunakan framework modern.',
+  'tefa.program.it.2.title': 'Lab Aplikasi Mobile',
+  'tefa.program.it.2.desc': 'Mengembangkan aplikasi mobile lintas platform yang memecahkan masalah dunia nyata.',
+  'tefa.program.it.3.title': 'Meja Solusi IT',
+  'tefa.program.it.3.desc': 'Menyediakan dukungan IT, manajemen jaringan, dan layanan administrasi sistem.',
+
+  'tefa.program.dkv.1.title': 'Agensi Desain Kreatif',
+  'tefa.program.dkv.1.desc': 'Memproduksi identitas merek, materi pemasaran, dan konten media sosial untuk bisnis.',
+  'tefa.program.dkv.2.title': 'Rumah Produksi Video',
+  'tefa.program.dkv.2.desc': 'Membuat konten video profesional termasuk iklan, dokumenter, dan motion graphics.',
+  'tefa.program.dkv.3.title': 'Studio Fotografi',
+  'tefa.program.dkv.3.desc': 'Menawarkan layanan fotografi profesional untuk acara, produk, dan potret.',
+
+  'tefa.program.culinary.1.title': 'Dapur Metland',
+  'tefa.program.culinary.1.desc': 'Mengoperasikan restoran yang dikelola siswa yang menyajikan masakan Indonesia dan internasional.',
+  'tefa.program.culinary.2.title': 'Workshop Pastry & Bakery',
+  'tefa.program.culinary.2.desc': 'Memproduksi roti artisan, pastry, dan kue untuk pesanan ritel dan katering.',
+  'tefa.program.culinary.3.title': 'Layanan Katering',
+  'tefa.program.culinary.3.desc': 'Mengelola operasi katering berskala besar untuk acara sekolah dan eksternal.',
+
+  'tefa.program.hospitality.1.title': 'Simulasi Front Office',
+  'tefa.program.hospitality.1.desc': 'Menjalankan check-in tamu, manajemen reservasi, dan layanan concierge.',
+  'tefa.program.hospitality.2.title': 'Akademi Housekeeping',
+  'tefa.program.hospitality.2.desc': 'Memelihara standar kamar, operasi laundry, dan manajemen fasilitas.',
+  'tefa.program.hospitality.3.title': 'Biro Manajemen Acara',
+  'tefa.program.hospitality.3.desc': 'Merencanakan dan melaksanakan konferensi, jamuan, dan acara khusus.',
+
+  'tefa.program.accounting.1.title': 'Pusat Keuangan & Pajak',
+  'tefa.program.accounting.1.desc': 'Menangani pembukuan, perhitungan pajak, dan pelaporan keuangan untuk bisnis mitra.',
+  'tefa.program.accounting.2.title': 'Manajemen Koperasi Sekolah',
+  'tefa.program.accounting.2.desc': 'Mengelola akun koperasi sekolah, inventaris, dan laporan keuangan.',
+  'tefa.program.accounting.3.title': 'Lab Akuntansi Digital',
+  'tefa.program.accounting.3.desc': 'Berlatih dengan perangkat lunak standar industri seperti MYOB, Accurate, dan fungsi lanjutan Excel.',
+
+  // TeFa Gallery & Highlights
+  'tefa.gallery.facility_title': 'Galeri Fasilitas Teaching Factory',
+  'tefa.gallery.hint': 'Klik kartu untuk beralih tampilan',
+  'tefa.gallery.active_badge': 'Fasilitas Aktif',
+  'tefa.highlights.item1': 'Pembelajaran Berbasis Produksi',
+  'tefa.highlights.item2': 'Standar Industri Nyata',
+  'tefa.highlights.item3': 'Bimbingan Mentor Berpengalaman',
 };

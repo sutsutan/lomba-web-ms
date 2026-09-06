@@ -24,6 +24,7 @@ import Contact from "./pages/public/Contact";
 import NotFound from "./pages/public/NotFound";
 import Major from './pages/public/Major';
 import StudentWorks from "./pages/public/StudentWorks";
+import TeFa from "./pages/public/TeFa";
 import Ppdb from "./pages/public/Ppdb";
 import Teachers from "./pages/public/Teacher";
 import OurValues from "./pages/public/OurValues";
@@ -93,18 +94,19 @@ const App = () => (
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/major" element={<Major />} />
                 <Route path="/student-works" element={<StudentWorks />} />
+                <Route path="/tefa" element={<TeFa />} />
                 <Route path="/ppdb" element={<Ppdb />} />
                 <Route path="/eskul" element={<MoreEskul />} />
                 <Route path="/moreorg" element={<MoreOrg />} />
                 <Route path="/mission-vision" element={<MissionVision />} />
                 <Route path="/news-archive" element={<NewsArchive />} />
-                <Route path="/more-news" element={<NewsDetail />} />  
-                <Route path="/more-news/:id" element={<NewsDetail />} />  
-                <Route path="/achievement" element={<Achievement />} />  
-                <Route path="/achievement-detail/:id"element={<AchievementDetail />}/>
-                
+                <Route path="/more-news" element={<NewsDetail />} />
+                <Route path="/more-news/:id" element={<NewsDetail />} />
+                <Route path="/achievement" element={<Achievement />} />
+                <Route path="/achievement-detail/:id" element={<AchievementDetail />} />
 
-               
+
+
                 {/* Admin Routes */}
                 <Route path="/admin" element={<AdminLoginPage />} />
                 <Route path="/dashboard" element={<AdminRequireAuth><AdminLayout /></AdminRequireAuth>}>

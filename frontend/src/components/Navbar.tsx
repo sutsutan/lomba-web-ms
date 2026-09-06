@@ -30,6 +30,7 @@ const Navbar = () => {
       href: '/academics',
       children: [
         { label: t('nav.majors'), href: '/major' },
+        { label: t('nav.tefa'), href: '/tefa' },
         { label: t('nav.student_works'), href: '/student-works' },
         { label: t('nav.teacher'), href: '/teachers' },
       ],
@@ -82,8 +83,8 @@ const Navbar = () => {
         {/*SECTION LOGO*/}
         <Link to="/" className="flex items-center gap-3 group z-10">
           <div className={`flex items-center gap-3 px-4 py-2 rounded-full transition-all duration-500 ${isScrolled
-              ? 'bg-white/80 backdrop-blur-md shadow-lg border border-white/20'
-              : 'bg-transparent border-transparent'
+            ? 'bg-white/80 backdrop-blur-md shadow-lg border border-white/20'
+            : 'bg-transparent border-transparent'
             }`}>
             <div className="transition-transform duration-300 group-hover:scale-110">
               <img
@@ -111,8 +112,8 @@ const Navbar = () => {
           {/*NAV PILL SECTION (WITH LANGUAGE TOGGLE INSIDE)*/}
           <nav
             className={`flex items-center gap-1 p-1.5 rounded-full border border-white/20 transition-all duration-500 ${isScrolled
-                ? 'bg-black/20 backdrop-blur-xl shadow-2xl'
-                : 'bg-white/10 backdrop-blur-md shadow-lg'
+              ? 'bg-black/20 backdrop-blur-xl shadow-2xl'
+              : 'bg-white/10 backdrop-blur-md shadow-lg'
               }`}
           >
             {navItems.map((item) => (
@@ -125,8 +126,8 @@ const Navbar = () => {
                 <Link
                   to={item.href}
                   className={`flex items-center gap-1 px-5 py-2.5 text-sm font-semibold rounded-full transition-all duration-300 ${isActive(item.href)
-                      ? 'bg-white text-teal-700 shadow-md'
-                      : 'text-white hover:bg-white/20'
+                    ? 'bg-white text-teal-700 shadow-md'
+                    : 'text-white hover:bg-white/20'
                     }`}
                 >
                   {item.label}
@@ -182,8 +183,8 @@ const Navbar = () => {
         <button
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           className={`lg:hidden w-11 h-11 flex items-center justify-center rounded-full transition-all duration-500 ${isScrolled
-              ? 'bg-white/80 backdrop-blur-md text-slate-900 shadow-md'
-              : 'bg-white/10 backdrop-blur-md text-white border border-white/20 shadow-lg'
+            ? 'bg-white/80 backdrop-blur-md text-slate-900 shadow-md'
+            : 'bg-white/10 backdrop-blur-md text-white border border-white/20 shadow-lg'
             }`}
         >
           {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
