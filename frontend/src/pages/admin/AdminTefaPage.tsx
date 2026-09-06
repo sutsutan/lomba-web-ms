@@ -69,14 +69,14 @@ export default function AdminTefaPage() {
     { key: 'projects', label: 'Proyek TeFa' },
     { key: 'gallery', label: 'Galeri Fasilitas' },
     { key: 'category', label: 'Konten Kategori' },
-    { key: 'programs', label: 'Program Kerja' },
+    { key: 'programs', label: 'Kartu Program' },
   ];
 
   return (
     <div className="p-6 space-y-6">
       <PageHeader
         title="Teaching Factory (TeFa)"
-        subtitle="Kelola proyek unggulan, galeri, deskripsi kategori, dan program kerja TeFa per jurusan"
+        subtitle="Kelola proyek unggulan, galeri, deskripsi kategori, dan kartu program TeFa per jurusan"
         onAdd={undefined}
       />
 
@@ -888,7 +888,7 @@ function TefaCategoryContentPanel() {
 }
 
 // ══════════════════════════════════════════════════════════════════
-// PANEL 4: PROGRAM KERJA (3 program per jurusan) — BARU
+// PANEL 4: KARTU PROGRAM (3 program per jurusan) — BARU
 // ══════════════════════════════════════════════════════════════════
 function TefaProgramsPanel() {
   const [majorCode, setMajorCode] = useState('it');
@@ -946,7 +946,7 @@ function TefaProgramsPanel() {
           </select>
         </FormField>
         <p className="text-xs text-gray-400 -mt-2">
-          3 kartu program kerja yang tampil di halaman TeFa publik untuk jurusan ini.
+          3 kartu kartu program yang tampil di halaman TeFa publik untuk jurusan ini.
         </p>
       </div>
 
