@@ -1,5 +1,5 @@
 <?php
-// app/Http/Controllers/Api/ppdb_submissionsController.php
+// app/Http/Controllers/Api/PpdbSubmissionsController.php
 
 namespace App\Http\Controllers\Api;
 
@@ -9,11 +9,11 @@ use App\Models\ppdb_submissions;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
-class ppdb_submissionsController extends Controller
+class PpdbSubmissionsController extends Controller
 {
     public function index(Request $request)
     {
-        $query = ppdb_submissions::query();
+        $query = Ppdb_Submissions::query();
 
         if ($request->filled('status')) {
             $query->where('status', $request->status);

@@ -85,7 +85,7 @@ export const getPublicTefaCategoryContents = async (): Promise<TefaCategoryConte
 
 export const getPublicTefaPrograms = async (): Promise<TefaProgramData[]> => {
   try {
-    const response = await api.get('/tefa-programs');
+    const response = await api.get('/tefa-category-programs');
     return Array.isArray(response.data) ? response.data : [];
   } catch (error) {
     console.error('Gagal mengambil data program TeFa:', error);
@@ -122,10 +122,10 @@ export const updateTefaCategoryContent = (majorCode: string, data: Omit<TefaCate
 
 // ---- Admin: Tefa Programs ----
 export const getAdminTefaPrograms = async (majorCode?: string): Promise<TefaProgramData[]> => {
-  const response = await api.get('/admin/tefa-programs', { params: majorCode ? { major_code: majorCode } : {} });
+  const response = await api.get('/admin/tefa-category-programs', { params: majorCode ? { major_code: majorCode } : {} });
   return response.data.data || response.data || [];
 };
 
-export const createTefaProgram = (data: Omit<TefaProgramData, 'id'>) => api.post('/admin/tefa-programs', data);
-export const updateTefaProgram = (id: number, data: Omit<TefaProgramData, 'id'>) => api.put(`/admin/tefa-programs/${id}`, data);
-export const deleteTefaProgram = (id: number) => api.delete(`/admin/tefa-programs/${id}`);
+export const createTefaProgram = (data: Omit<TefaProgramData, 'id'>) => api.post('/admin/tefa-category-programs', data);
+export const updateTefaProgram = (id: number, data: Omit<TefaProgramData, 'id'>) => api.put(`/admin/tefa-category-programs/${id}`, data);
+export const deleteTefaProgram = (id: number) => api.delete(`/admin/tefa-category-programs/${id}`);

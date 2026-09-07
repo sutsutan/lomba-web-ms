@@ -3,7 +3,7 @@ import {
   getAdminTefaProjects, createTefaProject, updateTefaProject, deleteTefaProject,
   getAdminTefaGalleries, createTefaGallery, updateTefaGallery, deleteTefaGallery,
   getAdminTefaCategoryContent, updateTefaCategoryContent,
-  getAdminTefaPrograms, updateTefaProgram,
+  getAdminTefaPrograms, updateTefaProgram,  createTefaProgram, deleteTefaProgram, 
   TefaProjectData, TefaGalleryData, TefaCategoryContentData, TefaProgramData
 } from '@/services/Tefa';
 
@@ -888,21 +888,33 @@ function TefaCategoryContentPanel() {
 }
 
 // ══════════════════════════════════════════════════════════════════
-// PANEL 4: KARTU PROGRAM (3 program per jurusan) — BARU
+// PANEL 4: KARTU PROGRAM (maks 3 per jurusan) — bisa tambah dari form, tanpa seeder
 // ══════════════════════════════════════════════════════════════════
 function TefaProgramsPanel() {
   const [majorCode, setMajorCode] = useState('it');
   const [programs, setPrograms] = useState<TefaProgramData[]>([]);
   const [loading, setLoading] = useState(true);
-  const [savingOrder, setSavingOrder] = useState<number | null>(null);
+  const [fetchError, setFetchError] = useState('');
+  const [savingId, setSavingId] = useState<number | null>(null);
+  const [deletingId, setDeletingId] = useState<number | null>(null);
+  const [adding, setAdding] = useState(false);
+
+  const emptyNewForm = { title: '', title_id: '', description: '', description_id: '' };
+  const [newForm, setNewForm] = useState(emptyNewForm);
 
   const fetchData = async (code: string) => {
     try {
       setLoading(true);
+      setFetchError('');
       const data = await getAdminTefaPrograms(code);
       setPrograms(Array.isArray(data) ? data.sort((a, b) => a.program_order - b.program_order) : []);
-    } catch (error) {
+    } catch (error: any) {
       console.error('Gagal memuat program TeFa:', error);
+      setFetchError(
+        error?.response?.status === 403
+          ? 'Akses ditolak. Akun Anda perlu role admin untuk mengakses modul ini.'
+          : error?.response?.data?.message || 'Gagal memuat data program dari server.'
+      );
       setPrograms([]);
     } finally {
       setLoading(false);
@@ -911,13 +923,13 @@ function TefaProgramsPanel() {
 
   useEffect(() => { fetchData(majorCode); }, [majorCode]);
 
-  const updateField = (order: number, field: keyof TefaProgramData, value: string) => {
-    setPrograms(prev => prev.map(p => p.program_order === order ? { ...p, [field]: value } : p));
+  const updateField = (id: number, field: keyof TefaProgramData, value: string) => {
+    setPrograms(prev => prev.map(p => p.id === id ? { ...p, [field]: value } : p));
   };
 
   const saveProgram = async (program: TefaProgramData) => {
     try {
-      setSavingOrder(program.program_order);
+      setSavingId(program.id);
       await updateTefaProgram(program.id, {
         major_code: program.major_code,
         program_order: program.program_order,
@@ -926,14 +938,68 @@ function TefaProgramsPanel() {
         description: program.description,
         description_id: program.description_id,
       });
-      alert(`Program #${program.program_order} berhasil disimpan.`);
+      alert(`Kartu program #${program.program_order} berhasil disimpan.`);
     } catch (error) {
       console.error('Gagal menyimpan program TeFa:', error);
       alert('Gagal menyimpan data. Silakan coba lagi.');
     } finally {
-      setSavingOrder(null);
+      setSavingId(null);
     }
   };
+
+  const deleteProgram = async (program: TefaProgramData) => {
+    if (!confirm(`Yakin ingin menghapus kartu program "${program.title}"?`)) return;
+    try {
+      setDeletingId(program.id);
+      await deleteTefaProgram(program.id);
+      fetchData(majorCode);
+    } catch (error) {
+      console.error('Gagal menghapus program TeFa:', error);
+      alert('Gagal menghapus data. Silakan coba lagi.');
+    } finally {
+      setDeletingId(null);
+    }
+  };
+
+  const nextOrder = () => {
+    const usedOrders = programs.map(p => p.program_order);
+    for (let i = 1; i <= 3; i++) {
+      if (!usedOrders.includes(i)) return i;
+    }
+    return null; // sudah penuh 3
+  };
+
+  const addProgram = async () => {
+    const order = nextOrder();
+    if (!order) {
+      alert('Jurusan ini sudah memiliki 3 kartu program (maksimum).');
+      return;
+    }
+    if (!newForm.title.trim() || !newForm.description.trim()) {
+      alert('Judul (EN) dan Deskripsi (EN) wajib diisi.');
+      return;
+    }
+    try {
+      setAdding(true);
+      await createTefaProgram({
+        major_code: majorCode,
+        program_order: order,
+        title: newForm.title,
+        title_id: newForm.title_id,
+        description: newForm.description,
+        description_id: newForm.description_id,
+      });
+      setNewForm(emptyNewForm);
+      fetchData(majorCode);
+    } catch (error: any) {
+      console.error('Gagal menambah program TeFa:', error);
+      alert(error?.response?.data?.message || 'Gagal menambah data. Silakan coba lagi.');
+    } finally {
+      setAdding(false);
+    }
+  };
+
+  const slotAvailable = nextOrder() !== null;
 
   return (
     <div className="space-y-4">
@@ -946,39 +1012,49 @@ function TefaProgramsPanel() {
           </select>
         </FormField>
         <p className="text-xs text-gray-400 -mt-2">
-          3 kartu kartu program yang tampil di halaman TeFa publik untuk jurusan ini.
+          Maksimal 3 kartu program yang tampil di halaman TeFa publik untuk jurusan ini ({programs.length}/3 terisi).
         </p>
       </div>
 
+      {fetchError && (
+        <div className="p-4 rounded-xl bg-red-50 border border-red-200 text-sm text-red-600">
+          {fetchError}
+        </div>
+      )}
+
       {loading ? (
         <div className="py-10 text-center text-sm text-gray-400">Memuat program...</div>
-      ) : programs.length === 0 ? (
-        <div className="py-10 text-center text-sm text-gray-400">
-          Belum ada data program untuk jurusan ini. Jalankan seeder TeFa terlebih dahulu.
-        </div>
       ) : (
         <div className="space-y-4">
           {programs.map(program => (
             <div key={program.id} className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 space-y-4">
-              <div className="flex items-center gap-2">
-                <Badge color="blue">Program #{program.program_order}</Badge>
+              <div className="flex items-center justify-between">
+                <Badge color="blue">Kartu #{program.program_order}</Badge>
+                <button
+                  type="button"
+                  onClick={() => deleteProgram(program)}
+                  disabled={deletingId === program.id}
+                  className="text-xs text-red-500 hover:underline disabled:opacity-50"
+                >
+                  {deletingId === program.id ? 'Menghapus...' : 'Hapus'}
+                </button>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <FormField label="Judul (EN)" required>
-                  <input className={inputClass} value={program.title} onChange={e => updateField(program.program_order, 'title', e.target.value)} />
+                  <input className={inputClass} value={program.title} onChange={e => updateField(program.id, 'title', e.target.value)} />
                 </FormField>
                 <FormField label="Judul (ID)" hint="Opsional">
-                  <input className={inputClass} value={program.title_id || ''} onChange={e => updateField(program.program_order, 'title_id', e.target.value)} />
+                  <input className={inputClass} value={program.title_id || ''} onChange={e => updateField(program.id, 'title_id', e.target.value)} />
                 </FormField>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <FormField label="Deskripsi (EN)" required>
-                  <textarea className={textareaClass} rows={3} value={program.description} onChange={e => updateField(program.program_order, 'description', e.target.value)} />
+                  <textarea className={textareaClass} rows={3} value={program.description} onChange={e => updateField(program.id, 'description', e.target.value)} />
                 </FormField>
                 <FormField label="Deskripsi (ID)" hint="Opsional">
-                  <textarea className={textareaClass} rows={3} value={program.description_id || ''} onChange={e => updateField(program.program_order, 'description_id', e.target.value)} />
+                  <textarea className={textareaClass} rows={3} value={program.description_id || ''} onChange={e => updateField(program.id, 'description_id', e.target.value)} />
                 </FormField>
               </div>
 
@@ -986,14 +1062,78 @@ function TefaProgramsPanel() {
                 <button
                   type="button"
                   onClick={() => saveProgram(program)}
-                  disabled={savingOrder === program.program_order}
+                  disabled={savingId === program.id}
                   className="px-5 py-2 bg-indigo-600 rounded-xl text-sm font-medium text-white hover:bg-indigo-700 transition-colors disabled:opacity-50"
                 >
-                  {savingOrder === program.program_order ? 'Menyimpan...' : `Simpan Program #${program.program_order}`}
+                  {savingId === program.id ? 'Menyimpan...' : `Simpan Kartu #${program.program_order}`}
                 </button>
               </div>
             </div>
           ))}
+
+          {/* Form Tambah Kartu Baru — tidak butuh seeder */}
+          {slotAvailable ? (
+            <div className="bg-indigo-50/50 rounded-2xl border-2 border-dashed border-indigo-200 p-5 space-y-4">
+              <div className="flex items-center gap-2">
+                <Badge color="green">+ Kartu Baru #{nextOrder()}</Badge>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <FormField label="Judul (EN)" required>
+                  <input
+                    className={inputClass}
+                    value={newForm.title}
+                    onChange={e => setNewForm({ ...newForm, title: e.target.value })}
+                    placeholder="Contoh: Web Development Studio"
+                  />
+                </FormField>
+                <FormField label="Judul (ID)" hint="Opsional">
+                  <input
+                    className={inputClass}
+                    value={newForm.title_id}
+                    onChange={e => setNewForm({ ...newForm, title_id: e.target.value })}
+                    placeholder="Contoh: Studio Pengembangan Web"
+                  />
+                </FormField>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <FormField label="Deskripsi (EN)" required>
+                  <textarea
+                    className={textareaClass}
+                    rows={3}
+                    value={newForm.description}
+                    onChange={e => setNewForm({ ...newForm, description: e.target.value })}
+                    placeholder="Jelaskan program ini..."
+                  />
+                </FormField>
+                <FormField label="Deskripsi (ID)" hint="Opsional">
+                  <textarea
+                    className={textareaClass}
+                    rows={3}
+                    value={newForm.description_id}
+                    onChange={e => setNewForm({ ...newForm, description_id: e.target.value })}
+                    placeholder="Terjemahan deskripsi..."
+                  />
+                </FormField>
+              </div>
+
+              <div className="flex justify-end">
+                <button
+                  type="button"
+                  onClick={addProgram}
+                  disabled={adding}
+                  className="px-5 py-2 bg-green-600 rounded-xl text-sm font-medium text-white hover:bg-green-700 transition-colors disabled:opacity-50"
+                >
+                  {adding ? 'Menambahkan...' : `+ Tambah Kartu Program #${nextOrder()}`}
+                </button>
+              </div>
+            </div>
+          ) : (
+            <div className="py-6 text-center text-sm text-gray-400 bg-gray-50 rounded-2xl border border-gray-100">
+              Jurusan ini sudah memiliki 3 kartu program (maksimum tercapai).
+            </div>
+          )}
         </div>
       )}
     </div>

@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Models\TefaCategoryProgram;
 use Illuminate\Http\Request;
 
-class TefaProgramController extends BaseResourceController
+class TefaCategoryProgramController extends BaseResourceController
 {
     protected $model = TefaCategoryProgram::class;
 

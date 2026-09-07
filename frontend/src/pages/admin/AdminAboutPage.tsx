@@ -82,9 +82,9 @@ export default function AdminAboutPage() {
 // values
   const openAddValue = () => {
     setEditingValue(null);
-    setValueForm({ image: '', title: '', description: '' });
+    setValueForm({ image: '', title: '', description: '', order: values.length });
     setValueModal(true);
-  };
+};
   const openEditValue = (item: AboutValueData) => {
     setEditingValue(item);
     setValueForm(item);
@@ -99,11 +99,15 @@ export default function AdminAboutPage() {
       }
       setValueModal(false);
       await loadAll();
-    } catch (err) {
+    } catch (err: any) {
       console.error(err);
-      alert('Gagal menyimpan value.');
+      const validationErrors = err?.response?.data?.errors;
+      const message = validationErrors
+        ? Object.values(validationErrors).flat().join('\n')
+        : err?.response?.data?.message || `Gagal menyimpan value. (Status: ${err?.response?.status})`;
+      alert(message);
     }
-  };
+};
   const deleteValue = async (id: number) => {
     if (confirm('Hapus value ini?')) {
       await aboutValueService.delete(id);
@@ -114,9 +118,9 @@ export default function AdminAboutPage() {
 // Timeline
   const openAddTimeline = () => {
     setEditingTimeline(null);
-    setTimelineForm({ year: '', heads: [''], beginning: '', growing: '', image: '' });
+    setTimelineForm({ year: '', heads: [''], beginning: '', growing: '', image: '', order: timelines.length });
     setTimelineModal(true);
-  };
+};
   const openEditTimeline = (item: AboutTimelineData) => {
     setEditingTimeline(item);
     setTimelineForm({ ...item, heads: item.heads?.length ? item.heads : [''] });
@@ -132,11 +136,15 @@ export default function AdminAboutPage() {
       }
       setTimelineModal(false);
       await loadAll();
-    } catch (err) {
+    } catch (err: any) {
       console.error(err);
-      alert('Gagal menyimpan timeline.');
+      const validationErrors = err?.response?.data?.errors;
+      const message = validationErrors
+        ? Object.values(validationErrors).flat().join('\n')
+        : err?.response?.data?.message || `Gagal menyimpan timeline. (Status: ${err?.response?.status})`;
+      alert(message);
     }
-  };
+};
   const deleteTimeline = async (id: number) => {
     if (confirm('Hapus periode timeline ini?')) {
       await aboutTimelineService.delete(id);

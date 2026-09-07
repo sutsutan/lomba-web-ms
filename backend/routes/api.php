@@ -6,8 +6,8 @@ use App\Http\Controllers\Api\{
     PartnershipController, TestimonyController, FacilityController, ActivityGalleryController,
     StudentWorkController, TeacherController, ExtracurricularController, OrganizationController,
     NewsController, NewsCategoryController, ExploreGalleryController, AlumniController, UploadController, UserController,
-    ppdb_submissionsController, AboutPageController, AboutValueController, AboutTimelineController, TefaProjectController, TefaGalleryController,
-     TefaCategoryContentController, TefaProgramController
+    PpdbSubmissionsController, AboutPageController, AboutValueController, AboutTimelineController, TefaProjectController, TefaGalleryController,
+     TefaCategoryContentController, TefaCategoryProgramController
 };
 
 // --- Auth Routes ---
@@ -42,11 +42,11 @@ Route::get('/about-timelines', [AboutTimelineController::class, 'index']);
 Route::get('/tefa-projects', [TefaProjectController::class, 'index']);
 Route::get('/tefa-galleries', [TefaGalleryController::class, 'index']);
 Route::get('/tefa-category-contents', [TefaCategoryContentController::class, 'index']);
-Route::get('/tefa-programs', [TefaProgramController::class, 'index']);
+Route::get('/tefa-category-programs', [TefaCategoryProgramController::class, 'index']);
 
 
 // Form PPDB/Contact — publik, tanpa perlu login (diisi orang tua murid)
-Route::post('/ppdb-submissions', [ppdb_submissionsController::class, 'store']);
+Route::post('/ppdb-submissions', [PpdbSubmissionsController::class, 'store']);
 
 // --- Protected Routes (semua role yang sudah login) ---
 Route::middleware('auth:sanctum')->group(function () {
@@ -71,7 +71,7 @@ Route::middleware(['auth:sanctum', 'admin'])->prefix('admin')->group(function ()
         'explore-galleries'  => ExploreGalleryController::class,
         'tefa-projects'     => TefaProjectController::class,
         'tefa-galleries'    => TefaGalleryController::class,
-        'tefa-programs' => TefaProgramController::class,
+        'tefa-category-programs' => TefaCategoryProgramController::class,
     ]);
 });
 
@@ -98,7 +98,7 @@ Route::middleware(['auth:sanctum', 'role:admin,marketing'])->prefix('admin')->gr
     Route::delete('/news-categories/{newsCategory}', [NewsCategoryController::class, 'destroy']);
 
     // PPDB Inbox — 'store' tidak didaftarkan di sini karena sudah publik di atas
-    Route::apiResource('ppdb-submissions', ppdb_submissionsController::class)->except(['store']);
-    Route::patch('/ppdb-submissions/{id}/status', [ppdb_submissionsController::class, 'updateStatus']);
-    Route::post('/ppdb-submissions/{id}/reply', [ppdb_submissionsController::class, 'reply']);
+    Route::apiResource('ppdb-submissions', PpdbSubmissionsController::class)->except(['store']);
+    Route::patch('/ppdb-submissions/{id}/status', [PpdbSubmissionsController::class, 'updateStatus']);
+    Route::post('/ppdb-submissions/{id}/reply', [PpdbSubmissionsController::class, 'reply']);
 });
