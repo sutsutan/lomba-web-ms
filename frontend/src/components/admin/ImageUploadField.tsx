@@ -18,6 +18,7 @@ export default function ImageUploadField({
   accept = "image/*,.pdf,.doc,.docx",
   folder = "uploads"
 }: ImageUploadFieldProps) {
+  value = value ?? '';
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [fileName, setFileName] = useState<string>('');
   const [uploading, setUploading] = useState(false);
