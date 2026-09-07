@@ -293,7 +293,7 @@ function TefaProjectsPanel() {
 
           <div className="grid grid-cols-2 gap-4">
             <FormField label="Nama Siswa Pelaksana" required>
-              <input className={inputClass} value={form.student} onChange={e => setForm({ ...form, student: e.target.value })} placeholder="Contoh: Veria Raja Tunggal" />
+              <input className={inputClass} value={form.student} onChange={e => setForm({ ...form, student: e.target.value })} placeholder="Contoh: budi rajasa" />
             </FormField>
             <FormField label="Kelas" hint="Opsional">
               <input className={inputClass} value={form.class} onChange={e => setForm({ ...form, class: e.target.value })} placeholder="Contoh: XI PPLG 1" />
