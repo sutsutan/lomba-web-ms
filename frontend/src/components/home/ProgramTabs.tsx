@@ -8,6 +8,14 @@ import { useNavigate } from 'react-router-dom';
 import { getPublicMajors, MajorData } from '@/services/Major';
 import { organizationService, OrganizationData } from '@/services/Organization';
 import { getPublicExtracurriculars, Extracurricular as ExtracurricularType } from '@/services/Extracurricular';
+import {
+    getPublicTefaProjects,
+    getPublicTefaGalleries,
+    getPublicTefaCategoryContents,
+    TefaProjectData,
+    TefaGalleryData,
+    TefaCategoryContentData,
+} from '@/services/Tefa';
 
 import programAkuntansi from '@/assets/akuntansi.webp';
 import programPerhotelan from '@/assets/aph.webp';
@@ -39,8 +47,18 @@ interface TabContent {
     images: string[];
 }
 
+// Meta jurusan statis (nama tampilan) khusus untuk fallback kartu TeFa,
+// dipakai kalau data Major belum sinkron tapi kode jurusannya cocok.
+const tefaMajorMeta: Record<string, { name: string; nameId: string; image: string }> = {
+    it: { name: 'Information Technology', nameId: 'Teknologi Informasi', image: programItImg },
+    dkv: { name: 'Design Communication Visual', nameId: 'Desain Komunikasi Visual', image: programDkv },
+    culinary: { name: 'Culinary', nameId: 'Kuliner', image: programCulinaryImg },
+    hospitality: { name: 'Hospitality', nameId: 'Perhotelan', image: programPerhotelan },
+    accounting: { name: 'Accounting', nameId: 'Akuntansi', image: programAkuntansi },
+};
+
 const ProgramTabs = () => {
-    const { t } = useLanguage();
+    const { t, language } = useLanguage();
     const navigate = useNavigate();
 
     // Data dinamis dari backend
@@ -48,10 +66,19 @@ const ProgramTabs = () => {
     const [dynamicOrganizations, setDynamicOrganizations] = useState<OrganizationData[]>([]);
     const [dynamicExtracurriculars, setDynamicExtracurriculars] = useState<ExtracurricularType[]>([]);
 
+    // Data TeFa dari backend
+    const [tefaProjects, setTefaProjects] = useState<TefaProjectData[]>([]);
+    const [tefaGalleries, setTefaGalleries] = useState<TefaGalleryData[]>([]);
+    const [tefaContents, setTefaContents] = useState<TefaCategoryContentData[]>([]);
+
     useEffect(() => {
         getPublicMajors().then(setDynamicMajors).catch(() => setDynamicMajors([]));
         organizationService.getAll().then(setDynamicOrganizations).catch(() => setDynamicOrganizations([]));
         getPublicExtracurriculars().then(setDynamicExtracurriculars).catch(() => setDynamicExtracurriculars([]));
+
+        getPublicTefaProjects().then(setTefaProjects).catch(() => setTefaProjects([]));
+        getPublicTefaGalleries().then(setTefaGalleries).catch(() => setTefaGalleries([]));
+        getPublicTefaCategoryContents().then(setTefaContents).catch(() => setTefaContents([]));
     }, []);
 
     const fallbackMajorCards: MajorCardContent[] = [
@@ -95,11 +122,57 @@ const ProgramTabs = () => {
         ? dynamicExtracurriculars.map((e) => e.image_url || extracurricularFutsal)
         : fallbackExtracurricularImages;
 
+    // ─── Kartu TeFa — hanya jurusan yang kontennya benar-benar sudah diisi ───
+    // "Terisi" berarti: ada deskripsi kategori (intro/detail/closing), ATAU
+    // ada proyek, ATAU ada foto galeri untuk jurusan tersebut.
+    const tefaCards: MajorCardContent[] = Object.keys(tefaMajorMeta)
+        .filter((code) => {
+            const content = tefaContents.find((c) => c.major_code === code);
+            const hasContent = !!(
+                content &&
+                ((content.intro && content.intro.trim() !== '') ||
+                    (content.detail && content.detail.trim() !== '') ||
+                    (content.closing && content.closing.trim() !== ''))
+            );
+            const hasProjects = tefaProjects.some((p) => p.major_code === code);
+            const hasGallery = tefaGalleries.some((g) => g.major_code === code);
+            return hasContent || hasProjects || hasGallery;
+        })
+        .map((code) => {
+            const meta = tefaMajorMeta[code];
+            const matchedMajor = dynamicMajors.find((m) => m.code === code);
+            const content = tefaContents.find((c) => c.major_code === code);
+            const firstGallery = tefaGalleries.find((g) => g.major_code === code);
+            const firstProject = tefaProjects.find((p) => p.major_code === code);
+
+            const description = language === 'id'
+                ? (content?.intro_id || content?.intro || matchedMajor?.description || '')
+                : (content?.intro || matchedMajor?.description || '');
+
+            return {
+                image:
+                    firstGallery?.preview_url ||
+                    firstProject?.preview_url ||
+                    matchedMajor?.curriculum_image ||
+                    meta.image,
+                title: matchedMajor?.name || (language === 'id' ? meta.nameId : meta.name),
+                description,
+                link: '/tefa',
+            };
+        });
+
     const tabData: Record<string, TabContent> = {
         major: {
             title: t('program.major.title'),
             description: t('program.major.desc'),
             images: majorCards.map((m) => m.image),
+        },
+                tefa: {
+            title: language === 'id' ? 'Teaching Factory' : 'Teaching Factory',
+            description: language === 'id'
+                ? 'Proyek dan karya nyata siswa lintas jurusan melalui program Teaching Factory (TeFa).'
+                : 'Real student projects and work across majors through our Teaching Factory (TeFa) program.',
+            images: tefaCards.map((c) => c.image),
         },
         organization: {
             title: t('program.organization.title'),
@@ -130,12 +203,16 @@ const ProgramTabs = () => {
         if (activeImageIndex >= tabData[activeTab].images.length) {
             setActiveImageIndex(0);
         }
-    }, [dynamicMajors, dynamicOrganizations, dynamicExtracurriculars, activeTab]);
+    }, [dynamicMajors, dynamicOrganizations, dynamicExtracurriculars, tefaProjects, tefaGalleries, tefaContents, activeTab]);
 
     const isOrganization = activeTab === 'organization';
-    const isCompactLayout =
-        activeTab === 'organization' || activeTab === 'major';
     const isMajor = activeTab === 'major';
+    const isTefa = activeTab === 'tefa';
+    const isMajorStyleCarousel = isMajor || isTefa;
+    const isCompactLayout =
+        activeTab === 'organization' || activeTab === 'major' || activeTab === 'tefa';
+
+    const activeCards = isTefa ? tefaCards : majorCards;
 
     const handleTabChange = (tab: keyof typeof tabData) => {
         setActiveTab(tab);
@@ -308,7 +385,14 @@ const ProgramTabs = () => {
                                     <ArrowRight className="h-5 w-5" />
                                 </motion.button>
                             </div>
-                        ) : isMajor ? (
+                        ) : isMajorStyleCarousel ? (
+                            activeCards.length === 0 ? (
+                                <div className="w-full py-16 text-center text-sm text-muted-foreground sm:text-base">
+                                    {language === 'id'
+                                        ? 'Belum ada konten TeFa yang diisi untuk jurusan manapun.'
+                                        : 'No TeFa content has been filled in for any major yet.'}
+                                </div>
+                            ) : (
                             <div className="w-full">
                                 <div className="flex items-center gap-6">
                                     {/* Previous */}
@@ -334,8 +418,8 @@ const ProgramTabs = () => {
                                                 {/* IMAGE */}
                                                 <div className="h-[260px] md:h-[380px] lg:h-[450px]">
                                                     <img
-                                                        src={majorCards[activeImageIndex]?.image}
-                                                        alt={majorCards[activeImageIndex]?.title}
+                                                        src={activeCards[activeImageIndex]?.image}
+                                                        alt={activeCards[activeImageIndex]?.title}
                                                         className="h-full w-full object-cover"
                                                         onError={e => (e.currentTarget.src = 'https://placehold.co/600x450/e2e8f0/94a3b8?text=Major')}
                                                     />
@@ -344,16 +428,16 @@ const ProgramTabs = () => {
                                                 {/* CONTENT */}
                                                 <div className="flex flex-col justify-center p-8 lg:p-12">
                                                     <h3 className="mb-5 text-3xl font-bold text-primary">
-                                                        {majorCards[activeImageIndex]?.title}
+                                                        {activeCards[activeImageIndex]?.title}
                                                     </h3>
 
                                                     <p className="mb-8 leading-relaxed text-muted-foreground">
-                                                        {majorCards[activeImageIndex]?.description}
+                                                        {activeCards[activeImageIndex]?.description}
                                                     </p>
 
                                                     <button
                                                         onClick={() => {
-                                                            const link = majorCards[activeImageIndex]?.link || '/academics';
+                                                            const link = activeCards[activeImageIndex]?.link || (isTefa ? '/tefa' : '/academics');
                                                             if (link.startsWith('http')) {
                                                                 window.open(link, '_blank', 'noopener,noreferrer');
                                                             } else {
@@ -362,7 +446,9 @@ const ProgramTabs = () => {
                                                         }}
                                                         className="inline-flex w-fit items-center gap-2 rounded-full bg-primary px-6 py-3 text-white transition hover:gap-4"
                                                     >
-                                                        Explore Program
+                                                        {isTefa
+                                                            ? (language === 'id' ? 'Lihat TeFa' : 'View TeFa')
+                                                            : 'Explore Program'}
                                                         <ArrowRight className="h-4 w-4" />
                                                     </button>
                                                 </div>
@@ -382,7 +468,7 @@ const ProgramTabs = () => {
 
                                 {/* DOTS */}
                                 <div className="mt-8 flex justify-center gap-3">
-                                    {majorCards.map((_, index) => (
+                                    {activeCards.map((_, index) => (
                                         <button
                                             key={index}
                                             onClick={() => setActiveImageIndex(index)}
@@ -395,6 +481,7 @@ const ProgramTabs = () => {
                                     ))}
                                 </div>
                             </div>
+                            )
                         ) : (
                                 // (EXTRACURRICULAR)
                                 <>
