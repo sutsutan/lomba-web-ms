@@ -84,9 +84,9 @@ const latestNews = useMemo(() => {
     return remainingNews.slice(0, 3);
   }, [remainingNews]);
 
-  const allNews = useMemo(() => {
-     return remainingNews;
-}, [remainingNews]);
+ const allNews = useMemo(() => {
+   return newsItems;
+}, [newsItems]);
 
   // Daftar kategori yang benar-benar dipakai oleh berita yang tayang,
   // supaya tombol filter tidak menampilkan kategori kosong.

@@ -252,7 +252,14 @@ const NewsDetail = () => {
             <aside className="lg:w-1/3 w-full space-y-8">
               <div className="p-6 bg-section rounded-2xl border border-border">
                 <h3 className="text-xl font-bold mb-4">{language === 'id' ? 'Kategori Berita' : 'News Categories'}</h3>
-                {/* ... (sidebar content remains same) */}
+                <div className="p-6 bg-section rounded-2xl border border-border">
+                <Link
+                  to={`/news-archive?category=${encodeURIComponent(currentNews.category)}`}
+                  className="inline-flex items-center gap-2 rounded-full bg-primary/10 text-primary px-4 py-1.5 text-sm font-bold hover:bg-primary/20 transition-colors"
+                >
+                  {currentNews.category}
+                </Link>
+              </div>
               </div>
 
               <div className="p-6 bg-section rounded-2xl border border-border">
