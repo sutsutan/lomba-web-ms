@@ -119,23 +119,42 @@ const Navbar = () => {
             {navItems.map((item) => (
               <div
                 key={item.label}
-                className="relative"
+                className="relative flex items-center"
                 onMouseEnter={() => item.children && setOpenDropdown(item.label)}
                 onMouseLeave={() => setOpenDropdown(null)}
               >
+                {/* Bagian label = link navigasi ke halaman utama item */}
                 <Link
                   to={item.href}
-                  className={`flex items-center gap-1 px-5 py-2.5 text-sm font-semibold rounded-full transition-all duration-300 ${isActive(item.href)
-                    ? 'bg-white text-teal-700 shadow-md'
-                    : 'text-white hover:bg-white/20'
+                  className={`flex items-center px-5 py-2.5 text-sm font-semibold transition-all duration-300 ${item.children ? 'rounded-l-full' : 'rounded-full'
+                    } ${isActive(item.href)
+                      ? 'bg-white text-teal-700 shadow-md'
+                      : 'text-white hover:bg-white/20 hover:underline underline-offset-4 decoration-2'
                     }`}
                 >
                   {item.label}
-                  {item.children && (
-                    <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${openDropdown === item.label ? 'rotate-180' : ''
-                      }`} />
-                  )}
                 </Link>
+
+                {/* Garis pemisah + tombol chevron = toggle dropdown saja, TIDAK navigasi */}
+                {item.children && (
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setOpenDropdown(openDropdown === item.label ? null : item.label)
+                    }
+                    aria-label={`Buka menu ${item.label}`}
+                    aria-expanded={openDropdown === item.label}
+                    className={`flex items-center px-3 py-2.5 rounded-r-full border-l transition-all duration-300 ${isActive(item.href)
+                        ? 'bg-white text-teal-700 border-teal-100'
+                        : 'text-white border-white/25 hover:bg-white/20'
+                      }`}
+                  >
+                    <ChevronDown
+                      className={`w-4 h-4 transition-transform duration-300 ${openDropdown === item.label ? 'rotate-180' : ''
+                        }`}
+                    />
+                  </button>
+                )}
 
                 <AnimatePresence>
                   {item.children && openDropdown === item.label && (

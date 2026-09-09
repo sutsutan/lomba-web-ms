@@ -108,8 +108,8 @@ const About = () => {
                   {aboutData?.know_us_title || t('about.know_us.title')}
                 </h2>
                 <div className="space-y-4 text-muted-foreground text-lg leading-relaxed">
-                  <p>{aboutData?.know_us_desc1 || t('about.know_us.desc1')}</p>
-                  <p>{aboutData?.know_us_desc2 || t('about.know_us.desc2')}</p>
+                  <p className='text-justify'>{aboutData?.know_us_desc1 || t('about.know_us.desc1')}</p>
+                  <p className='text-justify'>{aboutData?.know_us_desc2 || t('about.know_us.desc2')}</p>
                 </div>
                 <div className="flex flex-wrap gap-4 pt-4">
                   <Link
@@ -168,7 +168,7 @@ const About = () => {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
                   <div className="absolute bottom-0 left-0 p-6 text-white">
                     <h3 className="text-xl md:text-2xl font-bold mb-1">{item.title}</h3>
-                    <p className="text-white/80 text-xs md:text-sm">{item.description}</p>
+                    <p className="text-white/80 text-xs md:text-sm  ">{item.description}</p>
                   </div>
                 </div>
               ))}
@@ -187,7 +187,7 @@ const About = () => {
         <section className="py-16 md:py-24 bg-white">
           <div className="container mx-auto px-6 md:px-12 lg:px-24">
             <ScrollReveal>
-              <h2 className="text-3xl md:text-4xl font-bold text-[#0F5F58] mb-8 text-center md:text-left">
+              <h2 className="text-3xl md:text-4xl font-bold text-[#0F5F58] mb-8 text-center md:text-justify">
                 {t('about.timeline.title')}
               </h2>
 
