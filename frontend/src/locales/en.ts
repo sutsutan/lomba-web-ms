@@ -155,7 +155,7 @@ export default {
   'achievements.3.cat': 'Academic',
 
   // preview news home
-  'more.news.title': 'Latest News',
+  'more.news.title': 'Our News',
   'more.news.subtitle': 'Stay updated with our latest announcements and events',
   'more.news.learn_more': 'Learn More',
   'more.news.date': 'Nov, 12 - 15 - 2025',

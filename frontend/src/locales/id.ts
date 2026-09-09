@@ -157,7 +157,7 @@ export default {
   'achievements.3.cat': 'Akademik',
 
   // preview news home
-  'more.news.title': 'Berita Terbaru',
+  'more.news.title': 'Berita Kami',
   'more.news.subtitle': 'tetap terinformasi dengan pencapaian dan kegiatan terbaru kami',
   'more.news.learn_more': 'Pelajari Lebih Lanjut',
   'more.news.date': 'Nov, 12 - 15 - 2025',

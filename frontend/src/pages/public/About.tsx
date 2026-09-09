@@ -350,16 +350,16 @@ const About = () => {
                         />
                       </div>
                       <div
-                        className={`flex gap-4 ${
+                        className={`flex gap-4 min-w-0 ${
                           imageFirst ? '' : 'order-2 md:order-1'
                         }`}
                       >
                         <div className="w-1 bg-[#0F5F58] rounded-full flex-shrink-0" />
-                        <div className="flex flex-col">
-                          <h3 className="text-xl md:text-2xl font-bold text-[#0F5F58] mb-4">
+                        <div className="flex flex-col min-w-0">
+                          <h3 className="text-xl md:text-2xl font-bold text-[#0F5F58] mb-4 break-words">
                             {news.title_id}
                           </h3>
-                          <p className="text-[#0F5F58]/80 leading-relaxed text-justify text-sm md:text-base">
+                          <p className="text-[#0F5F58]/80 leading-relaxed text-justify text-sm md:text-base break-words">
                             {news.excerpt_id || 'Baca selengkapnya di halaman berita.'}
                           </p>
                           <Link

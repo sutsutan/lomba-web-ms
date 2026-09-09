@@ -100,9 +100,15 @@ const NewsPreview = () => {
     );
   }
 
-  const featured = newsList[0] || FALLBACK_NEWS[0];
-  const sideNews = newsList.slice(1, 4).length > 0 ? newsList.slice(1, 4) : FALLBACK_NEWS.slice(1, 4);
+ const featured =
+  newsList.find((n) => n.is_headline) || newsList[0] || FALLBACK_NEWS[0];
 
+const otherNews = newsList.filter((n) => n.id !== featured.id);
+const sideNews =
+  otherNews.length > 0
+    ? otherNews.slice(0, 3)
+    : FALLBACK_NEWS.filter((n) => n.id !== featured.id).slice(0, 3);
+    
   return (
     <section className="section-padding bg-background overflow-hidden relative">
       {/* Header */}
@@ -143,23 +149,24 @@ const NewsPreview = () => {
                   <Calendar className="w-3.5 h-3.5 text-teal-600" />
                   <span>{formatDate(featured.published_date)}</span>
                 </div>
-                <p className="text-xs text-slate-500 line-clamp-2">
+                <p className="text-xs text-slate-500 line-clamp-2 break-words">
                   {featured.excerpt_id ? featured.excerpt_id : stripHtml(featured.content_id)}
                 </p>
               </div>
             </div>
 
             {/* Right Side: Header Tagline, Title, Content, Read More Button */}
-            <div className="md:col-span-6 flex flex-col items-start justify-start pt-1 md:pt-2 md:pl-2">
-              <p className="text-xs font-semibold text-teal-600 tracking-wide italic mb-2">
-                Stay updated with our latest announcements and events
-              </p>
-              <h3 className="text-2xl sm:text-3xl lg:text-4xl font-black leading-tight text-[#0F5F58] mb-3">
-                {featured.title_id}
-              </h3>
-              <p className="text-slate-600 text-sm sm:text-base leading-relaxed line-clamp-5 mb-4">
-                {featured.excerpt_id ? featured.excerpt_id : stripHtml(featured.content_id)}
-              </p>
+           <div className="md:col-span-6 flex flex-col min-w-0 w-full items-start justify-start pt-1 md:pt-2 md:pl-2">
+            <p className="text-xs font-semibold text-teal-600 tracking-wide italic mb-2">
+              Stay updated with our latest announcements and events
+            </p>
+            <h3 className="text-2xl sm:text-3xl lg:text-4xl font-black leading-tight text-[#0F5F58] mb-3 break-words">
+              {featured.title_id}
+            </h3>
+            <p className="text-slate-600 text-sm sm:text-base leading-relaxed line-clamp-5 mb-4"
+            style={{ overflowWrap: 'anywhere', wordBreak: 'break-word' }}>
+              {featured.excerpt_id ? featured.excerpt_id : stripHtml(featured.content_id)}
+            </p>
 
               <div>
                 <Link
